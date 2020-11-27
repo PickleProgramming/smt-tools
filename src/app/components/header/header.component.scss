@@ -1,0 +1,41 @@
+@import "bootstrap";
+
+.logo-tab {
+	@extend .nav;
+	flex-wrap: nowrap;
+	max-height: 10%;
+}
+
+.logo-link {
+	max-width: 100%;
+	text-align: center;
+
+	.logo-link-smt3hd {
+		@extend .logo-link;
+
+	}
+	.logo-link-p5r {
+		@extend .logo-link;
+		background-color: #ee2031;
+	}
+	.logo-link-pq2 {
+		@extend .logo-link;
+		background-color: #ee2031;
+	}
+	.logo-link-smt4 {
+		@extend .logo-link;
+		background-color: #ee2031;
+	}
+	.logo-link-smtjr {
+		@extend .logo-link;
+		background-color: #ee2031;
+	}
+	.logo-link-p4g {
+		@extend .logo-link;
+		background-color: #ee2031;
+	}
+	.logo-link-p3p {
+		@extend .logo-link;
+		background-color: #ee2031;
+	}
+}
