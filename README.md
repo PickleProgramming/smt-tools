@@ -43,6 +43,20 @@ After that I was able to go to the server on the port 4200 and see the base Angu
 As the previous iteration of the calculator was my first experience with Angular, it took me a while to understand that chinhodado's implementation kinda of defeated the purpose of Angular, and this will be my first attempt to create something like the modular setup that aqiu384 has.
 This is my lazy and rough mockup of what I would want the site to look like:
 TODO: Add image here :)
+### Live Environment
+Working from a server, initially I thought I wouldn't be able to use `ng serve` as that only worked on localhost, but thanks to Nathan Friends article (https://codinglatte.com/posts/angular/working-with-assets-styles-and-scripts-in-angular/) I was able to set up a reverse proxy that can let me use all the handy features of `ng serve` without running it on my main computer.
+I added this block to my `/etc/nginx/sites-available/smt-tools/`
+```
+location ^~ /d/ {
+    proxy_pass http://127.0.0.1:4201/;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_http_version 1.1;
+    proxy_cache_bypass $http_upgrade;
+}
+```
+And now when I go to `192.168.7.x/dev/` I can see the live environment that `ng serve` is hosting.
 ### Header and Footer
 ```
 ng g component components/header
@@ -56,8 +70,74 @@ I then deleted the placeholder code in `app.component.html` and replaced it with
 ```
 ### Assets
 The first thing that really threw me off was that despite the fact that the header component is in the `app/component/header` file, I still call images simply using `assets/imgs/.../example.png`. This is awesome and so much better than the alternatives, but still tripped me up at first.
+### Translation
+My biggest hangup with Angular my first time around is that since I'm not that familiar with CSS I would look up how to do what I wanted on things like StackOverflow, CSS-Tricks, or even W3School and they would all tell me to use JQuery for something. Then I'd try to use JQuery with Angular and I would break something.
+This time around, now that I have a much more stable and Angular intended environment, I'm having an easier time attempting to fill in the JQuery bits with Angular bits instead, as the Angular developers intended.
+Specifically, I want something like this nice rounded tab implementation you can see here: https://css-tricks.com/better-tabs-with-round-out-borders/ but, it also calls for JQuery. I don't think there's any reason to *actually* use JQuery here since I'm already running Angular.
+### JSON
+In order to import objects from a JSON file I needed to add these lines to my `tsconfig.json`:
+```
+{
+	...
+	"compilerOptions":{
+		...
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		...
+	},
+	...
+}
+```
+## CSS
+After about 30 minutes of scraping and finding why my flex items weren't centering vertically in my navrow I learned that `align-content:` and `align-items` are two different things.
+### SASS
+I love SASS. Can't believe I ever did any CSS without it, and I didn't do that much. Loops, lists, maps, makes everything so much easier.
 
-### Bootstrap
-While Bootstrap is supplying me with a variety of great tools, what am I supposed to do when I want to slightly change something? Am I supposed to extend the scss class? Am I supposed to just override something?
-#### Nav Tabs
-I have gotten the logos for the different games to be the right size, however the Bootstrap navtabs automatically grow to their max size, so they all end up on their own row anyway. I guess I need to ext end the Bootstrap navbar class.
+## Structure
+I'm not 100% of all the logic behind all of aqui384's decisions, but it seems like his directory structure is ideal. It seems like it would be relativley trivial to add a new game to his setup if he was just given the data for every demon and a fusion chart. Assuming there weren't any wild new features like QR codes or passwords.
+That being said, its been difficult for me to decipher his app routing and structure as an Angular amatuer and the lack of any comments in his code. As best I can tell he has his base compendium module, and then every game gets its own module and extends the base compendium module in some fashion and add's its own quirks to it.
+### Confusion
+aqui384 has a compendium module seperate from any game
+
+## Fixes
+### Angular
+Angular Live and Visual Studio Code would often spit out this error: `Error: ENOSPC: System limit for number of file watchers reached, watch '/x/x/x/x/x'`
+The fix was pretty straight forward, add more watchers: `sudo echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
+### SASS
+#### ~
+All over the web youll see people using Angular and SASS using things like `@import ~x.scss` but this doesn't work anymore. `~` now popints to the `/var/www/smt-tools` in my case and I need to add `src` infront of it. This took me too long to figure out
+#### Global variables
+I want to just have a global list of games for SASS so I can iterate through them without needing to type out each one everytime, but there aren't global variable really. Even if you import a variable file into your "global" scss style sheet, the still won't be in scope and *every* component will need to import that variable sheet.
+I found a "solution" here: https://stackoverflow.com/questions/55131372/global-scss-variables-for-angular-components-without-importing-them-everytime which mostly works, but the syntax necessary makes things like @mixins and @each loops impossible, so I can't use it.
+
+## Expansion
+To add in the initial P5R module I did the following:
+```
+cd src/app/modules/games
+ng g module p5r
+cd p5r
+ng g component components/compendium
+```
+Then I created the file `p5r-routing.module.ts` and added this to it:
+```
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { CompendiumComponent } from './components/compendium/compendium.component';
+
+const routes: Routes = [
+	{ path: '', component: CompendiumComponent }
+]
+
+@NgModule({
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
+})
+export class P5RRoutingModule { }
+```
+Finally I added this to the `routes` array in the `app-routing.module.ts` file:
+```
+{
+	path: 'p5r',
+	loadChildren: () => import('./modules/games/p5r/p5r.module').then(m => m.P5rModule)
+}
+```

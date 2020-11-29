@@ -1,0 +1,9 @@
+@import "./variables";
+
+/* sets the background color to be that of the game selected
+* @param $game, string, game to get color from
+*/
+@mixin set-game-background($game) {
+	background-color: map-get(map-get($games, #{$game}), "primary-color");
+
+}

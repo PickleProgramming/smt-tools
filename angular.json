@@ -31,7 +31,7 @@
               "src/assets"
             ],
             "styles": [
-							"src/styles.scss"
+							"src/style/styles.scss"
             ],
             "scripts": []
           },
@@ -132,5 +132,8 @@
     "@schematics/angular:component": {
       "styleext": "scss"
     }
+  },
+  "cli": {
+    "analytics": "45b11677-9356-4f87-9922-ad75ab909edf"
   }
 }
