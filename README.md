@@ -97,7 +97,19 @@ I love SASS. Can't believe I ever did any CSS without it, and I didn't do that m
 I'm not 100% of all the logic behind all of aqui384's decisions, but it seems like his directory structure is ideal. It seems like it would be relativley trivial to add a new game to his setup if he was just given the data for every demon and a fusion chart. Assuming there weren't any wild new features like QR codes or passwords.
 That being said, its been difficult for me to decipher his app routing and structure as an Angular amatuer and the lack of any comments in his code. As best I can tell he has his base compendium module, and then every game gets its own module and extends the base compendium module in some fashion and add's its own quirks to it.
 ### Confusion
-aqui384 has a compendium module seperate from any game
+aqui384 has a compendium module seperate from any game, and after hours of hair pulling and reading Angular documentation I think I finally figured it out. I can't anymore if he's just modularizing everything and using a confusing naming strucutre, or if the whole setup is confusing and poorly planned. If you look at his webpage you can tell there's the 'Games List' component, the 'Tools Navigation' component (Persona, Enemies, Fusion Chart links, etc.), and finally the Table component. Now, two of these three components are all named 'compendium' in aqiu384's project. And not 'base-compendium.component.ts' and 'p5r-compendium.component.ts', but literally the exact same file name. 36 files, all named the same thing in different folders. I can't see a reason for this other than laziness, but maybe I'm wrong. Anway, say you wanted to look at the list of persona in P5R, here's the route through the code Angular would follow, to my understanding:
+
+(`index.html`: `<app-root></app-root>`) -> 
+(`app/app.component.ts`: `<router-outlet></router-outlet>`) -> 
+(`app/app-routing.module.ts`: `loadChildren: './p5r/compendium.module#CompendiumModule'`) -> 
+(`app/p5r/compendium.module` : `P5CompendiumModule`) -> #No that is not a typo, the p5r module points to the p5 module
+(`app/p5/compendium.module`: `app/p5/components/compendium/component`) ->
+(`app/p5/components/compendium/component`: `app-demon-compendium`) -> 
+(`app/compendium/components/compendium.component.ts`: `<router-outlet></router-outlet>`) -> 
+(`app/p5/compendium-routing.module.ts`: `DemonEntryContainerComponent`) -> 
+(`app/p5/components/demon-entry.component.ts`)
+
+And the `demon-entry.component.ts` in `app/p5/components`, not to be confused with the 36 other `demon-entry.component.ts`s, has all the HTML for the table you see when you click Persona 5. Writing it all out I can see the logic behind it. But this little chain I wrote doesn't properly convey how strange and confusing it is with no documentation, countless overloaded variables containing paths to questionable places. I think I still will use the same structure aqiu384 did, but I'm definitely using different naming conventions.
 
 ## Fixes
 ### Angular

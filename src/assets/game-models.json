@@ -1,0 +1,129 @@
+[
+	{
+		"game": "Shin Megami Tensei III Nocture HD Remaster",
+		"abbrv": "smt3hd",
+		"logo": "assets/img/games/smt3hd.png",
+		"colors": {
+			"primary": "#000000",
+			"secondary": "#ef0006",
+			"text": "#ffffff"
+		},
+		"font": "p5-font",
+		"mainList": "demon",
+		"otherLinks": [],
+		"hasSettings": true
+	},
+	{
+		"game": "Persona 5 Royal",
+		"abbrv": "p5r",
+		"logo": "assets/img/games/p5r.png",
+		"colors": {
+			"primary": "#ef0006",
+			"secondary": "#ffff00",
+			"text": "#000000"
+		},
+		"font": "p5-font",
+		"mainList": "persona",
+		"otherLinks": [
+			{
+				"title": "Shadow List",
+				"url": "/shadow-list"
+			}
+		],
+		"hasSettings": true
+	},
+	{
+		"game": "Persona Q2: New Cinema Labyrinth",
+		"abbrv": "pq2",
+		"logo": "assets/img/games/pq2.png",
+		"colors": {
+			"primary": "#5659a0",
+			"secondary": "#5659a0",
+			"text": "#000000"
+		},
+		"font": "p5-font",
+		"mainList": "persona",
+		"otherLinks": [
+			{
+				"title": "Shadow List",
+				"url": "/shadow-list"
+			},
+			{
+				"title": "QR Code Generator",
+				"url": "Title"
+			}
+		],
+		"hasSettings": true
+	},
+	{
+		"game": "Shin Megami Tensei IV",
+		"abbrv": "smt4",
+		"logo": "assets/img/games/smt4.png",
+		"colors": {
+			"primary": "#66519d",
+			"secondary": "#66519d",
+			"text": "#000000"
+		},
+		"font": "p5-font",
+		"mainList": "demon",
+		"otherLinks": [],
+		"hasSettings": true
+	},
+	{
+		"game": "Shin Megami Tensei Strange Journey Redux",
+		"abbrv": "smtsjr",
+		"logo": "assets/img/games/smtsjr.png",
+		"colors": {
+			"primary": "#4f6c4e",
+			"secondary": "#4f6c4e",
+			"text": "#000000"
+		},
+		"font": "p5-font",
+		"mainList": "demon",
+		"otherLinks": [
+			{
+				"title": "Password Generator",
+				"url": "/password-generator"
+			}
+		],
+		"hasSettings": true
+	},
+	{
+		"game": "Persona 4 Golden",
+		"abbrv": "p4g",
+		"logo": "assets/img/games/p4g.png",
+		"colors": {
+			"primary": "#f4c619",
+			"secondary": "#ffffff",
+			"text": "#000000"
+		},
+		"font": "p5-font",
+		"mainList": "persona",
+		"otherLinks": [
+			{
+				"title": "Shadow List",
+				"url": "/shadow-list"
+			}
+		],
+		"hasSettings": false
+	},
+	{
+		"game": "Persona 3 Portable",
+		"abbrv": "p3p",
+		"logo": "assets/img/games/p3p.png",
+		"colors": {
+			"primary": "#ffffff",
+			"secondary": "#1f6db7",
+			"text": "#000000"
+		},
+		"font": "p5-font",
+		"mainList": "persona",
+		"otherLinks": [
+			{
+				"title": "Shadow List",
+				"url": "/shadow-list"
+			}
+		],
+		"hasSettings": false
+	}
+]

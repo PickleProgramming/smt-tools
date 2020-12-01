@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import "_variables.scss";
+
+@font-face {
+	font-family: 'p5-font';
+	src: url("~/src/assets/fonts/p5hatty-webfont.woff") format('woff'),
+			 url("~/src/assets/fonts/p5hatty-webfont.woff2") format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+*,
+html {
+	margin: 0;
+	padding: 0;
+}

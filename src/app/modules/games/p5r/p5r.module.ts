@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CompendiumComponent } from './components/compendium/compendium.component';
-import { P5RRoutingModule } from './p5r-routing.module';
+
+import { P5Module } from 'src/app/modules/games/p5/p5.module';
+import { P5RoutingModule } from 'src/app/modules/games/p5/p5-routing.module';
+
+
 
 @NgModule({
-  declarations: [CompendiumComponent],
-  imports: [
+	declarations: [],
+	imports: [
 		CommonModule,
-		P5RRoutingModule
-  ]
+		P5Module,
+		P5RoutingModule
+	]
 })
 export class P5RModule { }

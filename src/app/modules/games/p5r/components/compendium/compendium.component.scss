@@ -1,6 +1,0 @@
-@import "~src/style/variables.scss";
-@import "~src/style/mixins.scss";
-
-* {
-	@include set-game-background("p5r");
-}
