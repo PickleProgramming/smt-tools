@@ -110,6 +110,8 @@ aqui384 has a compendium module seperate from any game, and after hours of hair 
 (`app/p5/components/demon-entry.component.ts`)
 
 And the `demon-entry.component.ts` in `app/p5/components`, not to be confused with the 36 other `demon-entry.component.ts`s, has all the HTML for the table you see when you click Persona 5. Writing it all out I can see the logic behind it. But this little chain I wrote doesn't properly convey how strange and confusing it is with no documentation, countless overloaded variables containing paths to questionable places. I think I still will use the same structure aqiu384 did, but I'm definitely using different naming conventions.
+I have decided that this man did not plan any form of structure whatsoever, and when his project an ambitions ballooned, coming back to repair the structure seemed an increasiongly impossible task. All of the code looks great, except for the fact that he never used strict typing, leaving numerous instances of bad practice, but every works, works well, and while even just a little bit commenting would have helped *immensely* his naming conventions speak for themselves. Except in one instance, where he uses "SortFun" over and over and I have no idea what that means.
+With all this in mind I am simply going to restructure everything according to this guide: https://itnext.io/choosing-a-highly-scalable-folder-structure-in-angular-d987de65ec7 and keep everything else. His use of abstract components allows for relatively easy extendability, and he already did all the leg work for the all the minute differences between fusion for the games, and collected all the data already. If he used more than a dozen CSS properties, wrote a least one comment per function, and structered this in any kind of sensical way, it would be perfect. But he didn't do those things, and the lack of such simple practices is driving me insane.
 
 ## Fixes
 ### Angular
@@ -120,36 +122,32 @@ The fix was pretty straight forward, add more watchers: `sudo echo fs.inotify.ma
 All over the web youll see people using Angular and SASS using things like `@import ~x.scss` but this doesn't work anymore. `~` now popints to the `/var/www/smt-tools` in my case and I need to add `src` infront of it. This took me too long to figure out
 #### Global variables
 I want to just have a global list of games for SASS so I can iterate through them without needing to type out each one everytime, but there aren't global variable really. Even if you import a variable file into your "global" scss style sheet, the still won't be in scope and *every* component will need to import that variable sheet.
-I found a "solution" here: https://stackoverflow.com/questions/55131372/global-scss-variables-for-angular-components-without-importing-them-everytime which mostly works, but the syntax necessary makes things like @mixins and @each loops impossible, so I can't use it.
+I found a "solution" here: https://stackoverflow.com/questions/55131372/global-scss-variables-for-angular-components-without-importing-them-everytime which mostly works, but the syntax necessary makes things like @mixins and @each loops impossible as far as I can tell, so I can't use it.
 
 ## Expansion
-To add in the initial P5R module I did the following:
+### Components
+The first thing to ask yourself when adding a game is if that game is already in the database. For example, Persona 5 Royal should instantiate the different variables that it needs that are unique to the Royal version of the game, and then just route those to the Persona 5 version of the game. This will vary from game to game so I won't go into that here.
+If you are adding a new base game, such as SMT4, you would start with the following:
 ```
-cd src/app/modules/games
-ng g module p5r
-cd p5r
-ng g component components/compendium
+cd /var/www/smt-tools/src/app/modules/games
+ng g module smt4
+cd smt4
+touch smt4-routing.module.ts
+mkdir components
+cd components
+ng g component smt4-fusion-chart
+ng g component smt4-demon-list
+ng g component smt4-demon-entry
+ng g component smt4-skill-list
 ```
-Then I created the file `p5r-routing.module.ts` and added this to it:
+The `demon-list` component will be used for the list of persona/demons and enemies, the `demon-entry` will be used to display more information when a demon/persona/enemy is selected from the list, the `skill-list` will be used to display a list of skills for each game, and the `fusion-chart` will be used for the fusion chart tab for each game.
+from there you might need to generate more components depending on what else you'd like to include, like a persona game would need a `shadow-entry` component as well, or Strange Journey would need a password generator components, but that is the base for every initial release of a game. For creating a second release of a game, like P4G or P3P you'd only need the module and the data:
 ```
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { CompendiumComponent } from './components/compendium/compendium.component';
+cd /var/www/smt-tools/src/app/modules/games
+ng g module p4g
+cd p4g
+mkdir data
+```
 
-const routes: Routes = [
-	{ path: '', component: CompendiumComponent }
-]
 
-@NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule]
-})
-export class P5RRoutingModule { }
-```
-Finally I added this to the `routes` array in the `app-routing.module.ts` file:
-```
-{
-	path: 'p5r',
-	loadChildren: () => import('./modules/games/p5r/p5r.module').then(m => m.P5rModule)
-}
-```
+

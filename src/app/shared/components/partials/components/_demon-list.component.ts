@@ -1,8 +1,8 @@
 import { Input, OnInit, AfterViewChecked } from '@angular/core';
-import { SortedTableComponent } from './sorted-table.component';
+import { SortedTableComponent } from './_sorted-table.component';
 import { Demon } from 'src/app/shared/models/compendiumModels';
 
-export abstract class DemonListComponent<TDemon extends Demon> extends SortedTableComponent<TDemon> implements OnInit, AfterViewChecked {
+export abstract class _DemonListComponent<TDemon extends Demon> extends SortedTableComponent<TDemon> implements OnInit, AfterViewChecked {
   @Input() raceOrder?: { [race: string]: number };
   @Input() inheritOrder?: { [elem: string]: number };
   @Input() statHeaders?: string[];
@@ -55,7 +55,7 @@ export abstract class DemonListComponent<TDemon extends Demon> extends SortedTab
     }
   }
 
-  getSortDemon(sortDemonIndex: number): (a: TDemon, b: TDemon) => number {
+  getSortFun(sortDemonIndex: number): (a: TDemon, b: TDemon) => number {
     return this.sortDemons[sortDemonIndex];
   }
 }

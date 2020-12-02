@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { FusionDataService, FusionTrioService } from './models/fusionModels';
+import { FusionServiceInterface, FusionTrioService } from './models/fusionModels';
 import { CompendiumConfig } from './models/compendiumModels';
 
 import { NormalFusionCalculator } from './lib/fusions/normal-fusion-calculator';
@@ -24,7 +24,7 @@ import {
 import { splitWithPrevLvl as split3PL } from './lib/fissions/per-triple-fissions';
 
 export const COMPENDIUM_CONFIG = new InjectionToken<CompendiumConfig>('compendium.config');
-export const FUSION_DATA_SERVICE = new InjectionToken<FusionDataService>('fusion.data.service');
+export const FUSION_DATA_SERVICE = new InjectionToken<FusionServiceInterface>('fusion.data.service');
 export const FUSION_TRIO_SERVICE = new InjectionToken<FusionTrioService>('fusion.trio.service');
 
 export const SMT_NORMAL_FUSION_CALCULATOR = new NormalFusionCalculator(

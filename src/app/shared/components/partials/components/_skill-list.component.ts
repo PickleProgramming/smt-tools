@@ -1,5 +1,5 @@
 import { Input, OnInit, AfterViewChecked } from '@angular/core';
-import { SortedTableComponent } from './sorted-table.component';
+import { SortedTableComponent } from './_sorted-table.component';
 import { Skill } from 'src/app/shared/models/compendiumModels';
 
 export abstract class SkillListComponent<TSkill extends Skill> extends SortedTableComponent<TSkill> implements OnInit, AfterViewChecked {

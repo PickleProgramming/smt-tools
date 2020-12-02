@@ -6,7 +6,7 @@ export interface FusionTableHeaders {
   right: string;
 }
 
-export interface FusionDataService {
+export interface FusionServiceInterface {
   fissionCalculator: FusionCalculator;
   fusionCalculator: FusionCalculator;
   compendium: Observable<Compendium>;
@@ -14,7 +14,7 @@ export interface FusionDataService {
   nextDlcDemons?(dlcDemons: { [name: string]: boolean }): void;
 }
 
-export interface FusionTrioService extends FusionDataService {
+export interface FusionTrioService extends FusionServiceInterface {
   triFissionCalculator: TripleCalculator;
   triFusionCalculator: TripleCalculator;
   squareChart: Observable<SquareChart>;
