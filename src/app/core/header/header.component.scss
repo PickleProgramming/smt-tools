@@ -9,9 +9,10 @@
 	max-height: 10vh;
 	list-style: none;
 	padding: 0px 0px;
-	margin-top: 3px;
+	margin-top: 0px;
 	position: relative;
 	overflow: hidden;
+	background-color: #ffff;
 	&:before {
 		position: absolute;
 		content: " ";
@@ -37,7 +38,7 @@
 	}
 
 	img {
-		max-height: 10vh;
+		max-height: 8vh;
 		max-width: 100%;
 		object-fit: contain;
 		background-color: transparent;
@@ -47,7 +48,6 @@
 	@each $game, $colors in $games {
 		.#{$game} {
 			background-color: map-get($colors, "primary-color");
-
 		}
 	}
 }

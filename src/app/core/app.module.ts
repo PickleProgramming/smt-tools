@@ -6,14 +6,14 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { GameToolsHeaderComponent } from './game-tools-header/game-tools-header.component';
+import { GameWrapperComponent } from './game-wrapper/game-wrapper.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-		GameToolsHeaderComponent
+		GameWrapperComponent
   ],
   imports: [
     BrowserModule,

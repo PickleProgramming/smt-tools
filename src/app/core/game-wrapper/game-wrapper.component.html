@@ -1,0 +1,37 @@
+<!-- bar for navigating between different tools specific to a game -->
+<table id="navRow" class=game-wrapper-table>
+	<thead>
+		<tr class=game-wrapper-row>
+			<!-- Persona/Demon Link -->
+			<th class=game-wrapper-entry routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+				<a routerLink="{{ abbrv }}/{{ mainList }}s" [ngStyle]="{'color':fontColor}">
+					{{ mainList.charAt(0).toUpperCase() + mainList.slice(1) }} List
+				</a>
+			</th>
+			<!-- Skill Link -->
+			<th class=game-wrapper-entry routerLinkActive="active">
+				<a routerLink="{{ abbrv }}/skills" [ngStyle]="{'color':fontColor}">
+					Skill List
+				</a>
+			</th>
+			<!-- Fusion Chart Link -->
+			<th class=game-wrapper-entry routerLinkActive="active">
+				<a routerLink="{{ abbrv }}/fusion-chart" [ngStyle]="{'color':fontColor}">
+					Fusion Chart
+				</a>
+			</th>
+			<!-- All other links except settings -->
+			<th class=game-wrapper-entry *ngFor="let link of otherLinks" routerLinkActive="active">
+				<a routerLink="{{ abbrv }}/{{ link.url }}" [ngStyle]="{'color':fontColor}">
+					{{link.title}}
+				</a>
+			</th>
+			<th class=game-wrapper-entry *ngIf="hasSettings" routerLinkActive="active">
+				<a routerLink="{{ abbrv }}/fusion-settings" [ngStyle]="{'color':fontColor}">
+					Fusion Settings
+				</a>
+			</th>
+		</tr>
+	</thead>
+</table>
+<router-outlet></router-outlet>

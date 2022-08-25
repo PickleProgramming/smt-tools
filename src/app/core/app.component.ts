@@ -4,7 +4,7 @@ import { Component, HostListener } from '@angular/core';
 	selector: 'app-root',
 	template: `
 		<app-header></app-header>
-		<app-game-tools-header></app-game-tools-header>
+		<app-game-wrapper></app-game-wrapper>
 		<app-footer></app-footer>
 	`
 })

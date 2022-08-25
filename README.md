@@ -3,6 +3,15 @@ This is a project that started as a fork from this calculator: https://chinhodad
 
 Instead of slowly migrating chinhodado's project into the same state that aqiu384's is I decided to start from scratch with a new package and just give credit to aqiu384 and chinhodado for the parts of their code that I use. I still plan on using some of the backend functions for chinhodado's code and am probably going to use almost all of aqiu384's backend with a handful of tweaks, while making the front end look more presentable and adding in my own chain-building functions.
 
+## My Structure
+### src/app/core
+This is where I put the elements that are standard across all games no matter what game is currently in view.
+### src/app/modules/games
+Each game recieves it's own module, and a series of universal components, along with any components unique to that game.
+#### src/app/modules/[Game]
+The individual components and data for each specific game 
+
+
 # The Journey
 
 I like to thoroughly document my process for setup on new projects as when I come back to them 8 months later and I have no idea what I was doing I can quickly jog my memory, or start the whole thing again from scratch without having to find every resource I was using.

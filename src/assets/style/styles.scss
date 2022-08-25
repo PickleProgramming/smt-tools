@@ -1,16 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
 @import "_variables.scss";
+@import "_mixins.scss";
 
 @font-face {
-	font-family: 'p5-font';
-	src: url("~/src/assets/fonts/p5hatty-webfont.woff") format('woff'),
-			 url("~/src/assets/fonts/p5hatty-webfont.woff2") format('woff2');
+	font-family: "p5-font";
+	src: url("~/src/assets/fonts/p5hatty-webfont.woff") format("woff"),
+		url("~/src/assets/fonts/p5hatty-webfont.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
 }
 
-*,
+body.smt3hd {
+	@include set-game-background("smt3hd");
+	@include set-game-font("smt3hd");
+}
+
+body.p5r {
+	@include set-game-background("p5r");
+	@include set-game-font("p5r");
+	font-size: .5cm;
+}
+
+body.pq2 {
+	@include set-game-background("pq2");
+	@include set-game-font("pq2");
+}
+
+body.smt4 {
+	@include set-game-background("smt4");
+	@include set-game-font("smt4");
+}
+
+body.smtsjr {
+	@include set-game-background("smtsjr");
+	@include set-game-font("smtsjr");
+}
+
+body.p4g {
+	@include set-game-background("p4g");
+	@include set-game-font("p4g");
+}
+
+body.p3p {
+	@include set-game-background("p3p");
+	@include set-game-font("p3p");
+}
+
 html {
+	margin: 0;
+	padding: 0;
+}
+*,
+body {
 	margin: 0;
 	padding: 0;
 }

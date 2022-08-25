@@ -6,6 +6,8 @@ import { P5FusionChartComponent } from './components/p5-fusion-chart/p5-fusion-c
 import { P5SkillListComponent } from './components/p5-skill-list/p5-skill-list.component';
 import { P5PersonaEntryComponent } from './components/p5-persona-entry/p5-persona-entry.component';
 import { P5ShadowEntryComponent } from './components/p5-shadow-entry/p5-shadow-entry.component';
+import { P5FusionSettingsComponent } from './components/p5-fusion-settings/p5-fusion-settings.component';
+import { P5ShadowListComponent } from './components/p5-shadow-list/p5-shadow-list.component';
 
 @NgModule({
 	declarations: [
@@ -14,7 +16,9 @@ import { P5ShadowEntryComponent } from './components/p5-shadow-entry/p5-shadow-e
 		P5FusionChartComponent,
 		P5SkillListComponent,
 		P5PersonaEntryComponent,
-		P5ShadowEntryComponent
+		P5ShadowEntryComponent,
+		P5FusionSettingsComponent,
+		P5ShadowListComponent
 	],
 	imports: [
 		CommonModule
