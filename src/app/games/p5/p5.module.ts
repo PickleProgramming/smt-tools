@@ -8,6 +8,8 @@ import { P5PersonaEntryComponent } from './components/p5-persona-entry/p5-person
 import { P5ShadowEntryComponent } from './components/p5-shadow-entry/p5-shadow-entry.component';
 import { P5FusionSettingsComponent } from './components/p5-fusion-settings/p5-fusion-settings.component';
 import { P5ShadowListComponent } from './components/p5-shadow-list/p5-shadow-list.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
 	declarations: [
@@ -21,7 +23,9 @@ import { P5ShadowListComponent } from './components/p5-shadow-list/p5-shadow-lis
 		P5ShadowListComponent
 	],
 	imports: [
-		CommonModule
+		CommonModule,
+		SharedModule,
+		RouterModule
 	]
 })
 export class P5Module { }
