@@ -1,4 +1,4 @@
-export interface GameModels {
+export interface GameModel {
 	game: string
 	abbrv: string
 	logo: string

@@ -1,0 +1,44 @@
+<table>
+
+    <thead>
+        <tr>
+            <td *ngFor="let column of firstHeader" colSpan="{{ colSpan[column] }}">
+                {{ column }}
+            </td>
+        </tr>
+        <tr>
+            <td *ngFor="let column of secondHeader">
+                {{ column }}
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let demon of compendium.demons | keyvalue">
+            <td>{{ demon.value.race }}</td>
+            <td>{{ demon.value.lvl }}</td>
+            <td routerLinkActive="active">
+                <a routerLink="{{ demon.key }}">
+                    {{ demon.key }}
+                </a>
+            </td>
+            <td *ngIf="demon.value.inherits">
+                {{ demon.value.inherits }}
+            </td>
+            <td *ngFor="let stat of demon.value.stats">
+                {{ stat }}
+            </td>
+            <ng-container *ngIf="demon.value.resists">
+                <td *ngFor="let resist of demon.value.resists.split('')">
+                    <ng-container [ngSwitch]="resist">
+                        <p *ngSwitchCase="'d'">absorb</p>
+                        <p *ngSwitchCase="'w'">weak</p>
+                        <p *ngSwitchCase="'n'">null</p>
+                        <p *ngSwitchCase="'s'">resist</p>
+                        <p *ngSwitchCase="'r'">repel</p>
+                        <p *ngSwitchDefault></p>
+                    </ng-container>
+                </td>
+            </ng-container>
+        </tr>
+    </tbody>
+</table>
