@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { P3PPersonaEntryComponent } from './components/p3p-persona-entry.component';
-import { P3PRoutingModule } from './p3p-routing.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { P3PPersonaEntryComponent } from './components/p3p-persona-entry.component'
+import { P3PRoutingModule } from './p3p-routing.module'
 
 
 

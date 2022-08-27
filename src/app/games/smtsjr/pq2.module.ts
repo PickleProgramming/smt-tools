@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PQ2PersonaEntryComponent } from './components/pq2-persona-entry.component';
-import { PQ2RoutingModule } from './pq2-routing.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { PQ2PersonaEntryComponent } from './components/pq2-persona-entry.component'
+import { PQ2RoutingModule } from './pq2-routing.module'
 
 
 

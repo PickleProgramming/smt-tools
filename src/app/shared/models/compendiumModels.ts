@@ -1,3 +1,5 @@
+
+
 export interface Demon {
   race: string
   lvl: number
@@ -61,11 +63,11 @@ export abstract class CompendiumConfig {
   skillCols: string[]
   acquisitionCols: string[]
   fusionTable: FusionTable
-  elemTable?: ElementTable
+  elementTable?: ElementTable
   resistanceCols?: string[]
   affinityCols?: string[]
 
-  constructor(fusionTable: FusionTable, elemTable?: ElementTable) {
+  constructor(fusionTable: FusionTable, elementTable?: ElementTable) {
     this.demonCols = [
       'Race',
       'Level',
@@ -91,8 +93,12 @@ export abstract class CompendiumConfig {
       races: fusionTable['races'],
       table: fusionTable['table']
     }
-    if(this.elemTable) {
-
+    if(typeof this.elementTable !== undefined) {
+      this.elementTable = {
+        elems: elementTable!['elems'],
+        races: elementTable!['races'],
+        table: elementTable!['table']
+      }
     }
   }
 }

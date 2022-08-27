@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import GAME_MODELS from 'src/assets/game-models.json';
+import { Component, Input, OnInit } from '@angular/core'
+import GAME_MODELS from 'src/assets/game-models.json'
 
 //TODO: fade in/out of secondary navbar
 @Component({
@@ -18,7 +18,7 @@ import GAME_MODELS from 'src/assets/game-models.json';
 })
 export class HeaderComponent implements OnInit {
 	tabs: any = []
-	loading = false;
+	loading = false
 
 	constructor() { }
 

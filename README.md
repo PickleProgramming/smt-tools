@@ -39,13 +39,13 @@ sudo systemctl resteart nginx
 smt-tools:
 ```
 server {
-        listen 4200;
-        listen [::]:4200;
-    server_name www.smt-tools.com, smt-tools.com;
-    root /var/www/smt-tools/dist/smt-tools;
-    index index.html;
+        listen 4200
+        listen [::]:4200
+    server_name www.smt-tools.com, smt-tools.com
+    root /var/www/smt-tools/dist/smt-tools
+    index index.html
     location / {
-        try_files $uri$args $uri$args/ /index.html;
+        try_files $uri$args $uri$args/ /index.html
     }
 }
 ```
@@ -59,12 +59,12 @@ Working from a server, initially I thought I wouldn't be able to use `ng serve` 
 I added this block to my `/etc/nginx/sites-available/smt-tools/`
 ```
 location ^~ /d/ {
-    proxy_pass http://127.0.0.1:4201/;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_http_version 1.1;
-    proxy_cache_bypass $http_upgrade;
+    proxy_pass http://127.0.0.1:4201/
+    proxy_set_header Upgrade $http_upgrade
+    proxy_set_header Connection 'upgrade'
+    proxy_set_header Host $host
+    proxy_http_version 1.1
+    proxy_cache_bypass $http_upgrade
 }
 ```
 And now when I go to `192.168.7.x/dev/` I can see the live environment that `ng serve` is hosting.

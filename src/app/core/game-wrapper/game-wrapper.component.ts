@@ -2,11 +2,11 @@
 //the Demon/Skills/Fusion Table links
 //As well as the component for the body of each tool below the nav bar
 
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { GameModel } from 'src/app/shared/models/gameModel';
-import GAME_MODELS from 'src/assets/game-models.json';
+import { DOCUMENT } from '@angular/common'
+import { Component, Inject, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core'
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
+import { GameModel } from 'src/app/shared/models/gameModel'
+import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({
 	selector: 'app-game-wrapper',

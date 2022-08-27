@@ -30,7 +30,7 @@
             <!-- Acquisition -->
             <td>
                 <ng-container *ngFor="let demon of skill.value.learnedBy | keyvalue">
-                    <ng-container *ngIf="demon.value != 0; else inherentSkill">
+                    <ng-container *ngIf="demon.value != 0 else inherentSkill">
                         {{ demon.key}} at {{ demon.value }}, 
                     </ng-container>
                     <ng-template #inherentSkill>

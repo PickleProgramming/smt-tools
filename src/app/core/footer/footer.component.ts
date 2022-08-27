@@ -1,8 +1,8 @@
-import { Component, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core'
+import { Router } from '@angular/router'
+import { Subscription } from 'rxjs'
 import { GameModel } from 'src/app/shared/models/gameModel'
-import GAME_MODELS from 'src/assets/game-models.json';
+import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({
   selector: 'app-footer',

@@ -1,1 +1,23 @@
-<p>normal-fusion-table works!</p>
+<table>
+    <thead>
+        <tr>
+            <td></td>
+            <td *ngFor='let race of compendiumConfig.fusionTable.races'>
+                {{ race }}
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor='let row of compendiumConfig.fusionTable.table let i=index'>
+            <td>{{ compendiumConfig.fusionTable.races[i] }}</td>
+            <td *ngFor='let cell of row'>
+                <ng-container *ngIf='cell == "-" || null ; else shorter'>
+                    {{ cell }}
+                </ng-container>
+                <ng-template #shorter>
+                    {{ cell | shorten }}
+                </ng-template>
+            </td>
+        </tr>
+    </tbody>
+</table>

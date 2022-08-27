@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Compendium, CompendiumConfig } from '../../models/compendiumModels';
+import { Component, Input, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { Compendium, CompendiumConfig } from '../../models/compendiumModels'
 
 @Component({
   selector: 'app-skill-list',

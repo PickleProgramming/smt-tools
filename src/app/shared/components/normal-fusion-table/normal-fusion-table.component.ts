@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CompendiumConfig } from '../../models/compendiumModels';
+import { Component, Input, OnInit } from '@angular/core'
+import { CompendiumConfig } from '../../models/compendiumModels'
 
 @Component({
   selector: 'app-normal-fusion-table',
@@ -13,6 +13,10 @@ export class NormalFusionTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    if(this.compendiumConfig === undefined) {
+      console.log('Normal Fusion Table must be called with a CompendiumConfig')
+      return
+    }
   }
 
 }

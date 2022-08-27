@@ -2,10 +2,10 @@
 * @param $game, string, game to get color from
 */
 @mixin set-game-background($game) {
-	background-color: map-get(map-get($games, #{$game}), "primary-color");
+	background-color: map-get(map-get($games, #{$game}), "primary-color")
 
 }
 
 @mixin set-game-font($game) {
-	font-family: map-get(map-get($games, #{$game}), "font-family");
+	font-family: map-get(map-get($games, #{$game}), "font-family")
 }

@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
-import { P3PPersonaEntryComponent } from './components/p3p-persona-entry.component';
+import { P3PPersonaEntryComponent } from './components/p3p-persona-entry.component'
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'personas', pathMatch: 'full' },

@@ -5,10 +5,11 @@ import SKILL_DATA from 'src/app/games/p5/data/skill-data.json'
 import SPECIAL_Recipes from 'src/app/games/p5/data/special-recipes.json'
 import DLC_PERSONA from 'src/app/games/p5/data/dlc-data.json'
 import FUSION_TABLE from 'src/app/games/p5/data/fusion-table.json'
+import ELEMENT_TABLE from 'src/app/games/p5/data/element-table.json'
 
 export class P5CompendiumConfig extends CompendiumConfig {
     constructor() {
-        super(FUSION_TABLE)
+        super(FUSION_TABLE, ELEMENT_TABLE)
         this.demonCols.push('Inherits')
         this.statCols = [
             'St',
@@ -48,9 +49,8 @@ export class P5Compendium implements Compendium {
                 cost: ''
             }
             let newCost: string
-            if ('cost' in data)
-            {
-                if(data['cost'] > 1000)
+            if ('cost' in data) {
+                if (data['cost'] > 1000)
                     newCost = (data['cost'] - 1000) + ' MP'
                 else
                     newCost = (data['cost']) + '% HP'

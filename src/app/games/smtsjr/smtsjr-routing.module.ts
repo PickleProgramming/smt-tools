@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
-import { SMTSJRPersonaEntryComponent } from './components/smtsjr-demon-entry.component';
+import { SMTSJRPersonaEntryComponent } from './components/smtsjr-demon-entry.component'
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'demons', pathMatch: 'full' },

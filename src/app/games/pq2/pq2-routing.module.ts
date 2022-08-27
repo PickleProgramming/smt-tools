@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
-import { PQ2PersonaEntryComponent } from './components/pq2-persona-entry.component';
+import { PQ2PersonaEntryComponent } from './components/pq2-persona-entry.component'
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'personas', pathMatch: 'full' },
