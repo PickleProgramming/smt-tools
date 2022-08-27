@@ -1,5 +1,4 @@
 <table>
-
     <thead>
         <tr>
             <td *ngFor="let column of firstHeader" colSpan="{{ colSpan[column] }}">
@@ -14,6 +13,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let demon of compendium.demons | keyvalue">
+            <!-- Demon -->
             <td>{{ demon.value.race }}</td>
             <td>{{ demon.value.lvl }}</td>
             <td routerLinkActive="active">
@@ -24,9 +24,11 @@
             <td *ngIf="demon.value.inherits">
                 {{ demon.value.inherits }}
             </td>
+            <!-- Stats -->
             <td *ngFor="let stat of demon.value.stats">
                 {{ stat }}
             </td>
+            <!-- Resistances -->
             <ng-container *ngIf="demon.value.resists">
                 <td *ngFor="let resist of demon.value.resists.split('')">
                     <ng-container [ngSwitch]="resist">

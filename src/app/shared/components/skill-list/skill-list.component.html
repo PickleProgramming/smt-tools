@@ -1,0 +1,55 @@
+<table>
+    <thead>
+        <tr>
+            <td *ngFor="let column of firstHeader" colSpan="{{ colSpan[column] }}">
+                {{ column }}
+            </td>
+        </tr>
+        <tr>
+            <td *ngFor="let column of secondHeader" colSpan="{{ colSpan[column] }}">
+                {{ column }}
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let skill of compendium.skills | keyvalue">
+            <!-- Skill -->
+            <td>{{ skill.value.element }}</td>
+            <td>{{ skill.key }}</td>
+            <td>{{ skill.value.cost }}</td>
+            <td>{{ skill.value.effect }}</td>
+            <td *ngIf="skill.value.target">
+                {{ skill.value.target }}
+            </td>
+            <td *ngIf="skill.value.rank">
+                {{ skill.value.rank }}
+            </td>
+            <td *ngIf="skill.value.inherit">
+                {{ skill.value.inherit}}
+            </td>
+            <!-- Acquisition -->
+            <td>
+                <ng-container *ngFor="let demon of skill.value.learnedBy | keyvalue">
+                    <ng-container *ngIf="demon.value != 0; else inherentSkill">
+                        {{ demon.key}} at {{ demon.value }}, 
+                    </ng-container>
+                    <ng-template #inherentSkill>
+                        {{ demon.key}}, 
+                    </ng-template>
+                </ng-container>
+            </td>
+            <td *ngIf="skill.value.inheritFrom">
+                {{ skill.value.inheritFrom }}
+            </td>
+            <td *ngIf="skill.value.skillCard">
+                {{ skill.value.skillCard }}
+            </td>
+            <td *ngIf="skill.value.dSource">
+                {{ skill.value.dSource }}
+            </td>
+            <td *ngIf="skill.value.transferable">
+                {{ skill.value.transferable }}
+            </td>
+        </tr>
+    </tbody>
+</table>>

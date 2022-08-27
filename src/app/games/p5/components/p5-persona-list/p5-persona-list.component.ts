@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { P5Compendium, P5_COMPENDIUM, P5_COMPENDIUM_CONFIG } from 'src/app/games/p5/models/p5-compendium'
+import { P5_COMPENDIUM, P5_COMPENDIUM_CONFIG } from 'src/app/games/p5/p5-constants'
 import { CompendiumConfig } from 'src/app/shared/models/compendiumModels'
+import { P5Compendium } from '../../p5-data-models'
 
 @Component({
   selector: 'app-p5-persona-list',
@@ -9,8 +10,7 @@ import { CompendiumConfig } from 'src/app/shared/models/compendiumModels'
       [compendiumConfig]=p5CompendiumConfig
       [compendium]=p5Compendium>
     </app-demon-list>
-`,
-  styleUrls: ['./p5-persona-list.component.scss']
+`
 })
 export class P5PersonaListComponent implements OnInit {
 

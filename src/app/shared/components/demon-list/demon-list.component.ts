@@ -12,14 +12,14 @@ export class DemonListComponent implements OnInit {
   @Input() compendiumConfig!: CompendiumConfig
   @Input() compendium!: Compendium
   firstHeader: string[] = []
-  colSpan: { [col: string] : number } = {}
+  colSpan: { [col: string]: number } = {}
   secondHeader: string[] = []
   abbrv = ""
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.abbrv = this.router.url.split('/')[1]
@@ -29,6 +29,7 @@ export class DemonListComponent implements OnInit {
       console.error("compendiumConfig/compendium cannot be undefined")
       return
     }
+    
     this.firstHeader = [
       'Demons',
       'Stats'
@@ -37,26 +38,23 @@ export class DemonListComponent implements OnInit {
       'Demons': this.compendiumConfig.demonCols.length,
       'Stats': this.compendiumConfig.statCols.length,
     }
-    this.compendiumConfig.demonCols.forEach(elem => {
-      this.secondHeader.push(elem)
-    })
-    this.compendiumConfig.statCols.forEach(elem => {
-      this.secondHeader.push(elem)
-    })
+
+    this.compendiumConfig.demonCols.forEach(elem =>
+      this.secondHeader.push(elem))
+    this.compendiumConfig.statCols.forEach(elem =>
+      this.secondHeader.push(elem))
 
     if (this.compendiumConfig.resistanceCols) {
       this.firstHeader.push('Resistances')
       this.colSpan['Resistances'] = this.compendiumConfig.resistanceCols.length
-      this.compendiumConfig.resistanceCols.forEach(column => {
-        this.secondHeader.push(column)
-      })
+      this.compendiumConfig.resistanceCols.forEach(column =>
+        this.secondHeader.push(column))
     }
     if (this.compendiumConfig.affinityCols) {
       this.firstHeader.push('Affinities')
       this.colSpan['Affinities'] = this.compendiumConfig.affinityCols.length
-      this.compendiumConfig.affinityCols.forEach(column => {
-        this.secondHeader.push(column)
-      })
+      this.compendiumConfig.affinityCols.forEach(column =>
+        this.secondHeader.push(column))
     }
   }
 }

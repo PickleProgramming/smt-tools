@@ -5,7 +5,6 @@ import { P5PersonaListComponent } from './components/p5-persona-list/p5-persona-
 import { P5SkillListComponent } from './components/p5-skill-list/p5-skill-list.component';
 import { P5FusionChartComponent } from './components/p5-fusion-chart/p5-fusion-chart.component';
 import { P5FusionSettingsComponent } from './components/p5-fusion-settings/p5-fusion-settings.component';
-import { P5ShadowListComponent } from './components/p5-shadow-list/p5-shadow-list.component';
 import { P5PersonaEntryComponent } from './components/p5-persona-entry/p5-persona-entry.component';
 
 const routes: Routes = [
@@ -23,11 +22,6 @@ const routes: Routes = [
 	{
 		path: 'fusion-chart',
 		component: P5FusionChartComponent,
-		data: {gameName: 'P5r'}
-	},
-	{
-		path: 'shadow-list',
-		component: P5ShadowListComponent,
 		data: {gameName: 'P5r'}
 	},
 	{

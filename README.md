@@ -6,10 +6,12 @@ Instead of slowly migrating chinhodado's project into the same state that aqiu38
 ## My Structure
 ### src/app/core
 This is where I put the elements that are standard across all games no matter what game is currently in view.
-### src/app/modules/games
-Each game recieves it's own module, and a series of universal components, along with any components unique to that game.
-#### src/app/modules/[Game]
-The individual components and data for each specific game 
+### src/app/games
+Each game recieves it's own module along with any components unique to that game.
+#### src/games/[GAME]/[GAME]-data-models.ts
+These are the files where I will define all of the standard objects for each game. Each game's Compendium, for example, is unique, but every game still has that object.
+### src/app/shared
+This is where any services, directives, data, or constants go that are used by at least 2 games.
 
 
 # The Journey
