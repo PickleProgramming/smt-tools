@@ -1,5 +1,5 @@
 //Parent class for the nav bar for each individual game, for most games has 
-//the Demon/Skills/Fusion Chart links
+//the Demon/Skills/Fusion Table links
 //As well as the component for the body of each tool below the nav bar
 
 import { DOCUMENT } from '@angular/common';

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import GAME_MODELS from 'src/assets/game-models.json';
-// All necessary data for the games are listed in ./logo-links.json
 
+//TODO: fade in/out of secondary navbar
 @Component({
 	selector: 'app-header',
 	styleUrls: ['./header.component.scss'],

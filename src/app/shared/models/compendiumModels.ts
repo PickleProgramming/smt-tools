@@ -31,24 +31,41 @@ export interface Skill {
   rank?: number
 }
 
+export interface FusionTable {
+  races: string[]
+  table: string[][]
+}
+
+export interface ElementTable {
+  elems: string[]
+  races: string[]
+  table: number[][]
+}
+
 export interface Compendium {
   demons: { [name: string]: Demon }
   skills: { [name: string]: Skill }
-  raceOrder: string[]
-  fusionChart: string[][]
+  fusionTable: string[][]
   specialRecipes?: { [name: string]: string[] }
   dlcDemons?: Demon[]
 }
 
+/* Holds all the variables that are used to create each game view, except for the 
+demon and skill data
+@param fusionTable
+  The games internal table of demon races, used in fusion calculation among a number of
+  other things. normally found in [game]/data/fustion-table.json */
 export abstract class CompendiumConfig {
   demonCols: string[]
   statCols: string[]
   skillCols: string[]
   acquisitionCols: string[]
+  fusionTable: FusionTable
+  elemTable?: ElementTable
   resistanceCols?: string[]
   affinityCols?: string[]
 
-  constructor() {
+  constructor(fusionTable: FusionTable, elemTable?: ElementTable) {
     this.demonCols = [
       'Race',
       'Level',
@@ -69,5 +86,13 @@ export abstract class CompendiumConfig {
     this.acquisitionCols = [
       'Learned By'
     ]
+
+    this.fusionTable = {
+      races: fusionTable['races'],
+      table: fusionTable['table']
+    }
+    if(this.elemTable) {
+
+    }
   }
 }

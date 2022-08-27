@@ -4,11 +4,11 @@ import PERSONA_DATA from 'src/app/games/p5/data/persona-data.json'
 import SKILL_DATA from 'src/app/games/p5/data/skill-data.json'
 import SPECIAL_Recipes from 'src/app/games/p5/data/special-recipes.json'
 import DLC_PERSONA from 'src/app/games/p5/data/dlc-data.json'
-import FUSION_CHART from 'src/app/games/p5/data/fusion-chart.json'
+import FUSION_TABLE from 'src/app/games/p5/data/fusion-table.json'
 
 export class P5CompendiumConfig extends CompendiumConfig {
     constructor() {
-        super()
+        super(FUSION_TABLE)
         this.demonCols.push('Inherits')
         this.statCols = [
             'St',
@@ -35,10 +35,9 @@ export class P5CompendiumConfig extends CompendiumConfig {
 export class P5Compendium implements Compendium {
     demons: { [name: string]: Demon } = {}
     skills: { [name: string]: Skill } = {}
-    raceOrder: string[] = []
     specialRecipes: { [name: string]: string[] } = {}
     dlcDemons: Demon[] = []
-    fusionChart: string[][] = []
+    fusionTable: string[][] = []
 
     constructor() {
         Object.entries(SKILL_DATA).forEach(([name, data]) => {
@@ -64,8 +63,7 @@ export class P5Compendium implements Compendium {
         })
         Object.entries(SPECIAL_Recipes).forEach(([demon, recipe]) =>
             this.specialRecipes[demon] = recipe)
-        this.raceOrder = FUSION_CHART['races']
-        this.fusionChart = FUSION_CHART['table']
+        this.fusionTable = FUSION_TABLE['table']
         this.importDemons(PERSONA_DATA)
         //TODO: change when DLC configuration is implemented
         this.importDemons(DLC_PERSONA)

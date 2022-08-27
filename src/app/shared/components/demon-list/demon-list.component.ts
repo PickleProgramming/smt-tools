@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Compendium, CompendiumConfig } from 'src/app/shared/models/compendiumModels';
 
+//TODO: make the elements images, add tooltop for which element is which
 @Component({
   selector: 'app-demon-list',
   templateUrl: './demon-list.component.html',
