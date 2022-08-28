@@ -101,6 +101,16 @@ In order to import objects from a JSON file I needed to add these lines to my `t
 	...
 }
 ```
+### Services
+I've got a substantially better understanding of Angular than I had when I started, I'm quite happy with the current structure I have going with as little code reptition as possible--something very import when you have 30 different views that are all just slightly different.
+
+But I've hit a bit of a wall trying to share the data between the different views of each individual game. I started with just one big malleable service that could take a string and spit out any set of data for any game, but I couldn't get that working due to a lack of understanding of more advanced angular methods. It might be impossible, but I've decided its not the way to go even if it isn't.
+
+I stumbled upon this article https://jun711.github.io/web/angular-factory-providers-and-abstract-classes/ which sounds like it could be very nice, but I'm concerned the base factory file would quickly baloon out of control. The service I use to facilitate this data will probably end up holding most of the functions to calculate fusions too.
+
+I'm leaning towards just creating a number of different services: one for each fusion calculation method, which, judging by aqiu384's code, is about a dozen different methods.
+
+Aqiu384--with his lovable obstinace in the face of proper coding practices--just plucks the fusion service from the first game he wrote it for. No sense of strucutre whatsoever. Unlike aqiu384, by obsessive compulsive tendencies wouldn't allow me to do such a thing even if I just untangle his spaghetti to figure out exaclty *how* he did such an unholy thing.
 ## CSS
 After about 30 minutes of scraping and finding why my flex items weren't centering vertically in my navrow I learned that `align-content:` and `align-items` are two different things.
 ### SASS
