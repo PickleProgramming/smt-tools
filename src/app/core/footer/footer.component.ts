@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { GameModel } from 'src/app/shared/models/gameModel'
+import { GameView } from 'src/app/shared/models/game-view'
 import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({
@@ -17,8 +17,8 @@ import GAME_MODELS from 'src/assets/game-models.json'
 })
 export class FooterComponent implements OnInit {
 
-  game?: GameModel
-  abbrv = 'p5r'
+  game?: GameView
+  abbrv = 'p5'
   subscription?: Subscription
 
   constructor(

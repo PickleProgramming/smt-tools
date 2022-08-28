@@ -14,8 +14,8 @@
 		"hasSettings": true
 	},
 	{
-		"game": "Persona 5 Royal",
-		"abbrv": "p5r",
+		"game": "Persona 5",
+		"abbrv": "p5",
 		"logo": "assets/img/games/p5r.png",
 		"colors": {
 			"primary": "#ef0006",

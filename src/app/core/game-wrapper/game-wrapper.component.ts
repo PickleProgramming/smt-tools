@@ -5,7 +5,7 @@
 import { DOCUMENT } from '@angular/common'
 import { Component, Inject, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
-import { GameModel } from 'src/app/shared/models/gameModel'
+import { GameView } from 'src/app/shared/models/game-view'
 import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({
@@ -16,8 +16,8 @@ import GAME_MODELS from 'src/assets/game-models.json'
 
 export class GameWrapperComponent implements OnInit {
 
-	@Input() abbrv: string = 'p5r'
-	game: GameModel = GAME_MODELS[
+	@Input() abbrv: string = 'p5'
+	game: GameView = GAME_MODELS[
 		GAME_MODELS.findIndex(game => game.abbrv === this.abbrv)
 	]
 
@@ -40,8 +40,6 @@ export class GameWrapperComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.router.navigateByUrl('/p5r')
-
 		//this block will run everytime the user navigates to a new page
 		this.router.events.subscribe(e => {
 			if (e instanceof NavigationEnd)

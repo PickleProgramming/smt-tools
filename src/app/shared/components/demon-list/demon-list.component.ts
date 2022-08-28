@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { Compendium, CompendiumConfig } from 'src/app/shared/models/compendiumModels'
+import { CompendiumConfig, Demon } from '../../models/compendium'
+import { CompendiumService } from '../../services/compendium.service'
 
 //TODO: make the elements images, add tooltop for which element is which
 @Component({
@@ -10,51 +10,46 @@ import { Compendium, CompendiumConfig } from 'src/app/shared/models/compendiumMo
 })
 export class DemonListComponent implements OnInit {
 
-  @Input() compendiumConfig!: CompendiumConfig
-  @Input() compendium!: Compendium
+  @Input() demons!: { [name: string]: Demon }
+  @Input() config!: CompendiumConfig
   firstHeader: string[] = []
   colSpan: { [col: string]: number } = {}
   secondHeader: string[] = []
-  abbrv = ""
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.abbrv = this.router.url.split('/')[1]
-
-    if (this.compendiumConfig == undefined ||
-      this.compendium == undefined) {
-      console.error("compendiumConfig/compendium cannot be undefined")
+    if (typeof this.config === undefined 
+      || typeof this.demons === undefined) {
+      console.error("Config/Demon List cannot be undefined")
       return
     }
-    
+
     this.firstHeader = [
       'Demons',
       'Stats'
     ]
     this.colSpan = {
-      'Demons': this.compendiumConfig.demonCols.length,
-      'Stats': this.compendiumConfig.statCols.length,
+      'Demons': this.config.demonCols.length,
+      'Stats': this.config.statCols.length,
     }
 
-    this.compendiumConfig.demonCols.forEach(elem =>
+    this.config.demonCols.forEach(elem =>
       this.secondHeader.push(elem))
-    this.compendiumConfig.statCols.forEach(elem =>
+    this.config.statCols.forEach(elem =>
       this.secondHeader.push(elem))
 
-    if (this.compendiumConfig.resistanceCols) {
+    if (typeof this.config.resistanceCols !== undefined) {
       this.firstHeader.push('Resistances')
-      this.colSpan['Resistances'] = this.compendiumConfig.resistanceCols.length
-      this.compendiumConfig.resistanceCols.forEach(column =>
+      this.colSpan['Resistances'] = this.config.resistanceCols!.length
+      this.config.resistanceCols!.forEach(column =>
         this.secondHeader.push(column))
     }
-    if (this.compendiumConfig.affinityCols) {
+    if (typeof this.config.affinityCols !== undefined) {
+      console.log('Trying to read affinities')
       this.firstHeader.push('Affinities')
-      this.colSpan['Affinities'] = this.compendiumConfig.affinityCols.length
-      this.compendiumConfig.affinityCols.forEach(column =>
+      this.colSpan['Affinities'] = this.config.affinityCols!.length
+      this.config.affinityCols!.forEach(column =>
         this.secondHeader.push(column))
     }
   }

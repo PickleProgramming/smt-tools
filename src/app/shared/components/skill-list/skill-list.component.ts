@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { Compendium, CompendiumConfig } from '../../models/compendiumModels'
+import { CompendiumConfig, Skill } from '../../models/compendium'
+import { CompendiumService } from '../../services/compendium.service'
 
 @Component({
   selector: 'app-skill-list',
@@ -9,39 +9,33 @@ import { Compendium, CompendiumConfig } from '../../models/compendiumModels'
 })
 export class SkillListComponent implements OnInit {
 
-  @Input() compendiumConfig!: CompendiumConfig
-  @Input() compendium!: Compendium
+  @Input() config!: CompendiumConfig
+  @Input() skills!: { [name: string]: Skill }
   firstHeader: string[] = []
   colSpan: { [col: string]: number } = {}
   secondHeader: string[] = []
-  abbrv = ""
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.abbrv = this.router.url.split('/')[1]
-
-    if (this.compendiumConfig == undefined ||
-      this.compendium == undefined) {
-      console.error("compendiumConfig/compendium cannot be undefined")
+    if (this.config == undefined ||
+      this.skills == undefined) {
+      console.error("Config/Skills cannot be undefined")
       return
     }
-    
+
     this.firstHeader = [
       'Skills',
       'Acquisition'
     ]
     this.colSpan = {
-      'Skills': this.compendiumConfig.skillCols.length,
-      'Acquisition': this.compendiumConfig.acquisitionCols.length
+      'Skills': this.config.skillCols.length,
+      'Acquisition': this.config.acquisitionCols.length
     }
 
-    this.compendiumConfig.skillCols.forEach(elem =>
+    this.config.skillCols.forEach(elem =>
       this.secondHeader.push(elem))
-    this.compendiumConfig.acquisitionCols.forEach(elem =>
+    this.config.acquisitionCols.forEach(elem =>
       this.secondHeader.push(elem))
   }
 

@@ -8,9 +8,9 @@ const routes: Routes = [
 		data: {gameName: 'smt3hd'}
 	},
 	{
-		path: 'p5r',
-		loadChildren: () => import('../games/p5r/p5r.module').then(m => m.P5RModule),
-		data: {gameName: 'p5r'}
+		path: 'p5',
+		loadChildren: () => import('../games/p5/p5.module').then(m => m.P5Module),
+		data: {gameName: 'p5'}
 	},
 	{
 		path: 'pq2',

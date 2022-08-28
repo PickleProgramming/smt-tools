@@ -1,5 +1,5 @@
-
-
+/* Object that stores the information necessary to populate Demon List tables
+    and calculate fusions  */
 export interface Demon {
   race: string
   lvl: number
@@ -16,11 +16,13 @@ export interface Demon {
   align?: string
 }
 
+/* Object that stores the info necessary to populate Skill List tables
+    and calculate fusion chaines
+   @learnedBy can only be calculated with a demon list */
 export interface Skill {
   element: string
   effect: string
   learnedBy: { [demon: string]: number }
-  //negative cost indicates a passive skill
   cost: string
   target?: string
   requires?: string
@@ -33,23 +35,19 @@ export interface Skill {
   rank?: number
 }
 
+/* Object that keeps track of the demon races in a game as well as the table
+    that dictates their fusion */
 export interface FusionTable {
   races: string[]
   table: string[][]
 }
 
+/* Object that keeps track of the elemental races in a game as well as the table
+    that dictates their fusions with demons */
 export interface ElementTable {
   elems: string[]
   races: string[]
   table: number[][]
-}
-
-export interface Compendium {
-  demons: { [name: string]: Demon }
-  skills: { [name: string]: Skill }
-  fusionTable: string[][]
-  specialRecipes?: { [name: string]: string[] }
-  dlcDemons?: Demon[]
 }
 
 /* Holds all the variables that are used to create each game view, except for the 
@@ -101,4 +99,15 @@ export abstract class CompendiumConfig {
       }
     }
   }
+}
+
+/* Root object used by a game view. Each game should have their own compendium
+    object that implements this interface and contains all the objects defined
+    above. */
+export interface Compendium {
+  config: CompendiumConfig
+  demons: { [name: string]: Demon }
+  skills: { [name: string]: Skill }
+  specialRecipes?: { [name: string]: string[] }
+  dlcDemons?: { [name: string]: Demon }
 }

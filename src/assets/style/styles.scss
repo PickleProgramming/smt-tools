@@ -15,9 +15,9 @@ body.smt3hd {
 	@include set-game-font("smt3hd");
 }
 
-body.p5r {
-	@include set-game-background("p5r");
-	@include set-game-font("p5r");
+body.p5 {
+	@include set-game-background("p5");
+	@include set-game-font("p5");
 	font-size: .5cm;
 }
 

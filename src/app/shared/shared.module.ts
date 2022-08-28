@@ -8,8 +8,7 @@ import { ElementFusionTableComponent } from './components/element-fusion-table/e
 import { TripleFusionTableComponent } from './components/triple-fusion-table/triple-fusion-table.component'
 import { FusionSettingsComponent } from './components/fusion-settings/fusion-settings.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -23,7 +22,9 @@ import { ShortenPipe } from './pipes/shorten.pipe'
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     DemonListComponent,

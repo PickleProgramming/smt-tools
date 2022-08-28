@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { CompendiumConfig } from '../../models/compendiumModels'
+import { CompendiumConfig } from '../../models/compendium'
 
 @Component({
   selector: 'app-normal-fusion-table',
@@ -8,13 +8,13 @@ import { CompendiumConfig } from '../../models/compendiumModels'
 })
 export class NormalFusionTableComponent implements OnInit {
 
-  @Input() compendiumConfig!: CompendiumConfig
+  @Input() config!: CompendiumConfig
 
   constructor() { }
 
   ngOnInit(): void {
-    if(this.compendiumConfig === undefined) {
-      console.log('Normal Fusion Table must be called with a CompendiumConfig')
+    if (typeof this.config === undefined) {
+      console.log('Normal Fusion Table must be called with a game')
       return
     }
   }
