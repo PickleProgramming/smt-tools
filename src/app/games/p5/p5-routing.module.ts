@@ -12,22 +12,22 @@ const routes: Routes = [
 	{
 		path: 'personas',
 		component: P5PersonaListComponent,
-		data: {gameName: 'P5r'}
+		data: {gameName: 'p5'}
 	},
 	{
 		path: 'skills',
 		component: P5SkillListComponent,
-		data: {gameName: 'P5r'}
+		data: {gameName: 'p5'}
 	},
 	{
 		path: 'fusion-table',
 		component: P5FusionTableComponent,
-		data: {gameName: 'P5r'}
+		data: {gameName: 'p5'}
 	},
 	{
 		path: 'fusion-settings',
 		component: P5FusionSettingsComponent,
-		data: {gameName: 'P5r'}
+		data: {gameName: 'p5'}
 	},
 	{
 		path: 'personas/:demonName',

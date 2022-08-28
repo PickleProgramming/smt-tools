@@ -1,9 +1,8 @@
-import { Compendium, CompendiumConfig, Demon, Skill } from 'src/app/shared/models/compendiumModels'
+import { Compendium, CompendiumConfig, Demon, Skill } from 'src/app/shared/models/compendium'
 
 import PERSONA_DATA from 'src/app/games/p5/data/persona-data.json'
 import SKILL_DATA from 'src/app/games/p5/data/skill-data.json'
 import SPECIAL_Recipes from 'src/app/games/p5/data/special-recipes.json'
-import DLC_PERSONA from 'src/app/games/p5/data/dlc-data.json'
 import FUSION_TABLE from 'src/app/games/p5/data/fusion-table.json'
 import ELEMENT_TABLE from 'src/app/games/p5/data/element-table.json'
 
@@ -34,10 +33,11 @@ export class P5CompendiumConfig extends CompendiumConfig {
 }
 
 export class P5Compendium implements Compendium {
+    config: P5CompendiumConfig = new P5CompendiumConfig
     demons: { [name: string]: Demon } = {}
     skills: { [name: string]: Skill } = {}
     specialRecipes: { [name: string]: string[] } = {}
-    dlcDemons: Demon[] = []
+    dlcDemons: { [name: string]: Demon } = {}
     fusionTable: string[][] = []
 
     constructor() {
@@ -64,21 +64,7 @@ export class P5Compendium implements Compendium {
         Object.entries(SPECIAL_Recipes).forEach(([demon, recipe]) =>
             this.specialRecipes[demon] = recipe)
         this.fusionTable = FUSION_TABLE['table']
-        this.importDemons(PERSONA_DATA)
-        //TODO: change when DLC configuration is implemented
-        this.importDemons(DLC_PERSONA)
-        //Remove any skills that are only learned by party members
-        Object.entries(this.skills).forEach(([skill, data]) => {
-            if (Object.keys(this.skills[skill].learnedBy).length == 0)
-                delete this.skills[skill]
-        })
-    }
-
-    /* Fills persona list with persona listed in JSON object and skill list with
-    their skills
-    @param data JSON object with desired persona */
-    private importDemons(jsonData: Object): void {
-        Object.entries(jsonData).forEach(([demon, data]) => {
+        Object.entries(PERSONA_DATA).forEach(([demon, data]) => {
             this.demons[demon] = {
                 race: data.race,
                 lvl: data.lvl,
@@ -91,6 +77,11 @@ export class P5Compendium implements Compendium {
             Object.entries(
                 this.demons[demon].skills).forEach(([skill, level]) =>
                     this.skills[skill].learnedBy[demon] = level)
+        })
+        //Remove any skills that are only learned by party members
+        Object.entries(this.skills).forEach(([skill, data]) => {
+            if (Object.keys(this.skills[skill].learnedBy).length == 0)
+                delete this.skills[skill]
         })
     }
 }

@@ -1,24 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { P5_COMPENDIUM, P5_COMPENDIUM_CONFIG } from 'src/app/games/p5/p5-constants'
-import { CompendiumConfig } from 'src/app/shared/models/compendiumModels'
-import { P5Compendium } from '../../p5-data-models'
+import { Component, OnInit } from '@angular/core'
+import { Demon } from 'src/app/shared/models/compendium'
+import { P5CompendiumConfig } from '../../p5-compendium'
+import { P5FusionService } from '../../p5-fusion.service'
 
 @Component({
   selector: 'app-p5-persona-list',
   template: `
     <app-demon-list
-      [compendiumConfig]=P5_COMPENDIUM_CONFIG
-      [compendium]=P5_COMPENDIUM>
-    </app-demon-list>
-`
+      [config]=config
+      [demons]=demons>
+    </app-demon-list>`
 })
 export class P5PersonaListComponent implements OnInit {
 
-  P5_COMPENDIUM: P5Compendium = P5_COMPENDIUM
-  P5_COMPENDIUM_CONFIG: CompendiumConfig = P5_COMPENDIUM_CONFIG
+  config: P5CompendiumConfig = this.compendium.getConfig()
+  demons: { [name: string]: Demon } = this.compendium.getDemons()
 
-  constructor() { }
+  constructor(
+    private compendium: P5FusionService
+  ) { }
 
   ngOnInit(): void { }
-
 }
