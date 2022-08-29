@@ -34,19 +34,13 @@ export class P5CompendiumConfig extends CompendiumConfig {
 }
 
 export class P5Compendium extends Compendium {
-    demons: { [name: string]: Demon } = {}
-    skills: { [name: string]: Skill } = {}
-    specialRecipes: { [name: string]: string[] } = {}
-    dlcDemons: { [name: string]: Demon } = {}
-    fusionTable: string[][] = []
-
     constructor() {
         super(new P5CompendiumConfig, 
               PERSONA_DATA, 
               SKILL_DATA, 
               SPECIAL_RECIPES, 
               DLC_DATA)
-            
+        console.log(this.demons)
         //remove any skills that are only used by party members
         Object.entries(this.skills).forEach(([skill, data]) => {
             if (Object.keys(this.skills[skill].learnedBy).length == 0)
