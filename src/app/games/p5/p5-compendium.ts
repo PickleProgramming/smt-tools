@@ -40,7 +40,6 @@ export class P5Compendium extends Compendium {
               SKILL_DATA, 
               SPECIAL_RECIPES, 
               DLC_DATA)
-        console.log(this.demons)
         //remove any skills that are only used by party members
         Object.entries(this.skills).forEach(([skill, data]) => {
             if (Object.keys(this.skills[skill].learnedBy).length == 0)

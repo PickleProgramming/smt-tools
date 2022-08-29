@@ -4,17 +4,19 @@ import { Demon } from '../../models/compendium'
 @Component({
   selector: 'app-fusion-settings',
   template: `
-    <div class="dlcSettings" *ngFor='let pack of packs'>
-      <input type="checkbox" id='{{ pack }}' (change)='togglePack($event)'/>
-      {{ pack }}
+    <div class='dlcSettings' *ngFor='let pack of packs | keyvalue'>
+      <input type='checkbox' id='{{ pack.key }}' 
+        (change)='togglePack($event)'
+        [checked]='pack.value'/>
+      {{ pack.key }}
       <br>
-  </div>`,
+    </div>`,
   styleUrls: ['./fusion-settings.component.scss']
 })
 export class FusionSettingsComponent implements OnInit {
 
   @Input() dlcDemons!: { [name: string]: Demon }
-  @Input() packs!: string[]
+  @Input() packs!: { [name: string]: boolean }
   @Input() togglePack!: (event: any) => void
 
   constructor() { }
