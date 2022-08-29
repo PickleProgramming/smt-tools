@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+import { P5_COMPENDIUM } from 'src/app/shared/constants'
 import { Skill } from 'src/app/shared/models/compendium'
 import { P5CompendiumConfig } from '../../p5-compendium'
-import { P5FusionService } from '../../p5-fusion.service'
 
 @Component({
   selector: 'app-p5-skill-list',
@@ -13,12 +13,10 @@ import { P5FusionService } from '../../p5-fusion.service'
 })
 export class P5SkillListComponent implements OnInit {
 
-  config: P5CompendiumConfig = this.compendium.getConfig()
-  skills: { [name: string]: Skill } = this.compendium.getSkills()
+  config: P5CompendiumConfig = P5_COMPENDIUM.config
+  skills: { [name: string]: Skill } = P5_COMPENDIUM.skills
 
-  constructor(
-    private compendium: P5FusionService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

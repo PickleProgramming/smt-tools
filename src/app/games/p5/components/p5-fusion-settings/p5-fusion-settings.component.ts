@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+import { P5_COMPENDIUM } from 'src/app/shared/constants'
 import { Demon } from 'src/app/shared/models/compendium'
-import { P5FusionService } from '../../p5-fusion.service'
+import { P5Compendium } from '../../p5-compendium'
 
 @Component({
   selector: 'app-p5-fusion-settings',
@@ -16,7 +17,8 @@ import { P5FusionService } from '../../p5-fusion.service'
 })
 export class P5FusionSettingsComponent implements OnInit {
 
-  dlcDemons?: { [name: string]: Demon } = this.compendium.getDlcDemons()
+  compendium: P5Compendium = P5_COMPENDIUM
+  dlcDemons?: { [name: string]: Demon } = this.compendium.dlcDemons
 
   packs: string[] = [
     'Izanagi',
@@ -46,16 +48,14 @@ export class P5FusionSettingsComponent implements OnInit {
     let checked: boolean = event.srcElement.checked
     if (checked) {
       this.packDemons[pack].forEach(element =>
-        this.compendium.getDemons()[pack] = this.compendium.getDlcDemons()![pack])
+        this.compendium.demons[pack] = this.compendium.dlcDemons![pack])
     } else {
       this.packDemons[pack].forEach(element =>
-        delete this.compendium.getDemons()[pack])
+        delete this.compendium.demons[pack])
     }
   }
 
-  constructor(
-    private compendium: P5FusionService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void { }
 }

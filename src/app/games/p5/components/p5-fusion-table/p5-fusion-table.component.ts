@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
+import { P5_COMPENDIUM } from 'src/app/shared/constants'
 import { P5CompendiumConfig } from '../../p5-compendium'
-import { P5FusionService } from '../../p5-fusion.service'
 
 @Component({
   selector: 'app-p5-fusion-table',
@@ -14,11 +14,9 @@ import { P5FusionService } from '../../p5-fusion.service'
 })
 export class P5FusionTableComponent implements OnInit {
 
-  config: P5CompendiumConfig = this.compendium.getConfig()
+  config: P5CompendiumConfig = P5_COMPENDIUM.config
 
-  constructor(
-    private compendium: P5FusionService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

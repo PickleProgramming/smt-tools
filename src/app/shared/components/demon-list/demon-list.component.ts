@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { CompendiumConfig, Demon } from '../../models/compendium'
-import { CompendiumService } from '../../services/compendium.service'
 
 //TODO: make the elements images, add tooltop for which element is which
 @Component({
@@ -45,7 +44,7 @@ export class DemonListComponent implements OnInit {
       this.config.resistanceCols!.forEach(column =>
         this.secondHeader.push(column))
     }
-    if (typeof this.config.affinityCols !== undefined) {
+    if (this.config.affinityCols) {
       console.log('Trying to read affinities')
       this.firstHeader.push('Affinities')
       this.colSpan['Affinities'] = this.config.affinityCols!.length

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { CompendiumConfig, Skill } from '../../models/compendium'
-import { CompendiumService } from '../../services/compendium.service'
 
 @Component({
   selector: 'app-skill-list',

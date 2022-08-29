@@ -7,7 +7,6 @@ import { P5FusionSettingsComponent } from './components/p5-fusion-settings/p5-fu
 import { SharedModule } from 'src/app/shared/shared.module'
 import { RouterModule } from '@angular/router'
 import { P5RoutingModule } from './p5-routing.module'
-import { CompendiumService } from 'src/app/shared/services/compendium.service'
 
 @NgModule({
 	declarations: [
