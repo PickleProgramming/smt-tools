@@ -124,11 +124,10 @@ export abstract class Compendium {
       if(specialData)
         this.specialRecipes = this.parseSpecial!(specialData)
       if(dlcData)
-        this.dlcDemons = this.parseDlc!(dlcData)
+        this.dlcDemons = this.parseDemons(dlcData)
     }
 
     protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
     protected abstract parseDemons(demonData: Object): { [name: string]: Demon }
     protected abstract parseSpecial?(specialData: Object): { [name: string]: string[] }
-    protected abstract parseDlc?(dlcData: Object): { [name: string ]: Demon }
 }

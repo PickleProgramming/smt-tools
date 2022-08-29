@@ -5,7 +5,7 @@ import SKILL_DATA from 'src/app/games/p5/data/skill-data.json'
 import SPECIAL_RECIPES from 'src/app/games/p5/data/special-recipes.json'
 import FUSION_TABLE from 'src/app/games/p5/data/fusion-table.json'
 import ELEMENT_TABLE from 'src/app/games/p5/data/element-table.json'
-import DLC_DATA from 'src/app/games/p5/data/element-table.json'
+import DLC_DATA from 'src/app/games/p5/data/dlc-data.json'
 
 export class P5CompendiumConfig extends CompendiumConfig {
     constructor() {
@@ -98,12 +98,5 @@ export class P5Compendium extends Compendium {
             specialRecipes[demon] = recipe)
         return specialRecipes
         
-    }
-
-    protected parseDlc(dlcData: Object): { [name: string ]: Demon } {
-        let dlcDemons: { [name: string ]: Demon } = {}
-        Object.entries(dlcData).forEach(([key, value]) =>
-            dlcDemons[key] = value)
-        return dlcDemons
     }
 }
