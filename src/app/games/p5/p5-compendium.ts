@@ -2,9 +2,10 @@ import { Compendium, CompendiumConfig, Demon, Skill } from 'src/app/shared/model
 
 import PERSONA_DATA from 'src/app/games/p5/data/persona-data.json'
 import SKILL_DATA from 'src/app/games/p5/data/skill-data.json'
-import SPECIAL_Recipes from 'src/app/games/p5/data/special-recipes.json'
+import SPECIAL_RECIPES from 'src/app/games/p5/data/special-recipes.json'
 import FUSION_TABLE from 'src/app/games/p5/data/fusion-table.json'
 import ELEMENT_TABLE from 'src/app/games/p5/data/element-table.json'
+import DLC_DATA from 'src/app/games/p5/data/element-table.json'
 
 export class P5CompendiumConfig extends CompendiumConfig {
     constructor() {
@@ -32,8 +33,7 @@ export class P5CompendiumConfig extends CompendiumConfig {
     }
 }
 
-export class P5Compendium implements Compendium {
-    config: P5CompendiumConfig = new P5CompendiumConfig
+export class P5Compendium extends Compendium {
     demons: { [name: string]: Demon } = {}
     skills: { [name: string]: Skill } = {}
     specialRecipes: { [name: string]: string[] } = {}
@@ -41,8 +41,23 @@ export class P5Compendium implements Compendium {
     fusionTable: string[][] = []
 
     constructor() {
-        Object.entries(SKILL_DATA).forEach(([name, data]) => {
-            this.skills[name] = {
+        super(new P5CompendiumConfig, 
+              PERSONA_DATA, 
+              SKILL_DATA, 
+              SPECIAL_RECIPES, 
+              DLC_DATA)
+            
+        //remove any skills that are only used by party members
+        Object.entries(this.skills).forEach(([skill, data]) => {
+            if (Object.keys(this.skills[skill].learnedBy).length == 0)
+                delete this.skills[skill]
+        })
+    }
+
+    protected parseSkills(skillData: Object): { [name: string]: Skill } {
+        let skills: { [name: string]: Skill } = {}
+        Object.entries(skillData).forEach(([name, data]) => {
+            skills[name] = {
                 effect: data.effect,
                 element: data.element,
                 learnedBy: {},
@@ -57,15 +72,17 @@ export class P5Compendium implements Compendium {
             }
             else
                 newCost = '-'
-            this.skills[name].cost = newCost
+            skills[name].cost = newCost
             if ('unique' in data)
-                this.skills[name].unique = data['unique']
+                skills[name].unique = data['unique']
         })
-        Object.entries(SPECIAL_Recipes).forEach(([demon, recipe]) =>
-            this.specialRecipes[demon] = recipe)
-        this.fusionTable = FUSION_TABLE['table']
-        Object.entries(PERSONA_DATA).forEach(([demon, data]) => {
-            this.demons[demon] = {
+        return skills
+    }
+
+    protected parseDemons(demonData: Object): { [name: string]: Demon } {
+        let demons: { [name: string]: Demon } = {}
+        Object.entries(demonData).forEach(([demon, data]) => {
+            demons[demon] = {
                 race: data.race,
                 lvl: data.lvl,
                 stats: data.stats,
@@ -75,13 +92,24 @@ export class P5Compendium implements Compendium {
                 drop: data.item
             }
             Object.entries(
-                this.demons[demon].skills).forEach(([skill, level]) =>
+                demons[demon].skills).forEach(([skill, level]) =>
                     this.skills[skill].learnedBy[demon] = level)
         })
-        //Remove any skills that are only learned by party members
-        Object.entries(this.skills).forEach(([skill, data]) => {
-            if (Object.keys(this.skills[skill].learnedBy).length == 0)
-                delete this.skills[skill]
-        })
+        return demons
+    }
+
+    protected parseSpecial(specialData: Object): { [name: string]: string[] } {
+        let specialRecipes: { [name: string]: string[] } = {}
+        Object.entries(specialData).forEach(([demon, recipe]) =>
+            specialRecipes[demon] = recipe)
+        return specialRecipes
+        
+    }
+
+    protected parseDlc(dlcData: Object): { [name: string ]: Demon } {
+        let dlcDemons: { [name: string ]: Demon } = {}
+        Object.entries(dlcData).forEach(([key, value]) =>
+            dlcDemons[key] = value)
+        return dlcDemons
     }
 }

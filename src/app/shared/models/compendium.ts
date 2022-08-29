@@ -104,10 +104,31 @@ export abstract class CompendiumConfig {
 /* Root object used by a game view. Each game should have their own compendium
     object that implements this interface and contains all the objects defined
     above. */
-export interface Compendium {
+export abstract class Compendium {
   config: CompendiumConfig
   demons: { [name: string]: Demon }
   skills: { [name: string]: Skill }
   specialRecipes?: { [name: string]: string[] }
   dlcDemons?: { [name: string]: Demon }
+
+  constructor(
+    config: CompendiumConfig, 
+    demonData: Object, 
+    skillData: Object,
+    specialData: Object,
+    dlcData?: Object) {
+      this.config = config
+      this.skills = this.parseSkills(skillData)
+      this.demons = this.parseDemons(demonData)
+
+      if(specialData)
+        this.specialRecipes = this.parseSpecial!(specialData)
+      if(dlcData)
+        this.dlcDemons = this.parseDlc!(dlcData)
+    }
+
+    protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
+    protected abstract parseDemons(demonData: Object): { [name: string]: Demon }
+    protected abstract parseSpecial?(specialData: Object): { [name: string]: string[] }
+    protected abstract parseDlc?(dlcData: Object): { [name: string ]: Demon }
 }

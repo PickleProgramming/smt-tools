@@ -53,6 +53,8 @@ export class P5FusionSettingsComponent implements OnInit {
       this.packDemons[pack].forEach(element =>
         delete this.compendium.demons[pack])
     }
+
+    console.log('changed demons')
   }
 
   constructor() { }
