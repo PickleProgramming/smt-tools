@@ -29,8 +29,8 @@
                 {{ stat }}
             </td>
             <!-- Resistances -->
-            <ng-container *ngIf="demon.value.resists">
-                <td *ngFor="let resist of demon.value.resists.split('')">
+            <ng-container *ngIf="demon.value.resistances">
+                <td *ngFor="let resist of demon.value.resistances.split('')">
                     <ng-container [ngSwitch]="resist">
                         <p *ngSwitchCase="'d'">absorb</p>
                         <p *ngSwitchCase="'w'">weak</p>

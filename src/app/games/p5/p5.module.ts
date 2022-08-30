@@ -7,13 +7,15 @@ import { P5FusionSettingsComponent } from './components/p5-fusion-settings/p5-fu
 import { SharedModule } from 'src/app/shared/shared.module'
 import { RouterModule } from '@angular/router'
 import { P5RoutingModule } from './p5-routing.module'
+import { P5PersonaEntryComponent } from './components/p5-persona-entry/p5-persona-entry.component'
 
 @NgModule({
 	declarations: [
 		P5PersonaListComponent,
 		P5FusionTableComponent,
 		P5SkillListComponent,
-		P5FusionSettingsComponent
+		P5FusionSettingsComponent,
+		P5PersonaEntryComponent
 	],
 	imports: [
 		P5RoutingModule,

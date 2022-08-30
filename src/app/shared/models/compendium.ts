@@ -4,7 +4,7 @@ export interface Demon {
   race: string
   lvl: number
   stats: number[]
-  resists: string
+  resistances: string
   skills: { [skill: string]: number }
   price?: number
   inherits?: string
@@ -64,6 +64,8 @@ export abstract class CompendiumConfig {
   elementTable?: ElementTable
   resistanceCols?: string[]
   affinityCols?: string[]
+  inheritTypes?: string[][]
+  inheritCols?: string[]
 
   constructor(fusionTable: FusionTable, elementTable?: ElementTable) {
     this.demonCols = [
@@ -91,7 +93,7 @@ export abstract class CompendiumConfig {
       races: fusionTable['races'],
       table: fusionTable['table']
     }
-    if(typeof this.elementTable !== undefined) {
+    if (typeof this.elementTable !== undefined) {
       this.elementTable = {
         elems: elementTable!['elems'],
         races: elementTable!['races'],
@@ -99,6 +101,11 @@ export abstract class CompendiumConfig {
       }
     }
   }
+  /* Returns an array of boolean that correspon to which 
+    type of skills the passed element can inherit
+    read more: https://gamefaqs.gamespot.com/boards/835628-persona-5/75476187
+    @param element: what element the returned array will evaluate*/
+  abstract getInherits(element: string): boolean[]
 }
 
 /* Root object used by a game view. Each game should have their own compendium
@@ -112,22 +119,22 @@ export abstract class Compendium {
   dlcDemons?: { [name: string]: Demon }
 
   constructor(
-    config: CompendiumConfig, 
-    demonData: Object, 
+    config: CompendiumConfig,
+    demonData: Object,
     skillData: Object,
     specialData: Object,
     dlcData?: Object) {
-      this.config = config
-      this.skills = this.parseSkills(skillData)
-      this.demons = this.parseDemons(demonData)
+    this.config = config
+    this.skills = this.parseSkills(skillData)
+    this.demons = this.parseDemons(demonData)
 
-      if(specialData)
-        this.specialRecipes = this.parseSpecial!(specialData)
-      if(dlcData)
-        this.dlcDemons = this.parseDemons(dlcData)
-    }
+    if (specialData)
+      this.specialRecipes = this.parseSpecial!(specialData)
+    if (dlcData)
+      this.dlcDemons = this.parseDemons(dlcData)
+  }
 
-    protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
-    protected abstract parseDemons(demonData: Object): { [name: string]: Demon }
-    protected abstract parseSpecial?(specialData: Object): { [name: string]: string[] }
+  protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
+  protected abstract parseDemons(demonData: Object): { [name: string]: Demon }
+  protected abstract parseSpecial?(specialData: Object): { [name: string]: string[] }
 }

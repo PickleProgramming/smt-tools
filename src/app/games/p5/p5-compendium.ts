@@ -6,6 +6,7 @@ import SPECIAL_RECIPES from 'src/app/games/p5/data/special-recipes.json'
 import FUSION_TABLE from 'src/app/games/p5/data/fusion-table.json'
 import ELEMENT_TABLE from 'src/app/games/p5/data/element-table.json'
 import DLC_DATA from 'src/app/games/p5/data/dlc-data.json'
+import INHERIT_DATA from 'src/app/games/p5/data/inheritance-types.json'
 
 export class P5CompendiumConfig extends CompendiumConfig {
     constructor() {
@@ -30,16 +31,32 @@ export class P5CompendiumConfig extends CompendiumConfig {
             'Bless',
             'Curse'
         ]
+        this.inheritCols = INHERIT_DATA.inherits
+        this.inheritCols.pop()
+    }
+
+    getInherits(element: string): boolean[] {
+        let ret: boolean[] = []
+        let inherits = INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split('')
+        inherits.forEach(elem => {
+            console.log(elem = '0')
+            console.log(elem = '0')
+            if (elem == '0')
+                ret.push(true)
+            else
+                ret.push(false)
+        })
+        return ret
     }
 }
 
 export class P5Compendium extends Compendium {
     constructor() {
-        super(new P5CompendiumConfig, 
-              PERSONA_DATA, 
-              SKILL_DATA, 
-              SPECIAL_RECIPES, 
-              DLC_DATA)
+        super(new P5CompendiumConfig,
+            PERSONA_DATA,
+            SKILL_DATA,
+            SPECIAL_RECIPES,
+            DLC_DATA)
         //remove any skills that are only used by party members
         Object.entries(this.skills).forEach(([skill, data]) => {
             if (Object.keys(this.skills[skill].learnedBy).length == 0)
@@ -79,7 +96,7 @@ export class P5Compendium extends Compendium {
                 race: data.race,
                 lvl: data.lvl,
                 stats: data.stats,
-                resists: data.resists,
+                resistances: data.resists,
                 skills: data.skills,
                 inherits: data.inherits,
                 drop: data.item
@@ -96,6 +113,6 @@ export class P5Compendium extends Compendium {
         Object.entries(specialData).forEach(([demon, recipe]) =>
             specialRecipes[demon] = recipe)
         return specialRecipes
-        
+
     }
 }
