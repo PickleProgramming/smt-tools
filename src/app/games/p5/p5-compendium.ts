@@ -36,12 +36,11 @@ export class P5CompendiumConfig extends CompendiumConfig {
     }
 
     getInherits(element: string): boolean[] {
+        console.log('getInherits() called with "element" : ' + element)
         let ret: boolean[] = []
         let inherits = INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split('')
         inherits.forEach(elem => {
-            console.log(elem = '0')
-            console.log(elem = '0')
-            if (elem == '0')
+            if (elem === 'O')
                 ret.push(true)
             else
                 ret.push(false)
@@ -62,6 +61,7 @@ export class P5Compendium extends Compendium {
             if (Object.keys(this.skills[skill].learnedBy).length == 0)
                 delete this.skills[skill]
         })
+        console.log('Created P5Compendium')
     }
 
     protected parseSkills(skillData: Object): { [name: string]: Skill } {

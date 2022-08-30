@@ -62,7 +62,7 @@
     <tbody>
         <tr>
             <ng-container *ngIf='demon.inherits'>
-                <td *ngFor='let column of compendium.config.getInherits!(demon.inherits)'>
+                <td *ngFor='let column of inheritTypes'>
                     <ng-container *ngIf='column'>
                         yes
                     </ng-container>
