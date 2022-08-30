@@ -81,7 +81,7 @@
             <td *ngFor='let column of compendium.config.skillCols'>
                 {{ column }}
             </td>
-        </tr> 
+        </tr>
     </thead>
     <tbody>
         <tr *ngFor='let skill of demon.skills | keyvalue'>
@@ -90,5 +90,32 @@
             <td>{{ compendium.skills[skill.key].cost }}</td>
             <td>{{ compendium.skills[skill.key].effect }}</td>
         </tr>
+    </tbody>
+</table>
+<!-- Fissions -->
+<table>
+    <thead>
+        <tr>
+            <th>Recipes that Make {{ name }}</th>
+        </tr>
+        <tr>
+            <th>Ingredient A x Ingredient B = {{ name }}</th>
+        </tr>
+        <tr>
+            <th rowSpan="2">Price</th>
+            <th colSpan="3">Ingredient A</th>
+            <th colSpan="3">Ingredient B</th>
+        </tr>
+        <tr>
+            <th>Race</th>
+            <th>Level</th>
+            <th>Name</th>
+            <th>Race</th>
+            <th>Level</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        
     </tbody>
 </table>

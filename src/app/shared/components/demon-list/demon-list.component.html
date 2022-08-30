@@ -1,14 +1,14 @@
 <table>
     <thead>
         <tr>
-            <td *ngFor="let column of firstHeader" colSpan="{{ colSpan[column] }}">
+            <th *ngFor="let column of firstHeader" colSpan="{{ colSpan[column] }}">
                 {{ column }}
-            </td>
+            </th>
         </tr>
         <tr>
-            <td *ngFor="let column of secondHeader">
+            <th *ngFor="let column of secondHeader">
                 {{ column }}
-            </td>
+            </th>
         </tr>
     </thead>
     <tbody>

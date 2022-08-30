@@ -10,6 +10,7 @@ import { Compendium, Demon } from '../../models/compendium';
 export class DemonEntryComponent implements OnInit {
 
   @Input() compendium!: Compendium
+  name: string = this.router.url.split('/')[3]
   demon!: Demon
   inheritTypes!: boolean[]
 
@@ -18,11 +19,10 @@ export class DemonEntryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let name: string = this.router.url.split('/')[3]
     console.log('ngOnInit called for app-demon-entry: ' + name)
     if(this.compendium === undefined)
       console.error('DemonEntryComponent must be passed a compendium')
-    this.demon = this.compendium.demons[name]
+    this.demon = this.compendium.demons[this.name]
     this.inheritTypes = this.compendium.config.getInherits!(this.demon.inherits!)
   }
 
