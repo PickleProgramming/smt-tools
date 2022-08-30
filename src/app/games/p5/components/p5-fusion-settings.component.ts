@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { P5_COMPENDIUM } from 'src/app/shared/constants'
 import { Demon } from 'src/app/shared/models/compendium'
-import { P5Compendium } from '../../p5-compendium'
+import { P5Compendium } from '../p5-compendium'
 
 @Component({
   selector: 'app-p5-fusion-settings',

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { P5_COMPENDIUM } from 'src/app/shared/constants'
-import { P5Compendium } from '../../p5-compendium'
+import { P5Compendium } from '../p5-compendium'
 
 @Component({
   selector: 'app-p5-persona-entry',
