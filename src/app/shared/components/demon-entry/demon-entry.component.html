@@ -116,6 +116,14 @@
         </tr>
     </thead>
     <tbody>
-        
+        <tr *ngFor='let recipe of recipes'>
+            <td>{{ recipe.cost }}</td>
+            <td>{{ compendium.demons[recipe.sources[0]].race }}</td>
+            <td>{{ compendium.demons[recipe.sources[0]].lvl }}</td>
+            <td>{{ recipe.sources[0] }}</td>
+            <td>{{ compendium.demons[recipe.sources[1]].race }}</td>
+            <td>{{ compendium.demons[recipe.sources[1]].lvl }}</td>
+            <td>{{ recipe.sources[1] }}</td>
+        </tr>
     </tbody>
 </table>
