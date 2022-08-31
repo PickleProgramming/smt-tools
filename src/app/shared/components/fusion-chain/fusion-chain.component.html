@@ -1,1 +1,6 @@
-<p>fusion-chain works!</p>
+<label for="persona-typeahead"> Persona </label>
+    <input id="typeahead-persona" type="text" class="form-control" [(ngModel)]="demon" [ngbTypeahead]="searchDemons"/>
+<ng-container *ngFor='let elem of [0,1,2,3,4,5]'>
+    <label for="skill-typeahead"> Skill {{ elem + 1 }} </label>
+    <input id="typeahead-{{ elem }}" type="text" class="form-control" [(ngModel)]="skill[elem]" [ngbTypeahead]="searchSkills"/>
+</ng-container>

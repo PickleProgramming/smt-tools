@@ -8,7 +8,8 @@ import { P5SkillListComponent } from './components/p5-skill-list.component'
 import { P5SettingsComponent } from './components/p5-settings.component'
 import { P5RoutingModule } from './p5-routing.module'
 import { P5PersonaEntryComponent } from './components/p5-persona-entry.component';
-import { P5FusionChainComponent } from './components/p5-fusion-chain.component'
+import { P5FusionChainComponent } from './components/p5-fusion-chain.component';
+import { P5FusionChainEntryComponent } from './components/p5-fusion-chain-entry.component'
 
 @NgModule({
 	declarations: [
@@ -17,7 +18,8 @@ import { P5FusionChainComponent } from './components/p5-fusion-chain.component'
 		P5SkillListComponent,
 		P5SettingsComponent,
 		P5PersonaEntryComponent,
-		P5FusionChainComponent
+		P5FusionChainComponent,
+		P5FusionChainEntryComponent
 	],
 	imports: [
 		P5RoutingModule,

@@ -10,7 +10,9 @@ import { SettingsComponent } from './components/settings/settings.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { DemonEntryComponent } from './components/demon-entry/demon-entry.component';
-import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component'
+import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component';
+import { FusionChainEntryComponent } from './components/fusion-chain-entry/fusion-chain-entry.component'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [
@@ -23,12 +25,14 @@ import { FusionChainComponent } from './components/fusion-chain/fusion-chain.com
     DemonEntryComponent,
     ShortenPipe,
     FusionChainComponent,
+    FusionChainEntryComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   exports: [
     DemonListComponent,
@@ -38,6 +42,8 @@ import { FusionChainComponent } from './components/fusion-chain/fusion-chain.com
     TripleFusionTableComponent,
     SettingsComponent,
     DemonEntryComponent,
+    FusionChainComponent,
+    FusionChainEntryComponent,
     ShortenPipe
   ]
 })
