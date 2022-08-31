@@ -25,8 +25,16 @@ export abstract class FusionCalculator {
         @returns {Recipe[]} a list of recipes where the passed demon is a factor */
     abstract getFusions(targetName: string): Recipe[]
 
+    /* determine the recipe object given the 2 sources
+        @param nameA: name of first demon to fuse
+        @param nameB: name of second demon to fuse
+        @returns {Recipe | null}: returns Recipe object if fusion was possible
+            or null otherwise */
     protected abstract fuse(nameA: string, nameB: string): Recipe | null
 
+    /* calculate the approximate cost of the given recipe cost is impossible
+        to determine exactly as it varies on in game factors that are simply
+        not feasible to account for. */
     protected abstract getCost(recipe: Recipe): number
 
     /* Returns all the demons in the compendium with the corresponding race
@@ -42,6 +50,12 @@ export abstract class FusionCalculator {
         return demons
     }
 
+    /* determines the race that a resultant demon will be. Some races cannot
+        fuse, and this will return null in those cases
+        @param nameA: first demon to fuse
+        @param nameB: second demon to fuse
+        @returns {string}: the race that the resultant demon will be, null if
+            the two demons cannot fuse*/
     protected getResultantRace(nameA: string, nameB: string): string | null {
         let demonA = this.compendium.demons[nameA]
         let demonB = this.compendium.demons[nameB]
@@ -53,6 +67,8 @@ export abstract class FusionCalculator {
         return result
     }
 
+    /* determines if the demon given by name is in the result of one of the 
+        compendiums special fusions */
     protected isSpecial(name: string): boolean {
         if (this.compendium.specialRecipes === undefined)
             throw new Error('isSpecial() called on compendium with no special recipes')
@@ -62,6 +78,7 @@ export abstract class FusionCalculator {
         return false
     }
 
+    /* determines if the demon given by name is in the compendiums elemental list */
     protected isElemental(name: string): boolean {
         if (this.compendium.config.elementTable === undefined)
             throw new Error('isElemental() called on compendium with no elementals')

@@ -61,7 +61,6 @@ export class P5FusionCalculator extends FusionCalculator {
         return fissions
     }
 
-    //TODO: add judgement exceptions
     getFusions(targetName: string): Recipe[] {
         console.log('Getting fusions for ' + targetName)
         let recipes: Recipe[] = []
@@ -83,6 +82,8 @@ export class P5FusionCalculator extends FusionCalculator {
             return null
         let possibleDemons = this.getDemonsByRace(race)
         let result: string = ""
+        
+        //when two persona of the same race fuse, the result will be lower level
         if (demonA.race == demonB.race) {
             let level: number = 0
             for (let name in possibleDemons) {
@@ -105,6 +106,7 @@ export class P5FusionCalculator extends FusionCalculator {
                     result = name
                 }
             }
+            //edge cases when resultant persona is lower than recipeLevel
             if (result == '') {
                 for (let name in possibleDemons) {
                     let demon = possibleDemons[name]
@@ -112,10 +114,6 @@ export class P5FusionCalculator extends FusionCalculator {
                         result = name
                 }
             }
-        }
-        if (result == '') {
-            console.log(nameA + " : " + nameB)
-            console.log(demonA.race + " : " + demonB.race)
         }
         let ret: Recipe = {
             sources: [nameA, nameB],
