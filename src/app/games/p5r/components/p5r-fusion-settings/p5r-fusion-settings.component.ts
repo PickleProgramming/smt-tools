@@ -5,14 +5,14 @@
 // @Component({
 //   selector: 'app-p5r-fusion-settings',
 //   template: `
-//   <app-fusion-settings 
+//   <app-settings 
 //     [compendium] = compendium
 //     [packs] = packs
 //     [togglePack] = togglePack>
-//   </app-fusion-settings>
+//   </app-settings>
 //   `
 // })
-// export class P5FusionSettingsComponent implements OnInit {
+// export class P5SettingsComponent implements OnInit {
 
 //   compendium: P5Compendium = P5_COMPENDIUM
 //   packs: string[] = [

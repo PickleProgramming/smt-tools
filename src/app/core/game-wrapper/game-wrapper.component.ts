@@ -1,9 +1,6 @@
 //Parent class for the nav bar for each individual game, for most games has 
 //the Demon/Skills/Fusion Table links
 //As well as the component for the body of each tool below the nav bar
-
-//TODO: I feel like I could optimize the speed of the site
-
 import { DOCUMENT } from '@angular/common'
 import { Component, Inject, Input, OnInit, Renderer2 } from '@angular/core'
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
@@ -18,9 +15,9 @@ import GAME_MODELS from 'src/assets/game-models.json'
 
 export class GameWrapperComponent implements OnInit {
 
-	@Input() abbrv: string = 'p5'
-	game: GameView = GAME_MODELS[
-		GAME_MODELS.findIndex(game => game.abbrv === this.abbrv)
+	@Input() game: string = 'p5'
+	gameView: GameView = GAME_MODELS[
+		GAME_MODELS.findIndex(game => game.abbrv === this.game)
 	]
 
 	constructor(
@@ -33,7 +30,7 @@ export class GameWrapperComponent implements OnInit {
 	// Updates the sub-nav-bar and main view to reflect the game denoted by the passed string
 	// @param abbrv: game to change to (p3p, p5r, etc)
 	changeGame(abbrv: string): void {
-		this.game = GAME_MODELS[
+		this.gameView = GAME_MODELS[
 			GAME_MODELS.findIndex(game => game.abbrv === abbrv)
 		]
 		this.renderer.setAttribute(this.document?.body, 'class', '')
@@ -41,7 +38,7 @@ export class GameWrapperComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.changeGame(this.abbrv)
+		this.changeGame(this.game)
 		//this block will run everytime the user navigates to a new page
 		this.router.events.subscribe(e => {
 			if (e instanceof NavigationEnd)

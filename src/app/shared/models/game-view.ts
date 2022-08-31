@@ -1,8 +1,7 @@
 /* Interface to store the different values for each inividual game
 	@property mainList - whether the game uses Demons or Personas
 	@property otherLinks - all the links the game uses apart from the universal ones
-	@property hasSettings - wether the game hase a settings link or not 
-	TODO: integrate settings link into otherLinks  */
+	@property hasSettings - wether the game hase a settings link or not */
 export interface GameView {
 	game: string
 	abbrv: string
@@ -11,16 +10,15 @@ export interface GameView {
 	font: string
 	mainList: string
 	otherLinks: Link[]
-	hasSettings: boolean
 }
 
-export interface Colors{
+export interface Colors {
 	primary: string
 	secondary: string
 	text: string
 }
 
-export interface Link{
+export interface Link {
 	title: string
 	url: string
 }

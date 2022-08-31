@@ -52,8 +52,6 @@ server {
 After that I was able to go to the server on the port 4200 and see the base Angular 11 landing page.
 ## Learning Angular
 As the previous iteration of the calculator was my first experience with Angular, it took me a while to understand that chinhodado's implementation kinda of defeated the purpose of Angular, and this will be my first attempt to create something like the modular setup that aqiu384 has.
-This is my lazy and rough mockup of what I would want the site to look like:
-TODO: Add image here :)
 ### Live Environment
 Working from a server, initially I thought I wouldn't be able to use `ng serve` as that only worked on localhost, but thanks to Nathan Friends article (https://codinglatte.com/posts/angular/working-with-assets-styles-and-scripts-in-angular/) I was able to set up a reverse proxy that can let me use all the handy features of `ng serve` without running it on my main computer.
 I added this block to my `/etc/nginx/sites-available/smt-tools/`

@@ -6,16 +6,16 @@ import { P5Compendium } from '../p5-compendium'
 @Component({
   selector: 'app-p5-fusion-settings',
   template: `
-  <app-fusion-settings
+  <app-settings
     [dlcDemons]=dlcDemons!
     [packs] = packs
     [togglePack] = togglePack>
-  </app-fusion-settings>`,
+  </app-settings>`,
   providers: [
     { provide: 'game', useValue: 'p5' }
   ]
 })
-export class P5FusionSettingsComponent implements OnInit {
+export class P5SettingsComponent implements OnInit {
 
   compendium: P5Compendium = P5_COMPENDIUM
   dlcDemons?: { [name: string]: Demon } = this.compendium.dlcDemons

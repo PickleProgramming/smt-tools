@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { CompendiumConfig, Demon } from '../../models/compendium'
 
-//TODO: make the elements images, add tooltop for which element is which
 @Component({
   selector: 'app-demon-list',
   templateUrl: './demon-list.component.html',

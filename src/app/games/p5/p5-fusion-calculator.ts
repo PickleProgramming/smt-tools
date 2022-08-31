@@ -2,8 +2,6 @@ import { P5_COMPENDIUM } from "src/app/shared/constants";
 import { Demon } from "src/app/shared/models/compendium";
 import { FusionCalculator, Recipe } from "src/app/shared/models/fusion-calculator"
 
-//TODO: update ALL error messages to throw errors
-//TODO: root out the forEach corruption
 export class P5FusionCalculator extends FusionCalculator {
 
     constructor() {

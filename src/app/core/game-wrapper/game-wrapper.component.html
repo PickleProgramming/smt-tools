@@ -4,31 +4,26 @@
 		<tr class=game-wrapper-row>
 			<!-- Persona/Demon Link -->
 			<th class=game-wrapper-entry routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-				<a routerLink="{{ abbrv }}/{{ game.mainList }}s" [ngStyle]="{'color':game.colors.text}">
-					{{ game.mainList.charAt(0).toUpperCase() + game.mainList.slice(1) }} List
+				<a routerLink="{{ game }}/{{ gameView.mainList }}s" [ngStyle]="{'color':gameView.colors.text}">
+					{{ gameView.mainList.charAt(0).toUpperCase() + gameView.mainList.slice(1) }} List
 				</a>
 			</th>
 			<!-- Skill Link -->
 			<th class=game-wrapper-entry routerLinkActive="active">
-				<a routerLink="{{ abbrv }}/skills" [ngStyle]="{'color':game.colors.text}">
+				<a routerLink="{{ game }}/skills" [ngStyle]="{'color':gameView.colors.text}">
 					Skill List
 				</a>
 			</th>
 			<!-- Fusion Table Link -->
 			<th class=game-wrapper-entry routerLinkActive="active">
-				<a routerLink="{{ abbrv }}/fusion-table" [ngStyle]="{'color':game.colors.text}">
+				<a routerLink="{{ game }}/fusion-table" [ngStyle]="{'color':gameView.colors.text}">
 					Fusion Table
 				</a>
 			</th>
-			<!-- All other links except settings -->
-			<th class=game-wrapper-entry *ngFor="let link of game.otherLinks" routerLinkActive="active">
-				<a routerLink="{{ abbrv }}/{{ link.url }}" [ngStyle]="{'color':game.colors.text}">
+			<!-- All other links -->
+			<th class=game-wrapper-entry *ngFor="let link of gameView.otherLinks" routerLinkActive="active">
+				<a routerLink="{{ game }}/{{ link.url }}" [ngStyle]="{'color':gameView.colors.text}">
 					{{link.title}}
-				</a>
-			</th>
-			<th class=game-wrapper-entry *ngIf="game.hasSettings" routerLinkActive="active">
-				<a routerLink="{{ abbrv }}/fusion-settings" [ngStyle]="{'color':game.colors.text}">
-					Fusion Settings
 				</a>
 			</th>
 		</tr>

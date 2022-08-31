@@ -10,8 +10,12 @@
 		},
 		"font": "p5-font",
 		"mainList": "demon",
-		"otherLinks": [],
-		"hasSettings": true
+		"otherLinks": [
+			{
+				"title": "DLC Settings",
+				"url": "settings"
+			}
+		]
 	},
 	{
 		"game": "Persona 5",
@@ -24,8 +28,12 @@
 		},
 		"font": "p5-font",
 		"mainList": "persona",
-		"otherLinks": [],
-		"hasSettings": true
+		"otherLinks": [
+			{
+				"title": "DLC Settings",
+				"url": "settings"
+			}
+		]
 	},
 	{
 		"game": "Persona Q2: New Cinema Labyrinth",
@@ -42,9 +50,12 @@
 			{
 				"title": "QR Code Generator",
 				"url": "Title"
+			},
+			{
+				"title": "DLC Settings",
+				"url": "settings"
 			}
-		],
-		"hasSettings": true
+		]
 	},
 	{
 		"game": "Shin Megami Tensei IV",
@@ -57,8 +68,12 @@
 		},
 		"font": "p5-font",
 		"mainList": "demon",
-		"otherLinks": [],
-		"hasSettings": true
+		"otherLinks": [
+			{
+				"title": "DLC Settings",
+				"url": "settings"
+			}
+		]
 	},
 	{
 		"game": "Shin Megami Tensei Strange Journey Redux",
@@ -73,11 +88,10 @@
 		"mainList": "demon",
 		"otherLinks": [
 			{
-				"title": "Password Generator",
-				"url": "/password-generator"
+				"title": "DLC Settings",
+				"url": "settings"
 			}
-		],
-		"hasSettings": true
+		]
 	},
 	{
 		"game": "Persona 4 Golden",
@@ -90,8 +104,7 @@
 		},
 		"font": "p5-font",
 		"mainList": "persona",
-		"otherLinks": [],
-		"hasSettings": false
+		"otherLinks": []
 	},
 	{
 		"game": "Persona 3 Portable",
@@ -104,7 +117,6 @@
 		},
 		"font": "p5-font",
 		"mainList": "persona",
-		"otherLinks": [],
-		"hasSettings": false
+		"otherLinks": []
 	}
 ]

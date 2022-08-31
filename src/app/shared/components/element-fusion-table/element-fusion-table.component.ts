@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core'
 
-//TODO
-
 @Component({
   selector: 'app-element-fusion-table',
   templateUrl: './element-fusion-table.component.html',

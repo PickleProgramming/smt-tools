@@ -2,7 +2,7 @@ import { Input, Component, OnInit } from '@angular/core'
 import { Demon } from '../../models/compendium'
 
 @Component({
-  selector: 'app-fusion-settings',
+  selector: 'app-settings',
   template: `
     <div class='dlcSettings' *ngFor='let pack of packs | keyvalue'>
       <input type='checkbox' id='{{ pack.key }}' 
@@ -11,9 +11,9 @@ import { Demon } from '../../models/compendium'
       {{ pack.key }}
       <br>
     </div>`,
-  styleUrls: ['./fusion-settings.component.scss']
+  styleUrls: ['./settings.component.scss']
 })
-export class FusionSettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit {
 
   @Input() dlcDemons!: { [name: string]: Demon }
   @Input() packs!: { [name: string]: boolean }
@@ -23,15 +23,15 @@ export class FusionSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     if (typeof this.dlcDemons === undefined) {
-      console.error("FusionSettingsComponent requires a compendium with a dlcDemons property")
+      console.error("SettingsComponent requires a compendium with a dlcDemons property")
       return
     }
     if (typeof this.packs === undefined) {
-      console.error("FusionSettingsComponent requires a 'packs' object.")
+      console.error("SettingsComponent requires a 'packs' object.")
       return
     }
     if (typeof this.togglePack === undefined) {
-      console.error("FusionSettingsComponent requires a togglePack function")
+      console.error("SettingsComponent requires a togglePack function")
       return
     }
   }
