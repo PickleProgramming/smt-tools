@@ -1,4 +1,4 @@
-import { Compendium, Demon } from "./compendium";
+import { Compendium, Demon } from "./compendium"
 
 export interface Recipe {
     sources: string[]

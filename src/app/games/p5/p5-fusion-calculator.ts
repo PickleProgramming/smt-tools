@@ -1,5 +1,5 @@
-import { P5_COMPENDIUM } from "@shared/constants";
-import { Demon } from "@shared/models/compendium";
+import { P5_COMPENDIUM } from "@shared/constants"
+import { Demon } from "@shared/models/compendium"
 import { FusionCalculator, Recipe } from "@shared/models/fusion-calculator"
 
 export class P5FusionCalculator extends FusionCalculator {
@@ -122,11 +122,11 @@ export class P5FusionCalculator extends FusionCalculator {
     }
 
     protected getCost(recipe: Recipe): number {
-        let cost = 0;
+        let cost = 0
         for (let source of recipe.sources) {
             let level = this.compendium.demons[source].lvl
             cost += (27 * level * level) + (126 * level) + 2147
         }
-        return cost;
+        return cost
     }
 }
