@@ -30,7 +30,7 @@ export class DemonEntryComponent implements OnInit {
     if(this.calculator === undefined)
       throw new Error('DemonEntryComponent must be passed a FusionCalculator')
     this.demon = this.compendium.demons[this.name]
-    this.inheritTypes = this.compendium.config.getInherits!(this.demon.inherits!)
+    this.inheritTypes = this.compendium.config.getInherits(this.demon.inherits!)
     this.fissions = this.calculator.getFissions(this.name)
     this.fusions = this.calculator.getFusions(this.name)
   }

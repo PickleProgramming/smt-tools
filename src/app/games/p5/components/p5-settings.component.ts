@@ -10,10 +10,7 @@ import { P5Compendium } from '@p5/p5-compendium'
     [dlcDemons]=dlcDemons!
     [packs] = packs
     [togglePack] = togglePack>
-  </app-settings>`,
-  providers: [
-    { provide: 'game', useValue: 'p5' }
-  ]
+  </app-settings>`
 })
 export class P5SettingsComponent implements OnInit {
 
@@ -47,7 +44,6 @@ export class P5SettingsComponent implements OnInit {
       'Tsukiyomi': (this.compendium.demons['Tuskiyomi'] !== undefined),
       'Messiah': (this.compendium.demons['Messiah'] !== undefined)
     }
-    console.log(this.compendium.demons['Izanagi'])
   }
 
   togglePack = (event: any): void => {
@@ -56,9 +52,11 @@ export class P5SettingsComponent implements OnInit {
     if (checked) {
       for (let element in this.packDemons[pack])
         this.compendium.demons[pack] = this.compendium.dlcDemons![pack]
+      console.log('Added ' + pack + ' to P5_COMPENDIUM')
     } else {
       for (let element in this.packDemons[pack])
         delete this.compendium.demons[pack]
+      console.log('Removed ' + pack + ' to P5_COMPENDIUM')
     }
     this.packs[pack] = !this.packs[pack]
 

@@ -31,15 +31,15 @@ export class P5CompendiumConfig extends CompendiumConfig {
             'Bless',
             'Curse'
         ]
-        this.inheritCols = INHERIT_DATA.inherits
-        this.inheritCols.pop()
+        this.inheritCols = INHERIT_DATA.elems
     }
 
     getInherits(element: string): boolean[] {
         console.log('getInherits() called with "element" : ' + element)
         let ret: boolean[] = []
-        let inherits = INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split('')
-        for (let elem in inherits) {
+        let inherits = INHERIT_DATA.ratios[INHERIT_DATA.inherits.
+            indexOf(element)].split('')
+        for (let elem of inherits) {
             if (elem === 'O')
                 ret.push(true)
             else

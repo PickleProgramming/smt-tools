@@ -7,10 +7,7 @@ import { P5CompendiumConfig } from '@p5/p5-compendium'
   template: `
     <app-normal-fusion-table
       [config]=config>
-    </app-normal-fusion-table>`,
-  providers: [
-    { provide: 'game', useValue: 'p5' }
-  ]
+    </app-normal-fusion-table>`
 })
 export class P5FusionTableComponent implements OnInit {
 
