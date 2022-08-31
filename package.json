@@ -27,6 +27,7 @@
     "datatables.net": "^1.11.3",
     "datatables.net-bs5": "^1.11.3",
     "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -38,6 +39,7 @@
     "@types/datatables.net": "^1.10.21",
     "@types/jasmine": "~3.6.0",
     "@types/jquery": "^3.5.9",
+    "@types/lodash": "^4.14.184",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",

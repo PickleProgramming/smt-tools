@@ -114,4 +114,24 @@ export class P5Compendium extends Compendium {
         return specialRecipes
 
     }
+
+    /*  Determines if the demon with the given name can inherit the skill
+        with the given name
+        @param demonName: name of demon to check
+        @param skillName: name of skill to check
+        @returns {boolean}: returns true if the demon can inherit this skill
+        false othewise 
+    */
+    isInheritable(demonName: string, skillName: string): boolean {
+        let skillElem = this.skills[skillName].element
+        if (skillElem === 'support' || 
+            skillElem === 'almighty' || 
+            skillElem === 'passive')
+            return true
+        let demonElem = this.demons[demonName].inherits
+        let ratios = INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(demonElem!)]
+        if (ratios.charAt(INHERIT_DATA.elems.indexOf(skillElem)) == 'O')
+            return true
+        return false
+    }
 }
