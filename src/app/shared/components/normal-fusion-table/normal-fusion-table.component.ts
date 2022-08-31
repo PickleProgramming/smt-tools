@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { CompendiumConfig } from '../../models/compendium'
+import { CompendiumConfig } from '@shared//models/compendium'
 
 @Component({
   selector: 'app-normal-fusion-table',

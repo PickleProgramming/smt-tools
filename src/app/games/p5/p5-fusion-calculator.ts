@@ -1,6 +1,6 @@
-import { P5_COMPENDIUM } from "src/app/shared/constants";
-import { Demon } from "src/app/shared/models/compendium";
-import { FusionCalculator, Recipe } from "src/app/shared/models/fusion-calculator"
+import { P5_COMPENDIUM } from "@shared/constants";
+import { Demon } from "@shared/models/compendium";
+import { FusionCalculator, Recipe } from "@shared/models/fusion-calculator"
 
 export class P5FusionCalculator extends FusionCalculator {
 

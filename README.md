@@ -10,7 +10,7 @@ This is where I put the elements that are standard across all games no matter wh
 Each game recieves it's own module along with any components unique to that game.
 #### src/games/[GAME]/[GAME]-data-models.ts
 These are the files where I will define all of the standard objects for each game. Each game's Compendium, for example, is unique, but every game still has that object.
-### src/app/shared
+### @shared
 This is where any services, directives, data, or constants go that are used by at least 2 games.
 
 

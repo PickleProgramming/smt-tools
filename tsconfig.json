@@ -20,7 +20,15 @@
 		"lib": [
 			"es2018",
 			"dom"
-		]
+		],
+		"paths": {
+			"@shared/*": [
+				"./src/app/shared/*"
+			],
+			"@p5/*": [
+				"./src/app/games/p5/*"
+			]
+		},
 	},
 	"angularCompilerOptions": {
 		"strictInjectionParameters": true,

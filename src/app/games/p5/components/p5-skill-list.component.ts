@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { P5_COMPENDIUM } from 'src/app/shared/constants'
-import { Skill } from 'src/app/shared/models/compendium'
-import { P5CompendiumConfig } from '../p5-compendium'
+import { P5_COMPENDIUM } from '@shared/constants'
+import { Skill } from '@shared/models/compendium'
+import { P5CompendiumConfig } from '@p5/p5-compendium'
 
 @Component({
   selector: 'app-p5-skill-list',

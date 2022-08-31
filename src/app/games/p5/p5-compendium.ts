@@ -1,12 +1,12 @@
-import { Compendium, CompendiumConfig, Demon, Skill } from 'src/app/shared/models/compendium'
+import { Compendium, CompendiumConfig, Demon, Skill } from '@shared/models/compendium'
 
-import PERSONA_DATA from 'src/app/games/p5/data/persona-data.json'
-import SKILL_DATA from 'src/app/games/p5/data/skill-data.json'
-import SPECIAL_RECIPES from 'src/app/games/p5/data/special-recipes.json'
-import FUSION_TABLE from 'src/app/games/p5/data/fusion-table.json'
-import ELEMENT_TABLE from 'src/app/games/p5/data/element-table.json'
-import DLC_DATA from 'src/app/games/p5/data/dlc-data.json'
-import INHERIT_DATA from 'src/app/games/p5/data/inheritance-types.json'
+import PERSONA_DATA from '@p5/data/persona-data.json'
+import SKILL_DATA from '@p5/data/skill-data.json'
+import SPECIAL_RECIPES from '@p5/data/special-recipes.json'
+import FUSION_TABLE from '@p5/data/fusion-table.json'
+import ELEMENT_TABLE from '@p5/data/element-table.json'
+import DLC_DATA from '@p5/data/dlc-data.json'
+import INHERIT_DATA from '@p5/data/inheritance-types.json'
 
 export class P5CompendiumConfig extends CompendiumConfig {
     constructor() {

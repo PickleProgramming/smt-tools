@@ -1,6 +1,6 @@
 // import { Component, OnInit } from '@angular/core'
-// import { P5_COMPENDIUM } from '../../p5r-constants'
-// import { P5Compendium } from '../../p5r-data-models'
+// import { P5_COMPENDIUM } from '@p5/@p5/p5r-constants'
+// import { P5Compendium } from '@p5/@shared/p5r-data-models'
 
 // @Component({
 //   selector: 'app-p5r-fusion-settings',

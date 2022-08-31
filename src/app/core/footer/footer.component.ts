@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { GameView } from 'src/app/shared/models/game-view'
+import { GameView } from '@shared/models/game-view'
 import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import SHORTEN from 'src/app/shared/pipes/shorten.json'
+import SHORTEN from '@shared/pipes/shorten.json'
 
 @Pipe({
   name: 'shorten'

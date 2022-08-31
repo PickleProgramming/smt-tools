@@ -1,5 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core'
-import { Demon } from '../../models/compendium'
+import { Demon } from '@shared//models/compendium'
 
 @Component({
   selector: 'app-settings',
