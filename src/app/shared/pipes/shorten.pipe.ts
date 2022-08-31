@@ -14,10 +14,9 @@ export class ShortenPipe implements PipeTransform {
     Object.entries(SHORTEN).forEach(([key, value]) => {
       shorten[key] = value
     })
-    if(shorten[toShorten] !== undefined )
-      return shorten[toShorten]
-    console.error('The term ' + toShorten + ' was not found in shorten.json')
-    return 'err'
+    if (shorten[toShorten] === undefined)
+      throw new Error('The term ' + toShorten + ' was not found in shorten.json')
+    return shorten[toShorten]
   }
 
 }

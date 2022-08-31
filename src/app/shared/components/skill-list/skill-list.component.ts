@@ -17,11 +17,8 @@ export class SkillListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (this.config == undefined ||
-      this.skills == undefined) {
-      console.error("Config/Skills cannot be undefined")
-      return
-    }
+    if (this.config == undefined || this.skills == undefined)
+      throw new Error('called SkillListComponent without passing config or skills variable')
 
     this.firstHeader = [
       'Skills',
@@ -32,10 +29,10 @@ export class SkillListComponent implements OnInit {
       'Acquisition': this.config.acquisitionCols.length
     }
 
-    this.config.skillCols.forEach(elem =>
-      this.secondHeader.push(elem))
-    this.config.acquisitionCols.forEach(elem =>
-      this.secondHeader.push(elem))
+    for (let elem in this.config.skillCols)
+      this.secondHeader.push(elem)
+    for (let elem in this.config.acquisitionCols)
+      this.secondHeader.push(elem)
   }
 
 }

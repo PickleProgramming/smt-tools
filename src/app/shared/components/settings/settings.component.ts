@@ -22,17 +22,11 @@ export class SettingsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (typeof this.dlcDemons === undefined) {
-      console.error("SettingsComponent requires a compendium with a dlcDemons property")
-      return
-    }
-    if (typeof this.packs === undefined) {
-      console.error("SettingsComponent requires a 'packs' object.")
-      return
-    }
-    if (typeof this.togglePack === undefined) {
-      console.error("SettingsComponent requires a togglePack function")
-      return
-    }
+    if (typeof this.dlcDemons === undefined)
+      throw new Error("SettingsComponent requires a compendium with a dlcDemons property")
+    if (typeof this.packs === undefined)
+      throw new Error('SettingsComponent requires a "packs" object.')
+    if (typeof this.togglePack === undefined)
+      throw new Error('SettingsComponent requires a togglePack function')
   }
 }

@@ -35,7 +35,7 @@ export class P5SettingsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.packs = {
       'Izanagi': (this.compendium.demons['Izanagi'] !== undefined),
       'Orpheus': (this.compendium.demons['Orpheus'] !== undefined),
@@ -54,14 +54,14 @@ export class P5SettingsComponent implements OnInit {
     let pack: string = event.path[0].id
     let checked: boolean = event.srcElement.checked
     if (checked) {
-      this.packDemons[pack].forEach(element =>
-        this.compendium.demons[pack] = this.compendium.dlcDemons![pack])
+      for (let element in this.packDemons[pack])
+        this.compendium.demons[pack] = this.compendium.dlcDemons![pack]
     } else {
-      this.packDemons[pack].forEach(element =>
-        delete this.compendium.demons[pack])
+      for (let element in this.packDemons[pack])
+        delete this.compendium.demons[pack]
     }
     this.packs[pack] = !this.packs[pack]
 
-    
+
   }
 }

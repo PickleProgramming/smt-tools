@@ -17,10 +17,9 @@ export class DemonListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (typeof this.config === undefined 
+    if (typeof this.config === undefined
       || typeof this.demons === undefined) {
-      console.error("Config/Demon List cannot be undefined")
-      return
+      throw new Error('Config/Demon List cannot be undefined')
     }
 
     this.firstHeader = [
@@ -32,23 +31,23 @@ export class DemonListComponent implements OnInit {
       'Stats': this.config.statCols.length,
     }
 
-    this.config.demonCols.forEach(elem =>
-      this.secondHeader.push(elem))
-    this.config.statCols.forEach(elem =>
-      this.secondHeader.push(elem))
+    for (let elem in this.config.demonCols)
+      this.secondHeader.push(elem)
+    for (let elem in this.config.statCols)
+      this.secondHeader.push(elem)
 
-    if (typeof this.config.resistanceCols !== undefined) {
+    if (this.config.resistanceCols) {
       this.firstHeader.push('Resistances')
-      this.colSpan['Resistances'] = this.config.resistanceCols!.length
-      this.config.resistanceCols!.forEach(column =>
-        this.secondHeader.push(column))
+      this.colSpan['Resistances'] = this.config.resistanceCols.length
+      for (let column in this.config.resistanceCols)
+        this.secondHeader.push(column)
     }
     if (this.config.affinityCols) {
       console.log('Trying to read affinities')
       this.firstHeader.push('Affinities')
-      this.colSpan['Affinities'] = this.config.affinityCols!.length
-      this.config.affinityCols!.forEach(column =>
-        this.secondHeader.push(column))
+      this.colSpan['Affinities'] = this.config.affinityCols.length
+      for (let column in this.config.affinityCols)
+        this.secondHeader.push(column)
     }
   }
 }

@@ -21,13 +21,13 @@ export class P5FusionCalculator extends FusionCalculator {
         let table = this.compendium.config.fusionTable.table
 
         //get all arcana combinations that result in target arcana
-        races.forEach(raceA => {
-            races.forEach(raceB => {
+        for (let raceA of races) {
+            for (let raceB of races) {
                 let result = table[races.indexOf(raceA)][races.indexOf(raceB)]
                 if (result == targetRace)
                     raceCombos.push([raceA, raceB])
-            })
-        })
+            }
+        }
 
         /* try all fusion with potential combinations filtering those without
             the desired result */
@@ -80,7 +80,7 @@ export class P5FusionCalculator extends FusionCalculator {
             return null
         let possibleDemons = this.getDemonsByRace(race)
         let result: string = ""
-        
+
         //when two persona of the same race fuse, the result will be lower level
         if (demonA.race == demonB.race) {
             let level: number = 0
@@ -123,10 +123,10 @@ export class P5FusionCalculator extends FusionCalculator {
 
     protected getCost(recipe: Recipe): number {
         let cost = 0;
-        recipe.sources.forEach(source => {
+        for (let source of recipe.sources) {
             let level = this.compendium.demons[source].lvl
             cost += (27 * level * level) + (126 * level) + 2147
-        })
+        }
         return cost;
     }
 }

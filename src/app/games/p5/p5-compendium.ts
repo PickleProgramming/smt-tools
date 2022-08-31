@@ -39,12 +39,12 @@ export class P5CompendiumConfig extends CompendiumConfig {
         console.log('getInherits() called with "element" : ' + element)
         let ret: boolean[] = []
         let inherits = INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split('')
-        inherits.forEach(elem => {
+        for (let elem in inherits) {
             if (elem === 'O')
                 ret.push(true)
             else
                 ret.push(false)
-        })
+        }
         return ret
     }
 }
@@ -57,10 +57,9 @@ export class P5Compendium extends Compendium {
             SPECIAL_RECIPES,
             DLC_DATA)
         //remove any skills that are only used by party members
-        Object.entries(this.skills).forEach(([skill, data]) => {
+        for (let skill in this.skills)
             if (Object.keys(this.skills[skill].learnedBy).length == 0)
                 delete this.skills[skill]
-        })
         console.log('Created P5Compendium')
     }
 
