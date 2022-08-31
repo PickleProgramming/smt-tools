@@ -12,11 +12,12 @@ export class DemonEntryComponent implements OnInit {
 
   @Input() compendium!: Compendium
   @Input() calculator!: FusionCalculator
-  
+
   name: string = this.router.url.split('/')[3]
   demon!: Demon
   inheritTypes!: boolean[]
-  recipes!: Recipe[]
+  fissions!: Recipe[]
+  fusions!: Recipe[]
 
   constructor(
     private router: Router
@@ -30,7 +31,8 @@ export class DemonEntryComponent implements OnInit {
       throw new Error('DemonEntryComponent must be passed a FusionCalculator')
     this.demon = this.compendium.demons[this.name]
     this.inheritTypes = this.compendium.config.getInherits!(this.demon.inherits!)
-    this.recipes = this.calculator.getFissions(this.name)
+    this.fissions = this.calculator.getFissions(this.name)
+    this.fusions = this.calculator.getFusions(this.name)
   }
 
 }

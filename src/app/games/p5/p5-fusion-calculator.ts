@@ -44,7 +44,10 @@ export class P5FusionCalculator extends FusionCalculator {
                 for (let nameB in raceB) {
                     if (this.isElemental(nameB))
                         continue
-                    if (this.fuse(nameA, nameB).result == targetName) {
+                    let nameR = this.fuse(nameA, nameB)
+                    if (nameR == null)
+                        continue
+                    if (nameR.result == targetName) {
                         fission = {
                             sources: [nameA, nameB],
                             result: targetName
@@ -58,27 +61,61 @@ export class P5FusionCalculator extends FusionCalculator {
         return fissions
     }
 
-    getFusions(demon: string): Recipe[] {
-        throw new Error("Method not implemented.");
+    //TODO: add judgement exceptions
+    getFusions(targetName: string): Recipe[] {
+        console.log('Getting fusions for ' + targetName)
+        let recipes: Recipe[] = []
+        for (let name in this.compendium.demons) {
+            let result = this.fuse(targetName, name)
+            if (result != null)
+                recipes.push(result)
+        }
+        return recipes
     }
 
-    protected fuse(nameA: string, nameB: string): Recipe {
+    protected fuse(nameA: string, nameB: string): Recipe | null {
         let demonA = this.compendium.demons[nameA]
         let demonB = this.compendium.demons[nameB]
+
         let recipeLevel: number = 1 + Math.floor((demonA.lvl + demonB.lvl) / 2)
         let race = this.getResultantRace(nameA, nameB)
+        if (race == null)
+            return null
         let possibleDemons = this.getDemonsByRace(race)
-
-        let level: number = 100
         let result: string = ""
-        for (let name in possibleDemons) {
-            let demon = possibleDemons[name]
-            if (demon.lvl < recipeLevel)
-                continue
-            if (demon.lvl < level) {
-                level = demon.lvl
-                result = name
+        if (demonA.race == demonB.race) {
+            let level: number = 0
+            for (let name in possibleDemons) {
+                let demon = possibleDemons[name]
+                if (demon.lvl > recipeLevel)
+                    continue
+                if (demon.lvl > level) {
+                    level = demon.lvl
+                    result = name
+                }
             }
+        } else {
+            let level: number = 100
+            for (let name in possibleDemons) {
+                let demon = possibleDemons[name]
+                if (demon.lvl < recipeLevel)
+                    continue
+                if (demon.lvl < level) {
+                    level = demon.lvl
+                    result = name
+                }
+            }
+            if (result == '') {
+                for (let name in possibleDemons) {
+                    let demon = possibleDemons[name]
+                    if (result == '' || possibleDemons[result].lvl < demon.lvl)
+                        result = name
+                }
+            }
+        }
+        if (result == '') {
+            console.log(nameA + " : " + nameB)
+            console.log(demonA.race + " : " + demonB.race)
         }
         let ret: Recipe = {
             sources: [nameA, nameB],

@@ -116,14 +116,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor='let recipe of recipes'>
-            <td>{{ recipe.cost }}</td>
-            <td>{{ compendium.demons[recipe.sources[0]].race }}</td>
-            <td>{{ compendium.demons[recipe.sources[0]].lvl }}</td>
-            <td>{{ recipe.sources[0] }}</td>
-            <td>{{ compendium.demons[recipe.sources[1]].race }}</td>
-            <td>{{ compendium.demons[recipe.sources[1]].lvl }}</td>
-            <td>{{ recipe.sources[1] }}</td>
+        <tr *ngFor='let fission of fissions'>
+            <td>{{ fission.cost }}</td>
+            <td>{{ compendium.demons[fission.sources[0]].race }}</td>
+            <td>{{ compendium.demons[fission.sources[0]].lvl }}</td>
+            <td>{{ fission.sources[0] }}</td>
+            <td>{{ compendium.demons[fission.sources[1]].race }}</td>
+            <td>{{ compendium.demons[fission.sources[1]].lvl }}</td>
+            <td>{{ fission.sources[1] }}</td>
         </tr>
     </tbody>
 </table>
@@ -134,11 +134,11 @@
             <th colSpan="7">Recipes that {{ name }} can make</th>
         </tr>
         <tr>
-            <th colSpan="7">Ingredient A x {{ name }} = Result</th>
+            <th colSpan="7">{{ name }} x Ingredient B = Result</th>
         </tr>
         <tr>
             <th rowSpan="2">Price</th>
-            <th colSpan="3">Ingredient A</th>
+            <th colSpan="3">Ingredient B</th>
             <th colSpan="3">Result</th>
         </tr>
         <tr>
@@ -151,6 +151,15 @@
         </tr>
     </thead>
     <tbody>
+        <tr *ngFor='let fusion of fusions'>
+            <td>{{ fusion.cost }}</td>
+            <td>{{ compendium.demons[fusion.sources[1]].race }}</td>
+            <td>{{ compendium.demons[fusion.sources[1]].lvl }}</td>
+            <td>{{ fusion.sources[1] }}</td>
+            <td>{{ compendium.demons[fusion.result].race }}</td>
+            <td>{{ compendium.demons[fusion.result].lvl }}</td>
+            <td>{{ fusion.result }}</td>
+        </tr>
 
     </tbody>
 </table>

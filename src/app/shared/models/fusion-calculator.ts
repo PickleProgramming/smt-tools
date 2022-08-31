@@ -18,14 +18,14 @@ export abstract class FusionCalculator {
         @param demon: name of the resultant demon
         @returns {Recipe[]} a list of recipes where the passed
             demon is the resultant demon*/
-    abstract getFissions(demon: string): Recipe[]
+    abstract getFissions(targetName: string): Recipe[]
 
     /* get list of different fusions that the passed demon can participate in
         @param demon: name of factor demon
         @returns {Recipe[]} a list of recipes where the passed demon is a factor */
-    abstract getFusions(demon: string): Recipe[]
+    abstract getFusions(targetName: string): Recipe[]
 
-    protected abstract fuse(nameA: string, nameB: string): Recipe
+    protected abstract fuse(nameA: string, nameB: string): Recipe | null
 
     protected abstract getCost(recipe: Recipe): number
 
@@ -42,12 +42,15 @@ export abstract class FusionCalculator {
         return demons
     }
 
-    protected getResultantRace(nameA: string, nameB: string): string {
+    protected getResultantRace(nameA: string, nameB: string): string | null {
         let demonA = this.compendium.demons[nameA]
         let demonB = this.compendium.demons[nameB]
         let races = this.compendium.config.fusionTable.races
         let table = this.compendium.config.fusionTable.table
-        return table[races.indexOf(demonA.race)][races.indexOf(demonB.race)]
+        let result = table[races.indexOf(demonA.race)][races.indexOf(demonB.race)]
+        if (result == '-')
+            return null
+        return result
     }
 
     protected isSpecial(name: string): boolean {
