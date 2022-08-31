@@ -10,14 +10,19 @@ export class P5FusionCalculator extends FusionCalculator {
         super(P5_COMPENDIUM)
         console.log('P5FusionCalculator created')
     }
+
     getFissions(targetName: string): Recipe[] {
+        if (this.isElemental(targetName) || this.isSpecial(targetName))
+            throw new Error('Called getFissions on an elemental or special demon')
+
         console.log('Getting fissions for ' + targetName)
-        let targetDemon: Demon = this.compendium.demons[targetName]
-        //get all arcana combinations
+
         let targetRace: string = this.compendium.demons[targetName].race
         let raceCombos: string[][] = []
         let races = this.compendium.config.fusionTable.races
         let table = this.compendium.config.fusionTable.table
+
+        //get all arcana combinations that result in target arcana
         races.forEach(raceA => {
             races.forEach(raceB => {
                 let result = table[races.indexOf(raceA)][races.indexOf(raceB)]
@@ -25,45 +30,65 @@ export class P5FusionCalculator extends FusionCalculator {
                     raceCombos.push([raceA, raceB])
             })
         })
-        //get the resultant demon for each arcana combination at every level
-        let fissions: Recipe[] = []
-        //determine the level range that the fusion can occur in
-        let minLevel: number = 0
-        let maxLevel: number = targetDemon.lvl
-        let demonsRace = this.getDemonsByRace(targetDemon.race)
-        for (let name in demonsRace) {
-            let demon = demonsRace[name]
-            if (demon.lvl >= maxLevel)
-                continue
-            if (demon.lvl > minLevel)
-                minLevel = demon.lvl
-        }
 
+        /* try all fusion with potential combinations filtering those without
+            the desired result */
+        let fissions: Recipe[] = []
         for (let combo of raceCombos) {
             let fission: Recipe
             let raceA: { [name: string]: Demon } = this.getDemonsByRace(combo[0])
             let raceB: { [name: string]: Demon } = this.getDemonsByRace(combo[1])
             for (let nameA in raceA) {
-                let demonA = raceA[nameA]
+                if (this.isElemental(nameA))
+                    continue
                 for (let nameB in raceB) {
-                    let demonB = raceB[nameB]
-                    let level: number = 1 + Math.floor((demonA.lvl + demonB.lvl) / 2)
-                    if (level > minLevel && level <= maxLevel) {
+                    if (this.isElemental(nameB))
+                        continue
+                    if (this.fuse(nameA, nameB).result == targetName) {
                         fission = {
                             sources: [nameA, nameB],
                             result: targetName
                         }
+                        fission.cost = this.getCost(fission)
                         fissions.push(fission)
                     }
                 }
             }
         }
-        for (let recipe of fissions)
-            recipe.cost = this.getCost(recipe)
         return fissions
     }
 
-    getCost(recipe: Recipe): number {
+    getFusions(demon: string): Recipe[] {
+        throw new Error("Method not implemented.");
+    }
+
+    protected fuse(nameA: string, nameB: string): Recipe {
+        let demonA = this.compendium.demons[nameA]
+        let demonB = this.compendium.demons[nameB]
+        let recipeLevel: number = 1 + Math.floor((demonA.lvl + demonB.lvl) / 2)
+        let race = this.getResultantRace(nameA, nameB)
+        let possibleDemons = this.getDemonsByRace(race)
+
+        let level: number = 100
+        let result: string = ""
+        for (let name in possibleDemons) {
+            let demon = possibleDemons[name]
+            if (demon.lvl < recipeLevel)
+                continue
+            if (demon.lvl < level) {
+                level = demon.lvl
+                result = name
+            }
+        }
+        let ret: Recipe = {
+            sources: [nameA, nameB],
+            result: result
+        }
+        ret.cost = this.getCost(ret)
+        return ret
+    }
+
+    protected getCost(recipe: Recipe): number {
         let cost = 0;
         recipe.sources.forEach(source => {
             let level = this.compendium.demons[source].lvl
@@ -71,13 +96,4 @@ export class P5FusionCalculator extends FusionCalculator {
         })
         return cost;
     }
-
-    getFusions(demon: string): Recipe[] {
-        throw new Error("Method not implemented.");
-    }
-
-    getFusion(demonA: string, demonB: string): Recipe {
-        throw new Error("Method not implemented.");
-    }
-
 }

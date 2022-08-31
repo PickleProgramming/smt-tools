@@ -19,40 +19,52 @@ export abstract class FusionCalculator {
         @returns {Recipe[]} a list of recipes where the passed
             demon is the resultant demon*/
     abstract getFissions(demon: string): Recipe[]
-    //get species combinations
-    //determine which have viable levels
-    //filter inviable recipes
-    //add cost field to all recipies
 
-    /* get list of different fusions that the passed demon 
-        can be involved in  
-        @param demon: name of the factor demon
-        @returns {Recipe[]} a list of recipes where the
-            passed demon is one of the sources*/
+    /* get list of different fusions that the passed demon can participate in
+        @param demon: name of factor demon
+        @returns {Recipe[]} a list of recipes where the passed demon is a factor */
     abstract getFusions(demon: string): Recipe[]
-    //iterate over every demon and calculate the resultant demon
-    //add cost field to all recipies
 
-    //determine which species combinations are viable based on fusion chart
-    //store every potential combination in parallel arrays
-    //iterate over arrays creating recipe objects
+    protected abstract fuse(nameA: string, nameB: string): Recipe
 
-    /* get the recipe that involves the passed demons, return null
-        if fusion is not possible
-    */
-    abstract getFusion(demonA: string, demonB: string): Recipe
-    //calculate the proper level and species of the result
-    //find the demon with corresponding level a species
+    protected abstract getCost(recipe: Recipe): number
 
     /* Returns all the demons in the compendium with the corresponding race
         @param race: the target race
         @return: a key-value pair of all the demons with the desired race*/
     protected getDemonsByRace(race: string): { [name: string]: Demon } {
         let demons: { [name: string]: Demon } = {}
-        Object.entries(this.compendium.demons).forEach(([name, demon]) => {
-            if(demon.race == race)
+        for (let name in this.compendium.demons) {
+            let demon = this.compendium.demons[name]
+            if (demon.race == race)
                 demons[name] = demon
-        })
+        }
         return demons
+    }
+
+    protected getResultantRace(nameA: string, nameB: string): string {
+        let demonA = this.compendium.demons[nameA]
+        let demonB = this.compendium.demons[nameB]
+        let races = this.compendium.config.fusionTable.races
+        let table = this.compendium.config.fusionTable.table
+        return table[races.indexOf(demonA.race)][races.indexOf(demonB.race)]
+    }
+
+    protected isSpecial(name: string): boolean {
+        if (this.compendium.specialRecipes === undefined)
+            throw new Error('isSpecial() called on compendium with no special recipes')
+        for (let recipe in this.compendium.specialRecipes)
+            if (name == recipe)
+                return true
+        return false
+    }
+
+    protected isElemental(name: string): boolean {
+        if (this.compendium.config.elementTable === undefined)
+            throw new Error('isElemental() called on compendium with no elementals')
+        for (let element of this.compendium.config.elementTable.elems)
+            if (name == element)
+                return true
+        return false
     }
 }
