@@ -9,7 +9,8 @@ import { TripleFusionTableComponent } from './components/triple-fusion-table/tri
 import { SettingsComponent } from './components/settings/settings.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
+import { DemonEntryComponent } from './components/demon-entry/demon-entry.component';
+import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component'
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DemonEntryComponent } from './components/demon-entry/demon-entry.compon
     SettingsComponent,
     DemonEntryComponent,
     ShortenPipe,
+    FusionChainComponent,
   ],
   imports: [
     CommonModule,

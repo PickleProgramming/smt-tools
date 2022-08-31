@@ -30,6 +30,10 @@
 		"mainList": "persona",
 		"otherLinks": [
 			{
+				"title": "Fusion Chain",
+				"url": "fusion-chain"
+			},
+			{
 				"title": "DLC Settings",
 				"url": "settings"
 			}
