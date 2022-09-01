@@ -13,7 +13,7 @@ export class P5FusionCalculator extends FusionCalculator {
         if (this.isElemental(targetName))
             throw new Error('Called getFissions on an elemental demon')
 
-        console.log('Getting fissions for ' + targetName)
+        console.debug('Getting fissions for ' + targetName)
         if (this.isSpecial(targetName))
             return [this.compendium.buildSpecialRecipe(targetName)]
 

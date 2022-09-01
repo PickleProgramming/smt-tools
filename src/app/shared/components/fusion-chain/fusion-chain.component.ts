@@ -62,6 +62,7 @@ export class FusionChainComponent implements OnInit {
 
   test(testCase: number): void {
     let skills: string[]
+    console.log('test() OUTPUT: ')
     switch (testCase) {
 
       //No Max Level, No Demon Name, Not Unique Skills, < 4 Skills
@@ -80,9 +81,9 @@ export class FusionChainComponent implements OnInit {
           'Apt Pupil',
           'Attack Master'
         ]
-        this.chain.maxLevel = 20
+        this.chain.maxLevel = 30
         console.log(this.chain.getChains(skills))
-        this.chain.maxLevel = 50
+        this.chain.maxLevel = 34
         console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 99
         return
@@ -98,8 +99,8 @@ export class FusionChainComponent implements OnInit {
       //No Max Level, No Demon Name, Unique Skill, < 4 Skills
       case 3:
         skills = [
-          'Miracle Punch',
-          'Apt Pupil',
+          'Regenerate 3',
+          'Invigorate 3',
           'Die For Me!'
         ]
         console.log(this.chain.getChains(skills))
@@ -135,7 +136,7 @@ export class FusionChainComponent implements OnInit {
           'Apt Pupil',
           'Die For Me!'
         ]
-        console.log(this.chain.getChains(skills), 'Alice')
+        console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 20
         console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 50

@@ -8,7 +8,7 @@ export abstract class ChainCalculator {
     calculator: FusionCalculator
 
     protected recursiveDepth = 4
-    protected maxChainLength = 10
+    protected maxChainLength = 20
     maxLevel = 99
 
     constructor(compendium: Compendium, calculator: FusionCalculator) {
@@ -28,7 +28,7 @@ export abstract class ChainCalculator {
         targetSkills: string[],
         recursiveDepth: number,
         demonName: string,
-        maxLevel: number): FusionChain | null
+        deep: boolean): FusionChain | null
 
     /* Determines if the passed persona is capable oflearning the skills passed
         determines if ANY persona is capable if no name or recipe is give. 
@@ -68,8 +68,8 @@ export abstract class ChainCalculator {
     protected exceedsMaxLevel(recipe: Recipe): boolean {
         for (let sourceName of recipe.sources)
             if (this.compendium.demons[sourceName].lvl > this.maxLevel)
-                return false
-        return true
+                return true
+        return false
     }
 
     setRecursiveDepth(recursiveDepth: number): void {
