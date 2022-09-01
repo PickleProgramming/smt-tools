@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { P5ChainCalculator } from '@p5/models/p5-chain-calculator';
-import { ChainCalculator } from '@shared/models/chain-calculator';
-import { Compendium } from '@shared/models/compendium';
-import { OperatorFunction, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core'
+import { P5ChainCalculator } from '@p5/models/p5-chain-calculator'
+import { ChainCalculator } from '@shared/models/chain-calculator'
+import { Compendium } from '@shared/models/compendium'
+import { OperatorFunction, Observable } from 'rxjs'
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-fusion-chain',
@@ -48,8 +48,4 @@ export class FusionChainComponent implements OnInit {
         : this.skills!.filter(v =>
           v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
-
-  test(): void {
-    this.chain.test(this.inputSkills)
-  }
 }
