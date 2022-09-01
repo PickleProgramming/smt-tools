@@ -1,4 +1,4 @@
-import { Compendium, CompendiumConfig, Demon, Skill } from '@shared/models/compendium'
+import { Compendium, CompendiumConfig, Demon, Recipe, Skill } from '@shared/models/compendium'
 
 import PERSONA_DATA from '@p5/data/persona-data.json'
 import SKILL_DATA from '@p5/data/skill-data.json'
@@ -133,5 +133,14 @@ export class P5Compendium extends Compendium {
         if (ratios.charAt(INHERIT_DATA.elems.indexOf(skillElem)) == 'O')
             return true
         return false
+    }
+
+    getCost(recipe: Recipe): number {
+        let cost = 0
+        for (let source of recipe.sources) {
+            let level = this.demons[source].lvl
+            cost += (27 * level * level) + (126 * level) + 2147
+        }
+        return cost
     }
 }

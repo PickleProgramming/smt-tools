@@ -1,10 +1,4 @@
-import { Compendium, Demon } from "./compendium"
-
-export interface Recipe {
-    sources: string[]
-    result: string
-    cost?: number
-}
+import { Compendium, Demon, Recipe } from "./compendium"
 
 export abstract class FusionCalculator {
 
@@ -31,11 +25,6 @@ export abstract class FusionCalculator {
         @returns {Recipe | null}: returns Recipe object if fusion was possible
             or null otherwise */
     protected abstract fuse(nameA: string, nameB: string): Recipe | null
-
-    /* calculate the approximate cost of the given recipe cost is impossible
-        to determine exactly as it varies on in game factors that are simply
-        not feasible to account for. */
-    protected abstract getCost(recipe: Recipe): number
 
     /* Returns all the demons in the compendium with the corresponding race
         @param race: the target race
@@ -87,4 +76,6 @@ export abstract class FusionCalculator {
                 return true
         return false
     }
+
+
 }

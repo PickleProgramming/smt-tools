@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 /* Object that stores the information necessary to populate Demon List tables
     and calculate fusions  */
 export interface Demon {
@@ -48,6 +50,12 @@ export interface ElementTable {
   elems: string[]
   races: string[]
   table: number[][]
+}
+
+export interface Recipe {
+  sources: string[]
+  result: string
+  cost?: number
 }
 
 /* Holds all the variables that are used to create each game view, except for the 
@@ -137,4 +145,41 @@ export abstract class Compendium {
   protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
   protected abstract parseDemons(demonData: Object): { [name: string]: Demon }
   protected abstract parseSpecial?(specialData: Object): { [name: string]: string[] }
+
+  /* calculate the approximate cost of the given recipe cost is impossible
+      to determine exactly as it varies on in game factors that are simply
+      not feasible to account for. */
+  abstract getCost(recipe: Recipe): number
+
+  isElemental(demonName: string): boolean {
+    if (this.config.elementTable == undefined)
+      throw new Error('isElemental called on a comp that has no elementals')
+    let intersect = _.intersection(this.config.elementTable.elems, [demonName])
+    if (intersect.length > 0)
+      return true
+    return false
+  }
+
+  isSpecial(demonName: string): boolean {
+    if (this.specialRecipes == undefined)
+      throw new Error('called isSpecial on a compendium with no specialRecipes')
+    let specialNames = Object.keys(this.specialRecipes)
+    if (_.intersection(specialNames, [demonName]).length > 0)
+      return true
+    return false
+  }
+
+  buildSpecialRecipe(targetName: string): Recipe {
+    if (this.specialRecipes == undefined)
+      throw new Error('called buildSpecialRecipe on a compendium with ' +
+      ' no specialRecipes')
+    let recipe: Recipe = {
+      sources: [],
+      result: targetName
+    }
+    for (let demonName of this.specialRecipes![targetName])
+      recipe.sources.push(demonName)
+    recipe.cost = this.getCost(recipe)
+    return recipe
+  }
 }

@@ -1,6 +1,6 @@
 import { P5_COMPENDIUM } from "@shared/constants"
-import { Demon } from "@shared/models/compendium"
-import { FusionCalculator, Recipe } from "@shared/models/fusion-calculator"
+import { Demon, Recipe } from "@shared/models/compendium"
+import { FusionCalculator } from "@shared/models/fusion-calculator"
 
 export class P5FusionCalculator extends FusionCalculator {
 
@@ -10,10 +10,12 @@ export class P5FusionCalculator extends FusionCalculator {
     }
 
     getFissions(targetName: string): Recipe[] {
-        if (this.isElemental(targetName) || this.isSpecial(targetName))
-            throw new Error('Called getFissions on an elemental or special demon')
+        if (this.isElemental(targetName))
+            throw new Error('Called getFissions on an elemental demon')
 
         console.log('Getting fissions for ' + targetName)
+        if (this.isSpecial(targetName))
+            return [this.compendium.buildSpecialRecipe(targetName)]
 
         let targetRace: string = this.compendium.demons[targetName].race
         let raceCombos: string[][] = []
@@ -50,7 +52,7 @@ export class P5FusionCalculator extends FusionCalculator {
                             sources: [nameA, nameB],
                             result: targetName
                         }
-                        fission.cost = this.getCost(fission)
+                        fission.cost = this.compendium.getCost(fission)
                         fissions.push(fission)
                     }
                 }
@@ -117,16 +119,7 @@ export class P5FusionCalculator extends FusionCalculator {
             sources: [nameA, nameB],
             result: result
         }
-        ret.cost = this.getCost(ret)
+        ret.cost = this.compendium.getCost(ret)
         return ret
-    }
-
-    protected getCost(recipe: Recipe): number {
-        let cost = 0
-        for (let source of recipe.sources) {
-            let level = this.compendium.demons[source].lvl
-            cost += (27 * level * level) + (126 * level) + 2147
-        }
-        return cost
     }
 }

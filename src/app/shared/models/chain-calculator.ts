@@ -1,5 +1,5 @@
-import { Compendium } from "./compendium"
-import { FusionCalculator, Recipe } from "./fusion-calculator"
+import { Compendium, Recipe } from "./compendium"
+import { FusionCalculator } from "./fusion-calculator"
 import _ from 'lodash'
 
 
@@ -30,9 +30,26 @@ export abstract class ChainCalculator {
         demonName: string,
         maxLevel: number): FusionChain | null
 
-    /* Determines if the passed persona is capable learning the skills passed
-        determines if ANY persona is capable if no name is give */
-    protected abstract isPossible(skills: string[], demonName?: string,): boolean
+    /* Determines if the passed persona is capable oflearning the skills passed
+        determines if ANY persona is capable if no name or recipe is give. 
+        Throws error if both a demonName and a recipe are provided.
+        @param skills: a list of skills to check if possible to inherit
+        @param demonName: a demon to check if they can inherit the skills
+        @param recipe: a recipe to check if either source is incapable of
+            inheritting. True if sourceA || sourceB can, false otherwise
+        @returns {boolean}*/
+    protected abstract isPossible(
+        skills: string[], 
+        demonName?: string, 
+        recipe?: Recipe): boolean
+
+    protected getMaxNumOfInherittedSkills(recipe: Recipe): number{
+        if (recipe.sources.length == 2)
+            return 4
+        if (recipe.sources.length >= 4)
+            return 6
+        return 5
+    }
 
     /* Returns every combination of subarrays from the passed array*/
     protected getSubArrays(arr: string[]): string[][] {
@@ -44,6 +61,15 @@ export abstract class ChainCalculator {
             let subarr = this.getSubArrays(arr.slice(1))
             return subarr.concat(subarr.map(e => e.concat(arr[0])), [[arr[0]]])
         }
+    }
+
+    /* false if none of the sources in the recipe exceed max level, 
+        true otherwise */
+    protected exceedsMaxLevel(recipe: Recipe): boolean {
+        for (let sourceName of recipe.sources)
+            if (this.compendium.demons[sourceName].lvl > this.maxLevel)
+                return false
+        return true
     }
 
     setRecursiveDepth(recursiveDepth: number): void {
