@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+
 # Only exists if Bazel was run
 /bazel-out
 
@@ -52,3 +53,5 @@ report*
 /e2e
 tsconfig.app.json
 karma.conf.js
+test*
+
