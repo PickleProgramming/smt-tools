@@ -31,22 +31,22 @@ export class DemonListComponent implements OnInit {
       'Stats': this.config.statCols.length,
     }
 
-    for (let elem in this.config.demonCols)
+    for (let elem of this.config.demonCols)
       this.secondHeader.push(elem)
-    for (let elem in this.config.statCols)
+    for (let elem of this.config.statCols)
       this.secondHeader.push(elem)
 
     if (this.config.resistanceCols) {
       this.firstHeader.push('Resistances')
       this.colSpan['Resistances'] = this.config.resistanceCols.length
-      for (let column in this.config.resistanceCols)
+      for (let column of this.config.resistanceCols)
         this.secondHeader.push(column)
     }
     if (this.config.affinityCols) {
       console.log('Trying to read affinities')
       this.firstHeader.push('Affinities')
       this.colSpan['Affinities'] = this.config.affinityCols.length
-      for (let column in this.config.affinityCols)
+      for (let column of this.config.affinityCols)
         this.secondHeader.push(column)
     }
   }

@@ -29,9 +29,9 @@ export class SkillListComponent implements OnInit {
       'Acquisition': this.config.acquisitionCols.length
     }
 
-    for (let elem in this.config.skillCols)
+    for (let elem of this.config.skillCols)
       this.secondHeader.push(elem)
-    for (let elem in this.config.acquisitionCols)
+    for (let elem of this.config.acquisitionCols)
       this.secondHeader.push(elem)
   }
 
