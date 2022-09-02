@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { Compendium, Demon } from '@shared//models/compendium'
-import { FusionCalculator, Recipe } from '@shared//models/fusion-calculator'
+import { Compendium, Demon, Recipe } from '@shared//models/compendium'
+import { FusionCalculator } from '@shared//models/fusion-calculator'
 
 @Component({
   selector: 'app-demon-entry',
