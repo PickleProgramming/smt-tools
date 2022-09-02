@@ -7,8 +7,8 @@ import { CompendiumConfig, Demon } from '@shared//models/compendium'
 	styleUrls: ['./demon-list.component.scss'],
 })
 export class DemonListComponent implements OnInit {
-	@Input() demons!: { [name: string]: Demon }
-	@Input() config!: CompendiumConfig
+	@Input() demons: { [name: string]: Demon } | undefined
+	@Input() config: CompendiumConfig | undefined
 	firstHeader: string[] = []
 	colSpan: { [col: string]: number } = {}
 	secondHeader: string[] = []
@@ -16,10 +16,7 @@ export class DemonListComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		if (
-			typeof this.config === undefined ||
-			typeof this.demons === undefined
-		) {
+		if (!this.config || !this.demons) {
 			throw new Error('Config/Demon List cannot be undefined')
 		}
 

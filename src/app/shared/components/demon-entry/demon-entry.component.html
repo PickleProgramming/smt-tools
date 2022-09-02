@@ -5,14 +5,14 @@
 			Stats
 		</tr>
 		<tr>
-			<td *ngFor="let column of compendium.config.statCols">
+			<td *ngFor="let column of compendium?.config?.statCols">
 				{{ column }}
 			</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td *ngFor="let column of demon.stats">
+			<td *ngFor="let column of demon?.stats">
 				{{ column }}
 			</td>
 		</tr>
@@ -26,15 +26,15 @@
 			Resistances
 		</tr>
 		<tr>
-			<td *ngFor="let column of compendium.config.resistanceCols">
+			<td *ngFor="let column of compendium?.config?.resistanceCols">
 				{{ column }}
 			</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<ng-container *ngIf="demon.resistances">
-				<td *ngFor="let column of demon.resistances.split('')">
+			<ng-container *ngIf="demon?.resistances">
+				<td *ngFor="let column of demon?.resistances?.split('')">
 					<ng-container [ngSwitch]="column">
 						<p *ngSwitchCase="'d'">absorb</p>
 						<p *ngSwitchCase="'w'">weak</p>
@@ -56,14 +56,14 @@
 			Inheritable Skills
 		</tr>
 		<tr>
-			<td *ngFor="let column of compendium.config.inheritCols">
+			<td *ngFor="let column of compendium?.config?.inheritCols">
 				{{ column }}
 			</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<ng-container *ngIf="demon.inherits">
+			<ng-container *ngIf="demon?.inherits">
 				<td *ngFor="let column of inheritTypes">
 					<ng-container *ngIf="column"> yes </ng-container>
 				</td>
@@ -79,17 +79,17 @@
 			Innate Skills
 		</tr>
 		<tr>
-			<td *ngFor="let column of compendium.config.skillCols">
+			<td *ngFor="let column of compendium?.config?.skillCols">
 				{{ column }}
 			</td>
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="let skill of demon.skills | keyvalue">
-			<td>{{ compendium.skills[skill.key].element }}</td>
+		<tr *ngFor="let skill of demon?.skills | keyvalue">
+			<td>{{ (compendium?.skills)![skill.key].element }}</td>
 			<td>{{ skill.key }}</td>
-			<td>{{ compendium.skills[skill.key].cost }}</td>
-			<td>{{ compendium.skills[skill.key].effect }}</td>
+			<td>{{ (compendium?.skills)![skill.key].cost }}</td>
+			<td>{{ (compendium?.skills)![skill.key].effect }}</td>
 		</tr>
 	</tbody>
 </table>
@@ -120,11 +120,11 @@
 	<tbody>
 		<tr *ngFor="let fission of fissions">
 			<td>{{ fission.cost }}</td>
-			<td>{{ compendium.demons[fission.sources[0]].race }}</td>
-			<td>{{ compendium.demons[fission.sources[0]].lvl }}</td>
+			<td>{{ (compendium?.demons)![fission.sources[0]].race }}</td>
+			<td>{{ (compendium?.demons)![fission.sources[0]].lvl }}</td>
 			<td>{{ fission.sources[0] }}</td>
-			<td>{{ compendium.demons[fission.sources[1]].race }}</td>
-			<td>{{ compendium.demons[fission.sources[1]].lvl }}</td>
+			<td>{{ (compendium?.demons)![fission.sources[1]].race }}</td>
+			<td>{{ (compendium?.demons)![fission.sources[1]].lvl }}</td>
 			<td>{{ fission.sources[1] }}</td>
 		</tr>
 	</tbody>
@@ -156,11 +156,11 @@
 	<tbody>
 		<tr *ngFor="let fusion of fusions">
 			<td>{{ fusion.cost }}</td>
-			<td>{{ compendium.demons[fusion.sources[1]].race }}</td>
-			<td>{{ compendium.demons[fusion.sources[1]].lvl }}</td>
+			<td>{{ (compendium?.demons)![fusion.sources[1]].race }}</td>
+			<td>{{ (compendium?.demons)![fusion.sources[1]].lvl }}</td>
 			<td>{{ fusion.sources[1] }}</td>
-			<td>{{ compendium.demons[fusion.result].race }}</td>
-			<td>{{ compendium.demons[fusion.result].lvl }}</td>
+			<td>{{ (compendium?.demons)![fusion.result].race }}</td>
+			<td>{{ (compendium?.demons)![fusion.result].lvl }}</td>
 			<td>{{ fusion.result }}</td>
 		</tr>
 	</tbody>

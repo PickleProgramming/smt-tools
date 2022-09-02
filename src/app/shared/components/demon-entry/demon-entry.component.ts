@@ -9,11 +9,10 @@ import { FusionCalculator } from '@shared//models/fusion-calculator'
 	styleUrls: ['./demon-entry.component.scss'],
 })
 export class DemonEntryComponent implements OnInit {
-	@Input() compendium!: Compendium
-	@Input() calculator!: FusionCalculator
-
+	@Input() compendium: Compendium | undefined
+	@Input() calculator: FusionCalculator | undefined
 	name: string = this.router.url.split('/')[3]
-	demon!: Demon
+	demon: Demon | undefined
 	inheritTypes!: boolean[]
 	fissions!: Recipe[]
 	fusions!: Recipe[]
@@ -21,10 +20,9 @@ export class DemonEntryComponent implements OnInit {
 	constructor(private router: Router) {}
 
 	ngOnInit(): void {
-		console.log('ngOnInit called for app-demon-entry: ' + this.name)
-		if (this.compendium === undefined)
+		if (!this.compendium)
 			throw new Error('DemonEntryComponent must be passed a compendium')
-		if (this.calculator === undefined)
+		if (!this.calculator)
 			throw new Error(
 				'DemonEntryComponent must be passed a FusionCalculator'
 			)

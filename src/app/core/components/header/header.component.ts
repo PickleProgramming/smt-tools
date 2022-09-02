@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { GameView } from '@shared/models/game-view'
 import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({
@@ -6,9 +7,12 @@ import GAME_MODELS from 'src/assets/game-models.json'
 	styleUrls: ['./header.component.scss'],
 	template: `
 		<ul class="smt-navbar">
-			<li *ngFor="let tab of tabs" class="{{ tab.abbrv }}">
-				<a routerLink="{{ tab.abbrv }}" routerLinkActive="active">
-					<img src="{{ tab.logo }}" />
+			<li
+				*ngFor="let game of gameViews | keyvalue"
+				class="{{ game.key }}"
+			>
+				<a routerLink="{{ game.key }}" routerLinkActive="active">
+					<img src="{{ game.value.logo }}" />
 				</a>
 			</li>
 		</ul>
@@ -16,13 +20,9 @@ import GAME_MODELS from 'src/assets/game-models.json'
 	`,
 })
 export class HeaderComponent implements OnInit {
-	tabs: any = []
-	loading = false
+	gameViews: { [game: string]: GameView } = GAME_MODELS
 
 	constructor() {}
 
-	ngOnInit(): void {
-		const logoLinks = GAME_MODELS
-		for (let logoLink of logoLinks) this.tabs.push(logoLink)
-	}
+	ngOnInit(): void {}
 }

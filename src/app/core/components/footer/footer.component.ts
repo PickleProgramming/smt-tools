@@ -19,20 +19,7 @@ import GAME_MODELS from 'src/assets/game-models.json'
 	`,
 })
 export class FooterComponent implements OnInit {
-	game?: GameView
-	abbrv = 'p5'
-	subscription?: Subscription
-
 	constructor(private router: Router) {}
-
-	changeGame(abbrv: string): void {
-		this.abbrv = abbrv
-		this.game =
-			GAME_MODELS[GAME_MODELS.findIndex((game) => game.abbrv === abbrv)]
-		let element = document.getElementById('')
-		element!.style.backgroundColor = this.game.colors.primary
-		element!.style.fontFamily = this.game.font
-	}
 
 	ngOnInit(): void {}
 }

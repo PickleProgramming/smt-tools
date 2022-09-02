@@ -1,4 +1,4 @@
-<!-- bar for navigating between different tools specific to a game -->
+<!-- bar for navigating between different tools specific to a gameName -->
 <table id="navRow" class="game-wrapper-table">
 	<thead>
 		<tr class="game-wrapper-row">
@@ -9,7 +9,7 @@
 				[routerLinkActiveOptions]="{ exact: true }"
 			>
 				<a
-					routerLink="{{ game }}/{{ gameView.mainList }}s"
+					routerLink="{{ gameName }}/{{ gameView.mainList }}s"
 					[ngStyle]="{ color: gameView.colors.text }"
 				>
 					{{
@@ -22,7 +22,7 @@
 			<!-- Skill Link -->
 			<th class="game-wrapper-entry" routerLinkActive="active">
 				<a
-					routerLink="{{ game }}/skills"
+					routerLink="{{ gameName }}/skills"
 					[ngStyle]="{ color: gameView.colors.text }"
 				>
 					Skill List
@@ -31,7 +31,7 @@
 			<!-- Fusion Table Link -->
 			<th class="game-wrapper-entry" routerLinkActive="active">
 				<a
-					routerLink="{{ game }}/fusion-table"
+					routerLink="{{ gameName }}/fusion-table"
 					[ngStyle]="{ color: gameView.colors.text }"
 				>
 					Fusion Table
@@ -44,7 +44,7 @@
 				routerLinkActive="active"
 			>
 				<a
-					routerLink="{{ game }}/{{ link.url }}"
+					routerLink="{{ gameName }}/{{ link.url }}"
 					[ngStyle]="{ color: gameView.colors.text }"
 				>
 					{{ link.title }}

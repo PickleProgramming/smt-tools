@@ -2,6 +2,25 @@ import { Compendium, Recipe } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 
+export class FusionChain {
+	steps: Recipe[] = []
+	cost: number = 0
+	inherittedSkills: string[][] = []
+
+	constructor() {}
+
+	addStep(recipe: Recipe, inherittedSkills: string[]) {
+		this.steps.push(recipe)
+		this.inherittedSkills.push(inherittedSkills)
+	}
+
+	getCost(): number {
+		let cost: number = 0
+		for (let step of this.steps) cost += step.cost!
+		return cost
+	}
+}
+
 export abstract class ChainCalculator {
 	compendium: Compendium
 	calculator: FusionCalculator
@@ -110,24 +129,5 @@ export abstract class ChainCalculator {
 	}
 	setMaxChainLength(maxChainLength: number): void {
 		this.maxChainLength = maxChainLength
-	}
-}
-
-export class FusionChain {
-	steps: Recipe[] = []
-	cost: number = 0
-	inherittedSkills: string[][] = []
-
-	constructor() {}
-
-	addStep(recipe: Recipe, inherittedSkills: string[]) {
-		this.steps.push(recipe)
-		this.inherittedSkills.push(inherittedSkills)
-	}
-
-	getCost(): number {
-		let cost: number = 0
-		for (let step of this.steps) cost += step.cost!
-		return cost
 	}
 }

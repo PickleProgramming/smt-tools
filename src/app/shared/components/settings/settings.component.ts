@@ -16,20 +16,20 @@ import { Demon } from '@shared//models/compendium'
 	styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-	@Input() dlcDemons!: { [name: string]: Demon }
-	@Input() packs!: { [name: string]: boolean }
+	@Input() dlcDemons: { [name: string]: Demon } | undefined
+	@Input() packs: { [name: string]: boolean } | undefined
 	@Input() togglePack!: (event: any) => void
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (typeof this.dlcDemons === undefined)
+		if (!this.dlcDemons)
 			throw new Error(
 				'SettingsComponent requires a compendium with a dlcDemons property'
 			)
-		if (typeof this.packs === undefined)
-			throw new Error('SettingsComponent requires a "packs" object.')
-		if (typeof this.togglePack === undefined)
+		if (!this.packs)
+			throw new Error('SettingsComponent requires a packs object.')
+		if (!this.togglePack)
 			throw new Error('SettingsComponent requires a togglePack function')
 	}
 }

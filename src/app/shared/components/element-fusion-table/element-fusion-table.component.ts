@@ -7,12 +7,18 @@ import { CompendiumConfig } from '@shared/models/compendium'
 	styleUrls: ['./element-fusion-table.component.scss'],
 })
 export class ElementFusionTableComponent implements OnInit {
-	@Input() config!: CompendiumConfig
+	@Input() config: CompendiumConfig | undefined
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (typeof this.config === undefined)
+		if (!this.config)
 			throw new Error('ElementFusionTable must be called with a game')
+		if (!this.config.elementTable) {
+			throw new Error(
+				'app-element-fusion-table needs a config with a ' +
+					' defined elementTable'
+			)
+		}
 	}
 }

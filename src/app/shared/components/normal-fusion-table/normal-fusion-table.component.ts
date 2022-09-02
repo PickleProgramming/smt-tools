@@ -7,7 +7,7 @@ import { CompendiumConfig } from '@shared//models/compendium'
 	styleUrls: ['./normal-fusion-table.component.scss'],
 })
 export class NormalFusionTableComponent implements OnInit {
-	@Input() config!: CompendiumConfig
+	@Input() config: CompendiumConfig | undefined
 
 	constructor() {}
 

@@ -1,14 +1,14 @@
 <table>
 	<thead>
 		<tr>
-			<th *ngFor="let race of config.fusionTable.races">
+			<th *ngFor="let race of config?.fusionTable?.races">
 				{{ race }}
 			</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="let row of config.fusionTable.table; let i = index">
-			<td>{{ config.fusionTable.races[i] }}</td>
+		<tr *ngFor="let row of config?.fusionTable?.table; let i = index">
+			<td>{{ (config?.fusionTable)!.races[i] }}</td>
 			<td *ngFor="let cell of row">
 				<ng-container *ngIf="cell == '-' || null; else shorter">
 					{{ cell }}

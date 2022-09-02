@@ -6,25 +6,25 @@
 	</thead>
 	<thead>
 		<tr>
-			<ng-container *ngIf="this.config.elementTable">
-				<th *ngFor="let elem of this.config.elementTable.elems">
+			<ng-container *ngIf="this.config?.elementTable">
+				<th *ngFor="let elem of this.config?.elementTable?.elems">
 					{{ elem }}
 				</th>
 			</ng-container>
 		</tr>
 	</thead>
 	<tbody>
-		<ng-container *ngIf="this.config.elementTable">
+		<ng-container *ngIf="this.config?.elementTable">
 			<tr
 				*ngFor="
-					let race of this.config.elementTable.races;
+					let race of this.config?.elementTable?.races;
 					let i = index
 				"
 			>
 				<th>
 					{{ race }}
 				</th>
-				<td *ngFor="let elem of this.config.elementTable.table[i]">
+				<td *ngFor="let elem of (this.config?.elementTable)!.table[i]">
 					{{ elem }}
 				</td>
 			</tr>

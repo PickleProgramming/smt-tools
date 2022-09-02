@@ -13,22 +13,22 @@ const routes: Routes = [
 	{
 		path: 'personas',
 		component: P5PersonaListComponent,
-		data: { gameName: 'p5' },
+	},
+	{
+		path: 'personas/:demonName',
+		component: P5PersonaEntryComponent,
 	},
 	{
 		path: 'skills',
 		component: P5SkillListComponent,
-		data: { gameName: 'p5' },
 	},
 	{
 		path: 'fusion-table',
 		component: P5FusionTableComponent,
-		data: { gameName: 'p5' },
 	},
 	{
 		path: 'fusion-chain',
 		component: P5FusionChainComponent,
-		data: { gamename: 'p5' },
 	},
 	{
 		path: 'fusion-chain/:chainName',
@@ -37,11 +37,6 @@ const routes: Routes = [
 	{
 		path: 'settings',
 		component: P5SettingsComponent,
-		data: { gameName: 'p5' },
-	},
-	{
-		path: 'personas/:demonName',
-		component: P5PersonaEntryComponent,
 	},
 ]
 

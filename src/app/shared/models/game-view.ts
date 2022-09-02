@@ -4,7 +4,6 @@
 	@property hasSettings - wether the game hase a settings link or not */
 export interface GameView {
 	game: string
-	abbrv: string
 	logo: string
 	colors: Colors
 	font: string

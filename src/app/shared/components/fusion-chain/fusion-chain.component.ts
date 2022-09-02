@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { P5ChainCalculator } from '@p5/models/p5-chain-calculator'
-import { FusionChain } from '@shared/models/chain-calculator'
+import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
 import { Compendium } from '@shared/models/compendium'
 import { OperatorFunction, Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
@@ -11,8 +10,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 	styleUrls: ['./fusion-chain.component.scss'],
 })
 export class FusionChainComponent implements OnInit {
-	@Input() compendium!: Compendium
-	@Input() chainCalc!: P5ChainCalculator
+	@Input() compendium: Compendium | undefined
+	@Input() chainCalc: ChainCalculator | undefined
 	skills?: string[]
 	demons?: string[]
 	inputSkills: string[] = []
@@ -22,15 +21,17 @@ export class FusionChainComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		if (this.compendium === undefined)
+		if (!this.compendium) {
 			throw new Error(
 				'FusionChainComponent called without passing ' + ' compendium'
 			)
-		if (this.chainCalc === undefined)
+		}
+		if (!this.chainCalc) {
 			throw new Error(
 				'FusionChainComponent called without passing ' +
 					'chain calculator'
 			)
+		}
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
 	}
@@ -68,11 +69,37 @@ export class FusionChainComponent implements OnInit {
 			)
 		)
 
+	calculate(): void {
+		if (!this.chainCalc || !this.inputSkills) {
+			throw new Error(
+				'FusionChainComponent called without passing ' +
+					'chain calculator or entering skills'
+			)
+		}
+		console.log(this.skills)
+		console.log(this.demon)
+		this.chains = this.chainCalc?.getChains(
+			this.inputSkills,
+			false,
+			this.demon
+		)
+	}
+
 	test(): void {
-		this.skills = ['Miracle Punch', 'Apt Pupil', 'Attack Master']
+		if (!this.chainCalc) {
+			throw new Error(
+				'FusionChainComponent called without passing ' +
+					'chain calculator'
+			)
+		}
+		this.inputSkills = ['Miracle Punch', 'Apt Pupil', 'Attack Master']
 		this.demon = 'Ara Mitama'
 		this.chainCalc.maxLevel = 37
-		this.chains = this.chainCalc.getChains(this.skills, false, this.demon)
+		this.chains = this.chainCalc.getChains(
+			this.inputSkills,
+			false,
+			this.demon
+		)
 		console.log(this.chains)
 	}
 }

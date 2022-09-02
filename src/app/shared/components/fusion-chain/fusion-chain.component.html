@@ -36,7 +36,7 @@
 		<tr *ngFor="let row of chains">
 			<td>{{ row.cost }}</td>
 			<td>{{ row.steps.length }}</td>
-			<td>{{ this.chainCalc.levelRequired(row) }}</td>
+			<td>{{ chainCalc?.levelRequired(row) }}</td>
 			<td routerLink="active">
 				<a routerLink="{{ row.steps[row.steps.length - 1].result }}">
 					{{ row.steps[row.steps.length - 1].result }}
@@ -45,3 +45,5 @@
 		</tr>
 	</tbody>
 </table>
+
+<button (click)="calculate()">CALCULATE</button>

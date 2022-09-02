@@ -1,7 +1,6 @@
-[
-	{
+{
+	"smt3hd": {
 		"game": "Shin Megami Tensei III Nocture HD Remaster",
-		"abbrv": "smt3hd",
 		"logo": "assets/img/games/smt3hd.png",
 		"colors": {
 			"primary": "#000000",
@@ -17,9 +16,8 @@
 			}
 		]
 	},
-	{
+	"p5": {
 		"game": "Persona 5",
-		"abbrv": "p5",
 		"logo": "assets/img/games/p5r.png",
 		"colors": {
 			"primary": "#ef0006",
@@ -39,9 +37,8 @@
 			}
 		]
 	},
-	{
+	"pq2": {
 		"game": "Persona Q2: New Cinema Labyrinth",
-		"abbrv": "pq2",
 		"logo": "assets/img/games/pq2.png",
 		"colors": {
 			"primary": "#5659a0",
@@ -61,9 +58,8 @@
 			}
 		]
 	},
-	{
+	"smt4": {
 		"game": "Shin Megami Tensei IV",
-		"abbrv": "smt4",
 		"logo": "assets/img/games/smt4.png",
 		"colors": {
 			"primary": "#66519d",
@@ -79,7 +75,7 @@
 			}
 		]
 	},
-	{
+	"smtsjr": {
 		"game": "Shin Megami Tensei Strange Journey Redux",
 		"abbrv": "smtsjr",
 		"logo": "assets/img/games/smtsjr.png",
@@ -97,7 +93,7 @@
 			}
 		]
 	},
-	{
+	"p4g": {
 		"game": "Persona 4 Golden",
 		"abbrv": "p4g",
 		"logo": "assets/img/games/p4g.png",
@@ -110,7 +106,7 @@
 		"mainList": "persona",
 		"otherLinks": []
 	},
-	{
+	"p3p": {
 		"game": "Persona 3 Portable",
 		"abbrv": "p3p",
 		"logo": "assets/img/games/p3p.png",
@@ -123,4 +119,4 @@
 		"mainList": "persona",
 		"otherLinks": []
 	}
-]
+}

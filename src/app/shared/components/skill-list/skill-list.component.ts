@@ -7,8 +7,8 @@ import { CompendiumConfig, Skill } from '@shared/models/compendium'
 	styleUrls: ['./skill-list.component.scss'],
 })
 export class SkillListComponent implements OnInit {
-	@Input() config!: CompendiumConfig
-	@Input() skills!: { [name: string]: Skill }
+	@Input() config: CompendiumConfig | undefined
+	@Input() skills: { [name: string]: Skill } | undefined
 	firstHeader: string[] = []
 	colSpan: { [col: string]: number } = {}
 	secondHeader: string[] = []

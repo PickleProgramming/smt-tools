@@ -13,33 +13,37 @@ import GAME_MODELS from 'src/assets/game-models.json'
 	styleUrls: ['./game-wrapper.component.scss'],
 })
 export class GameWrapperComponent implements OnInit {
-	@Input() game: string = 'p5'
-	gameView: GameView =
-		GAME_MODELS[GAME_MODELS.findIndex((game) => game.abbrv === this.game)]
+	@Input() gameName: string = 'p5'
+	gameViews: { [game: string]: GameView } = GAME_MODELS
+	gameView: GameView = this.gameViews[this.gameName]
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
 		private router: Router,
 		private renderer: Renderer2,
 		private activatedRoute: ActivatedRoute
-	) {}
+	) {
+		//this block will run everytime the user navigates to a new page
+		this.router.events.subscribe((e) => {
+			if (e instanceof NavigationEnd) {
+				this.changeGame(e.urlAfterRedirects.split('/')[1])
+				//console.log(e.urlAfterRedirects.split('/')[1])
+			}
+		})
+	}
 
-	// Updates the sub-nav-bar and main view to reflect the game denoted by the passed string
-	// @param abbrv: game to change to (p3p, p5r, etc)
-	changeGame(abbrv: string): void {
-		this.gameView =
-			GAME_MODELS[GAME_MODELS.findIndex((game) => game.abbrv === abbrv)]
+	/* Updates the sub-nav-bar and main view to reflect the game denoted by the 
+		passed string
+	@param game: game to change to (p3p, p5r, etc) */
+	changeGame(gameName: string): void {
+		if (gameName == '') throw new Error('must gamme changeGame with abbrv')
+		this.gameView = this.gameViews[gameName]
 		this.renderer.setAttribute(this.document?.body, 'class', '')
-		this.renderer.addClass(this.document?.body, abbrv)
+		this.renderer.addClass(this.document?.body, gameName)
 	}
 
 	ngOnInit(): void {
-		this.changeGame(this.game)
-		//this block will run everytime the user navigates to a new page
-		this.router.events.subscribe((e) => {
-			if (e instanceof NavigationEnd)
-				this.changeGame(this.router.url.split('/')[1])
-		})
+		this.changeGame(this.gameName)
 	}
 
 	ngOnDestroy(): void {}

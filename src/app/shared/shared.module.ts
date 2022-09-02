@@ -11,7 +11,6 @@ import { ShortenPipe } from './pipes/shorten.pipe'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
 import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component'
-import { FusionChainEntryComponent } from './components/fusion-chain-entry/fusion-chain-entry.component'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
@@ -25,7 +24,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 		DemonEntryComponent,
 		ShortenPipe,
 		FusionChainComponent,
-		FusionChainEntryComponent,
 	],
 	imports: [
 		CommonModule,
@@ -43,7 +41,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 		SettingsComponent,
 		DemonEntryComponent,
 		FusionChainComponent,
-		FusionChainEntryComponent,
 		ShortenPipe,
 	],
 })
