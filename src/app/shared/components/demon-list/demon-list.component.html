@@ -1,46 +1,49 @@
 <table>
-    <thead>
-        <tr>
-            <th *ngFor="let column of firstHeader" colSpan="{{ colSpan[column] }}">
-                {{ column }}
-            </th>
-        </tr>
-        <tr>
-            <th *ngFor="let column of secondHeader">
-                {{ column }}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let demon of demons | keyvalue">
-            <!-- Demon -->
-            <td>{{ demon.value.race }}</td>
-            <td>{{ demon.value.lvl }}</td>
-            <td routerLinkActive="active">
-                <a routerLink="{{ demon.key }}">
-                    {{ demon.key }}
-                </a>
-            </td>
-            <td *ngIf="demon.value.inherits">
-                {{ demon.value.inherits }}
-            </td>
-            <!-- Stats -->
-            <td *ngFor="let stat of demon.value.stats">
-                {{ stat }}
-            </td>
-            <!-- Resistances -->
-            <ng-container *ngIf="demon.value.resistances">
-                <td *ngFor="let resist of demon.value.resistances.split('')">
-                    <ng-container [ngSwitch]="resist">
-                        <p *ngSwitchCase="'d'">absorb</p>
-                        <p *ngSwitchCase="'w'">weak</p>
-                        <p *ngSwitchCase="'n'">null</p>
-                        <p *ngSwitchCase="'s'">resist</p>
-                        <p *ngSwitchCase="'r'">repel</p>
-                        <p *ngSwitchDefault></p>
-                    </ng-container>
-                </td>
-            </ng-container>
-        </tr>
-    </tbody>
+	<thead>
+		<tr>
+			<th
+				*ngFor="let column of firstHeader"
+				colSpan="{{ colSpan[column] }}"
+			>
+				{{ column }}
+			</th>
+		</tr>
+		<tr>
+			<th *ngFor="let column of secondHeader">
+				{{ column }}
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let demon of demons | keyvalue">
+			<!-- Demon -->
+			<td>{{ demon.value.race }}</td>
+			<td>{{ demon.value.lvl }}</td>
+			<td routerLinkActive="active">
+				<a routerLink="{{ demon.key }}">
+					{{ demon.key }}
+				</a>
+			</td>
+			<td *ngIf="demon.value.inherits">
+				{{ demon.value.inherits }}
+			</td>
+			<!-- Stats -->
+			<td *ngFor="let stat of demon.value.stats">
+				{{ stat }}
+			</td>
+			<!-- Resistances -->
+			<ng-container *ngIf="demon.value.resistances">
+				<td *ngFor="let resist of demon.value.resistances.split('')">
+					<ng-container [ngSwitch]="resist">
+						<p *ngSwitchCase="'d'">absorb</p>
+						<p *ngSwitchCase="'w'">weak</p>
+						<p *ngSwitchCase="'n'">null</p>
+						<p *ngSwitchCase="'s'">resist</p>
+						<p *ngSwitchCase="'r'">repel</p>
+						<p *ngSwitchDefault></p>
+					</ng-container>
+				</td>
+			</ng-container>
+		</tr>
+	</tbody>
 </table>

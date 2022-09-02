@@ -15,36 +15,36 @@ import { FusionChainEntryComponent } from './components/fusion-chain-entry/fusio
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
-  declarations: [
-    DemonListComponent,
-    SkillListComponent,
-    NormalFusionTableComponent,
-    ElementFusionTableComponent,
-    TripleFusionTableComponent,
-    SettingsComponent,
-    DemonEntryComponent,
-    ShortenPipe,
-    FusionChainComponent,
-    FusionChainEntryComponent,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule
-  ],
-  exports: [
-    DemonListComponent,
-    SkillListComponent,
-    NormalFusionTableComponent,
-    ElementFusionTableComponent,
-    TripleFusionTableComponent,
-    SettingsComponent,
-    DemonEntryComponent,
-    FusionChainComponent,
-    FusionChainEntryComponent,
-    ShortenPipe
-  ]
+	declarations: [
+		DemonListComponent,
+		SkillListComponent,
+		NormalFusionTableComponent,
+		ElementFusionTableComponent,
+		TripleFusionTableComponent,
+		SettingsComponent,
+		DemonEntryComponent,
+		ShortenPipe,
+		FusionChainComponent,
+		FusionChainEntryComponent,
+	],
+	imports: [
+		CommonModule,
+		RouterModule,
+		FormsModule,
+		ReactiveFormsModule,
+		NgbModule,
+	],
+	exports: [
+		DemonListComponent,
+		SkillListComponent,
+		NormalFusionTableComponent,
+		ElementFusionTableComponent,
+		TripleFusionTableComponent,
+		SettingsComponent,
+		DemonEntryComponent,
+		FusionChainComponent,
+		FusionChainEntryComponent,
+		ShortenPipe,
+	],
 })
-export class SharedModule { }
+export class SharedModule {}

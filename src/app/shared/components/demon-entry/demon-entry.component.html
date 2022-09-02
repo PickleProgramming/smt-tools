@@ -1,165 +1,167 @@
 <!-- Stats -->
 <table>
-    <thead>
-        <tr>
-            Stats
-        </tr>
-        <tr>
-            <td *ngFor='let column of compendium.config.statCols'>
-                {{ column }}
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td *ngFor='let column of demon.stats'>
-                {{ column }}
-            </td>
-        </tr>
-    </tbody>
+	<thead>
+		<tr>
+			Stats
+		</tr>
+		<tr>
+			<td *ngFor="let column of compendium.config.statCols">
+				{{ column }}
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td *ngFor="let column of demon.stats">
+				{{ column }}
+			</td>
+		</tr>
+	</tbody>
 </table>
+
 <!-- Resistances -->
 <table>
-    <thead>
-        <tr>
-            Resistances
-        </tr>
-        <tr>
-            <td *ngFor='let column of compendium.config.resistanceCols'>
-                {{ column }}
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <ng-container *ngIf='demon.resistances'>
-                <td *ngFor='let column of demon.resistances.split("")'>
-                    <ng-container [ngSwitch]='column'>
-                        <p *ngSwitchCase="'d'">absorb</p>
-                        <p *ngSwitchCase="'w'">weak</p>
-                        <p *ngSwitchCase="'n'">null</p>
-                        <p *ngSwitchCase="'s'">resist</p>
-                        <p *ngSwitchCase="'r'">repel</p>
-                        <p *ngSwitchDefault></p>
-                    </ng-container>
-                </td>
-            </ng-container>
-        </tr>
-    </tbody>
+	<thead>
+		<tr>
+			Resistances
+		</tr>
+		<tr>
+			<td *ngFor="let column of compendium.config.resistanceCols">
+				{{ column }}
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<ng-container *ngIf="demon.resistances">
+				<td *ngFor="let column of demon.resistances.split('')">
+					<ng-container [ngSwitch]="column">
+						<p *ngSwitchCase="'d'">absorb</p>
+						<p *ngSwitchCase="'w'">weak</p>
+						<p *ngSwitchCase="'n'">null</p>
+						<p *ngSwitchCase="'s'">resist</p>
+						<p *ngSwitchCase="'r'">repel</p>
+						<p *ngSwitchDefault></p>
+					</ng-container>
+				</td>
+			</ng-container>
+		</tr>
+	</tbody>
 </table>
+
 <!-- Inheritable Skills -->
 <table>
-    <thead>
-        <tr>
-            Inheritable Skills
-        </tr>
-        <tr>
-            <td *ngFor='let column of compendium.config.inheritCols'>
-                {{ column }}
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <ng-container *ngIf='demon.inherits'>
-                <td *ngFor='let column of inheritTypes'>
-                    <ng-container *ngIf='column'>
-                        yes
-                    </ng-container>
-                </td>
-            </ng-container>
-        </tr>
-    </tbody>
+	<thead>
+		<tr>
+			Inheritable Skills
+		</tr>
+		<tr>
+			<td *ngFor="let column of compendium.config.inheritCols">
+				{{ column }}
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<ng-container *ngIf="demon.inherits">
+				<td *ngFor="let column of inheritTypes">
+					<ng-container *ngIf="column"> yes </ng-container>
+				</td>
+			</ng-container>
+		</tr>
+	</tbody>
 </table>
+
 <!-- Learned Skills -->
 <table>
-    <thead>
-        <tr>
-            Innate Skills
-        </tr>
-        <tr>
-            <td *ngFor='let column of compendium.config.skillCols'>
-                {{ column }}
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor='let skill of demon.skills | keyvalue'>
-            <td>{{ compendium.skills[skill.key].element }}</td>
-            <td>{{ skill.key }}</td>
-            <td>{{ compendium.skills[skill.key].cost }}</td>
-            <td>{{ compendium.skills[skill.key].effect }}</td>
-        </tr>
-    </tbody>
+	<thead>
+		<tr>
+			Innate Skills
+		</tr>
+		<tr>
+			<td *ngFor="let column of compendium.config.skillCols">
+				{{ column }}
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let skill of demon.skills | keyvalue">
+			<td>{{ compendium.skills[skill.key].element }}</td>
+			<td>{{ skill.key }}</td>
+			<td>{{ compendium.skills[skill.key].cost }}</td>
+			<td>{{ compendium.skills[skill.key].effect }}</td>
+		</tr>
+	</tbody>
 </table>
+
 <!-- Fissions -->
 <table>
-    <thead>
-        <tr>
-            <th colSpan="7">Recipes that Make {{ name }}</th>
-        </tr>
-        <tr>
-            <th colSpan="7">Ingredient A x Ingredient B = {{ name }}</th>
-        </tr>
-        <tr>
-            <th rowSpan="2">Price</th>
-            <th colSpan="3">Ingredient A</th>
-            <th colSpan="3">Ingredient B</th>
-        </tr>
-        <tr>
-            <th>Race</th>
-            <th>Level</th>
-            <th>Name</th>
-            <th>Race</th>
-            <th>Level</th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor='let fission of fissions'>
-            <td>{{ fission.cost }}</td>
-            <td>{{ compendium.demons[fission.sources[0]].race }}</td>
-            <td>{{ compendium.demons[fission.sources[0]].lvl }}</td>
-            <td>{{ fission.sources[0] }}</td>
-            <td>{{ compendium.demons[fission.sources[1]].race }}</td>
-            <td>{{ compendium.demons[fission.sources[1]].lvl }}</td>
-            <td>{{ fission.sources[1] }}</td>
-        </tr>
-    </tbody>
+	<thead>
+		<tr>
+			<th colSpan="7">Recipes that Make {{ name }}</th>
+		</tr>
+		<tr>
+			<th colSpan="7">Ingredient A x Ingredient B = {{ name }}</th>
+		</tr>
+		<tr>
+			<th rowSpan="2">Price</th>
+			<th colSpan="3">Ingredient A</th>
+			<th colSpan="3">Ingredient B</th>
+		</tr>
+		<tr>
+			<th>Race</th>
+			<th>Level</th>
+			<th>Name</th>
+			<th>Race</th>
+			<th>Level</th>
+			<th>Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let fission of fissions">
+			<td>{{ fission.cost }}</td>
+			<td>{{ compendium.demons[fission.sources[0]].race }}</td>
+			<td>{{ compendium.demons[fission.sources[0]].lvl }}</td>
+			<td>{{ fission.sources[0] }}</td>
+			<td>{{ compendium.demons[fission.sources[1]].race }}</td>
+			<td>{{ compendium.demons[fission.sources[1]].lvl }}</td>
+			<td>{{ fission.sources[1] }}</td>
+		</tr>
+	</tbody>
 </table>
+
 <!-- Fusions -->
 <table>
-    <thead>
-        <tr>
-            <th colSpan="7">Recipes that {{ name }} can make</th>
-        </tr>
-        <tr>
-            <th colSpan="7">{{ name }} x Ingredient B = Result</th>
-        </tr>
-        <tr>
-            <th rowSpan="2">Price</th>
-            <th colSpan="3">Ingredient B</th>
-            <th colSpan="3">Result</th>
-        </tr>
-        <tr>
-            <th>Race</th>
-            <th>Level</th>
-            <th>Name</th>
-            <th>Race</th>
-            <th>Level</th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor='let fusion of fusions'>
-            <td>{{ fusion.cost }}</td>
-            <td>{{ compendium.demons[fusion.sources[1]].race }}</td>
-            <td>{{ compendium.demons[fusion.sources[1]].lvl }}</td>
-            <td>{{ fusion.sources[1] }}</td>
-            <td>{{ compendium.demons[fusion.result].race }}</td>
-            <td>{{ compendium.demons[fusion.result].lvl }}</td>
-            <td>{{ fusion.result }}</td>
-        </tr>
-
-    </tbody>
+	<thead>
+		<tr>
+			<th colSpan="7">Recipes that {{ name }} can make</th>
+		</tr>
+		<tr>
+			<th colSpan="7">{{ name }} x Ingredient B = Result</th>
+		</tr>
+		<tr>
+			<th rowSpan="2">Price</th>
+			<th colSpan="3">Ingredient B</th>
+			<th colSpan="3">Result</th>
+		</tr>
+		<tr>
+			<th>Race</th>
+			<th>Level</th>
+			<th>Name</th>
+			<th>Race</th>
+			<th>Level</th>
+			<th>Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let fusion of fusions">
+			<td>{{ fusion.cost }}</td>
+			<td>{{ compendium.demons[fusion.sources[1]].race }}</td>
+			<td>{{ compendium.demons[fusion.sources[1]].lvl }}</td>
+			<td>{{ fusion.sources[1] }}</td>
+			<td>{{ compendium.demons[fusion.result].race }}</td>
+			<td>{{ compendium.demons[fusion.result].lvl }}</td>
+			<td>{{ fusion.result }}</td>
+		</tr>
+	</tbody>
 </table>

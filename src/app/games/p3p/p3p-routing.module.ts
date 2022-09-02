@@ -8,12 +8,12 @@ const routes: Routes = [
 	{
 		path: 'personas',
 		component: P3PPersonaEntryComponent,
-		data: {gameName: 'p3pr'}
-	}
+		data: { gameName: 'p3pr' },
+	},
 ]
 
 @NgModule({
-  imports: [ RouterModule.forChild(routes) ],
-  exports: [ RouterModule ]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class P3PRoutingModule { }
+export class P3PRoutingModule {}

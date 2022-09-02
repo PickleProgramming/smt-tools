@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'app-triple-fusion-table',
-  templateUrl: './triple-fusion-table.component.html',
-  styleUrls: ['./triple-fusion-table.component.scss']
+	selector: 'app-triple-fusion-table',
+	templateUrl: './triple-fusion-table.component.html',
+	styleUrls: ['./triple-fusion-table.component.scss'],
 })
 export class TripleFusionTableComponent implements OnInit {
+	constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+	ngOnInit(): void {}
 }

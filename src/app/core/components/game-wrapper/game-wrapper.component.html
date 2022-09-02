@@ -1,29 +1,53 @@
 <!-- bar for navigating between different tools specific to a game -->
-<table id="navRow" class=game-wrapper-table>
+<table id="navRow" class="game-wrapper-table">
 	<thead>
-		<tr class=game-wrapper-row>
+		<tr class="game-wrapper-row">
 			<!-- Persona/Demon Link -->
-			<th class=game-wrapper-entry routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-				<a routerLink="{{ game }}/{{ gameView.mainList }}s" [ngStyle]="{'color':gameView.colors.text}">
-					{{ gameView.mainList.charAt(0).toUpperCase() + gameView.mainList.slice(1) }} List
+			<th
+				class="game-wrapper-entry"
+				routerLinkActive="active"
+				[routerLinkActiveOptions]="{ exact: true }"
+			>
+				<a
+					routerLink="{{ game }}/{{ gameView.mainList }}s"
+					[ngStyle]="{ color: gameView.colors.text }"
+				>
+					{{
+						gameView.mainList.charAt(0).toUpperCase() +
+							gameView.mainList.slice(1)
+					}}
+					List
 				</a>
 			</th>
 			<!-- Skill Link -->
-			<th class=game-wrapper-entry routerLinkActive="active">
-				<a routerLink="{{ game }}/skills" [ngStyle]="{'color':gameView.colors.text}">
+			<th class="game-wrapper-entry" routerLinkActive="active">
+				<a
+					routerLink="{{ game }}/skills"
+					[ngStyle]="{ color: gameView.colors.text }"
+				>
 					Skill List
 				</a>
 			</th>
 			<!-- Fusion Table Link -->
-			<th class=game-wrapper-entry routerLinkActive="active">
-				<a routerLink="{{ game }}/fusion-table" [ngStyle]="{'color':gameView.colors.text}">
+			<th class="game-wrapper-entry" routerLinkActive="active">
+				<a
+					routerLink="{{ game }}/fusion-table"
+					[ngStyle]="{ color: gameView.colors.text }"
+				>
 					Fusion Table
 				</a>
 			</th>
 			<!-- All other links -->
-			<th class=game-wrapper-entry *ngFor="let link of gameView.otherLinks" routerLinkActive="active">
-				<a routerLink="{{ game }}/{{ link.url }}" [ngStyle]="{'color':gameView.colors.text}">
-					{{link.title}}
+			<th
+				class="game-wrapper-entry"
+				*ngFor="let link of gameView.otherLinks"
+				routerLinkActive="active"
+			>
+				<a
+					routerLink="{{ game }}/{{ link.url }}"
+					[ngStyle]="{ color: gameView.colors.text }"
+				>
+					{{ link.title }}
 				</a>
 			</th>
 		</tr>

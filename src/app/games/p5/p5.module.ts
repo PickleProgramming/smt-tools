@@ -19,13 +19,8 @@ import { P5FusionChainEntryComponent } from './components/p5-fusion-chain-entry.
 		P5SettingsComponent,
 		P5PersonaEntryComponent,
 		P5FusionChainComponent,
-		P5FusionChainEntryComponent
+		P5FusionChainEntryComponent,
 	],
-	imports: [
-		P5RoutingModule,
-		CommonModule,
-		SharedModule,
-		RouterModule
-	]
+	imports: [P5RoutingModule, CommonModule, SharedModule, RouterModule],
 })
-export class P5Module { }
+export class P5Module {}

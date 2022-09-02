@@ -13,36 +13,40 @@ const routes: Routes = [
 	{
 		path: 'personas',
 		component: P5PersonaListComponent,
-		data: { gameName: 'p5' }
+		data: { gameName: 'p5' },
 	},
 	{
 		path: 'skills',
 		component: P5SkillListComponent,
-		data: { gameName: 'p5' }
+		data: { gameName: 'p5' },
 	},
 	{
 		path: 'fusion-table',
 		component: P5FusionTableComponent,
-		data: { gameName: 'p5' }
+		data: { gameName: 'p5' },
 	},
 	{
 		path: 'fusion-chain',
 		component: P5FusionChainComponent,
-		data: { gamename: 'p5' }
+		data: { gamename: 'p5' },
+	},
+	{
+		path: 'fusion-chain/:chainName',
+		component: P5FusionChainComponent,
 	},
 	{
 		path: 'settings',
 		component: P5SettingsComponent,
-		data: { gameName: 'p5' }
+		data: { gameName: 'p5' },
 	},
 	{
 		path: 'personas/:demonName',
-		component: P5PersonaEntryComponent
-	}
+		component: P5PersonaEntryComponent,
+	},
 ]
 
 @NgModule({
 	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule]
+	exports: [RouterModule],
 })
-export class P5RoutingModule { }
+export class P5RoutingModule {}

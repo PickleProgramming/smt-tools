@@ -8,12 +8,12 @@ const routes: Routes = [
 	{
 		path: 'demons',
 		component: SMT3HDPersonaEntryComponent,
-		data: {gameName: 'smt3hdr'}
-	}
+		data: { gameName: 'smt3hdr' },
+	},
 ]
 
 @NgModule({
-  imports: [ RouterModule.forChild(routes) ],
-  exports: [ RouterModule ]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class SMT3HDRoutingModule { }
+export class SMT3HDRoutingModule {}

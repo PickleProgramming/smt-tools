@@ -8,18 +8,14 @@ import { FooterComponent } from './components/footer/footer.component'
 import { GameWrapperComponent } from './components/game-wrapper/game-wrapper.component'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-		GameWrapperComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgbModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		HeaderComponent,
+		FooterComponent,
+		GameWrapperComponent,
+	],
+	imports: [BrowserModule, AppRoutingModule, NgbModule],
+	providers: [],
+	bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

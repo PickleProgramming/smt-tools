@@ -1,8 +1,47 @@
+<button (click)="test()">TESTING</button>
+
+<!-- Demon Name -->
 <label for="persona-typeahead"> Persona </label>
-<input id="typeahead-persona" type="text" class="form-control"
-    [(ngModel)]="demon" [ngbTypeahead]="searchDemons" />
-<ng-container *ngFor='let elem of [0,1,2,3,4,5,6,7]'>
-    <label for="skill-typeahead"> Skill {{ elem + 1 }} </label>
-    <input id="typeahead-{{ elem }}" type="text" class="form-control"
-        [(ngModel)]="inputSkills[elem]" [ngbTypeahead]="searchSkills" />
+<input
+	id="typeahead-persona"
+	type="text"
+	class="form-control"
+	[(ngModel)]="demon"
+	[ngbTypeahead]="searchDemons"
+/>
+
+<!-- Skills -->
+<ng-container *ngFor="let elem of [0, 1, 2, 3, 4, 5, 6, 7]">
+	<label for="skill-typeahead"> Skill {{ elem + 1 }} </label>
+	<input
+		id="typeahead-{{ elem }}"
+		type="text"
+		class="form-control"
+		[(ngModel)]="inputSkills[elem]"
+		[ngbTypeahead]="searchSkills"
+	/>
 </ng-container>
+
+<!-- Chain Display -->
+<table *ngIf="chains">
+	<thead>
+		<tr>
+			<th>Price</th>
+			<th>Steps</th>
+			<th>Level Required</th>
+			<th>Result</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let row of chains">
+			<td>{{ row.cost }}</td>
+			<td>{{ row.steps.length }}</td>
+			<td>{{ this.chainCalc.levelRequired(row) }}</td>
+			<td routerLink="active">
+				<a routerLink="{{ row.steps[row.steps.length - 1].result }}">
+					{{ row.steps[row.steps.length - 1].result }}
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

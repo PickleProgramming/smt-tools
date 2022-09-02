@@ -1,4 +1,4 @@
-@import "~src/assets/style/variables.scss";
+@import '~src/assets/style/variables.scss';
 
 .smt-navbar {
 	flex: 1;
@@ -15,7 +15,7 @@
 	background-color: #ffff;
 	&:before {
 		position: absolute;
-		content: " ";
+		content: ' ';
 		width: 100%;
 		bottom: 0;
 		left: 0;
@@ -47,7 +47,7 @@
 
 	@each $game, $colors in $games {
 		.#{$game} {
-			background-color: map-get($colors, "primary-color");
+			background-color: map-get($colors, 'primary-color');
 		}
 	}
 }
