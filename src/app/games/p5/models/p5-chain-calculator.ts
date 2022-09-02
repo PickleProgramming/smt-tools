@@ -2,7 +2,7 @@ import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from "@shared/constants"
 import { ChainCalculator, FusionChain } from "@shared/models/chain-calculator"
 import { P5Compendium } from "./p5-compendium"
 import { P5FusionCalculator } from "./p5-fusion-calculator"
-import _ from "lodash"
+import _, { max } from "lodash"
 import { Recipe } from "@shared/models/compendium"
 
 export class P5ChainCalculator extends ChainCalculator {
@@ -17,16 +17,41 @@ export class P5ChainCalculator extends ChainCalculator {
     getChains(targetSkills: string[]): FusionChain[] | null
     getChains(targetSkills: string[], demonName: string): FusionChain[] | null
     getChains(targetSkills: string[], demonName?: string): FusionChain[] | null {
+        let chains: FusionChain[] | null
         if (demonName)
-            return this.getChains_targetSkills_demonName(targetSkills, demonName)
-        return this.getChains_targetSkills(targetSkills)
+            chains = this.getChains_targetSkills_demonName(
+                targetSkills, demonName, false)
+        else
+            chains = this.getChains_targetSkills(targetSkills, false)
+        if (chains == null) {
+            if (demonName)
+                chains = this.getChains_targetSkills_demonName(
+                    targetSkills, demonName, true)
+            else
+                chains = this.getChains_targetSkills(targetSkills, true)
+        }
+        if (chains != null && chains.length < this.maxChainLength) {
+            let oldLength = this.maxChainLength
+            this.maxChainLength -= chains.length
+            if (demonName)
+                chains = this.getChains_targetSkills_demonName(
+                    targetSkills, demonName, true)
+            else
+                chains = this.getChains_targetSkills(targetSkills, true)
+            this.maxChainLength = oldLength
+        }
+        return chains
     }
     private getChains_targetSkills(
-        targetSkills: string[]): FusionChain[] | null {
+        targetSkills: string[],
+        deep: boolean): FusionChain[] | null {
         for (let skillName of targetSkills) {
             let unique = this.compendium.skills[skillName].unique
-            if (unique)
-                this.getChains_targetSkills_demonName(targetSkills, unique)
+            if (unique) {
+                let skills = _.difference(targetSkills, [skillName])
+                return this.getChains_targetSkills_demonName(
+                    skills, unique, deep)
+            }
         }
 
         let chains: FusionChain[] = []
@@ -37,8 +62,6 @@ export class P5ChainCalculator extends ChainCalculator {
                 return chains
             }
             let demon = this.compendium.demons[demonName]
-            if (demon.lvl > this.maxLevel)
-                continue
             if (!this.isPossible(targetSkills, demonName))
                 continue
 
@@ -56,7 +79,8 @@ export class P5ChainCalculator extends ChainCalculator {
                 let diff = _.difference(targetSkills, foundSkills)
                 if (diff.length > 4)
                     continue
-                let newChains = this.getChains(diff, demonName)
+                let newChains = this.getChains_targetSkills_demonName(
+                    diff, demonName, deep)
                 if (newChains !== null)
                     chains = chains.concat(newChains)
             }
@@ -70,13 +94,10 @@ export class P5ChainCalculator extends ChainCalculator {
     }
     private getChains_targetSkills_demonName(
         targetSkills: string[],
-        demonName: string): FusionChain[] | null {
+        demonName: string,
+        deep: boolean): FusionChain[] | null {
         if (!this.isPossible(targetSkills, demonName))
             return null
-        if (this.compendium.demons[demonName].lvl > this.maxLevel) {
-            console.info(demonName + ' exceeds the maxLevel of ' + this.maxLevel)
-            return null
-        }
 
         //Iterate over fissions
         let fissions = this.calculator.getFissions(demonName)
@@ -100,7 +121,7 @@ export class P5ChainCalculator extends ChainCalculator {
             }
 
             //check if we've found some of our target skills
-            if (foundSkills.length > 0)
+            if (foundSkills.length > 0 || deep)
                 for (let sourceName of fission.sources) {
                     let diff = _.difference(targetSkills, foundSkills)
                     //if we found all targetSkills add the recipe and continue
@@ -117,7 +138,7 @@ export class P5ChainCalculator extends ChainCalculator {
                         continue
                     }
                     //get a chain on the remaining skills needed
-                    let chain = this.getChain(diff, 0, sourceName)
+                    let chain = this.getChain(diff, 0, sourceName, deep)
                     if (chain != null) {
                         chain.addStep(fission, foundSkills)
                         chain.cost = chain.getCost()
@@ -140,7 +161,8 @@ export class P5ChainCalculator extends ChainCalculator {
     protected getChain(
         targetSkills: string[],
         recursiveDepth: number,
-        demonName: string): FusionChain | null {
+        demonName: string,
+        deep: boolean): FusionChain | null {
         if (targetSkills.length == 0)
             throw new Error('getChain was called with an empty targetSkills arg')
         if (recursiveDepth > this.recursiveDepth) {
@@ -182,11 +204,11 @@ export class P5ChainCalculator extends ChainCalculator {
                 return chain
             }
             //check deeper in the chain if we still need more skills
-            if (foundSkills.length > 0)
+            if (foundSkills.length > 0 || deep)
                 for (let sourceName of fission.sources) {
                     let diff = _.difference(targetSkills, foundSkills)
                     let chain = this.getChain(
-                        diff, recursiveDepth + 1, sourceName)
+                        diff, recursiveDepth + 1, sourceName, deep)
                     if (chain != null) {
                         chain.addStep(fission, foundSkills)
                         return chain
@@ -254,6 +276,8 @@ export class P5ChainCalculator extends ChainCalculator {
     protected isPossible_targetSkills_demonName(
         targetSkills: string[],
         demonName: string): boolean {
+        if (this.compendium.demons[demonName].lvl > this.maxLevel)
+            return false
         for (let skillName of targetSkills) {
             let skill = this.compendium.skills[skillName]
             if (skill.unique && skill.unique !== demonName) {
@@ -261,13 +285,14 @@ export class P5ChainCalculator extends ChainCalculator {
                     ' is unique and can only be used by ' + skill.unique)
                 return false
             }
-        }
-        //make sure inheritted skills are allowed by inheritance types
-        for (let skillName of targetSkills) {
-            let skill = this.compendium.skills[skillName]
             if (!this.compendium.isInheritable(demonName, skillName)) {
                 console.debug(demonName +
                     ' cannot inherit skills of type ' + skill.element)
+                return false
+            }
+            if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
+                console.info(skillName + ' cannot be learned at level ' +
+                    this.maxLevel)
                 return false
             }
         }

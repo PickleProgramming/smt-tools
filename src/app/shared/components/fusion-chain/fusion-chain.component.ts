@@ -94,7 +94,7 @@ export class FusionChainComponent implements OnInit {
           'Apt Pupil',
           'Attack Master'
         ]
-        console.log(this.chain.getChains(skills), 'Quetzalcoatl')
+        console.log(this.chain.getChains(skills, 'Quetzalcoatl'))
         return
       //No Max Level, No Demon Name, Unique Skill, < 4 Skills
       case 3:
@@ -120,28 +120,30 @@ export class FusionChainComponent implements OnInit {
         skills = [
           'Miracle Punch',
           'Apt Pupil',
-          'Attack Master'
+          'Attack Master',
+          'Regenerate 3',
+          'Invigorate 3'
         ]
-        console.log(this.chain.getChains(skills), 'Ara Mitama')
         this.chain.maxLevel = 20
-        console.log(this.chain.getChains(skills))
+        console.log(this.chain.getChains(skills, 'Quetzalcoatl'))
         this.chain.maxLevel = 50
-        console.log(this.chain.getChains(skills))
+        console.log(this.chain.getChains(skills, 'Quetzalcoatl'))
         this.chain.maxLevel = 99
+        console.log(this.chain.getChains(skills, 'Quetzalcoatl'))
         return
       //Max Level, No Demon Name, Unique Skills, < 4 Skills
       case 6:
         skills = [
-          'Miracle Punch',
-          'Apt Pupil',
+          'Spell Master',
+          'Mamudoon',
           'Die For Me!'
         ]
-        console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 20
         console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 50
         console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 99
+        console.log(this.chain.getChains(skills))
         return
       //Max Level, No Demon Name, Not Unique Skills, = 4 Skills
       case 7:
@@ -151,40 +153,42 @@ export class FusionChainComponent implements OnInit {
           'Attack Master',
           'Growth 3'
         ]
-        console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 20
         console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 50
         console.log(this.chain.getChains(skills))
         this.chain.maxLevel = 99
+        console.log(this.chain.getChains(skills))
         return
       //Max Level, Demon Name, Unique Skills, < 4 Skills
       case 8:
         skills = [
-          'Miracle Punch',
-          'Apt Pupil',
-          'Die For Me!'
+          'Die For Me!',
+          'Growth 3',
+          'Tarukaja',
         ]
-        console.log(this.chain.getChains(skills), 'Alice')
         this.chain.maxLevel = 20
         console.log(this.chain.getChains(skills), 'Alice')
         this.chain.maxLevel = 50
         console.log(this.chain.getChains(skills), 'Alice')
         this.chain.maxLevel = 99
+        console.log(this.chain.getChains(skills), 'Alice')
         return
       //Max Level, Demon Name, Unique Skills, > 4 Skills
       case 9:
         skills = [
-          'Miracle Punch',
-          'Apt Pupil',
-          'Die For Me!'
+          'Die For Me!',
+          'Growth 3',
+          'Tarukaja',
+          'Tarunda',
+          'Mamudoon'
         ]
-        console.log(this.chain.getChains(skills), 'Alice')
         this.chain.maxLevel = 20
         console.log(this.chain.getChains(skills), 'Alice')
         this.chain.maxLevel = 50
         console.log(this.chain.getChains(skills), 'Alice')
         this.chain.maxLevel = 99
+        console.log(this.chain.getChains(skills), 'Alice')
         return
       //No Max Level, Demon Name, Unique Skills, < 4 Skills
       case 10:

@@ -50,8 +50,13 @@ export class P5SettingsComponent implements OnInit {
     let pack: string = event.path[0].id
     let checked: boolean = event.srcElement.checked
     if (checked) {
-      for (let element in this.packDemons[pack])
+      for (let element in this.packDemons[pack]) {
         this.compendium.demons[pack] = this.compendium.dlcDemons![pack]
+        for (let skillName in this.compendium.demons[pack].skills) {
+          let level = this.compendium.demons[pack].lvl
+          this.compendium.skills[skillName].learnedBy[pack] = level
+        }
+      }
       console.log('Added ' + pack + ' to P5_COMPENDIUM')
     } else {
       for (let element in this.packDemons[pack])

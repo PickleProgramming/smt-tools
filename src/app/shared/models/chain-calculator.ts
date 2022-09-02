@@ -7,7 +7,7 @@ export abstract class ChainCalculator {
     compendium: Compendium
     calculator: FusionCalculator
 
-    protected recursiveDepth = 4
+    protected recursiveDepth = 2
     protected maxChainLength = 20
     maxLevel = 99
 

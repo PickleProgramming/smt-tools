@@ -138,8 +138,6 @@ export abstract class Compendium {
 
     if (specialData)
       this.specialRecipes = this.parseSpecial!(specialData)
-    if (dlcData)
-      this.dlcDemons = this.parseDemons(dlcData)
   }
 
   protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
@@ -181,5 +179,16 @@ export abstract class Compendium {
       recipe.sources.push(demonName)
     recipe.cost = this.getCost(recipe)
     return recipe
+  }
+
+  /* returns the lowest level demon that learns the given skill */
+  getSkillLevel(skillName: string) {
+    let level: number = 99
+    for (let demonName in this.skills[skillName].learnedBy) {
+      let demon = this.demons[demonName]
+      if (demon.lvl < level)
+        level = demon.lvl
+    }
+    return level
   }
 }
