@@ -13,10 +13,9 @@ export class NormalFusionTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (typeof this.config === undefined) {
-      console.log('Normal Fusion Table must be called with a game')
-      return
-    }
+    if (typeof this.config === undefined)
+      throw new Error('Normal Fusion Table must be called with a game')
+    
   }
 
 }

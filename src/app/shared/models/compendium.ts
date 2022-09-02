@@ -101,11 +101,11 @@ export abstract class CompendiumConfig {
       races: fusionTable['races'],
       table: fusionTable['table']
     }
-    if (typeof this.elementTable !== undefined) {
+    if (elementTable) {
       this.elementTable = {
-        elems: elementTable!['elems'],
-        races: elementTable!['races'],
-        table: elementTable!['table']
+        elems: elementTable['elems'],
+        races: elementTable['races'],
+        table: elementTable['table']
       }
     }
   }
