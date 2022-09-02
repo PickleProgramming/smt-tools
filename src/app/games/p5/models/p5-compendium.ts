@@ -34,6 +34,9 @@ export class P5CompendiumConfig extends CompendiumConfig {
         this.inheritCols = INHERIT_DATA.elems
     }
 
+    /*  @param: the element to check the inheritance capabilites of
+        returns: an array of the inheritance capabilites of the demon
+            see https://megamitensei.fandom.com/wiki/Skill_Inheritance */
     getInherits(element: string): boolean[] {
         console.log('getInherits() called with "element" : ' + element)
         let ret: boolean[] = []
@@ -135,6 +138,7 @@ export class P5Compendium extends Compendium {
         return false
     }
 
+    /* returns the approximate cost of the supplied recipe */
     getCost(recipe: Recipe): number {
         let cost = 0
         for (let source of recipe.sources) {

@@ -140,8 +140,11 @@ export abstract class Compendium {
       this.specialRecipes = this.parseSpecial!(specialData)
   }
 
+  /* reads the skills from the JSON files into respective objects and lists*/
   protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
+  /* reads the demons from the JSON files into respective objects */
   protected abstract parseDemons(demonData: Object): { [name: string]: Demon }
+  /* reads the specialRecipes from the JSON files into respective objects */
   protected abstract parseSpecial?(specialData: Object): { [name: string]: string[] }
 
   /* calculate the approximate cost of the given recipe cost is impossible
@@ -149,6 +152,7 @@ export abstract class Compendium {
       not feasible to account for. */
   abstract getCost(recipe: Recipe): number
 
+  /* @returns: true if the demon provided is an elemental, false otherwise */
   isElemental(demonName: string): boolean {
     if (this.config.elementTable == undefined)
       throw new Error('isElemental called on a comp that has no elementals')
@@ -158,6 +162,7 @@ export abstract class Compendium {
     return false
   }
 
+  /* @returns: true if the demon provided is a special recipe, false otherwise */
   isSpecial(demonName: string): boolean {
     if (this.specialRecipes == undefined)
       throw new Error('called isSpecial on a compendium with no specialRecipes')
@@ -167,6 +172,7 @@ export abstract class Compendium {
     return false
   }
 
+  /* @returns: a recipe interface for the provided specialFusion result */
   buildSpecialRecipe(targetName: string): Recipe {
     if (this.specialRecipes == undefined)
       throw new Error('called buildSpecialRecipe on a compendium with ' +

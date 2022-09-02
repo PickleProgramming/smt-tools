@@ -14,8 +14,6 @@ export class P5ChainCalculator extends ChainCalculator {
         super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
     }
 
-    getChains(targetSkills: string[]): FusionChain[] | null
-    getChains(targetSkills: string[], demonName: string): FusionChain[] | null
     getChains(targetSkills: string[], demonName?: string): FusionChain[] | null {
         let chains: FusionChain[] | null
         if (demonName)
@@ -234,7 +232,7 @@ export class P5ChainCalculator extends ChainCalculator {
                 targetSkills, demonName)
         return this.isPossible_targetSkills(targetSkills)
     }
-    protected isPossible_targetSkills(targetSkills: string[]): boolean {
+    private isPossible_targetSkills(targetSkills: string[]): boolean {
         //check the demon necessary for a given unique skill
         for (let skillName of targetSkills) {
             let skill = this.compendium.skills[skillName]
@@ -264,7 +262,7 @@ export class P5ChainCalculator extends ChainCalculator {
         }
         return true
     }
-    protected isPossible_targetSkills_recipe(
+    private isPossible_targetSkills_recipe(
         targetSkills: string[],
         recipe: Recipe): boolean {
         for (let sourceName of recipe.sources)
@@ -273,7 +271,7 @@ export class P5ChainCalculator extends ChainCalculator {
                 return false
         return true
     }
-    protected isPossible_targetSkills_demonName(
+    private isPossible_targetSkills_demonName(
         targetSkills: string[],
         demonName: string): boolean {
         if (this.compendium.demons[demonName].lvl > this.maxLevel)

@@ -7,7 +7,9 @@ export abstract class ChainCalculator {
     compendium: Compendium
     calculator: FusionCalculator
 
+    //@setting the amount of times getChain is allowed to call itself
     protected recursiveDepth = 2
+    //@setting the max size array getChains can return
     protected maxChainLength = 20
     maxLevel = 99
 
@@ -16,14 +18,22 @@ export abstract class ChainCalculator {
         this.calculator = calculator
     }
 
+    /*  @param targetSkills: a list of skills for the final demon
+        @param demonName: the name of the demon to fuse to
+        @returns a set of fusion chains configured by 
+            ChainCalculator's properties*/
     abstract getChains(
         targetSkills: string[],
-        demonName: string,
-        maxLevel: number): FusionChain[] | null
+        demonName?: string): FusionChain[] | null
 
-    abstract getChains(targetSkills: string[],
-        maxLevel: number): FusionChain[] | null
-
+    /*  @param targetSkills: list of skills for the final demon to inherit
+        @param recursiveDepth: an incremental number to keep track of the
+            number of times the function has called itself. should be 0
+            unless the function is calling itself
+        @param demonName: name of the demon to fuse to
+        @param deep: if true the function will search fissions even if they
+            don't immediately have any desired skills. Vastly increases
+            computational time*/
     protected abstract getChain(
         targetSkills: string[],
         recursiveDepth: number,
@@ -43,6 +53,9 @@ export abstract class ChainCalculator {
         demonName?: string, 
         recipe?: Recipe): boolean
 
+    /*  @param recipe: recipe to be checked
+        @returns the total number of skills the demon in the recipes result
+            can inherit from its sources*/
     protected getMaxNumOfInherittedSkills(recipe: Recipe): number{
         if (recipe.sources.length == 2)
             return 4
@@ -72,6 +85,7 @@ export abstract class ChainCalculator {
         return false
     }
 
+    /* Mutators */
     setRecursiveDepth(recursiveDepth: number): void {
         this.recursiveDepth = recursiveDepth
     }
