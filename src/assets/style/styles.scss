@@ -1,5 +1,10 @@
+@use '@angular/material' as mat;
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import '_variables.scss';
 @import '_mixins.scss';
+
+@include mat.core();
 
 @font-face {
 	font-family: 'p5-font';
@@ -8,62 +13,25 @@
 	font-weight: normal;
 	font-style: normal;
 }
-
-body.smt3hd {
-	@include set-game-background('smt3hd');
-	@include set-game-font('smt3hd');
-}
-
 body.p5 {
-	@include set-game-background('p5');
 	@include set-game-font('p5');
 }
+$p5-primary: mat.define-palette(mat.$indigo-palette, 500);
+$p5-accent: mat.define-palette(mat.$pink-palette, A200, A400, A100);
+$p5-theme: mat.define-light-theme(
+	(
+		color: (
+			primary: $p5-primary,
+			accent: $p5-accent,
+		),
+	)
+);
+@include mat.core-theme($p5-theme);
+@include mat.all-component-themes($p5-theme);
 
-body.pq2 {
-	@include set-game-background('pq2');
-	@include set-game-font('pq2');
-}
-
-body.smt4 {
-	@include set-game-background('smt4');
-	@include set-game-font('smt4');
-}
-
-body.smtsjr {
-	@include set-game-background('smtsjr');
-	@include set-game-font('smtsjr');
-}
-
-body.p4g {
-	@include set-game-background('p4g');
-	@include set-game-font('p4g');
-}
-
-body.p3p {
-	@include set-game-background('p3p');
-	@include set-game-font('p3p');
-}
-
-html {
-	margin: 0;
-	padding: 0;
-}
 *,
+html,
 body {
 	margin: 0;
 	padding: 0;
-}
-
-html,
-body {
-	height: 100%;
-}
-
-html,
-body {
-	height: 100%;
-}
-body {
-	margin: 0;
-	font-family: Roboto, 'Helvetica Neue', sans-serif;
 }

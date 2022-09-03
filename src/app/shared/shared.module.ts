@@ -12,6 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
 import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component'
 import { MatExpansionModule } from '@angular/material/expansion'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { MatButtonModule } from '@angular/material/button'
 
 @NgModule({
 	declarations: [
@@ -31,6 +35,10 @@ import { MatExpansionModule } from '@angular/material/expansion'
 		FormsModule,
 		ReactiveFormsModule,
 		MatExpansionModule,
+		MatAutocompleteModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonModule,
 	],
 	exports: [
 		DemonListComponent,

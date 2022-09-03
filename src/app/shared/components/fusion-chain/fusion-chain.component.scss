@@ -1,28 +1,14 @@
-table {
-	width: 100%;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	padding-bottom: 3em;
-	border-collapse: collapse;
+.example-label {
+	display: table-cell;
+	font-size: 14px;
+	margin-left: 8px;
+	min-width: 120px;
 }
 
-th,
-td {
-	border: solid 1px #333333;
-	padding: 0.3em;
-}
-thead {
-	font-weight: bolder;
-}
-
-.btn {
-	background-color: #ffffff;
-}
-
-.demonName {
+.demon-form,
+.demon-form-field {
 	margin: auto;
-	width: 33%;
+	width: 300px;
 }
 
 .skills {
@@ -38,13 +24,12 @@ thead {
 	justify-content: center;
 	text-align: center;
 }
-
-.mat-form-field + .mat-form-field {
-	margin-left: 8px;
-	background-color: #333333;
-	color: #333333;
+.buttons .mat-button-base {
+	margin: 8px 8px 8px 0;
 }
 
 .accordion {
-	background-color: #333333;
+	margin-left: 8px;
+	width: 80%;
+	margin: auto;
 }

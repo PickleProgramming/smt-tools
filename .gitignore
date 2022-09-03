@@ -56,3 +56,4 @@ tsconfig.app.json
 karma.conf.js
 test*
 
+.angular
