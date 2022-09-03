@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { HeaderComponent } from './components/header/header.component'
 import { FooterComponent } from './components/footer/footer.component'
 import { GameWrapperComponent } from './components/game-wrapper/game-wrapper.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
 	declarations: [
@@ -14,7 +15,12 @@ import { GameWrapperComponent } from './components/game-wrapper/game-wrapper.com
 		FooterComponent,
 		GameWrapperComponent,
 	],
-	imports: [BrowserModule, AppRoutingModule, NgbModule],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		NgbModule,
+		BrowserAnimationsModule,
+	],
 	providers: [],
 	bootstrap: [AppComponent],
 })

@@ -17,6 +17,7 @@ export class FusionChainComponent implements OnInit {
 	inputSkills: string[] = []
 	demon: string = ''
 	chains: FusionChain[] | null = null
+	panelOpenState = false
 
 	constructor() {}
 

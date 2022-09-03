@@ -18,7 +18,7 @@
 	},
 	"p5": {
 		"game": "Persona 5",
-		"logo": "assets/img/games/p5r.png",
+		"logo": "assets/img/games/p5.png",
 		"colors": {
 			"primary": "#ef0006",
 			"secondary": "#ffff00",

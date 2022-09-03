@@ -1,6 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
 @import '_variables.scss';
 @import '_mixins.scss';
+@import '~bootstrap/scss/bootstrap';
 
 @font-face {
 	font-family: 'p5-font';
@@ -18,7 +22,6 @@ body.smt3hd {
 body.p5 {
 	@include set-game-background('p5');
 	@include set-game-font('p5');
-	font-size: 0.5cm;
 }
 
 body.pq2 {
@@ -56,5 +59,10 @@ body {
 	padding: 0;
 }
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+html,
+body {
+	height: 100%;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

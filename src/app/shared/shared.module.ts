@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
 import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { MatExpansionModule } from '@angular/material/expansion'
 
 @NgModule({
 	declarations: [
@@ -31,6 +32,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 		FormsModule,
 		ReactiveFormsModule,
 		NgbModule,
+		MatExpansionModule,
 	],
 	exports: [
 		DemonListComponent,
