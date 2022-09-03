@@ -97,11 +97,12 @@ export class FusionChainComponent implements OnInit {
 				'FusionChainComponent called without passing chain calculator'
 			)
 		}
-		this.demonControl.setValue('Ara Mitama')
-		this.levelControl.setValue('37')
-		this.skillControls[0].setValue('Miracle Punch')
-		this.skillControls[1].setValue('Apt Pupil')
-		this.skillControls[2].setValue('Attack Master')
+		this.demonControl.setValue('')
+		this.levelControl.setValue('80')
+		this.skillControls[0].setValue('Regenerate 3')
+		this.skillControls[1].setValue('Invigorate 3')
+		this.skillControls[2].setValue('Miracle Punch')
+		this.skillControls[3].setValue('Apt Pupil')
 	}
 
 	log(): void {

@@ -8,7 +8,7 @@ import GAME_MODELS from 'src/assets/game-models.json'
 	selector: 'app-footer',
 	styleUrls: ['./footer.component.scss'],
 	template: `
-		<div id="githsub-logo" class="github-div">
+		<div>
 			<a
 				id="github"
 				href="https://github.com/PickleProgramming/smt-tools"

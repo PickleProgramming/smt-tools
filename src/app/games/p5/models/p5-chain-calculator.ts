@@ -50,11 +50,19 @@ export class P5ChainCalculator extends ChainCalculator {
 				return chains
 			}
 			if (!this.isPossible(targetSkills, demonName)) continue
-			let newChains = this.getChains_targetSkills_demonName(
+			let newChains: FusionChain[] | null = null
+			let demon = this.compendium.demons[demonName]
+			let intersects = _.intersection(
 				targetSkills,
-				demonName,
-				deep
+				Object.keys(demon.skills)
 			)
+			if (intersects.length > 0 || deep) {
+				newChains = this.getChains_targetSkills_demonName(
+					targetSkills,
+					demonName,
+					deep
+				)
+			}
 			if (newChains !== null) chains = chains.concat(newChains)
 		}
 		if (chains.length > 0) return chains

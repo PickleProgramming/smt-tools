@@ -5,9 +5,11 @@
 }
 
 .skills {
+	max-width: 550px;
 	column-count: 2;
 	padding: 20px;
-	column-gap: 20px;
+	margin: auto;
+	text-align: center;
 }
 
 .buttons {
