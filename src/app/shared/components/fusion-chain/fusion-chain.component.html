@@ -41,7 +41,7 @@
 				/>
 				<mat-autocomplete #auto="matAutocomplete">
 					<mat-option
-						*ngFor="let skill of filteredSkills | async"
+						*ngFor="let skill of filteredSkills[i] | async"
 						[value]="skill"
 					>
 						{{ skill }}
@@ -64,49 +64,41 @@
 <!-- Chain Display -->
 <div class="accordion" *ngIf="chains">
 	<mat-accordion>
-		<mat-expansion-panel hideToggle>
+		<mat-expansion-panel *ngFor="let chain of chains; let i = index">
 			<mat-expansion-panel-header>
-				<mat-panel-title> This is the expansion title </mat-panel-title>
+				<mat-panel-title>
+					{{ chain.result }}
+				</mat-panel-title>
 				<mat-panel-description>
-					This is a summary of the content
+					<p>
+						Price: {{ chain.cost | number: '1.0':'en-US' }} Level
+						Required: {{ chain.level }} Steps:
+						{{ chain.steps.length }}
+					</p>
 				</mat-panel-description>
 			</mat-expansion-panel-header>
-			<p>This is the primary content of the panel.</p>
-		</mat-expansion-panel>
-		<mat-expansion-panel
-			(opened)="panelOpenState = true"
-			(closed)="panelOpenState = false"
-		>
-			<mat-expansion-panel-header>
-				<mat-panel-title> Self aware panel </mat-panel-title>
-				<mat-panel-description>
-					Currently I am {{ panelOpenState ? 'open' : 'closed' }}
-				</mat-panel-description>
-			</mat-expansion-panel-header>
-			<p>I'm visible because I am open</p>
+			<ng-container *ngFor="let recipe of chain.steps; let j = index">
+				<div style="white-space: pre">
+					Step {{ j + 1 }}: Fuse
+					<ng-container *ngFor="let source of recipe.sources">
+						{{ source }},
+					</ng-container>
+					to make {{ recipe.result }}. Have
+					{{ recipe.result }} inherit
+					<ng-container
+						*ngFor="let skill of chain.inherittedSkills[j]"
+					>
+						{{ skill }},
+					</ng-container>
+				</div>
+			</ng-container>
+			<div>
+				{{ chain.result }} will learn
+				<ng-container *ngFor="let skill of chain.innates">
+					{{ skill }}
+				</ng-container>
+				on it's own.
+			</div>
 		</mat-expansion-panel>
 	</mat-accordion>
 </div>
-
-<table *ngIf="chains">
-	<thead>
-		<tr>
-			<th>Price</th>
-			<th>Steps</th>
-			<th>Level Required</th>
-			<th>Result</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let row of chains">
-			<td>{{ row.cost }}</td>
-			<td>{{ row.steps.length }}</td>
-			<td>{{ chainCalc?.levelRequired(row) }}</td>
-			<td routerLink="active">
-				<a routerLink="{{ row.steps[row.steps.length - 1].result }}">
-					{{ row.steps[row.steps.length - 1].result }}
-				</a>
-			</td>
-		</tr>
-	</tbody>
-</table>

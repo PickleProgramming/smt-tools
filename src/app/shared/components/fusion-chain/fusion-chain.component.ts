@@ -25,7 +25,7 @@ export class FusionChainComponent implements OnInit {
 	levelControl = new FormControl('')
 	skillControls: FormControl[] = []
 	filteredDemons?: Observable<string[]>
-	filteredSkills?: Observable<string[]>
+	filteredSkills: Observable<string[]>[] = []
 	panelOpenState = false
 
 	constructor() {}
@@ -33,13 +33,12 @@ export class FusionChainComponent implements OnInit {
 	ngOnInit(): void {
 		if (!this.compendium) {
 			throw new Error(
-				'FusionChainComponent called without passing ' + ' compendium'
+				'FusionChainComponent called without passing compendium'
 			)
 		}
 		if (!this.chainCalc) {
 			throw new Error(
-				'FusionChainComponent called without passing ' +
-					'chain calculator'
+				'FusionChainComponent called without passing chain calculator'
 			)
 		}
 		this.skills = Object.keys(this.compendium.skills)
@@ -47,26 +46,22 @@ export class FusionChainComponent implements OnInit {
 
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
 			startWith(''),
-			map((value) => this._filterDemons(value || ''))
+			map((value) => this._filter(value || '', this.demons!))
 		)
 		for (let i = 0; i < 8; i++) {
 			this.skillControls.push(new FormControl(''))
-			this.filteredSkills = this.skillControls[i].valueChanges.pipe(
-				startWith(''),
-				map((value) => this._filterSkills(value || ''))
+			this.filteredSkills.push(
+				this.skillControls[i].valueChanges.pipe(
+					startWith(''),
+					map((value) => this._filter(value || '', this.skills!))
+				)
 			)
 		}
 	}
 
-	private _filterDemons(value: string): string[] {
+	private _filter(value: string, list: string[]): string[] {
 		let filterValue = value.toLocaleLowerCase()
-		return this.demons!.filter((option) =>
-			option.toLowerCase().includes(filterValue)
-		)
-	}
-	private _filterSkills(value: string): string[] {
-		const filterValue = value.toLowerCase()
-		return this.skills!.filter((option) =>
+		return list.filter((option) =>
 			option.toLowerCase().includes(filterValue)
 		)
 	}
@@ -79,14 +74,21 @@ export class FusionChainComponent implements OnInit {
 		}
 		let inputSkills: string[] = []
 		for (let skillControl of this.skillControls) {
-			inputSkills.push(skillControl.value)
+			if (skillControl.value) inputSkills.push(skillControl.value)
 		}
+		console.log(inputSkills)
 		let demon = this.demonControl.value
+
+		if (this.levelControl.value) {
+			let level: number = +this.levelControl.value
+			this.chainCalc.maxLevel = level
+		}
 		if (demon) {
 			this.chains = this.chainCalc.getChains(inputSkills, false, demon)
-		} else {
-			this.chains = this.chainCalc?.getChains(inputSkills, false)
+			return
 		}
+		this.chains = this.chainCalc?.getChains(inputSkills, false)
+		this.chainCalc.maxLevel = 99
 	}
 
 	test(): void {
@@ -96,13 +98,15 @@ export class FusionChainComponent implements OnInit {
 			)
 		}
 		this.demonControl.setValue('Ara Mitama')
+		this.levelControl.setValue('37')
 		this.skillControls[0].setValue('Miracle Punch')
 		this.skillControls[1].setValue('Apt Pupil')
 		this.skillControls[2].setValue('Attack Master')
 	}
 
 	log(): void {
-		console.log('demonControl: ' + this.demonControl.value)
+		console.log(`demon: ${this.demonControl.value}`)
+		console.log(`Level: ${this.levelControl.value}`)
 		for (let i = 0; i < 8; i++) {
 			console.log(`Skill ${i}: ${this.skillControls[i].value}`)
 		}

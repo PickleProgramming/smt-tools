@@ -68,12 +68,13 @@ export class P5ChainCalculator extends ChainCalculator {
 		let targetSkills = _.cloneDeep(skills)
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let demon = this.compendium.demons[demonName]
-		let intersects = _.intersection(targetSkills, Object.keys(demon.skills))
-		if (intersects.length > 0) {
-			if (intersects.length == targetSkills.length) return null
-			let diff = _.difference(targetSkills, intersects)
+		let innates = _.intersection(targetSkills, Object.keys(demon.skills))
+		if (innates.length > 0) {
+			//TODO if a demon knows all innate skills null is returned
+			if (innates.length == targetSkills.length) return null
+			let diff = _.difference(targetSkills, innates)
 			if (diff.length > 4) return null
-			_.pullAll(targetSkills, intersects)
+			_.pullAll(targetSkills, innates)
 		}
 		let chains: FusionChain[] = []
 		let fissions = this.calculator.getFissions(demonName)
@@ -82,17 +83,24 @@ export class P5ChainCalculator extends ChainCalculator {
 				console.log('Chain number reached')
 				return chains
 			}
+			if (!this.isPossible(targetSkills, undefined, fission)) continue
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
 			if (foundSkills.length > 0 || deep) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					if (diff.length == 0) {
-						this.addChain(fission, foundSkills, chains)
+						this.addChain(fission, foundSkills, innates, chains)
 						continue
 					}
 					let chain = this.getChain(diff, 0, sourceName, deep)
 					if (chain != null) {
-						this.addChain(fission, foundSkills, chains, chain)
+						this.addChain(
+							fission,
+							foundSkills,
+							innates,
+							chains,
+							chain
+						)
 					}
 				}
 			}
@@ -120,7 +128,6 @@ export class P5ChainCalculator extends ChainCalculator {
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			if (this.exceedsMaxLevel(fission)) continue
 			if (!this.isPossible(targetSkills, undefined, fission)) continue
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
@@ -172,12 +179,16 @@ export class P5ChainCalculator extends ChainCalculator {
 	private addChain(
 		recipe: Recipe,
 		skills: string[],
+		innates: string[],
 		chains: FusionChain[],
 		chain?: FusionChain
 	): void {
 		if (!chain) chain = new FusionChain()
 		chain.addStep(recipe, skills)
 		chain.cost = chain.getCost()
+		chain.level = this.levelRequired(chain)
+		chain.innates = innates
+		chain.result = chain.steps[chain.steps.length - 1].result
 		if (chain.steps.length > 1) {
 			for (let i = 1; i < chain.steps.length; i++) {
 				chain.inherittedSkills[i] = chain.inherittedSkills[i].concat(

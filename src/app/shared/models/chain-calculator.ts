@@ -6,6 +6,9 @@ export class FusionChain {
 	steps: Recipe[] = []
 	cost: number = 0
 	inherittedSkills: string[][] = []
+	innates: string[] = []
+	level: number = 0
+	result: string = ''
 
 	constructor() {}
 
