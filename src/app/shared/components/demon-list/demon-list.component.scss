@@ -1,25 +1,6 @@
 table {
 	width: 95%;
 }
-thead Th {
-	position: sticky;
-	z-index: 1;
-	top: 0;
-}
-thead tr:first-child Th {
-	position: sticky;
-	z-index: 12;
-	top: 0;
-}
-thead Th {
-	position: sticky;
-	z-index: 12;
-	top: 51px;
-	background: white;
-}
-.dataTables_filter {
-	float: left !important;
-}
 .table-div {
 	padding-top: 20px;
 	display: flex;

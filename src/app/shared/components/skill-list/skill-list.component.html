@@ -1,62 +1,55 @@
-<table>
-	<thead>
-		<tr>
-			<td
-				*ngFor="let column of firstHeader"
-				colSpan="{{ colSpan[column] }}"
-			>
-				{{ column }}
-			</td>
-		</tr>
-		<tr>
-			<td
-				*ngFor="let column of secondHeader"
-				colSpan="{{ colSpan[column] }}"
-			>
-				{{ column }}
-			</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let skill of skills | keyvalue">
-			<!-- Skill -->
-			<td>{{ skill.value.element }}</td>
-			<td>{{ skill.key }}</td>
-			<td>{{ skill.value.cost }}</td>
-			<td>{{ skill.value.effect }}</td>
-			<td *ngIf="skill.value.target">
-				{{ skill.value.target }}
-			</td>
-			<td *ngIf="skill.value.rank">
-				{{ skill.value.rank }}
-			</td>
-			<td *ngIf="skill.value.inherit">
-				{{ skill.value.inherit }}
-			</td>
-			<!-- Acquisition -->
-			<td>
-				<ng-container
-					*ngFor="let demon of skill.value.learnedBy | keyvalue"
-				>
-					<ng-container *ngIf="demon.value != 0; else inherentSkill">
-						{{ demon.key }} at {{ demon.value }},
-					</ng-container>
-					<ng-template #inherentSkill> {{ demon.key }}, </ng-template>
+<div class="filter-div">
+	<mat-form-field appearance="standard">
+		<mat-label>Filter</mat-label>
+		<input
+			matInput
+			(keyup)="applyFilter($event)"
+			placeholder="Ex. Miracle Punch"
+			#input
+		/>
+	</mat-form-field>
+</div>
+<div class="table-div">
+	<table
+		mat-table
+		[dataSource]="skillSource"
+		class="mat-elevation-z12"
+		matSort
+	>
+		<ng-container matColumnDef="element">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Element</th>
+			<td mat-cell *matCellDef="let skill">{{ skill.element }}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="name">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+			<td mat-cell *matCellDef="let skill">{{ skill.name }}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cost">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
+			<td mat-cell *matCellDef="let skill">{{ skill.cost }}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="effect">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Effect</th>
+			<td mat-cell *matCellDef="let skill">{{ skill.effect }}</td>
+		</ng-container>
+		<ng-container matColumnDef="learnedBy">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>
+				Learned By
+			</th>
+			<td mat-cell *matCellDef="let skill">
+				<ng-container *ngFor="let demon of skill.learnedBy | keyvalue">
+					{{ demon.key }}({{ demon.value }})
 				</ng-container>
 			</td>
-			<td *ngIf="skill.value.inheritFrom">
-				{{ skill.value.inheritFrom }}
-			</td>
-			<td *ngIf="skill.value.skillCard">
-				{{ skill.value.skillCard }}
-			</td>
-			<td *ngIf="skill.value.dSource">
-				{{ skill.value.dSource }}
-			</td>
-			<td *ngIf="skill.value.transferable">
-				{{ skill.value.transferable }}
-			</td>
-		</tr>
-	</tbody>
-</table>
->
+		</ng-container>
+
+		<tr
+			mat-header-row
+			*matHeaderRowDef="displayedColumns; sticky: true"
+		></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+</div>
