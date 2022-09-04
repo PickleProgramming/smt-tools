@@ -18,6 +18,8 @@ import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { DataTablesModule } from 'angular-datatables'
+import { MatTableModule } from '@angular/material/table'
+import { MatSortModule } from '@angular/material/sort'
 
 @NgModule({
 	declarations: [
@@ -43,6 +45,8 @@ import { DataTablesModule } from 'angular-datatables'
 		MatButtonModule,
 		MatCardModule,
 		DataTablesModule,
+		MatTableModule,
+		MatSortModule,
 	],
 	exports: [
 		DemonListComponent,

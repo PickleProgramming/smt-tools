@@ -1,20 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+	AfterViewInit,
+	Component,
+	Input,
+	OnInit,
+	ViewChild,
+} from '@angular/core'
 import { CompendiumConfig, Demon } from '@shared//models/compendium'
+import { MatTableDataSource } from '@angular/material/table'
+import { MatSort } from '@angular/material/sort'
+import _ from 'lodash'
 
 @Component({
 	selector: 'app-demon-list',
 	templateUrl: './demon-list.component.html',
 	styleUrls: ['./demon-list.component.scss'],
 })
-export class DemonListComponent implements OnInit {
-	@Input() demons: { [name: string]: Demon } | undefined
-	@Input() config: CompendiumConfig | undefined
-	firstHeader: string[] = []
-	colSpan: { [col: string]: number } = {}
-	secondHeader: string[] = []
-	displayedColumns: string[] = ['race', 'level']
+export class DemonListComponent implements OnInit, AfterViewInit {
+	@Input() demons!: { [name: string]: Demon }
+	@Input() config!: CompendiumConfig
 
-	dtOptions: DataTables.Settings = {}
+	displayedColumns: string[] = ['race', 'lvl', 'name', 'inherits']
+	demonSource!: MatTableDataSource<DemonElem>
+	@ViewChild(MatSort) sort!: MatSort
 
 	constructor() {}
 
@@ -22,32 +29,70 @@ export class DemonListComponent implements OnInit {
 		if (!this.config || !this.demons) {
 			throw new Error('Config/Demon List cannot be undefined')
 		}
-
-		this.dtOptions = {
-			paging: false,
+		let demonArr: DemonElem[] = []
+		for (let demonName in this.demons) {
+			let demon = this.demons[demonName]
+			demonArr.push(new DemonElem(demonName, demon))
 		}
+		this.demonSource = new MatTableDataSource(demonArr)
 
-		this.firstHeader = ['Demons', 'Stats']
-		this.colSpan = {
-			Demons: this.config.demonCols.length,
-			Stats: this.config.statCols.length,
-		}
+		this.displayedColumns = this.displayedColumns.concat(
+			this.config.statCols
+		)
+		this.displayedColumns = this.displayedColumns.concat(
+			this.config.resistanceCols!
+		)
+	}
 
-		for (let elem of this.config.demonCols) this.secondHeader.push(elem)
-		for (let elem of this.config.statCols) this.secondHeader.push(elem)
-
-		if (this.config.resistanceCols) {
-			this.firstHeader.push('Resistances')
-			this.colSpan['Resistances'] = this.config.resistanceCols.length
-			for (let column of this.config.resistanceCols)
-				this.secondHeader.push(column)
-		}
-		if (this.config.affinityCols) {
-			console.log('Trying to read affinities')
-			this.firstHeader.push('Affinities')
-			this.colSpan['Affinities'] = this.config.affinityCols.length
-			for (let column of this.config.affinityCols)
-				this.secondHeader.push(column)
+	ngAfterViewInit(): void {
+		this.demonSource.sort = this.sort
+		this.demonSource.sortingDataAccessor = (data, sortHeadId) => {
+			let index = _.indexOf(this.config.statCols, sortHeadId)
+			if (index > -1) return data.stats[index]
+			index = _.indexOf(this.config.resistanceCols, sortHeadId)
+			if (index > -1) return data.resistances[index]
+			switch (sortHeadId) {
+				case 'race':
+					return data.race
+				case 'name':
+					return data.name
+				case 'lvl':
+					return data.lvl
+				case 'inherits':
+					return data.inherits
+				default:
+					return 0
+			}
 		}
 	}
+
+	applyFilter(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value
+		this.demonSource.filter = filterValue.trim().toLowerCase()
+	}
+}
+
+/* Class used to facilitate angular material table sorting/filter
+	MatTable requires an array to perform its sorting/filtering functions,
+	since the demons list is a key/value pair, we need to convert it to
+	a data model that can hold all the necessary info and still be used in
+	MatTable*/
+class DemonElem {
+	constructor(demonName: string, demon: Demon) {
+		this.name = demonName
+		this.race = demon.race
+		this.lvl = demon.lvl
+		this.stats = demon.stats
+		this.resistances = demon.resistances
+		if (demon.inherits) this.inherits = demon.inherits
+	}
+	name: string
+	race: string
+	lvl: number
+	stats: number[]
+	resistances: string
+	inherits: string = ''
+	affinities: number[] = []
+	estats: number[] = []
+	align: string = ''
 }

@@ -1,72 +1,64 @@
-<!-- <div class="table-div">
-	<table mat-table [dataSource]="demons | keyvalue" class="mat-elevation-z12">
+<div class="filter-div">
+	<mat-form-field appearance="standard">
+		<mat-label>Filter</mat-label>
+		<input
+			matInput
+			(keyup)="applyFilter($event)"
+			placeholder="Ex. Mara"
+			#input
+		/>
+	</mat-form-field>
+</div>
+<div class="table-div">
+	<table
+		mat-table
+		[dataSource]="demonSource"
+		class="mat-elevation-z12"
+		matSort
+	>
 		<ng-container matColumnDef="race">
-			<th mat-header-cell *matHeaderCellDef>Race</th>
-			<td mat-cell *matCellDef="let demon">{{ demon.value.race }}</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Race</th>
+			<td mat-cell *matCellDef="let demon">{{ demon.race }}</td>
 		</ng-container>
 
-		<ng-container matColumnDef="level">
-			<th mat-header-cell *matHeaderCellDef>Level</th>
-			<td mat-cell *matCellDef="let demon">{{ demon.value.lvl }}</td>
+		<ng-container matColumnDef="lvl">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Level</th>
+			<td mat-cell *matCellDef="let demon">{{ demon.lvl }}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="name">
-			<th mat-header-cell *matHeaderCellDef>Name</th>
-			<td mat-cell *matCellDef="let demon">{{ demon.key }}</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+			<td mat-cell *matCellDef="let demon">{{ demon.name }}</td>
 		</ng-container>
 
-		<ng-container *ngIf="config.inheritTypes">
+		<ng-container *ngIf="config.inheritCols">
 			<ng-container matColumnDef="inherits">
-				<th mat-header-cell *matHeaderCellDef>Inherits</th>
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					Inherits
+				</th>
 				<td mat-cell *matCellDef="let demon">
-					{{ demon.value.inherits }}
+					{{ demon.inherits }}
 				</td>
 			</ng-container>
 		</ng-container>
 
-		<ng-container *ngFor="let stat of config.statCols; let i=index">
+		<ng-container *ngFor="let stat of config.statCols; let i = index">
 			<ng-container matColumnDef="{{ stat }}">
-				<th mat-header-cell *matHeaderCellDef>{{ stat }}</th>
-				<td mat-cell *matCellDef="let demon">demon.value.</td>
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					{{ stat }}
+				</th>
+				<td mat-cell *matCellDef="let demon">{{ demon.stats[i] }}</td>
 			</ng-container>
 		</ng-container>
-
-		<tr
-			mat-header-row
-			*matHeaderRowDef="displayedColumns; sticky: true"
-		></tr>
-		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-	</table>
-</div> -->
-<table datatable [dtOptions]="dtOptions" class="row-border hover">
-	<thead>
-		<tr>
-			<th *ngFor="let column of secondHeader">
-				{{ column }}
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let demon of demons | keyvalue">
-			<!-- Demon -->
-			<td>{{ demon.value.race }}</td>
-			<td>{{ demon.value.lvl }}</td>
-			<td routerLinkActive="active">
-				<a routerLink="{{ demon.key }}">
-					{{ demon.key }}
-				</a>
-			</td>
-			<td *ngIf="demon.value.inherits">
-				{{ demon.value.inherits }}
-			</td>
-			<!-- Stats -->
-			<td *ngFor="let stat of demon.value.stats">
-				{{ stat }}
-			</td>
-			<!-- Resistances -->
-			<ng-container *ngIf="demon.value.resistances">
-				<td *ngFor="let resist of demon.value.resistances.split('')">
-					<ng-container [ngSwitch]="resist">
+		<ng-container
+			*ngFor="let resistance of config.resistanceCols; let i = index"
+		>
+			<ng-container matColumnDef="{{ resistance }}">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					{{ resistance }}
+				</th>
+				<td mat-cell *matCellDef="let demon">
+					<ng-container [ngSwitch]="demon.resistances.split('')[i]">
 						<p *ngSwitchCase="'d'">absorb</p>
 						<p *ngSwitchCase="'w'">weak</p>
 						<p *ngSwitchCase="'n'">null</p>
@@ -76,6 +68,12 @@
 					</ng-container>
 				</td>
 			</ng-container>
-		</tr>
-	</tbody>
-</table>
+		</ng-container>
+
+		<tr
+			mat-header-row
+			*matHeaderRowDef="displayedColumns; sticky: true"
+		></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+</div>
