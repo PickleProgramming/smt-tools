@@ -1,32 +1,43 @@
+import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Component, Input, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
+import { MatTableDataSource } from '@angular/material/table'
 import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
 import { Compendium } from '@shared/models/compendium'
 import { Observable } from 'rxjs'
-import {
-	debounceTime,
-	distinctUntilChanged,
-	map,
-	startWith,
-} from 'rxjs/operators'
+import { map, startWith } from 'rxjs/operators'
 
 @Component({
 	selector: 'app-fusion-chain',
 	templateUrl: './fusion-chain.component.html',
 	styleUrls: ['./fusion-chain.component.scss'],
+	animations: [
+		trigger('detailExpand', [
+			state('collapsed', style({ height: '0px', minHeight: '0' })),
+			state('expanded', style({ height: '*' })),
+			transition(
+				'expanded <=> collapsed',
+				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+			),
+		]),
+	],
 })
 export class FusionChainComponent implements OnInit {
 	@Input() compendium?: Compendium
 	@Input() chainCalc?: ChainCalculator
 	skills?: string[]
 	demons?: string[]
-	chains: FusionChain[] | null = null
+	chains: FusionChain[] = []
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
 	skillControls: FormControl[] = []
 	filteredDemons?: Observable<string[]>
 	filteredSkills: Observable<string[]>[] = []
-	panelOpenState = false
+
+	columnsToDisplay = ['result', 'cost', 'level', 'steps']
+	chainSource = new MatTableDataSource(this.chains)
+	expandedChain!: FusionChain | null
+	directions: string[][] = []
 
 	constructor() {}
 
@@ -83,14 +94,23 @@ export class FusionChainComponent implements OnInit {
 			let level: number = +this.levelControl.value
 			this.chainCalc.maxLevel = level
 		}
+		let chains: FusionChain[] | null
 		if (demon) {
-			this.chains = this.chainCalc.getChains(inputSkills, false, demon)
-			return
+			chains = this.chainCalc.getChains(inputSkills, false, demon)
+		} else {
+			chains = this.chainCalc.getChains(inputSkills, false)
 		}
-		this.chains = this.chainCalc?.getChains(inputSkills, false)
+		if (!chains) {
+			this.chains = []
+		} else {
+			this.chains = chains
+		}
 		this.chainCalc.maxLevel = 99
+		this.chainSource = new MatTableDataSource(this.chains)
+		console.log(this.chainSource)
 	}
 
+	//TODO: testing
 	test(): void {
 		if (!this.chainCalc) {
 			throw new Error(

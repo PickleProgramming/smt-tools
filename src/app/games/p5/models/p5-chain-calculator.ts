@@ -204,6 +204,7 @@ export class P5ChainCalculator extends ChainCalculator {
 				)
 			}
 		}
+		chain.directions = chain.getDirections()
 		chains.push(chain)
 	}
 
