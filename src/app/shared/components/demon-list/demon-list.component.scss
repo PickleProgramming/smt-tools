@@ -1,17 +1,17 @@
 table {
-	width: 100%;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	padding-bottom: 3em;
-	border-collapse: collapse;
+	width: 95%;
+}
+.table-div {
+	padding-top: 20px;
+	display: flex;
+	justify-content: center;
 }
 
-th,
-td {
-	border: solid 1px #333333;
-	padding: 0.3em;
+.filter-div {
+	font-size: 14px;
+	display: flex;
+	justify-content: center;
 }
-thead {
-	font-weight: bolder;
+.mat-form-field {
+	width: 95%;
 }
