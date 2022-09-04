@@ -7,8 +7,7 @@ import { P5CompendiumConfig } from '@p5/models/p5-compendium'
 	template: ` <app-normal-fusion-table [config]="config">
 		</app-normal-fusion-table>
 		<app-element-fusion-table [config]="config">
-			<app-element-fusion-table></app-element-fusion-table
-		></app-element-fusion-table>`,
+		</app-element-fusion-table>`,
 })
 export class P5FusionTableComponent implements OnInit {
 	config: P5CompendiumConfig = P5_COMPENDIUM.config

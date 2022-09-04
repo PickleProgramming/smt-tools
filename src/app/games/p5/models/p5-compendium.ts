@@ -13,6 +13,7 @@ import FUSION_TABLE from '@p5/data/fusion-table.json'
 import ELEMENT_TABLE from '@p5/data/element-table.json'
 import DLC_DATA from '@p5/data/dlc-data.json'
 import INHERIT_DATA from '@p5/data/inheritance-types.json'
+import _ from 'lodash'
 
 export class P5CompendiumConfig extends CompendiumConfig {
 	constructor() {
@@ -61,10 +62,24 @@ export class P5Compendium extends Compendium {
 			SPECIAL_RECIPES,
 			DLC_DATA
 		)
+		//move dlc demon skills to anothe list
+		this.dlcSkills = {}
+		for (let skillName in this.skills) {
+			if (Object.keys(this.skills[skillName].learnedBy).length == 0) {
+				for (let demonName in this.dlcDemons) {
+					let demonSkills: string[] = Object.keys(
+						this.dlcDemons[demonName].skills
+					)
+					if (_.indexOf(demonSkills, skillName) != -1) {
+						this.dlcSkills[skillName] = this.skills[skillName]
+					}
+				}
+				delete this.skills[skillName]
+			}
+		}
 		//remove any skills that are only used by party members
-		for (let skill in this.skills)
-			if (Object.keys(this.skills[skill].learnedBy).length == 0)
-				delete this.skills[skill]
+		for (let skill in this.skills) {
+		}
 		console.log('Created P5Compendium')
 	}
 
@@ -86,26 +101,6 @@ export class P5Compendium extends Compendium {
 			if ('unique' in data) skills[name].unique = data['unique']
 		})
 		return skills
-	}
-
-	protected parseDemons(demonData: Object): { [name: string]: Demon } {
-		let demons: { [name: string]: Demon } = {}
-		Object.entries(demonData).forEach(([demon, data]) => {
-			demons[demon] = {
-				race: data.race,
-				lvl: data.lvl,
-				stats: data.stats,
-				resistances: data.resists,
-				skills: data.skills,
-				inherits: data.inherits,
-				drop: data.item,
-			}
-			Object.entries(demons[demon].skills).forEach(
-				([skill, level]) =>
-					(this.skills[skill].learnedBy[demon] = level)
-			)
-		})
-		return demons
 	}
 
 	protected parseSpecial(specialData: Object): { [name: string]: string[] } {

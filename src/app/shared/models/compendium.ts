@@ -105,10 +105,11 @@ export abstract class CompendiumConfig {
     above. */
 export abstract class Compendium {
 	config: CompendiumConfig
-	demons: { [name: string]: Demon }
+	demons: { [name: string]: Demon } = {}
 	skills: { [name: string]: Skill }
 	specialRecipes?: { [name: string]: string[] }
 	dlcDemons?: { [name: string]: Demon }
+	dlcSkills?: { [name: string]: Skill }
 
 	constructor(
 		config: CompendiumConfig,
@@ -119,15 +120,43 @@ export abstract class Compendium {
 	) {
 		this.config = config
 		this.skills = this.parseSkills(skillData)
-		this.demons = this.parseDemons(demonData)
+		this.parseDemons(demonData, this.demons, this.skills)
 
 		if (specialData) this.specialRecipes = this.parseSpecial!(specialData)
+		if (dlcData) {
+			this.dlcDemons = {}
+			this.parseDemons(dlcData, this.dlcDemons)
+		}
 	}
 
 	/* reads the skills from the JSON files into respective objects and lists*/
 	protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
 	/* reads the demons from the JSON files into respective objects */
-	protected abstract parseDemons(demonData: Object): { [name: string]: Demon }
+	protected parseDemons(
+		demonData: Object,
+		demonList: { [name: string]: Demon },
+		skillList?: { [name: string]: Skill }
+	): void {
+		Object.entries(demonData).forEach(([demon, data]) => {
+			demonList[demon] = {
+				race: data.race,
+				lvl: data.lvl,
+				stats: data.stats,
+				resistances: data.resists,
+				skills: data.skills,
+				inherits: data.inherits,
+				drop: data.item,
+			}
+		})
+		console.log('Parsed Demons: ' + demonList)
+		if (!skillList) return
+		for (let demonName in demonList) {
+			for (let skillName in demonList[demonName].skills) {
+				let level = demonList[demonName].skills[skillName]
+				skillList[skillName].learnedBy[demonName] = level
+			}
+		}
+	}
 	/* reads the specialRecipes from the JSON files into respective objects */
 	protected abstract parseSpecial?(specialData: Object): {
 		[name: string]: string[]
