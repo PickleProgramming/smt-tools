@@ -6,6 +6,7 @@ import { HeaderComponent } from './components/header/header.component'
 import { FooterComponent } from './components/footer/footer.component'
 import { GameWrapperComponent } from './components/game-wrapper/game-wrapper.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatCardModule } from '@angular/material/card'
 
 @NgModule({
 	declarations: [
@@ -14,7 +15,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 		FooterComponent,
 		GameWrapperComponent,
 	],
-	imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		MatCardModule,
+	],
 	providers: [],
 	bootstrap: [AppComponent],
 })
