@@ -1,9 +1,10 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
-import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
+import { ChainCalculator } from '@shared/models/chain-calculator'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
 import _ from 'lodash'
 import { Recipe } from '@shared/models/compendium'
+import { FusionChain } from '@shared/models/fusionChain'
 
 export class P5ChainCalculator extends ChainCalculator {
 	compendium!: P5Compendium
@@ -35,9 +36,8 @@ export class P5ChainCalculator extends ChainCalculator {
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
 			if (unique) {
-				let skills = _.difference(targetSkills, [skillName])
 				return this.getChains_targetSkills_demonName(
-					skills,
+					targetSkills,
 					unique,
 					deep
 				)
@@ -45,6 +45,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		}
 		let chains: FusionChain[] = []
 		for (let demonName in this.compendium.demons) {
+			this.combos += 1
 			if (chains.length >= this.maxChainLength) {
 				console.log('Chain number Reached')
 				return chains
@@ -87,6 +88,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		let chains: FusionChain[] = []
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
+			this.combos += 1
 			if (chains.length >= this.maxChainLength) {
 				console.log('Chain number reached')
 				return chains
@@ -136,6 +138,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
+			this.combos += 1
 			if (!this.isPossible(targetSkills, undefined, fission)) continue
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {

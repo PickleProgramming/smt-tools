@@ -2,8 +2,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Component, Input, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
-import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
+import { ChainCalculator } from '@shared/models/chain-calculator'
 import { Compendium } from '@shared/models/compendium'
+import { FusionChain } from '@shared/models/fusionChain'
 import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 
@@ -38,6 +39,7 @@ export class FusionChainComponent implements OnInit {
 	chainSource = new MatTableDataSource(this.chains)
 	expandedChain!: FusionChain | null
 	directions: string[][] = []
+	deep: boolean = false
 
 	constructor() {}
 
@@ -77,37 +79,42 @@ export class FusionChainComponent implements OnInit {
 		)
 	}
 
-	calculate(): void {
-		if (!this.chainCalc) {
-			throw new Error(
-				'FusionChainComponent called without passing chain calculator'
-			)
-		}
-		let inputSkills: string[] = []
-		for (let skillControl of this.skillControls) {
-			if (skillControl.value) inputSkills.push(skillControl.value)
-		}
-		console.log(inputSkills)
-		let demon = this.demonControl.value
+	async calculate(): Promise<void> {
+		try {
+			this.chainCalc!.combos = 0
+			if (!this.chainCalc) {
+				throw new Error(
+					'FusionChainComponent called without passing chain calculator'
+				)
+			}
+			let inputSkills: string[] = []
+			for (let skillControl of this.skillControls) {
+				if (skillControl.value) inputSkills.push(skillControl.value)
+			}
+			console.log(inputSkills)
+			let demon = this.demonControl.value
 
-		if (this.levelControl.value) {
-			let level: number = +this.levelControl.value
-			this.chainCalc.maxLevel = level
+			if (this.levelControl.value) {
+				let level: number = +this.levelControl.value
+				this.chainCalc.maxLevel = level
+			}
+			let chains: FusionChain[] | null
+			if (demon) {
+				chains = this.chainCalc.getChains(inputSkills, this.deep, demon)
+			} else {
+				chains = this.chainCalc.getChains(inputSkills, this.deep)
+			}
+			if (!chains) {
+				this.chains = []
+			} else {
+				this.chains = chains
+			}
+			this.chainCalc.maxLevel = 99
+			this.chainSource = new MatTableDataSource(this.chains)
+			console.log(this.chainSource)
+		} catch (e) {
+			console.error(e)
 		}
-		let chains: FusionChain[] | null
-		if (demon) {
-			chains = this.chainCalc.getChains(inputSkills, false, demon)
-		} else {
-			chains = this.chainCalc.getChains(inputSkills, false)
-		}
-		if (!chains) {
-			this.chains = []
-		} else {
-			this.chains = chains
-		}
-		this.chainCalc.maxLevel = 99
-		this.chainSource = new MatTableDataSource(this.chains)
-		console.log(this.chainSource)
 	}
 
 	//TODO: testing
@@ -118,11 +125,12 @@ export class FusionChainComponent implements OnInit {
 			)
 		}
 		this.demonControl.setValue('')
-		this.levelControl.setValue('80')
+		this.levelControl.setValue('')
+		this.deep = true
 		this.skillControls[0].setValue('Regenerate 3')
 		this.skillControls[1].setValue('Invigorate 3')
-		this.skillControls[2].setValue('Miracle Punch')
-		this.skillControls[3].setValue('Apt Pupil')
+		this.skillControls[2].setValue('Die For Me!')
+		this.skillControls[3].setValue('')
 	}
 
 	log(): void {

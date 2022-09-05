@@ -65,11 +65,15 @@
 				Testing
 			</button>
 			<button (click)="log()" color="warn" mat-raised-button>Log</button>
+			<mat-checkbox [(ngModel)]="deep">Deep?</mat-checkbox>
 		</div>
 	</div>
 </div>
 
 <!-- Chain Display -->
+<p class="combos" *ngIf="chainCalc!.combos > 0">
+	{{ chainCalc!.combos }} fusions analysed.
+</p>
 <table
 	*ngIf="chains.length > 0"
 	mat-table

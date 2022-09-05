@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router'
 import { SkillListComponent } from './components/skill-list/skill-list.component'
 import { NormalFusionTableComponent } from './components/normal-fusion-table/normal-fusion-table.component'
 import { ElementFusionTableComponent } from './components/element-fusion-table/element-fusion-table.component'
-import { TripleFusionTableComponent } from './components/triple-fusion-table/triple-fusion-table.component'
 import { SettingsComponent } from './components/settings/settings.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -20,6 +19,8 @@ import { MatCardModule } from '@angular/material/card'
 import { DataTablesModule } from 'angular-datatables'
 import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort'
+import { MatPseudoCheckboxModule } from '@angular/material/core'
+import { MatCheckboxModule } from '@angular/material/checkbox'
 
 @NgModule({
 	declarations: [
@@ -27,7 +28,6 @@ import { MatSortModule } from '@angular/material/sort'
 		SkillListComponent,
 		NormalFusionTableComponent,
 		ElementFusionTableComponent,
-		TripleFusionTableComponent,
 		SettingsComponent,
 		DemonEntryComponent,
 		ShortenPipe,
@@ -47,13 +47,13 @@ import { MatSortModule } from '@angular/material/sort'
 		DataTablesModule,
 		MatTableModule,
 		MatSortModule,
+		MatCheckboxModule,
 	],
 	exports: [
 		DemonListComponent,
 		SkillListComponent,
 		NormalFusionTableComponent,
 		ElementFusionTableComponent,
-		TripleFusionTableComponent,
 		SettingsComponent,
 		DemonEntryComponent,
 		FusionChainComponent,
