@@ -1,12 +1,12 @@
 import { trigger, state, style, transition, animate } from '@angular/animations'
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
 import { ChainCalculator } from '@shared/models/chain-calculator'
 import { Compendium } from '@shared/models/compendium'
 import { FusionChain } from '@shared/models/fusionChain'
-import { Observable } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { Observable, Subscription } from 'rxjs'
+import { map, startWith, subscribeOn } from 'rxjs/operators'
 
 @Component({
 	selector: 'app-fusion-chain',
@@ -23,12 +23,11 @@ import { map, startWith } from 'rxjs/operators'
 		]),
 	],
 })
-export class FusionChainComponent implements OnInit {
-	@Input() compendium?: Compendium
-	@Input() chainCalc?: ChainCalculator
+export class FusionChainComponent implements OnInit, OnDestroy {
+	@Input() compendium!: Compendium
+	@Input() chainCalc!: ChainCalculator
 	skills?: string[]
 	demons?: string[]
-	chains: FusionChain[] = []
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
 	skillControls: FormControl[] = []
@@ -36,12 +35,18 @@ export class FusionChainComponent implements OnInit {
 	filteredSkills: Observable<string[]>[] = []
 
 	columnsToDisplay = ['result', 'cost', 'level', 'steps']
-	chainSource = new MatTableDataSource(this.chains)
 	expandedChain!: FusionChain | null
 	directions: string[][] = []
-	deep: boolean = false
+
+	chainSource?: MatTableDataSource<FusionChain>
+	chainSub?: Subscription
+	combo: number = 0
+	comboSub?: Subscription
 
 	constructor() {}
+	ngOnDestroy(): void {
+		throw new Error('Method not implemented.')
+	}
 
 	ngOnInit(): void {
 		if (!this.compendium) {
@@ -54,9 +59,15 @@ export class FusionChainComponent implements OnInit {
 				'FusionChainComponent called without passing chain calculator'
 			)
 		}
+		this.chainSub = this.chainCalc.chainObservable.subscribe((chains) => {
+			this.chainSource = new MatTableDataSource(chains)
+			console.log('New chain recieved')
+		})
+		this.comboSub = this.chainCalc.comboObservable.subscribe((combo) => {
+			this.combo = combo
+		})
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
-
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
 			startWith(''),
 			map((value) => this._filter(value || '', this.demons!))
@@ -79,6 +90,10 @@ export class FusionChainComponent implements OnInit {
 		)
 	}
 
+	toggleDeep(deep: boolean) {
+		this.chainCalc.deep = deep
+	}
+
 	calculate(): void {
 		try {
 			if (!this.chainCalc) {
@@ -96,20 +111,11 @@ export class FusionChainComponent implements OnInit {
 				let level: number = +this.levelControl.value
 				this.chainCalc.maxLevel = level
 			}
-			let chains: FusionChain[] | null
 			if (demon) {
-				chains = this.chainCalc.getChains(inputSkills, this.deep, demon)
+				this.chainCalc.getChains(inputSkills, demon)
 			} else {
-				chains = this.chainCalc.getChains(inputSkills, this.deep)
+				this.chainCalc.getChains(inputSkills)
 			}
-			if (!chains) {
-				this.chains = []
-			} else {
-				this.chains = chains
-			}
-			this.chainCalc.maxLevel = 99
-			this.chainSource = new MatTableDataSource(this.chains)
-			console.log(this.chainSource)
 		} catch (e) {
 			console.error(e)
 		}
@@ -124,11 +130,11 @@ export class FusionChainComponent implements OnInit {
 		}
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
-		this.deep = true
 		this.skillControls[0].setValue('Regenerate 3')
 		this.skillControls[1].setValue('Invigorate 3')
 		this.skillControls[2].setValue('Die For Me!')
-		this.skillControls[3].setValue('')
+		this.skillControls[3].setValue('Spell Master')
+		this.skillControls[4].setValue('Attack Master')
 	}
 
 	log(): void {

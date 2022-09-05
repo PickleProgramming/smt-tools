@@ -5,7 +5,6 @@ import { FusionCalculator } from '@shared/models/fusion-calculator'
 export class P5FusionCalculator extends FusionCalculator {
 	constructor() {
 		super(P5_COMPENDIUM)
-		console.log('P5FusionCalculator created')
 	}
 
 	getFissions(targetName: string): Recipe[] {

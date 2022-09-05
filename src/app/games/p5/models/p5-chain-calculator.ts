@@ -14,117 +14,86 @@ export class P5ChainCalculator extends ChainCalculator {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
 	}
 
-	getChains(
-		targetSkills: string[],
-		deep: boolean,
-		demonName?: string
-	): FusionChain[] | null {
-		this.combos = 0
-		let chains: FusionChain[] | null
+	getChains(targetSkills: string[], demonName?: string): void {
+		this.resetCombos()
+		this.resetChains()
 		if (demonName) {
-			chains = this.getChains_targetSkills_demonName(
-				targetSkills,
-				demonName,
-				deep
-			)
-		} else chains = this.getChains_targetSkills(targetSkills, deep)
-		return chains
+			this.getChains_targetSkills_demonName(targetSkills, demonName)
+		} else this.getChains_targetSkills(targetSkills)
+		console.log(this.chains)
 	}
-	private getChains_targetSkills(
-		targetSkills: string[],
-		deep: boolean
-	): FusionChain[] | null {
+	private getChains_targetSkills(targetSkills: string[]): void {
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
 			if (unique) {
-				return this.getChains_targetSkills_demonName(
-					targetSkills,
-					unique,
-					deep
-				)
+				this.getChains_targetSkills_demonName(targetSkills, unique)
 			}
 		}
 		let chains: FusionChain[] = []
 		for (let demonName in this.compendium.demons) {
-			this.combos += 1
+			this.newCombo()
 			if (chains.length >= this.maxChainLength) {
 				console.log('Chain number Reached')
-				return chains
+				return
 			}
 			if (!this.isPossible(targetSkills, demonName)) continue
-			let newChains: FusionChain[] | null = null
+			let newChains: FusionChain[] = []
 			let demon = this.compendium.demons[demonName]
 			let intersects = _.intersection(
 				targetSkills,
 				Object.keys(demon.skills)
 			)
-			if (intersects.length > 0 || deep) {
-				newChains = this.getChains_targetSkills_demonName(
-					targetSkills,
-					demonName,
-					deep
-				)
+			if (intersects.length > 0 || this.deep) {
+				this.getChains_targetSkills_demonName(targetSkills, demonName)
 			}
-			if (newChains !== null) chains = chains.concat(newChains)
+			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
-		if (chains.length > 0) return chains
-		return null
 	}
 	private getChains_targetSkills_demonName(
 		skills: string[],
-		demonName: string,
-		deep: boolean
-	): FusionChain[] | null {
+		demonName: string
+	): void {
+		let chains: FusionChain[] = []
 		let targetSkills = _.cloneDeep(skills)
-		if (!this.isPossible(targetSkills, demonName)) return null
+		if (!this.isPossible(targetSkills, demonName)) return
 		let demon = this.compendium.demons[demonName]
 		let innates = _.intersection(targetSkills, Object.keys(demon.skills))
 		if (innates.length > 0) {
-			//TODO if a demon knows all innate skills null is returned
-			if (innates.length == targetSkills.length) return null
+			//TODO if a demon knows all innate skills empty is returned
+			if (innates.length == targetSkills.length) return
 			let diff = _.difference(targetSkills, innates)
-			if (diff.length > 4) return null
+			if (diff.length > 4) return
 			_.pullAll(targetSkills, innates)
 		}
-		let chains: FusionChain[] = []
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.combos += 1
+			this.newCombo()
 			if (chains.length >= this.maxChainLength) {
 				console.log('Chain number reached')
-				return chains
+				return
 			}
 			if (!this.isPossible(targetSkills, undefined, fission)) continue
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
-			if (foundSkills.length > 0 || deep) {
+			if (foundSkills.length > 0 || this.deep) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					if (diff.length == 0) {
-						this.addChain(fission, foundSkills, innates, chains)
+						this.newChain(fission, foundSkills, innates)
 						continue
 					}
-					let chain = this.getChain(diff, 0, sourceName, deep)
+					let chain = this.getChain(diff, 0, sourceName)
 					if (chain != null) {
-						this.addChain(
-							fission,
-							foundSkills,
-							innates,
-							chains,
-							chain
-						)
+						this.newChain(fission, foundSkills, innates, chain)
 					}
 				}
 			}
 		}
-		if (chains.length > 0) return chains
-		return null
 	}
 
 	protected getChain(
 		targetSkills: string[],
 		recursiveDepth: number,
-		demonName: string,
-		deep: boolean
+		demonName: string
 	): FusionChain | null {
 		if (targetSkills.length == 0) {
 			throw new Error(
@@ -139,7 +108,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.combos += 1
+			this.newCombo()
 			if (!this.isPossible(targetSkills, undefined, fission)) continue
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
@@ -147,14 +116,13 @@ export class P5ChainCalculator extends ChainCalculator {
 				chain.addStep(fission, targetSkills)
 				return chain
 			}
-			if (foundSkills.length > 0 || deep) {
+			if (foundSkills.length > 0 || this.deep) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					let chain = this.getChain(
 						diff,
 						recursiveDepth + 1,
-						sourceName,
-						deep
+						sourceName
 					)
 					if (chain != null) {
 						chain.addStep(fission, foundSkills)
@@ -166,7 +134,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		return null
 	}
 
-	/* @returns: returns a list of skils that intersects @param targetSkills
+	/* @returns a list of skils that intersects @param targetSkills
 		and all the skills in @param recipe sources */
 	private checkRecipeSkills(
 		targetSkills: string[],
@@ -188,11 +156,10 @@ export class P5ChainCalculator extends ChainCalculator {
 
 	/* formats/creates a chain and adds the information from @param reicpe and @param skills
 	and adds it to the @param fusionChain */
-	private addChain(
+	protected newChain(
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],
-		chains: FusionChain[],
 		chain?: FusionChain
 	): void {
 		if (!chain) chain = new FusionChain()
@@ -209,7 +176,9 @@ export class P5ChainCalculator extends ChainCalculator {
 			}
 		}
 		chain.directions = chain.getDirections()
-		chains.push(chain)
+		this.chains.push(chain)
+		this.chainSubject.next(this.chains)
+		console.log('NEW CHAIN ADDED')
 	}
 
 	protected isPossible(

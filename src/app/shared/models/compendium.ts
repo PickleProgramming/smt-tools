@@ -148,7 +148,6 @@ export abstract class Compendium {
 				drop: data.item,
 			}
 		})
-		console.log('Parsed Demons: ' + demonList)
 		if (!skillList) return
 		for (let demonName in demonList) {
 			for (let skillName in demonList[demonName].skills) {

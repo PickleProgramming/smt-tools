@@ -65,14 +65,17 @@
 				Testing
 			</button>
 			<button (click)="log()" color="warn" mat-raised-button>Log</button>
-			<mat-checkbox [(ngModel)]="deep">Deep?</mat-checkbox>
+			<mat-checkbox (change)="toggleDeep($event.checked)"
+				>Deep?</mat-checkbox
+			>
 		</div>
 	</div>
 </div>
 
+<p class="combos" *ngIf="combo > 0">{{ combo }} fusions attempted...</p>
 <!-- Chain Display -->
 <table
-	*ngIf="chains.length > 0"
+	*ngIf="chainSource"
 	mat-table
 	[dataSource]="chainSource"
 	multiTemplateDataRows

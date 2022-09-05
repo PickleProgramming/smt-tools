@@ -2,21 +2,29 @@ import { Compendium, Recipe } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { FusionChain } from './fusionChain'
+import { Observable, Subject } from 'rxjs'
 
 export abstract class ChainCalculator {
-	compendium: Compendium
-	calculator: FusionCalculator
-	combos: number = 0
+	protected compendium: Compendium
+	protected calculator: FusionCalculator
+	protected combo: number = 0
+	protected chains: FusionChain[] = []
+	protected comboSubject = new Subject<number>()
+	protected chainSubject = new Subject<FusionChain[]>()
 
-	//@setting the amount of times getChain is allowed to call itself
-	protected recursiveDepth = 2
-	//@setting the max size array getChains can return
-	protected maxChainLength = 20
 	maxLevel = 99
+	deep: boolean = false
+	//@setting the amount of times getChain is allowed to call itself
+	recursiveDepth = 2
+	//@setting the max size array getChains can return
+	maxChainLength = 20
+	comboObservable = this.comboSubject.asObservable()
+	chainObservable = this.chainSubject.asObservable()
 
 	constructor(compendium: Compendium, calculator: FusionCalculator) {
 		this.compendium = compendium
 		this.calculator = calculator
+		console.log('Chain Calculator Created')
 	}
 
 	/*  @param targetSkills: a list of skills for the final demon
@@ -26,11 +34,7 @@ export abstract class ChainCalculator {
         @param demonName: the name of the demon to fuse to
         @returns a set of fusion chains configured by 
             ChainCalculator's properties*/
-	abstract getChains(
-		targetSkills: string[],
-		deep: boolean,
-		demonName?: string
-	): FusionChain[] | null
+	abstract getChains(targetSkills: string[], demonName?: string): void
 
 	/*  @param targetSkills: list of skills for the final demon to inherit
         @param recursiveDepth: an incremental number to keep track of the
@@ -43,8 +47,7 @@ export abstract class ChainCalculator {
 	protected abstract getChain(
 		targetSkills: string[],
 		recursiveDepth: number,
-		demonName: string,
-		deep: boolean
+		demonName: string
 	): FusionChain | null
 
 	/* Determines if the passed persona is capable oflearning the skills passed
@@ -93,6 +96,27 @@ export abstract class ChainCalculator {
 		return false
 	}
 
+	protected newCombo(): void {
+		this.comboSubject.next(this.combo++)
+	}
+
+	protected resetCombos(): void {
+		this.comboSubject.next(0)
+		this.combo = 0
+	}
+
+	protected abstract newChain(
+		recipe: Recipe,
+		skills: string[],
+		innates: string[],
+		chain?: FusionChain
+	): void
+
+	protected resetChains(): void {
+		this.chainSubject.next([])
+		this.chains = []
+	}
+
 	/* returns the level of the highest level demon in the provided chain */
 	levelRequired(chain: FusionChain): number {
 		let level = 0
@@ -104,13 +128,5 @@ export abstract class ChainCalculator {
 				level = this.compendium.demons[recipe.result].lvl
 		}
 		return level
-	}
-
-	/* Mutators */
-	setRecursiveDepth(recursiveDepth: number): void {
-		this.recursiveDepth = recursiveDepth
-	}
-	setMaxChainLength(maxChainLength: number): void {
-		this.maxChainLength = maxChainLength
 	}
 }
