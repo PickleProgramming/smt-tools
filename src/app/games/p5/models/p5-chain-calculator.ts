@@ -19,6 +19,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		deep: boolean,
 		demonName?: string
 	): FusionChain[] | null {
+		this.combos = 0
 		let chains: FusionChain[] | null
 		if (demonName) {
 			chains = this.getChains_targetSkills_demonName(

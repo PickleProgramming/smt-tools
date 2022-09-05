@@ -79,9 +79,8 @@ export class FusionChainComponent implements OnInit {
 		)
 	}
 
-	async calculate(): Promise<void> {
+	calculate(): void {
 		try {
-			this.chainCalc!.combos = 0
 			if (!this.chainCalc) {
 				throw new Error(
 					'FusionChainComponent called without passing chain calculator'
@@ -91,7 +90,6 @@ export class FusionChainComponent implements OnInit {
 			for (let skillControl of this.skillControls) {
 				if (skillControl.value) inputSkills.push(skillControl.value)
 			}
-			console.log(inputSkills)
 			let demon = this.demonControl.value
 
 			if (this.levelControl.value) {
