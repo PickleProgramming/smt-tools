@@ -36,12 +36,18 @@
 			<td mat-cell *matCellDef="let skill">{{ skill.effect }}</td>
 		</ng-container>
 		<ng-container matColumnDef="learnedBy">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>
-				Learned By
-			</th>
+			<th mat-header-cell *matHeaderCellDef>Learned By</th>
 			<td mat-cell *matCellDef="let skill">
 				<ng-container *ngFor="let demon of skill.learnedBy | keyvalue">
 					{{ demon.key }}({{ demon.value }})
+				</ng-container>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="skillCard">
+			<th mat-header-cell *matHeaderCellDef>Skill Card</th>
+			<td mat-cell *matCellDef="let skill">
+				<ng-container *ngIf="skill.card">
+					{{ skill.card }}
 				</ng-container>
 			</td>
 		</ng-container>

@@ -1,44 +1,24 @@
 {
-	"Absorb Bless": {
-		"effect": "Absorb Bless attacks.",
-		"element": "passive"
-	},
-	"Absorb Curse": {
-		"effect": "Absorb Curse attacks.",
-		"element": "passive"
-	},
+	"Absorb Bless": { "effect": "Absorb Bless attacks.", "element": "passive" },
+	"Absorb Curse": { "effect": "Absorb Curse attacks.", "element": "passive" },
 	"Absorb Elec": {
 		"effect": "Absorb Electric attacks.",
 		"element": "passive"
 	},
-	"Absorb Fire": {
-		"effect": "Absorb Fire attacks.",
-		"element": "passive"
-	},
-	"Absorb Ice": {
-		"effect": "Absorb Ice attacks.",
-		"element": "passive"
-	},
+	"Absorb Fire": { "effect": "Absorb Fire attacks.", "element": "passive" },
+	"Absorb Ice": { "effect": "Absorb Ice attacks.", "element": "passive" },
 	"Absorb Nuke": {
 		"effect": "Absorb Nuclear attacks.",
 		"element": "passive"
 	},
-	"Absorb Phys": {
-		"effect": "Absorb Phys attacks.",
-		"element": "passive"
-	},
-	"Absorb Psy": {
-		"effect": "Absorb Psy attacks.",
-		"element": "passive"
-	},
-	"Absorb Wind": {
-		"effect": "Absorb Wind attacks.",
-		"element": "passive"
-	},
+	"Absorb Phys": { "effect": "Absorb Phys attacks.", "element": "passive" },
+	"Absorb Psy": { "effect": "Absorb Psy attacks.", "element": "passive" },
+	"Absorb Wind": { "effect": "Absorb Wind attacks.", "element": "passive" },
 	"Abysmal Surge": {
 		"cost": 1012,
 		"effect": "Inflict Despair (medium odds) to all foes.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Arahabaki"
 	},
 	"Abyssal Wings": {
 		"cost": 1030,
@@ -53,22 +33,26 @@
 	},
 	"Adverse Resolve": {
 		"effect": "Increase critical rate when being ambushed.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Rakshasa"
 	},
 	"Agi": {
 		"cost": 1004,
 		"effect": "Deal weak Fire damage to 1 foe.",
-		"element": "fire"
+		"element": "fire",
+		"card": "Jack-o'-Lantern"
 	},
 	"Agidyne": {
 		"cost": 1012,
 		"effect": "Deal heavy Fire damage to 1 foe.",
-		"element": "fire"
+		"element": "fire",
+		"card": "Belial"
 	},
 	"Agilao": {
 		"cost": 1008,
 		"effect": "Deal medium Fire damage to 1 foe.",
-		"element": "fire"
+		"element": "fire",
+		"card": "Hua Po"
 	},
 	"Agneyastra": {
 		"cost": 24,
@@ -77,7 +61,8 @@
 	},
 	"Ailment Boost": {
 		"effect": "Increase chance of inflicting all ailments.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Dionysus"
 	},
 	"Ali Dance": {
 		"effect": "Half hit rate of all incoming attacks.",
@@ -103,7 +88,8 @@
 	"Amrita Shower": {
 		"cost": 1012,
 		"effect": "Cure all ailments of party except for unique status.",
-		"element": "healing"
+		"element": "healing",
+		"card": "Scathach"
 	},
 	"Analysis": {
 		"effect": "Confirm affinities you have previously attacked.",
@@ -114,10 +100,7 @@
 		"effect": "Double evasion against Fire/Ice/Elec/Wind/Nuke/Psy/Bless/Curse attacks.",
 		"element": "passive"
 	},
-	"Apt Pupil": {
-		"effect": "Increase critical rate.",
-		"element": "passive"
-	},
+	"Apt Pupil": { "effect": "Increase critical rate.", "element": "passive" },
 	"Arms Master": {
 		"effect": "Half HP cost for physical skills.",
 		"element": "passive"
@@ -125,7 +108,8 @@
 	"Assault Dive": {
 		"cost": 13,
 		"effect": "Deal heavy Phys damage to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Take-Minakata"
 	},
 	"Atomic Flare": {
 		"cost": 1048,
@@ -191,12 +175,14 @@
 	"Bloodbath": {
 		"cost": 19,
 		"effect": "Deal heavy Phys damage and inflict Fear (low odds) to all foes.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Chernobog"
 	},
 	"Brain Buster": {
 		"cost": 21,
 		"effect": "Deal heavy Phys damage and inflict Brainwash (low odds) to all foes.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Kurama Tengu"
 	},
 	"Brain Jack": {
 		"cost": 1012,
@@ -206,11 +192,13 @@
 	"Brain Shake": {
 		"cost": 9,
 		"effect": "Deal medium Phys damage and inflict Brainwash (medium odds) to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Inugami"
 	},
 	"Brainwash Boost": {
 		"effect": "Increase chance of inflicting Brainwash.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Succubus"
 	},
 	"Brave Blade": {
 		"cost": 24,
@@ -220,17 +208,20 @@
 	"Bufu": {
 		"cost": 1004,
 		"effect": "Deal weak Ice damage to 1 foe.",
-		"element": "ice"
+		"element": "ice",
+		"card": "Jack Frost"
 	},
 	"Bufudyne": {
 		"cost": 1012,
 		"effect": "Deal heavy Ice damage to 1 foe.",
-		"element": "ice"
+		"element": "ice",
+		"card": "King Frost"
 	},
 	"Bufula": {
 		"cost": 1008,
 		"effect": "Deal medium Ice damage to 1 foe.",
-		"element": "ice"
+		"element": "ice",
+		"card": "Belphegor"
 	},
 	"Burn Boost": {
 		"effect": "Increase chance of inflicting Burn.",
@@ -250,7 +241,8 @@
 	"Cleave": {
 		"cost": 6,
 		"effect": "Deal weak Phys damage to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Berith"
 	},
 	"Climate Decorum": {
 		"effect": "Greatly increase evasion under rainy day or special weather warning.",
@@ -281,7 +273,8 @@
 	},
 	"Counterstrike": {
 		"effect": "15% chance of reflecting Phys attacks.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Valkyrie"
 	},
 	"Cripple": {
 		"effect": "Strengthen Gun attacks by 50%.",
@@ -347,7 +340,8 @@
 	"Dia": {
 		"cost": 1003,
 		"effect": "Slightly restore 1 ally's HP.",
-		"element": "healing"
+		"element": "healing",
+		"card": "Pixie"
 	},
 	"Diamond Dust": {
 		"cost": 1048,
@@ -357,12 +351,14 @@
 	"Diarahan": {
 		"cost": 1018,
 		"effect": "Fully restore 1 ally's HP.",
-		"element": "healing"
+		"element": "healing",
+		"card": "Norn"
 	},
 	"Diarama": {
 		"cost": 1006,
 		"effect": "Moderately restore 1 ally's HP.",
-		"element": "healing"
+		"element": "healing",
+		"card": "High Pixie"
 	},
 	"Die For Me!": {
 		"cost": 1044,
@@ -433,12 +429,14 @@
 	"Dormina": {
 		"cost": 1005,
 		"effect": "Inflict Sleep (high odds) to 1 foe.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Sandman"
 	},
 	"Double Fangs": {
 		"cost": 10,
 		"effect": "Deal 2 times medium Phys damage to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Orthrus"
 	},
 	"Dream Needle": {
 		"cost": 8,
@@ -453,7 +451,8 @@
 	"Eigaon": {
 		"cost": 1012,
 		"effect": "Deal heavy Curse damage to 1 foe.",
-		"element": "curse"
+		"element": "curse",
+		"card": "Nebiros"
 	},
 	"Eiha": {
 		"cost": 1004,
@@ -476,7 +475,8 @@
 	"Elec Wall": {
 		"cost": 1018,
 		"effect": "Create a shield on 1 ally to reduce damage of Electric attacks for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Apsaras"
 	},
 	"Emergency Shift": {
 		"effect": "Chance to swap current party with backups when 2 or more people are KO'd.",
@@ -499,7 +499,8 @@
 	"Energy Shower": {
 		"cost": 1008,
 		"effect": "Cure Confuse/Fear/Despair/Rage/Brainwash of party.",
-		"element": "healing"
+		"element": "healing",
+		"card": "Parvati"
 	},
 	"Evade Bless": {
 		"effect": "Triple evasion rate against (non instant death) Bless attacks.",
@@ -540,12 +541,14 @@
 	"Evil Smile": {
 		"cost": 1012,
 		"effect": "Inflict Fear (medium odds) to all foes.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Decarabia"
 	},
 	"Evil Touch": {
 		"cost": 1005,
 		"effect": "Inflict Fear (high odds) to 1 foe.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Queen's Necklace"
 	},
 	"Famine's Scream": {
 		"effect": "Inflict Hunger (medium odds) to all foes.",
@@ -576,12 +579,14 @@
 	"Fire Break": {
 		"cost": 1015,
 		"effect": "Negate Fire resistances of all foes.",
-		"element": "support"
+		"element": "support",
+		"card": "Orobas"
 	},
 	"Fire Wall": {
 		"cost": 1018,
 		"effect": "Create a shield on 1 ally to reduce damage of Fire attacks for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Koropokkuru"
 	},
 	"Firm Stance": {
 		"effect": "Half all incoming damage by sacrificing evasion completely.",
@@ -611,17 +616,20 @@
 	},
 	"Freeze Boost": {
 		"effect": "Increase chance of inflicting Freeze.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Baphomet"
 	},
 	"Frei": {
 		"cost": 1004,
 		"effect": "Deal weak Nuclear damage to 1 foe.",
-		"element": "nuke"
+		"element": "nuke",
+		"card": "Makami"
 	},
 	"Freidyne": {
 		"cost": 1012,
 		"effect": "Deal heavy Nuclear damage to 1 foe.",
-		"element": "nuke"
+		"element": "nuke",
+		"card": "Titania"
 	},
 	"Freila": {
 		"cost": 1008,
@@ -631,22 +639,26 @@
 	"Garu": {
 		"cost": 1003,
 		"effect": "Deal weak Wind damage to 1 foe.",
-		"element": "wind"
+		"element": "wind",
+		"card": "Kelpie"
 	},
 	"Garudyne": {
 		"cost": 1010,
 		"effect": "Deal heavy Wind damage to 1 foe.",
-		"element": "wind"
+		"element": "wind",
+		"card": "Garuda"
 	},
 	"Garula": {
 		"cost": 1006,
 		"effect": "Deal medium Wind damage to 1 foe.",
-		"element": "wind"
+		"element": "wind",
+		"card": "Isis"
 	},
 	"Ghastly Wail": {
 		"cost": 1028,
 		"effect": "Instantly kill all foes under Fear.",
-		"element": "almighty"
+		"element": "almighty",
+		"card": "Skadi"
 	},
 	"Giant Slice": {
 		"cost": 9,
@@ -678,7 +690,8 @@
 	"Hama": {
 		"cost": 1008,
 		"effect": "Small chance of instantly killing 1 foe.",
-		"element": "bless"
+		"element": "bless",
+		"card": "Angel"
 	},
 	"Hama Boost": {
 		"effect": "Increase success rate of instant death by Bless skills.",
@@ -687,7 +700,8 @@
 	"Hamaon": {
 		"cost": 1015,
 		"effect": "Medium chance of instantly killing 1 foe.",
-		"element": "bless"
+		"element": "bless",
+		"card": "Anubis"
 	},
 	"Hassou Tobi": {
 		"cost": 25,
@@ -716,12 +730,14 @@
 	},
 	"High Counter": {
 		"effect": "20% chance of reflecting Phys attacks.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Kali"
 	},
 	"Hysterical Slap": {
 		"cost": 9,
 		"effect": "Deal medium Phys damage and inflict Rage (medium odds) to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Kumbhanda"
 	},
 	"Ice Age": {
 		"cost": 1054,
@@ -744,7 +760,8 @@
 	"Ice Wall": {
 		"cost": 1018,
 		"effect": "Create a shield on 1 ally to reduce damage of Ice attacks for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Onmoraki"
 	},
 	"Inferno": {
 		"cost": 1048,
@@ -770,7 +787,8 @@
 	"Kouga": {
 		"cost": 1008,
 		"effect": "Deal medium Bless damage to 1 foe.",
-		"element": "bless"
+		"element": "bless",
+		"card": "Unicorn"
 	},
 	"Kougaon": {
 		"cost": 1012,
@@ -780,7 +798,8 @@
 	"Kouha": {
 		"cost": 1004,
 		"effect": "Deal weak Bless damage to 1 foe.",
-		"element": "bless"
+		"element": "bless",
+		"card": "Archangel"
 	},
 	"Life Aid": {
 		"effect": "Recover 8% HP and SP after a successful battle.",
@@ -789,7 +808,8 @@
 	"Life Drain": {
 		"cost": 1003,
 		"effect": "Drains HP from 1 foe.",
-		"element": "almighty"
+		"element": "almighty",
+		"card": "Incubus"
 	},
 	"Life Leech": {
 		"effect": "Drains 150 HP from 1 foe.",
@@ -799,7 +819,8 @@
 	"Lucky Punch": {
 		"cost": 6,
 		"effect": "Deal minuscule Phys damage to 1 foe. High critical rate.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Crystal Skull"
 	},
 	"Lullaby": {
 		"cost": 1012,
@@ -809,7 +830,8 @@
 	"Lunge": {
 		"cost": 5,
 		"effect": "Deal weak Phys damage to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Bicorn"
 	},
 	"Mabaisudi": {
 		"cost": 1008,
@@ -819,17 +841,20 @@
 	"Mabufu": {
 		"cost": 1010,
 		"effect": "Deal weak Ice damage to all foes.",
-		"element": "ice"
+		"element": "ice",
+		"card": "Sui-Ki"
 	},
 	"Mabufudyne": {
 		"cost": 1022,
 		"effect": "Deal heavy Ice damage to all foes.",
-		"element": "ice"
+		"element": "ice",
+		"card": "Yamata-no-Orochi"
 	},
 	"Mabufula": {
 		"cost": 1016,
 		"effect": "Deal medium Ice damage to all foes.",
-		"element": "ice"
+		"element": "ice",
+		"card": "Kushinada-Hime"
 	},
 	"Maeiga": {
 		"cost": 1016,
@@ -839,7 +864,8 @@
 	"Maeigaon": {
 		"cost": 1022,
 		"effect": "Deal heavy Curse damage to all foes.",
-		"element": "curse"
+		"element": "curse",
+		"card": "Mara"
 	},
 	"Maeiha": {
 		"cost": 1010,
@@ -859,7 +885,8 @@
 	"Mafreila": {
 		"cost": 1016,
 		"effect": "Deal medium Nuclear damage to all foes.",
-		"element": "nuke"
+		"element": "nuke",
+		"card": "Mithras"
 	},
 	"Magaru": {
 		"cost": 1008,
@@ -869,12 +896,14 @@
 	"Magarudyne": {
 		"cost": 1020,
 		"effect": "Deal heavy Wind damage to all foes.",
-		"element": "wind"
+		"element": "wind",
+		"card": "Baal"
 	},
 	"Magarula": {
 		"cost": 1014,
 		"effect": "Deal medium Wind damage to all foes.",
-		"element": "wind"
+		"element": "wind",
+		"card": "Fuu-Ki"
 	},
 	"Magatsu Mandala": {
 		"cost": 1030,
@@ -889,7 +918,8 @@
 	"Mahama": {
 		"cost": 1018,
 		"effect": "Small chance of instantly killing all foes.",
-		"element": "bless"
+		"element": "bless",
+		"card": "Power"
 	},
 	"Mahamaon": {
 		"cost": 1034,
@@ -899,12 +929,14 @@
 	"Makajam": {
 		"cost": 1005,
 		"effect": "Inflict Forget (high odds) to 1 foe.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Orlov"
 	},
 	"Makajamaon": {
 		"cost": 1012,
 		"effect": "Inflict Forget (medium odds) to all foes.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Mothman"
 	},
 	"Makara Break": {
 		"cost": 1018,
@@ -924,7 +956,8 @@
 	"Makougaon": {
 		"cost": 1022,
 		"effect": "Deal heavy Bless damage to all foes.",
-		"element": "bless"
+		"element": "bless",
+		"card": "Dominion"
 	},
 	"Makouha": {
 		"cost": 1010,
@@ -944,7 +977,8 @@
 	"Mapsi": {
 		"cost": 1010,
 		"effect": "Deal weak Psy damage to all foes.",
-		"element": "psy"
+		"element": "psy",
+		"card": "Shiki-Ouji"
 	},
 	"Mapsio": {
 		"cost": 1016,
@@ -954,7 +988,8 @@
 	"Mapsiodyne": {
 		"cost": 1022,
 		"effect": "Deal heavy Psy damage to all foes.",
-		"element": "psy"
+		"element": "psy",
+		"card": "Forneus"
 	},
 	"Maragi": {
 		"cost": 1010,
@@ -964,7 +999,8 @@
 	"Maragidyne": {
 		"cost": 1022,
 		"effect": "Deal heavy Fire damage to all foes.",
-		"element": "fire"
+		"element": "fire",
+		"card": "Lilith"
 	},
 	"Maragion": {
 		"cost": 1016,
@@ -974,7 +1010,8 @@
 	"Marakukaja": {
 		"cost": 1024,
 		"effect": "Increase party's Defense for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Sarasvati"
 	},
 	"Marakunda": {
 		"cost": 1024,
@@ -984,12 +1021,14 @@
 	"Marin Karin": {
 		"cost": 1005,
 		"effect": "Inflict Brainwash (high odds) to 1 foe.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Lilim"
 	},
 	"Masukukaja": {
 		"cost": 1024,
 		"effect": "Increase party's Agility for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Melchizedek"
 	},
 	"Masukunda": {
 		"cost": 1024,
@@ -1004,7 +1043,8 @@
 	"Matarunda": {
 		"cost": 1024,
 		"effect": "Decrease all foes' Attack power for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Rangda"
 	},
 	"Mazio": {
 		"cost": 1010,
@@ -1014,12 +1054,14 @@
 	"Maziodyne": {
 		"cost": 1022,
 		"effect": "Deal heavy Electric damage to all foes.",
-		"element": "elec"
+		"element": "elec",
+		"card": "Thor"
 	},
 	"Mazionga": {
 		"cost": 1016,
 		"effect": "Deal medium Electric damage to all foes.",
-		"element": "elec"
+		"element": "elec",
+		"card": "Queen Mab"
 	},
 	"Me Patra": {
 		"cost": 1008,
@@ -1039,17 +1081,20 @@
 	"Mediarama": {
 		"cost": 1012,
 		"effect": "Moderately restore party's HP.",
-		"element": "healing"
+		"element": "healing",
+		"card": "Kikuri-Hime"
 	},
 	"Megaton Raid": {
 		"cost": 16,
 		"effect": "Deal severe Phys damage to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Cerberus"
 	},
 	"Megido": {
 		"cost": 1015,
 		"effect": "Deal medium Almighty damage to all foes.",
-		"element": "almighty"
+		"element": "almighty",
+		"card": "Thoth"
 	},
 	"Megidola": {
 		"cost": 1024,
@@ -1059,7 +1104,8 @@
 	"Megidolaon": {
 		"cost": 1038,
 		"effect": "Deal severe Almighty damage to all foes.",
-		"element": "almighty"
+		"element": "almighty",
+		"card": "Mot"
 	},
 	"Mementos Scan": {
 		"effect": "Chance to fully map a floor of Mementos when entering that floor.",
@@ -1079,7 +1125,8 @@
 	"Miracle Punch": {
 		"cost": 8,
 		"effect": "Deal medium Phys damage to 1 foe. High critical rate.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Ganesha"
 	},
 	"Moral Support": {
 		"effect": "Chance to cast Kaja or party-healing magic during battle.",
@@ -1095,7 +1142,8 @@
 	"Mudo": {
 		"cost": 1008,
 		"effect": "Small chance of instantly killing 1 foe.",
-		"element": "curse"
+		"element": "curse",
+		"card": "Nue"
 	},
 	"Mudo Boost": {
 		"effect": "Increase success rate of instant death by Curse skills.",
@@ -1104,7 +1152,8 @@
 	"Mudoon": {
 		"cost": 1015,
 		"effect": "medium chance of instantly killing 1 foe.",
-		"element": "curse"
+		"element": "curse",
+		"card": "Girimehkala"
 	},
 	"Myriad Slashes": {
 		"cost": 20,
@@ -1114,12 +1163,14 @@
 	"Negative Pile": {
 		"cost": 12,
 		"effect": "Deal heavy Phys damage and inflict Despair (medium odds) to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Lamia"
 	},
 	"Nocturnal Flash": {
 		"cost": 1012,
 		"effect": "Inflict Dizzy (medium odds) to all foes.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Narcissus"
 	},
 	"Nuke Amp": {
 		"effect": "Strengthen Nuclear attacks by 50%.",
@@ -1210,7 +1261,8 @@
 	"Ominous Words": {
 		"cost": 1005,
 		"effect": "Inflict Despair (high odds) to 1 foe.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Pisaca"
 	},
 	"One-shot Kill": {
 		"cost": 17,
@@ -1220,7 +1272,8 @@
 	"Oni Kagura": {
 		"cost": 16,
 		"effect": "Deal medium Phys damage and inflict Rage (low odds) to all foes.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Ose"
 	},
 	"Oratorio": {
 		"cost": 1038,
@@ -1236,7 +1289,8 @@
 	"Patra": {
 		"cost": 1004,
 		"effect": "Cure Dizzy/Forget/Sleep/Hunger of 1 ally.",
-		"element": "healing"
+		"element": "healing",
+		"card": "Silky"
 	},
 	"Position Hack": {
 		"effect": "Chance to instantly Hold Up enemies when starting a battle.",
@@ -1250,17 +1304,20 @@
 	"Psi": {
 		"cost": 1004,
 		"effect": "Deal weak Psy damage to 1 foe.",
-		"element": "psy"
+		"element": "psy",
+		"card": "Kodama"
 	},
 	"Psio": {
 		"cost": 1008,
 		"effect": "Deal medium Psy damage to 1 foe.",
-		"element": "psy"
+		"element": "psy",
+		"card": "Kaiwan"
 	},
 	"Psiodyne": {
 		"cost": 1012,
 		"effect": "Deal heavy Psy damage to 1 foe.",
-		"element": "psy"
+		"element": "psy",
+		"card": "Moloch"
 	},
 	"Psy Amp": {
 		"effect": "Strengthen Psy attacks by 50%.",
@@ -1278,7 +1335,8 @@
 	"Psy Wall": {
 		"cost": 1018,
 		"effect": "Create a shield on 1 ally to reduce damage of Psy attacks for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Oberon"
 	},
 	"Psycho Blast": {
 		"cost": 1054,
@@ -1293,7 +1351,8 @@
 	"Pulinpa": {
 		"cost": 1005,
 		"effect": "Inflict Confuse (high odds) to 1 foe.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Mandrake"
 	},
 	"Rage Boost": {
 		"effect": "Increase chance of inflicting Rage.",
@@ -1302,17 +1361,20 @@
 	"Rakukaja": {
 		"cost": 1008,
 		"effect": "Increase 1 ally's Defense for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Agathion"
 	},
 	"Rakunda": {
 		"cost": 1008,
 		"effect": "Decrease 1 foe's Defense for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Leanan Sidhe"
 	},
 	"Rampage": {
 		"cost": 13,
 		"effect": "Deal 1 to 3 times weak Phys damage to all foes.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Oni"
 	},
 	"Rebellion": {
 		"cost": 1005,
@@ -1336,42 +1398,15 @@
 		"effect": "Recover 6% of max HP each turn in battle.",
 		"element": "passive"
 	},
-	"Repel Bless": {
-		"effect": "Repel Bless attacks.",
-		"element": "passive"
-	},
-	"Repel Curse": {
-		"effect": "Repel Curse attacks.",
-		"element": "passive"
-	},
-	"Repel Elec": {
-		"effect": "Repel Electric attacks.",
-		"element": "passive"
-	},
-	"Repel Fire": {
-		"effect": "Repel Fire attacks.",
-		"element": "passive"
-	},
-	"Repel Ice": {
-		"effect": "Repel Ice attacks.",
-		"element": "passive"
-	},
-	"Repel Nuke": {
-		"effect": "Repel Nuclear attacks.",
-		"element": "passive"
-	},
-	"Repel Phys": {
-		"effect": "Repel Phys attacks.",
-		"element": "passive"
-	},
-	"Repel Psy": {
-		"effect": "Repel Psy attacks.",
-		"element": "passive"
-	},
-	"Repel Wind": {
-		"effect": "Repel Wind attacks.",
-		"element": "passive"
-	},
+	"Repel Bless": { "effect": "Repel Bless attacks.", "element": "passive" },
+	"Repel Curse": { "effect": "Repel Curse attacks.", "element": "passive" },
+	"Repel Elec": { "effect": "Repel Electric attacks.", "element": "passive" },
+	"Repel Fire": { "effect": "Repel Fire attacks.", "element": "passive" },
+	"Repel Ice": { "effect": "Repel Ice attacks.", "element": "passive" },
+	"Repel Nuke": { "effect": "Repel Nuclear attacks.", "element": "passive" },
+	"Repel Phys": { "effect": "Repel Phys attacks.", "element": "passive" },
+	"Repel Psy": { "effect": "Repel Psy attacks.", "element": "passive" },
+	"Repel Wind": { "effect": "Repel Wind attacks.", "element": "passive" },
 	"Resist Bless": {
 		"effect": "Reduce damage from Bless attacks.",
 		"element": "passive"
@@ -1458,7 +1493,8 @@
 	"Rising Slash": {
 		"cost": 14,
 		"effect": "Deal heavy Phys damage to 1 foe. More powerful under Baton Pass.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Dakini"
 	},
 	"Salvation": {
 		"cost": 1048,
@@ -1483,7 +1519,8 @@
 	},
 	"Sharp Student": {
 		"effect": "Lower odds of receiving critical hit.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Mara"
 	},
 	"Shining Arrows": {
 		"cost": 1022,
@@ -1503,7 +1540,8 @@
 	"Sledgehammer": {
 		"cost": 10,
 		"effect": "Deal medium Phys damage and inflict Dizzy (medium odds) to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Ippon-Datara"
 	},
 	"Sleep Boost": {
 		"effect": "Increase chance of inflicting Sleep.",
@@ -1512,7 +1550,8 @@
 	"Snap": {
 		"cost": 9,
 		"effect": "Deal medium Gun damage to 1 foe.",
-		"element": "gun"
+		"element": "gun",
+		"card": "Mokoi"
 	},
 	"Snipe": {
 		"effect": "Strengthen Gun attacks by 25%.",
@@ -1573,12 +1612,14 @@
 	"Sukukaja": {
 		"cost": 1008,
 		"effect": "Increase 1 ally's Agility for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Stone of Scone"
 	},
 	"Sukunda": {
 		"cost": 1008,
 		"effect": "Decrease 1 foe's Agility for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Obariyon"
 	},
 	"Summon": {
 		"effect": "Summon ally reinforcements.",
@@ -1587,7 +1628,8 @@
 	},
 	"Survival Trick": {
 		"effect": "Survive one instant death attack with 1 HP remaining.",
-		"element": "passive"
+		"element": "passive",
+		"card": "Abaddon"
 	},
 	"Swift Strike": {
 		"cost": 17,
@@ -1602,22 +1644,26 @@
 	"Tarukaja": {
 		"cost": 1008,
 		"effect": "Increase 1 ally's Attack power for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Eligor"
 	},
 	"Tarunda": {
 		"cost": 1008,
 		"effect": "Decrease 1 foe's Attack power for 3 turns.",
-		"element": "support"
+		"element": "support",
+		"card": "Slime"
 	},
 	"Taunt": {
 		"cost": 1005,
 		"effect": "Inflict Rage (high odds) to 1 foe.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Koppa Tengu"
 	},
 	"Tempest Slash": {
 		"cost": 17,
 		"effect": "Deal 3 to 5 times minuscule Phys damage to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Hanuman"
 	},
 	"Tentarafoo": {
 		"cost": 1012,
@@ -1627,12 +1673,14 @@
 	"Terror Claw": {
 		"cost": 8,
 		"effect": "Deal medium Phys damage and inflict Fear (medium odds) to 1 foe.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Nekomata"
 	},
 	"Tetra Break": {
 		"cost": 1018,
 		"effect": "Remove physical-repellent shields from all foes.",
-		"element": "support"
+		"element": "support",
+		"card": "Legion"
 	},
 	"Tetraja": {
 		"cost": 1024,
@@ -1695,7 +1743,8 @@
 	"Vajra Blast": {
 		"cost": 14,
 		"effect": "Deal medium Phys damage to all foes.",
-		"element": "phys"
+		"element": "phys",
+		"card": "Kin-Ki"
 	},
 	"Vicious Strike": {
 		"cost": 18,
@@ -1714,7 +1763,8 @@
 	"Wage War": {
 		"cost": 1012,
 		"effect": "Inflict Rage (medium odds) to all foes.",
-		"element": "ailment"
+		"element": "ailment",
+		"card": "Yaksini"
 	},
 	"Wild Thunder": {
 		"cost": 1054,
@@ -1732,7 +1782,8 @@
 	"Wind Break": {
 		"cost": 1015,
 		"effect": "Negate Wind resistances of all foes.",
-		"element": "support"
+		"element": "support",
+		"card": "Anzu"
 	},
 	"Wind Wall": {
 		"cost": 1018,
@@ -1742,16 +1793,19 @@
 	"Zio": {
 		"cost": 1004,
 		"effect": "Deal weak Electric damage to 1 foe.",
-		"element": "elec"
+		"element": "elec",
+		"card": "Regent"
 	},
 	"Ziodyne": {
 		"cost": 1012,
 		"effect": "Deal heavy Electric damage to 1 foe.",
-		"element": "elec"
+		"element": "elec",
+		"card": "Barong"
 	},
 	"Zionga": {
 		"cost": 1008,
 		"effect": "Deal medium Electric damage to 1 foe.",
-		"element": "elec"
+		"element": "elec",
+		"card": "Naga"
 	}
 }

@@ -1,3 +1,22 @@
+p {
+	padding-bottom: 10px;
+}
+table {
+	width: 95%;
+	margin: auto;
+}
+
+tr.chain-detail-row {
+	height: 0;
+}
+
+tr.chain-row:not(.expanded-row):hover {
+	background: whitesmoke;
+}
+
+tr.chain-row:not(.expanded-row):active {
+	background: #efefef;
+}
 .demon-form,
 .demon-form-field {
 	margin: auto;
@@ -41,25 +60,6 @@
 .directions {
 	text-align: center;
 	margin: auto;
-}
-p {
-	padding-bottom: 10px;
-}
-table {
-	width: 95%;
-	margin: auto;
-}
-
-tr.chain-detail-row {
-	height: 0;
-}
-
-tr.chain-row:not(.expanded-row):hover {
-	background: whitesmoke;
-}
-
-tr.chain-row:not(.expanded-row):active {
-	background: #efefef;
 }
 
 .chain-row td {

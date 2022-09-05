@@ -1,7 +1,6 @@
 import {
 	Compendium,
 	CompendiumConfig,
-	Demon,
 	Recipe,
 	Skill,
 } from '@shared/models/compendium'
@@ -85,8 +84,8 @@ export class P5Compendium extends Compendium {
 
 	protected parseSkills(skillData: Object): { [name: string]: Skill } {
 		let skills: { [name: string]: Skill } = {}
-		Object.entries(skillData).forEach(([name, data]) => {
-			skills[name] = {
+		Object.entries(skillData).forEach(([skillName, data]) => {
+			skills[skillName] = {
 				effect: data.effect,
 				element: data.element,
 				learnedBy: {},
@@ -97,14 +96,17 @@ export class P5Compendium extends Compendium {
 				if (data['cost'] > 1000) newCost = data['cost'] - 1000 + ' MP'
 				else newCost = data['cost'] + '% HP'
 			} else newCost = '-'
-			skills[name].cost = newCost
-			if ('unique' in data) skills[name].unique = data['unique']
+			skills[skillName].cost = newCost
+			if ('unique' in data) skills[skillName].unique = data['unique']
+			if ('card' in data) skills[skillName].card = data['card']
 		})
 		return skills
 	}
 
-	protected parseSpecial(specialData: Object): { [name: string]: string[] } {
-		let specialRecipes: { [name: string]: string[] } = {}
+	protected parseSpecial(specialData: Object): {
+		[demonName: string]: string[]
+	} {
+		let specialRecipes: { [demonName: string]: string[] } = {}
 		Object.entries(specialData).forEach(
 			([demon, recipe]) => (specialRecipes[demon] = recipe)
 		)

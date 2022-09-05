@@ -25,6 +25,7 @@ export class SkillListComponent implements OnInit {
 		'cost',
 		'effect',
 		'learnedBy',
+		'skillCard',
 	]
 	skillSource!: MatTableDataSource<SkillElem>
 	@ViewChild(MatSort) sort!: MatSort
@@ -67,10 +68,12 @@ class SkillElem {
 		this.effect = skill.effect
 		this.cost = skill.cost
 		this.learnedBy = skill.learnedBy
+		if (skill.card) this.card = skill.card
 	}
 	name: string
 	element: string
 	effect: string
 	cost: string
 	learnedBy: { [demonName: string]: number }
+	card?: string
 }

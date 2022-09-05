@@ -30,7 +30,7 @@ export interface Skill {
 	requires?: string
 	inherit?: string
 	unique?: string
-	skillCard?: string
+	card?: string
 	inheritFrom?: string[]
 	dSource?: string
 	transferable?: string
