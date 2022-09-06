@@ -1,10 +1,9 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
-import { ChainCalculator } from '@shared/models/chain-calculator'
+import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
 import _ from 'lodash'
 import { Recipe } from '@shared/models/compendium'
-import { FusionChain } from '@shared/models/fusionChain'
 
 export class P5ChainCalculator extends ChainCalculator {
 	compendium!: P5Compendium
@@ -78,12 +77,12 @@ export class P5ChainCalculator extends ChainCalculator {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					if (diff.length == 0) {
-						this.newChain(fission, foundSkills, innates)
+						this.finishChain(fission, foundSkills, innates)
 						continue
 					}
 					let chain = this.getChain(diff, 0, sourceName)
 					if (chain != null) {
-						this.newChain(fission, foundSkills, innates, chain)
+						this.finishChain(fission, foundSkills, innates, chain)
 					}
 				}
 			}
@@ -95,6 +94,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		recursiveDepth: number,
 		demonName: string
 	): FusionChain | null {
+		this.newCombo()
 		if (targetSkills.length == 0) {
 			throw new Error(
 				'getChain was called with an empty targetSkills arg'
@@ -112,8 +112,8 @@ export class P5ChainCalculator extends ChainCalculator {
 			if (!this.isPossible(targetSkills, undefined, fission)) continue
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
-				let chain: FusionChain = new FusionChain()
-				chain.addStep(fission, targetSkills)
+				let chain = this.getEmptyChain()
+				this.addStep(chain, fission, targetSkills)
 				return chain
 			}
 			if (foundSkills.length > 0 || this.deep) {
@@ -125,7 +125,7 @@ export class P5ChainCalculator extends ChainCalculator {
 						sourceName
 					)
 					if (chain != null) {
-						chain.addStep(fission, foundSkills)
+						this.addStep(chain, fission, foundSkills)
 						return chain
 					}
 				}
@@ -154,17 +154,29 @@ export class P5ChainCalculator extends ChainCalculator {
 		return foundSkills
 	}
 
-	/* formats/creates a chain and adds the information from @param reicpe and @param skills
-	and adds it to the @param fusionChain */
-	protected newChain(
+	protected getEmptyChain(): FusionChain {
+		return {
+			steps: [],
+			cost: 0,
+			inherittedSkills: [],
+			innates: [],
+			level: 0,
+			result: '',
+			directions: [],
+		}
+	}
+
+	/* formats/creates a chain and adds the information from @param reicpe and 
+	@param skills and adds it to the @param fusionChain */
+	protected finishChain(
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],
 		chain?: FusionChain
 	): void {
-		if (!chain) chain = new FusionChain()
-		chain.addStep(recipe, skills)
-		chain.cost = chain.getCost()
+		if (!chain) chain = this.getEmptyChain()
+		this.addStep(chain, recipe, skills)
+		chain.cost = this.getCost(chain)
 		chain.level = this.levelRequired(chain)
 		chain.innates = innates
 		chain.result = chain.steps[chain.steps.length - 1].result
@@ -175,7 +187,7 @@ export class P5ChainCalculator extends ChainCalculator {
 				)
 			}
 		}
-		chain.directions = chain.getDirections()
+		chain.directions = this.getDirections(chain)
 		this.chains.push(chain)
 		this.chainSubject.next(this.chains)
 		console.log('NEW CHAIN ADDED')

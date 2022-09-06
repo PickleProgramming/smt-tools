@@ -2,11 +2,11 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
-import { ChainCalculator } from '@shared/models/chain-calculator'
+import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
 import { Compendium } from '@shared/models/compendium'
-import { FusionChain } from '@shared/models/fusionChain'
-import { Observable, Subscription } from 'rxjs'
-import { map, startWith, subscribeOn } from 'rxjs/operators'
+import { Observable, Subscription, of } from 'rxjs'
+import { map, startWith } from 'rxjs/operators'
+import { fromWorker } from 'observable-webworker'
 
 @Component({
 	selector: 'app-fusion-chain',
@@ -94,7 +94,7 @@ export class FusionChainComponent implements OnInit, OnDestroy {
 		this.chainCalc.deep = deep
 	}
 
-	calculate(): void {
+	calculate() {
 		try {
 			if (!this.chainCalc) {
 				throw new Error(
@@ -122,6 +122,58 @@ export class FusionChainComponent implements OnInit, OnDestroy {
 	}
 
 	//TODO: testing
+	obsWorker() {
+		const input$ = of('Hello from main thread')
+
+		fromWorker<string, string>(
+			() =>
+				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
+					type: 'module',
+				}),
+			input$
+		).subscribe((message) => {
+			console.log(message) // Outputs 'Hello from webworker'
+		})
+	}
+
+	worker(): void {
+		if (typeof Worker !== 'undefined') {
+			// Create a new
+			const worker = new Worker(
+				new URL('./fusion-chain.worker', import.meta.url)
+			)
+			worker.onmessage = ({ data }) => {
+				console.log(`page got message: ${data}`)
+			}
+			if (!this.chainCalc) {
+				throw new Error(
+					'FusionChainComponent called without passing chain calculator'
+				)
+			}
+			let inputSkills: string[] = []
+			for (let skillControl of this.skillControls) {
+				if (skillControl.value) inputSkills.push(skillControl.value)
+			}
+			if (this.levelControl.value) {
+				let level: number = +this.levelControl.value
+				this.chainCalc.maxLevel = level
+			}
+			console.log(
+				`passing worker: ${inputSkills}, and` +
+					` ${this.demonControl.value}`
+			)
+			worker.postMessage({
+				skills: inputSkills,
+				deep: this.chainCalc.deep,
+				level: this.chainCalc.maxLevel,
+				demonName: this.demonControl.value,
+			})
+		} else {
+			// Web Workers are not supported in this environment.
+			// You should add a fallback so that your program still executes correctly.
+		}
+	}
+
 	test(): void {
 		if (!this.chainCalc) {
 			throw new Error(

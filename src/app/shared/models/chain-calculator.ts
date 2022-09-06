@@ -1,8 +1,7 @@
 import { Compendium, Recipe } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
-import { FusionChain } from './fusionChain'
-import { Observable, Subject } from 'rxjs'
+import { Subject } from 'rxjs'
 
 export abstract class ChainCalculator {
 	protected compendium: Compendium
@@ -105,7 +104,7 @@ export abstract class ChainCalculator {
 		this.combo = 0
 	}
 
-	protected abstract newChain(
+	protected abstract finishChain(
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],
@@ -115,6 +114,65 @@ export abstract class ChainCalculator {
 	protected resetChains(): void {
 		this.chainSubject.next([])
 		this.chains = []
+	}
+
+	protected addStep(
+		chain: FusionChain,
+		recipe: Recipe,
+		inherittedSkills: string[]
+	) {
+		chain.steps.push(recipe)
+		chain.inherittedSkills.push(inherittedSkills)
+	}
+
+	protected getCost(chain: FusionChain): number {
+		let cost: number = 0
+		for (let step of chain.steps) cost += step.cost!
+		return cost
+	}
+
+	protected getDirections(chain: FusionChain): string[] {
+		let directions: string[] = []
+		for (let i = 0; i < chain.steps.length; i++) {
+			let step = chain.steps[i]
+			let direction = `Step ${i + 1}: `
+			if (step.sources.length > 2) {
+				direction += `Use the Special Recipe to fuse ${step.result}.`
+				continue
+			} else {
+				direction +=
+					`Fuse ${step.sources[0]} with ${step.sources[1]} to make ` +
+					`${step.result}. Have ${step.result} inherit `
+			}
+			let skills = chain.inherittedSkills[i]
+			for (let j = 0; j <= skills.length; j++) {
+				if (skills.length === 1) {
+					direction += `${skills[j]}.`
+					break
+				}
+				if (j === skills.length - 1) {
+					direction += `and ${skills[j]}.`
+					break
+				}
+				direction += `${skills[j]}, `
+			}
+			directions.push(direction)
+		}
+		let direction = ` ${chain.result} will learn `
+		for (let j = 0; j <= chain.innates.length; j++) {
+			if (chain.innates.length === 1) {
+				direction += `${chain.innates[j]}`
+				break
+			}
+			if (j === chain.innates.length - 1) {
+				direction += ` and ${chain.innates[j]}`
+				break
+			}
+			direction += `${chain.innates[j]}, `
+		}
+		direction += ` on their own.`
+		directions.push(direction)
+		return directions
 	}
 
 	/* returns the level of the highest level demon in the provided chain */
@@ -129,4 +187,14 @@ export abstract class ChainCalculator {
 		}
 		return level
 	}
+}
+
+export interface FusionChain {
+	steps: Recipe[]
+	cost: number
+	inherittedSkills: string[][]
+	innates: string[]
+	level: number
+	result: string
+	directions: string[]
 }
