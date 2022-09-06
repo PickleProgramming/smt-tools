@@ -61,7 +61,7 @@
 			<button (click)="calculate()" color="primary" mat-raised-button>
 				Calculate
 			</button>
-			<button (click)="test()" color="warn" mat-raised-button>
+			<button (click)="test(0)" color="warn" mat-raised-button>
 				Testing
 			</button>
 			<mat-checkbox [(ngModel)]="deep">Deep?</mat-checkbox>
@@ -72,7 +72,7 @@
 <p class="combos" *ngIf="combo > 0">{{ combo }} fusions attempted...</p>
 <!-- Chain Display -->
 <table
-	*ngIf="chainSource"
+	*ngIf="chainSource.data.length > 0"
 	mat-table
 	[dataSource]="chainSource"
 	multiTemplateDataRows

@@ -1,12 +1,12 @@
 import { P5_CHAIN_CALCULATOR } from '@shared/constants'
-import { FusionChain } from '@shared/models/chain-calculator'
-import { DoWork, runWorker } from 'observable-webworker'
-import { Observable, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { ChainMessage, FusionChain } from '@shared/models/chain-calculator'
+import { DoWork, DoWorkUnit, runWorker } from 'observable-webworker'
+import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
+import { map, tap } from 'rxjs/operators'
 
-interface InputData {
-	demonName: string
-	level: number
+export interface InputData {
+	demonName: string | null
+	level: number | null
 	inputSkills: string[]
 	deep: boolean
 }
@@ -14,31 +14,34 @@ interface InputData {
 /* Class to run the fusion calculator in a web worker utilizes the 
     observable-worker library to make things much easier to deal with 
     https://github.com/cloudnc/observable-webworker*/
-export class FusionChainWorker implements DoWork<string, string> {
+export class FusionChainWorker implements DoWorkUnit<InputData, ChainMessage> {
 	chains: FusionChain[] = []
 	chainCalc = P5_CHAIN_CALCULATOR
 
-	calculate(dataString: string): string {
-		let data: InputData = JSON.parse(dataString)
-		this.chainCalc.deep = data.deep
-		if (data.level) this.chainCalc.maxLevel = data.level
-		if (data.demonName) {
-			this.chainCalc.getChains(data.inputSkills, data.demonName)
-		} else {
-			this.chainCalc.getChains(data.inputSkills)
-		}
-		return JSON.stringify({
-			chains: this.chainCalc.chains,
-			combo: this.chainCalc.combo,
+	comboSub?: Subscription
+
+	public workUnit(input: InputData): Observable<ChainMessage> {
+		const output$: Subject<ChainMessage> = new ReplaySubject(Infinity)
+		this.comboSub = this.chainCalc.chainMessageObservable.subscribe(() => {
+			output$.next({
+				chains: this.chainCalc.chains,
+				combo: this.chainCalc.combo,
+			})
 		})
+		this.calculate(input)
+		return output$
 	}
 
-	public work(input$: Observable<string>): Observable<string> {
-		return input$.pipe(
-			map((data) => {
-				return this.calculate(data)
-			})
-		)
+	private calculate(inputData: InputData): Observable<ChainMessage> {
+		this.chainCalc.deep = inputData.deep
+		if (inputData.level) this.chainCalc.maxLevel = inputData.level
+		if (inputData.demonName) {
+			return this.chainCalc.getChains(
+				inputData.inputSkills,
+				inputData.demonName
+			)
+		}
+		return this.chainCalc.getChains(inputData.inputSkills)
 	}
 }
 

@@ -1,13 +1,21 @@
-import { trigger, state, style, transition, animate } from '@angular/animations'
+import {
+	trigger,
+	state,
+	style,
+	transition,
+	animate,
+	keyframes,
+} from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
-import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
+import { ChainMessage, FusionChain } from '@shared/models/chain-calculator'
 import { Compendium } from '@shared/models/compendium'
 import { Observable, Subscription, of } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
 import _ from 'lodash'
+import { InputData } from './fusion-chain.worker'
 
 @Component({
 	selector: 'app-fusion-chain',
@@ -38,7 +46,7 @@ export class FusionChainComponent implements OnInit {
 	expandedChain!: FusionChain | null
 	directions: string[][] = []
 
-	chainSource?: MatTableDataSource<FusionChain>
+	chainSource = new MatTableDataSource<FusionChain>()
 	chainSub?: Subscription
 	combo: number = 0
 	comboSub?: Subscription
@@ -77,46 +85,58 @@ export class FusionChainComponent implements OnInit {
 		)
 	}
 
+	/* Calls an observable-webworker to do the potenitally intensive 
+		calculation in the background. We format our data in the InputData 
+		interface defined in ./fusion-chain-worker and send it over using the 
+		from worker funcion, and read the data we recieved back with .subscribe()
+		https://github.com/cloudnc/observable-webworker*/
 	calculate() {
 		let inputSkills: string[] = []
 		for (let skillControl of this.skillControls) {
 			if (skillControl.value) inputSkills.push(skillControl.value)
 		}
 		_.reject('inputSkills', _.isEmpty)
-		let data = {
+		let level: number | null = null
+		if (this.levelControl.value) level = +this.levelControl.value
+		let data: InputData = {
 			demonName: this.demonControl.value,
-			level: this.levelControl.value,
+			level: level,
 			inputSkills: inputSkills,
 			deep: this.deep,
 		}
-		let input$ = of(JSON.stringify(data))
-		fromWorker<string, string>(
+		let input$ = of(data)
+		fromWorker<InputData, ChainMessage>(
 			() =>
 				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
 					type: 'module',
 				}),
 			input$
 		).subscribe((data) => {
-			let ret = JSON.parse(data)
-			this.chainSource = new MatTableDataSource(ret.chains)
-			this.combo = ret.combo
+			console.log('combo...')
+			this.chainSource.data = data.chains
+			this.combo = data.combo
 		})
 	}
 
 	//TODO: testing
-	test(): void {
-		/* this.demonControl.setValue('')
-		this.levelControl.setValue('')
-		this.skillControls[0].setValue('Regenerate 3')
-		this.skillControls[1].setValue('Invigorate 3')
-		this.skillControls[2].setValue('Die For Me!')
-		this.skillControls[3].setValue('Spell Master')
-		this.skillControls[4].setValue('Attack Master') */
-
-		this.demonControl.setValue('')
-		this.levelControl.setValue('37')
-		this.skillControls[0].setValue('Miracle Punch')
-		this.skillControls[1].setValue('Apt Pupil')
-		this.skillControls[2].setValue('Attack Master')
+	test(which?: number): void {
+		switch (which) {
+			case 0:
+				this.demonControl.setValue('')
+				this.levelControl.setValue('')
+				this.skillControls[0].setValue('Regenerate 3')
+				this.skillControls[1].setValue('Invigorate 3')
+				this.skillControls[2].setValue('Die For Me!')
+				this.skillControls[3].setValue('Spell Master')
+				this.skillControls[4].setValue('Attack Master')
+				return
+			default:
+				this.demonControl.setValue('')
+				this.levelControl.setValue('37')
+				this.skillControls[0].setValue('Miracle Punch')
+				this.skillControls[1].setValue('Apt Pupil')
+				this.skillControls[2].setValue('Attack Master')
+				return
+		}
 	}
 }

@@ -1,15 +1,15 @@
 import { Compendium, Recipe } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
-import { Subject } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 
 export abstract class ChainCalculator {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
 	combo: number = 0
 	chains: FusionChain[] = []
-	protected comboSubject = new Subject<number>()
-	protected chainSubject = new Subject<FusionChain[]>()
+	protected chainMessageSubject = new Subject<ChainMessage>()
+	chainMessageObservable = this.chainMessageSubject.asObservable()
 
 	maxLevel = 99
 	deep: boolean = false
@@ -17,8 +17,6 @@ export abstract class ChainCalculator {
 	recursiveDepth = 2
 	//@setting the max size array getChains can return
 	maxChainLength = 20
-	comboObservable = this.comboSubject.asObservable()
-	chainObservable = this.chainSubject.asObservable()
 
 	constructor(compendium: Compendium, calculator: FusionCalculator) {
 		this.compendium = compendium
@@ -33,7 +31,10 @@ export abstract class ChainCalculator {
         @param demonName: the name of the demon to fuse to
         @returns a set of fusion chains configured by 
             ChainCalculator's properties*/
-	abstract getChains(targetSkills: string[], demonName?: string): void
+	abstract getChains(
+		targetSkills: string[],
+		demonName?: string
+	): Observable<ChainMessage>
 
 	/*  @param targetSkills: list of skills for the final demon to inherit
         @param recursiveDepth: an incremental number to keep track of the
@@ -95,12 +96,11 @@ export abstract class ChainCalculator {
 		return false
 	}
 
-	protected newCombo(): void {
-		this.comboSubject.next(this.combo++)
-	}
-
 	protected resetCombos(): void {
-		this.comboSubject.next(0)
+		this.chainMessageSubject.next({
+			chains: this.chains,
+			combo: 0,
+		})
 		this.combo = 0
 	}
 
@@ -112,7 +112,10 @@ export abstract class ChainCalculator {
 	): void
 
 	protected resetChains(): void {
-		this.chainSubject.next([])
+		this.chainMessageSubject.next({
+			chains: [],
+			combo: this.combo,
+		})
 		this.chains = []
 	}
 
@@ -197,4 +200,9 @@ export interface FusionChain {
 	level: number
 	result: string
 	directions: string[]
+}
+
+export interface ChainMessage {
+	chains: FusionChain[]
+	combo: number
 }

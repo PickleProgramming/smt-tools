@@ -1,9 +1,14 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
-import { ChainCalculator, FusionChain } from '@shared/models/chain-calculator'
+import {
+	ChainCalculator,
+	ChainMessage,
+	FusionChain,
+} from '@shared/models/chain-calculator'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
 import _ from 'lodash'
 import { Recipe } from '@shared/models/compendium'
+import { Observable } from 'rxjs'
 
 export class P5ChainCalculator extends ChainCalculator {
 	compendium!: P5Compendium
@@ -13,12 +18,16 @@ export class P5ChainCalculator extends ChainCalculator {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
 	}
 
-	getChains(targetSkills: string[], demonName?: string): void {
+	getChains(
+		targetSkills: string[],
+		demonName?: string
+	): Observable<ChainMessage> {
 		this.resetCombos()
 		this.resetChains()
 		if (demonName) {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
 		} else this.getChains_targetSkills(targetSkills)
+		return this.chainMessageObservable
 	}
 	private getChains_targetSkills(targetSkills: string[]): void {
 		for (let skillName of targetSkills) {
@@ -29,7 +38,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		}
 		let chains: FusionChain[] = []
 		for (let demonName in this.compendium.demons) {
-			this.newCombo()
+			this.combo++
 			if (chains.length >= this.maxChainLength) {
 				console.log('Chain number Reached')
 				return
@@ -65,7 +74,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		}
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.newCombo()
+			this.combo++
 			if (chains.length >= this.maxChainLength) {
 				console.log('Chain number reached')
 				return
@@ -93,7 +102,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		recursiveDepth: number,
 		demonName: string
 	): FusionChain | null {
-		this.newCombo()
+		this.combo++
 		if (targetSkills.length == 0) {
 			throw new Error(
 				'getChain was called with an empty targetSkills arg'
@@ -107,7 +116,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.newCombo()
+			this.combo++
 			if (!this.isPossible(targetSkills, undefined, fission)) continue
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
@@ -188,7 +197,10 @@ export class P5ChainCalculator extends ChainCalculator {
 		}
 		chain.directions = this.getDirections(chain)
 		this.chains.push(chain)
-		this.chainSubject.next(this.chains)
+		this.chainMessageSubject.next({
+			chains: this.chains,
+			combo: this.combo,
+		})
 	}
 
 	protected isPossible(
