@@ -5,15 +5,11 @@ import { P5_CHAIN_CALCULATOR, P5_COMPENDIUM } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-fusion-chain',
-	template: ` <app-fusion-chain
-		[compendium]="compendium"
-		[chainCalc]="chainCalc"
-	>
+	template: ` <app-fusion-chain [compendium]="compendium">
 	</app-fusion-chain>`,
 })
 export class P5FusionChainComponent implements OnInit {
 	compendium: P5Compendium = P5_COMPENDIUM
-	chainCalc: P5ChainCalculator = P5_CHAIN_CALCULATOR
 
 	constructor() {}
 

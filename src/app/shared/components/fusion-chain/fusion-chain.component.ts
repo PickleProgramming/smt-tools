@@ -7,6 +7,7 @@ import { Compendium } from '@shared/models/compendium'
 import { Observable, Subscription, of } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
+import _ from 'lodash'
 
 @Component({
 	selector: 'app-fusion-chain',
@@ -23,9 +24,8 @@ import { fromWorker } from 'observable-webworker'
 		]),
 	],
 })
-export class FusionChainComponent implements OnInit, OnDestroy {
+export class FusionChainComponent implements OnInit {
 	@Input() compendium!: Compendium
-	@Input() chainCalc!: ChainCalculator
 	skills?: string[]
 	demons?: string[]
 	demonControl = new FormControl('')
@@ -43,10 +43,9 @@ export class FusionChainComponent implements OnInit, OnDestroy {
 	combo: number = 0
 	comboSub?: Subscription
 
+	deep: boolean = false
+
 	constructor() {}
-	ngOnDestroy(): void {
-		throw new Error('Method not implemented.')
-	}
 
 	ngOnInit(): void {
 		if (!this.compendium) {
@@ -54,18 +53,6 @@ export class FusionChainComponent implements OnInit, OnDestroy {
 				'FusionChainComponent called without passing compendium'
 			)
 		}
-		if (!this.chainCalc) {
-			throw new Error(
-				'FusionChainComponent called without passing chain calculator'
-			)
-		}
-		this.chainSub = this.chainCalc.chainObservable.subscribe((chains) => {
-			this.chainSource = new MatTableDataSource(chains)
-			console.log('New chain recieved')
-		})
-		this.comboSub = this.chainCalc.comboObservable.subscribe((combo) => {
-			this.combo = combo
-		})
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
@@ -90,110 +77,46 @@ export class FusionChainComponent implements OnInit, OnDestroy {
 		)
 	}
 
-	toggleDeep(deep: boolean) {
-		this.chainCalc.deep = deep
-	}
-
 	calculate() {
-		try {
-			if (!this.chainCalc) {
-				throw new Error(
-					'FusionChainComponent called without passing chain calculator'
-				)
-			}
-			let inputSkills: string[] = []
-			for (let skillControl of this.skillControls) {
-				if (skillControl.value) inputSkills.push(skillControl.value)
-			}
-			let demon = this.demonControl.value
-
-			if (this.levelControl.value) {
-				let level: number = +this.levelControl.value
-				this.chainCalc.maxLevel = level
-			}
-			if (demon) {
-				this.chainCalc.getChains(inputSkills, demon)
-			} else {
-				this.chainCalc.getChains(inputSkills)
-			}
-		} catch (e) {
-			console.error(e)
+		let inputSkills: string[] = []
+		for (let skillControl of this.skillControls) {
+			if (skillControl.value) inputSkills.push(skillControl.value)
 		}
-	}
-
-	//TODO: testing
-	obsWorker() {
-		const input$ = of('Hello from main thread')
-
+		_.reject('inputSkills', _.isEmpty)
+		let data = {
+			demonName: this.demonControl.value,
+			level: this.levelControl.value,
+			inputSkills: inputSkills,
+			deep: this.deep,
+		}
+		let input$ = of(JSON.stringify(data))
 		fromWorker<string, string>(
 			() =>
 				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
 					type: 'module',
 				}),
 			input$
-		).subscribe((message) => {
-			console.log(message) // Outputs 'Hello from webworker'
+		).subscribe((data) => {
+			let ret = JSON.parse(data)
+			this.chainSource = new MatTableDataSource(ret.chains)
+			this.combo = ret.combo
 		})
 	}
 
-	worker(): void {
-		if (typeof Worker !== 'undefined') {
-			// Create a new
-			const worker = new Worker(
-				new URL('./fusion-chain.worker', import.meta.url)
-			)
-			worker.onmessage = ({ data }) => {
-				console.log(`page got message: ${data}`)
-			}
-			if (!this.chainCalc) {
-				throw new Error(
-					'FusionChainComponent called without passing chain calculator'
-				)
-			}
-			let inputSkills: string[] = []
-			for (let skillControl of this.skillControls) {
-				if (skillControl.value) inputSkills.push(skillControl.value)
-			}
-			if (this.levelControl.value) {
-				let level: number = +this.levelControl.value
-				this.chainCalc.maxLevel = level
-			}
-			console.log(
-				`passing worker: ${inputSkills}, and` +
-					` ${this.demonControl.value}`
-			)
-			worker.postMessage({
-				skills: inputSkills,
-				deep: this.chainCalc.deep,
-				level: this.chainCalc.maxLevel,
-				demonName: this.demonControl.value,
-			})
-		} else {
-			// Web Workers are not supported in this environment.
-			// You should add a fallback so that your program still executes correctly.
-		}
-	}
-
+	//TODO: testing
 	test(): void {
-		if (!this.chainCalc) {
-			throw new Error(
-				'FusionChainComponent called without passing chain calculator'
-			)
-		}
-		this.demonControl.setValue('')
+		/* this.demonControl.setValue('')
 		this.levelControl.setValue('')
 		this.skillControls[0].setValue('Regenerate 3')
 		this.skillControls[1].setValue('Invigorate 3')
 		this.skillControls[2].setValue('Die For Me!')
 		this.skillControls[3].setValue('Spell Master')
-		this.skillControls[4].setValue('Attack Master')
-	}
+		this.skillControls[4].setValue('Attack Master') */
 
-	log(): void {
-		console.log(`demon: ${this.demonControl.value}`)
-		console.log(`Level: ${this.levelControl.value}`)
-		for (let i = 0; i < 8; i++) {
-			console.log(`Skill ${i}: ${this.skillControls[i].value}`)
-		}
+		this.demonControl.setValue('')
+		this.levelControl.setValue('37')
+		this.skillControls[0].setValue('Miracle Punch')
+		this.skillControls[1].setValue('Apt Pupil')
+		this.skillControls[2].setValue('Attack Master')
 	}
 }

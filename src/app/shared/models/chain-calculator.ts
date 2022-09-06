@@ -6,8 +6,8 @@ import { Subject } from 'rxjs'
 export abstract class ChainCalculator {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
-	protected combo: number = 0
-	protected chains: FusionChain[] = []
+	combo: number = 0
+	chains: FusionChain[] = []
 	protected comboSubject = new Subject<number>()
 	protected chainSubject = new Subject<FusionChain[]>()
 

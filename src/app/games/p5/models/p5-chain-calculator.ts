@@ -19,7 +19,6 @@ export class P5ChainCalculator extends ChainCalculator {
 		if (demonName) {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
 		} else this.getChains_targetSkills(targetSkills)
-		console.log(this.chains)
 	}
 	private getChains_targetSkills(targetSkills: string[]): void {
 		for (let skillName of targetSkills) {
@@ -190,7 +189,6 @@ export class P5ChainCalculator extends ChainCalculator {
 		chain.directions = this.getDirections(chain)
 		this.chains.push(chain)
 		this.chainSubject.next(this.chains)
-		console.log('NEW CHAIN ADDED')
 	}
 
 	protected isPossible(
