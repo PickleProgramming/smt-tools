@@ -1,22 +1,53 @@
-<table>
-	<thead>
-		<tr>
-			<th *ngFor="let race of config?.fusionTable?.races">
-				{{ race }}
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let row of config?.fusionTable?.table; let i = index">
-			<td>{{ (config?.fusionTable)!.races[i] }}</td>
-			<td *ngFor="let cell of row">
-				<ng-container *ngIf="cell == '-' || null; else shorter">
-					{{ cell }}
-				</ng-container>
-				<ng-template #shorter>
-					{{ cell | shorten }}
-				</ng-template>
+<div class="filter-div">
+	<mat-form-field appearance="standard">
+		<mat-label>Filter</mat-label>
+		<input
+			matInput
+			(keyup)="applyFilter($event)"
+			placeholder="Ex. Mara"
+			#input
+		/>
+	</mat-form-field>
+</div>
+<div class="table-div">
+	<table
+		mat-table
+		[dataSource]="raceSource"
+		class="mat-elevation-z12"
+		matSort
+	>
+		<ng-container matColumnDef="raceA">
+			<th mat-header-cell *matHeaderCellDef>Race</th>
+			<td mat-cell *matCellDef="let race; let i = index">
+				{{ races[i] }}
 			</td>
-		</tr>
-	</tbody>
-</table>
+		</ng-container>
+		<ng-container *ngFor="let result of races; let i = index">
+			<ng-container matColumnDef="{{ result }}">
+				<th mat-header-cell *matHeaderCellDef>
+					{{ result }}
+				</th>
+
+				<td mat-cell *matCellDef="let results">
+					<ng-container
+						*ngIf="
+							results[races.indexOf(result)] == '-' ||
+								results[races.indexOf(result)] === undefined;
+							else shorter
+						"
+					>
+						{{ results[races.indexOf(result)] }}
+					</ng-container>
+					<ng-template #shorter>
+						{{ results[races.indexOf(result)] | shorten }}
+					</ng-template>
+				</td>
+			</ng-container>
+		</ng-container>
+		<tr
+			mat-header-row
+			*matHeaderRowDef="displayedColumns; sticky: true"
+		></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+</div>

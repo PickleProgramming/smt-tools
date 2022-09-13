@@ -112,7 +112,6 @@ export class FusionChainComponent implements OnInit {
 				}),
 			input$
 		).subscribe((data) => {
-			console.log('combo...')
 			this.chainSource.data = data.chains
 			this.combo = data.combo
 		})

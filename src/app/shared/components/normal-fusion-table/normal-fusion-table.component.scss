@@ -1,17 +1,27 @@
 table {
-	width: 90%;
+	width: 95%;
+}
+td.mat-cell,
+th.mat-header-cell {
+	/* row border */
+	border: 1px solid;
 	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	padding-bottom: 3em;
-	border-collapse: collapse;
+}
+.table-div {
+	padding-top: 20px;
+	display: flex;
+	justify-content: center;
 }
 
-th,
-td {
-	border: solid 1px #333333;
-	padding: 0em;
+.filter-div {
+	font-size: 14px;
+	width: 90%;
+	margin: auto;
 }
-thead {
-	font-weight: bolder;
+.mat-form-field {
+	width: 95%;
+}
+.table {
+	width: 95%;
+	margin: auto;
 }

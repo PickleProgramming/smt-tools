@@ -6,9 +6,9 @@ import { Observable, Subject } from 'rxjs'
 export abstract class ChainCalculator {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
+	protected chainMessageSubject = new Subject<ChainMessage>()
 	combo: number = 0
 	chains: FusionChain[] = []
-	protected chainMessageSubject = new Subject<ChainMessage>()
 	chainMessageObservable = this.chainMessageSubject.asObservable()
 
 	maxLevel = 99
@@ -29,8 +29,8 @@ export abstract class ChainCalculator {
             don't immediately have any desired skills. Vastly increases
             computational time
         @param demonName: the name of the demon to fuse to
-        @returns a set of fusion chains configured by 
-            ChainCalculator's properties*/
+        @returns a stream of messages updated whenever a chain is added to 
+			this.chains configured by ChainCalculator's properties*/
 	abstract getChains(
 		targetSkills: string[],
 		demonName?: string

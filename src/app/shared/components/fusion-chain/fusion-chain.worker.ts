@@ -29,6 +29,7 @@ export class FusionChainWorker implements DoWorkUnit<InputData, ChainMessage> {
 			})
 		})
 		this.calculate(input)
+		console.log('done!')
 		return output$
 	}
 
