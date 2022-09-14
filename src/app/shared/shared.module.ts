@@ -19,7 +19,6 @@ import { MatCardModule } from '@angular/material/card'
 import { DataTablesModule } from 'angular-datatables'
 import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort'
-import { MatPseudoCheckboxModule } from '@angular/material/core'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 
 @NgModule({
