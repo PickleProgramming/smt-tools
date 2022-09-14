@@ -1,6 +1,7 @@
+import { FusionCalculator } from '@shared/types/fusion-calculator'
+import { Recipe, Demon } from '@shared/types/smt-tools.types'
+
 import { P5_COMPENDIUM } from '@shared/constants'
-import { Demon, Recipe } from '@shared/models/compendium'
-import { FusionCalculator } from '@shared/models/fusion-calculator'
 
 export class P5FusionCalculator extends FusionCalculator {
 	constructor() {
@@ -17,8 +18,8 @@ export class P5FusionCalculator extends FusionCalculator {
 
 		let targetRace: string = this.compendium.demons[targetName].race
 		let raceCombos: string[][] = []
-		let races = this.compendium.config.fusionTable.races
-		let table = this.compendium.config.fusionTable.table
+		let races = this.compendium.fusionTable.races
+		let table = this.compendium.fusionTable.table
 
 		//get all arcana combinations that result in target arcana
 		for (let raceA of races) {
@@ -73,7 +74,8 @@ export class P5FusionCalculator extends FusionCalculator {
 		let demonA = this.compendium.demons[nameA]
 		let demonB = this.compendium.demons[nameB]
 
-		let recipeLevel: number = 1 + Math.floor((demonA.lvl + demonB.lvl) / 2)
+		let recipeLevel: number =
+			1 + Math.floor((demonA.level + demonB.level) / 2)
 		let race = this.getResultantRace(nameA, nameB)
 		if (race == null) return null
 		let possibleDemons = this.getDemonsByRace(race)
@@ -84,9 +86,9 @@ export class P5FusionCalculator extends FusionCalculator {
 			let level: number = 0
 			for (let name in possibleDemons) {
 				let demon = possibleDemons[name]
-				if (demon.lvl > recipeLevel) continue
-				if (demon.lvl > level) {
-					level = demon.lvl
+				if (demon.level > recipeLevel) continue
+				if (demon.level > level) {
+					level = demon.level
 					result = name
 				}
 			}
@@ -94,9 +96,9 @@ export class P5FusionCalculator extends FusionCalculator {
 			let level: number = 100
 			for (let name in possibleDemons) {
 				let demon = possibleDemons[name]
-				if (demon.lvl < recipeLevel) continue
-				if (demon.lvl < level) {
-					level = demon.lvl
+				if (demon.level < recipeLevel) continue
+				if (demon.level < level) {
+					level = demon.level
 					result = name
 				}
 			}
@@ -104,7 +106,10 @@ export class P5FusionCalculator extends FusionCalculator {
 			if (result == '') {
 				for (let name in possibleDemons) {
 					let demon = possibleDemons[name]
-					if (result == '' || possibleDemons[result].lvl < demon.lvl)
+					if (
+						result == '' ||
+						possibleDemons[result].level < demon.level
+					)
 						result = name
 				}
 			}

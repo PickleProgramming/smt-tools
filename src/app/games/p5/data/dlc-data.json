@@ -2,7 +2,7 @@
 	"Ariadne": {
 		"inherits": "almighty",
 		"item": "Red Yarn Ball",
-		"lvl": 30,
+		"level": 30,
 		"race": "Fortune",
 		"resists": "-s----wns-",
 		"skills": {
@@ -19,7 +19,7 @@
 	"Ariadne Picaro": {
 		"inherits": "almighty",
 		"item": "Auto-Mataru",
-		"lvl": 42,
+		"level": 42,
 		"race": "Fortune",
 		"resists": "-s----wns-",
 		"skills": {
@@ -36,7 +36,7 @@
 	"Asterius": {
 		"inherits": "almighty",
 		"item": "Thunder Horns",
-		"lvl": 56,
+		"level": 56,
 		"race": "Fortune",
 		"resists": "--sw--s--n",
 		"skills": {
@@ -53,7 +53,7 @@
 	"Asterius Picaro": {
 		"inherits": "almighty",
 		"item": "Gigantomachia",
-		"lvl": 62,
+		"level": 62,
 		"race": "Fortune",
 		"resists": "--sw--s--n",
 		"skills": {
@@ -70,7 +70,7 @@
 	"Izanagi": {
 		"inherits": "almighty",
 		"item": "White Headband",
-		"lvl": 20,
+		"level": 20,
 		"race": "Fool",
 		"resists": "----sw---n",
 		"skills": {
@@ -87,7 +87,7 @@
 	"Izanagi Picaro": {
 		"inherits": "almighty",
 		"item": "Growth 3",
-		"lvl": 23,
+		"level": 23,
 		"race": "Fool",
 		"resists": "----nw---n",
 		"skills": {
@@ -104,7 +104,7 @@
 	"Kaguya": {
 		"inherits": "almighty",
 		"item": "Moonlight Robe",
-		"lvl": 16,
+		"level": 16,
 		"race": "Moon",
 		"resists": "--w--s--nn",
 		"skills": {
@@ -121,7 +121,7 @@
 	"Kaguya Picaro": {
 		"inherits": "almighty",
 		"item": "Diarahan",
-		"lvl": 25,
+		"level": 25,
 		"race": "Moon",
 		"resists": "--w-----nn",
 		"skills": {
@@ -138,7 +138,7 @@
 	"Magatsu-Izanagi": {
 		"inherits": "almighty",
 		"item": "Black Headband",
-		"lvl": 44,
+		"level": 44,
 		"race": "Tower",
 		"resists": "-s-----wnn",
 		"skills": {
@@ -155,7 +155,7 @@
 	"Magatsu-Izanagi Picaro": {
 		"inherits": "almighty",
 		"item": "Heat Riser",
-		"lvl": 48,
+		"level": 48,
 		"race": "Tower",
 		"resists": "-s-----wnn",
 		"skills": {
@@ -172,7 +172,7 @@
 	"Messiah": {
 		"inherits": "almighty",
 		"item": "Lucifer Guard",
-		"lvl": 81,
+		"level": 81,
 		"race": "Judgement",
 		"resists": "--ssssssrw",
 		"skills": {
@@ -190,7 +190,7 @@
 	"Messiah Picaro": {
 		"inherits": "almighty",
 		"item": "Insta-Heal",
-		"lvl": 90,
+		"level": 90,
 		"race": "Judgement",
 		"resists": "--ssssssrw",
 		"skills": {
@@ -208,7 +208,7 @@
 	"Orpheus": {
 		"inherits": "almighty",
 		"item": "Hades Harp",
-		"lvl": 26,
+		"level": 26,
 		"race": "Fool",
 		"resists": "----w---sw",
 		"skills": {
@@ -225,7 +225,7 @@
 	"Orpheus Picaro": {
 		"inherits": "almighty",
 		"item": "Agidyne",
-		"lvl": 29,
+		"level": 29,
 		"race": "Fool",
 		"resists": "----w---sw",
 		"skills": {
@@ -242,7 +242,7 @@
 	"Thanatos": {
 		"inherits": "almighty",
 		"item": "Darkness Ring",
-		"lvl": 65,
+		"level": 65,
 		"race": "Death",
 		"resists": "s-------wr",
 		"skills": {
@@ -259,7 +259,7 @@
 	"Thanatos Picaro": {
 		"inherits": "almighty",
 		"item": "Maeigaon",
-		"lvl": 69,
+		"level": 69,
 		"race": "Death",
 		"resists": "s-------wr",
 		"skills": {
@@ -276,7 +276,7 @@
 	"Tsukiyomi": {
 		"inherits": "almighty",
 		"item": "Black Moon",
-		"lvl": 50,
+		"level": 50,
 		"race": "Moon",
 		"resists": "s------wsr",
 		"skills": {
@@ -293,7 +293,7 @@
 	"Tsukiyomi Picaro": {
 		"inherits": "almighty",
 		"item": "Spell Master",
-		"lvl": 55,
+		"level": 55,
 		"race": "Moon",
 		"resists": "s------wsr",
 		"skills": {

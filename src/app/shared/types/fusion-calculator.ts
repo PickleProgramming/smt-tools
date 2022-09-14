@@ -1,4 +1,5 @@
-import { Compendium, Demon, Recipe } from './compendium'
+import { Compendium } from './compendium'
+import { Recipe, Demon } from './smt-tools.types'
 
 export abstract class FusionCalculator {
 	compendium: Compendium
@@ -47,8 +48,8 @@ export abstract class FusionCalculator {
 	protected getResultantRace(nameA: string, nameB: string): string | null {
 		let demonA = this.compendium.demons[nameA]
 		let demonB = this.compendium.demons[nameB]
-		let races = this.compendium.config.fusionTable.races
-		let table = this.compendium.config.fusionTable.table
+		let races = this.compendium.fusionTable.races
+		let table = this.compendium.fusionTable.table
 		let result =
 			table[races.indexOf(demonA.race)][races.indexOf(demonB.race)]
 		if (result == '-') return null
@@ -69,11 +70,11 @@ export abstract class FusionCalculator {
 
 	/* determines if the demon given by name is in the compendiums elemental list */
 	protected isElemental(name: string): boolean {
-		if (this.compendium.config.elementTable === undefined)
+		if (this.compendium.elementTable === undefined)
 			throw new Error(
 				'isElemental() called on compendium with no elementals'
 			)
-		for (let element of this.compendium.config.elementTable.elems)
+		for (let element of this.compendium.elementTable.elems)
 			if (name == element) return true
 		return false
 	}

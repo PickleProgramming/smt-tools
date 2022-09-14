@@ -1,14 +1,10 @@
-import {
-	AfterViewInit,
-	Component,
-	Input,
-	OnInit,
-	ViewChild,
-} from '@angular/core'
-import { CompendiumConfig, Demon, Skill } from '@shared//models/compendium'
+import { Component, Input, OnInit, ViewChild } from '@angular/core'
+
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSort } from '@angular/material/sort'
 import _ from 'lodash'
+import { Skill } from '@shared/types/smt-tools.types'
+import { TableConfig } from '@shared/types/table-config'
 
 @Component({
 	selector: 'app-skill-list',
@@ -16,26 +12,23 @@ import _ from 'lodash'
 	styleUrls: ['./skill-list.component.scss'],
 })
 export class SkillListComponent implements OnInit {
-	@Input() config: CompendiumConfig | undefined
 	@Input() skills: { [name: string]: Skill } | undefined
+	@Input() tableConfig: TableConfig | undefined
 
-	displayedColumns: string[] = [
-		'element',
-		'name',
-		'cost',
-		'effect',
-		'learnedBy',
-		'skillCard',
-	]
 	skillSource!: MatTableDataSource<SkillElem>
 	@ViewChild(MatSort) sort!: MatSort
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.config || !this.skills) {
+		if (!this.skills) {
 			throw new Error(
-				'called SkillListComponent without passing config or skills variable'
+				'called SkillListComponent without passing skills variable'
+			)
+		}
+		if (!this.tableConfig) {
+			throw new Error(
+				'called SkillListComponent without passing tableConfig'
 			)
 		}
 		let skillArr: SkillElem[] = []

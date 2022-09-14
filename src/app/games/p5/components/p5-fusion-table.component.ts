@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core'
-import { P5_COMPENDIUM } from '@shared/constants'
-import { P5CompendiumConfig } from '@p5/models/p5-compendium'
+import { P5TableConfig } from '@p5/types/p5-table-config'
+import { P5_TABLE_CONFIG } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-fusion-table',
-	template: ` <app-normal-fusion-table [config]="config">
+	template: ` <app-normal-fusion-table [tableConfig]="tableConfig">
 		</app-normal-fusion-table>
-		<app-element-fusion-table [config]="config">
+		<app-element-fusion-table [tableConfig]="tableConfig">
 		</app-element-fusion-table>`,
 })
 export class P5FusionTableComponent implements OnInit {
-	config: P5CompendiumConfig = P5_COMPENDIUM.config
+	tableConfig: P5TableConfig = P5_TABLE_CONFIG
 
 	constructor() {}
 

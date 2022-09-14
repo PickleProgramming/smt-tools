@@ -1,8 +1,7 @@
 import { P5_CHAIN_CALCULATOR } from '@shared/constants'
-import { ChainMessage, FusionChain } from '@shared/models/chain-calculator'
-import { DoWork, DoWorkUnit, runWorker } from 'observable-webworker'
+import { ChainMessage, FusionChain } from '@shared/types/smt-tools.types'
+import { DoWorkUnit, runWorker } from 'observable-webworker'
 import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
-import { map, tap } from 'rxjs/operators'
 
 export interface InputData {
 	demonName: string | null

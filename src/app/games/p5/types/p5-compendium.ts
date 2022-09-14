@@ -1,65 +1,24 @@
-import {
-	Compendium,
-	CompendiumConfig,
-	Recipe,
-	Skill,
-} from '@shared/models/compendium'
+import _ from 'lodash'
+import { Compendium } from '@shared/types/compendium'
+import { Skill, Recipe } from '@shared/types/smt-tools.types'
 
 import PERSONA_DATA from '@p5/data/persona-data.json'
 import SKILL_DATA from '@p5/data/skill-data.json'
 import SPECIAL_RECIPES from '@p5/data/special-recipes.json'
-import FUSION_TABLE from '@p5/data/fusion-table.json'
-import ELEMENT_TABLE from '@p5/data/element-table.json'
 import DLC_DATA from '@p5/data/dlc-data.json'
 import INHERIT_DATA from '@p5/data/inheritance-types.json'
-import _ from 'lodash'
-
-export class P5CompendiumConfig extends CompendiumConfig {
-	constructor() {
-		super(FUSION_TABLE, ELEMENT_TABLE)
-		this.demonCols.push('Inherits')
-		this.statCols = ['St', 'Ma', 'En', 'Ag', 'Lu']
-		this.resistanceCols = [
-			'Physical',
-			'Gun',
-			'Fire',
-			'Ice',
-			'Lightning',
-			'Wind',
-			'Psychic',
-			'Nuclear',
-			'Bless',
-			'Curse',
-		]
-		this.inheritCols = INHERIT_DATA.elems
-	}
-
-	/*  @param: the element to check the inheritance capabilites of
-        returns: an array of the inheritance capabilites of the demon
-            see https://megamitensei.fandom.com/wiki/Skill_Inheritance */
-	getInherits(element: string): boolean[] {
-		console.log('getInherits() called with "element" : ' + element)
-		let ret: boolean[] = []
-		let inherits =
-			INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split(
-				''
-			)
-		for (let elem of inherits) {
-			if (elem === 'O') ret.push(true)
-			else ret.push(false)
-		}
-		return ret
-	}
-}
+import FUSION_TABLE from '@p5/data/fusion-table.json'
+import ELEMENT_TABLE from '@p5/data/element-table.json'
 
 export class P5Compendium extends Compendium {
 	constructor() {
 		super(
-			new P5CompendiumConfig(),
 			PERSONA_DATA,
 			SKILL_DATA,
 			SPECIAL_RECIPES,
-			DLC_DATA
+			FUSION_TABLE,
+			DLC_DATA,
+			ELEMENT_TABLE
 		)
 		//move dlc demon skills to anothe list
 		this.dlcSkills = {}
@@ -140,9 +99,26 @@ export class P5Compendium extends Compendium {
 	getCost(recipe: Recipe): number {
 		let cost = 0
 		for (let source of recipe.sources) {
-			let level = this.demons[source].lvl
+			let level = this.demons[source].level
 			cost += 27 * level * level + 126 * level + 2147
 		}
 		return cost
+	}
+
+	/*  @param: the element to check the inheritance capabilites of
+        returns: an array of the inheritance capabilites of the demon
+            see https://megamitensei.fandom.com/wiki/Skill_Inheritance */
+	getInherits(element: string): boolean[] {
+		console.log('getInherits() called with "element" : ' + element)
+		let ret: boolean[] = []
+		let inherits =
+			INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split(
+				''
+			)
+		for (let elem of inherits) {
+			if (elem === 'O') ret.push(true)
+			else ret.push(false)
+		}
+		return ret
 	}
 }

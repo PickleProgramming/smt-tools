@@ -16,26 +16,26 @@
 		class="mat-elevation-z12"
 		matSort
 	>
-		<ng-container matColumnDef="element">
+		<ng-container matColumnDef="Element">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header>Element</th>
 			<td mat-cell *matCellDef="let skill">{{ skill.element }}</td>
 		</ng-container>
 
-		<ng-container matColumnDef="name">
+		<ng-container matColumnDef="Name">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
 			<td mat-cell *matCellDef="let skill">{{ skill.name }}</td>
 		</ng-container>
 
-		<ng-container matColumnDef="cost">
+		<ng-container matColumnDef="Cost">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
 			<td mat-cell *matCellDef="let skill">{{ skill.cost }}</td>
 		</ng-container>
 
-		<ng-container matColumnDef="effect">
+		<ng-container matColumnDef="Effect">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header>Effect</th>
 			<td mat-cell *matCellDef="let skill">{{ skill.effect }}</td>
 		</ng-container>
-		<ng-container matColumnDef="learnedBy">
+		<ng-container matColumnDef="Learned By">
 			<th mat-header-cell *matHeaderCellDef>Learned By</th>
 			<td mat-cell *matCellDef="let skill">
 				<ng-container *ngFor="let demon of skill.learnedBy | keyvalue">
@@ -43,7 +43,7 @@
 				</ng-container>
 			</td>
 		</ng-container>
-		<ng-container matColumnDef="skillCard">
+		<ng-container matColumnDef="Skill Card">
 			<th mat-header-cell *matHeaderCellDef>Skill Card</th>
 			<td mat-cell *matCellDef="let skill">
 				<ng-container *ngIf="skill.card">
@@ -54,8 +54,8 @@
 
 		<tr
 			mat-header-row
-			*matHeaderRowDef="displayedColumns; sticky: true"
+			*matHeaderRowDef="tableConfig?.skillCols; sticky: true"
 		></tr>
-		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: tableConfig?.skillCols"></tr>
 	</table>
 </div>

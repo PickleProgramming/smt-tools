@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { GameView } from '@shared/models/game-view'
+import { GameView } from '@shared/types/smt-tools.types'
+
 import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({

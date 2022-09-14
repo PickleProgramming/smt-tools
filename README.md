@@ -1,6 +1,6 @@
 # smt-tools
 
-A series of tool to assist in fusing different personae/demons across the Shin Megami Tensei franchise of video games.
+A series of tools to assist in fusing different personae/demons across the Shin Megami Tensei franchise of video games.
 
 Currently supported games are:
 

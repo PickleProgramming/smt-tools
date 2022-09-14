@@ -1,21 +1,14 @@
-import {
-	trigger,
-	state,
-	style,
-	transition,
-	animate,
-	keyframes,
-} from '@angular/animations'
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { trigger, state, style, transition, animate } from '@angular/animations'
+import { Component, Input, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
-import { ChainMessage, FusionChain } from '@shared/models/chain-calculator'
-import { Compendium } from '@shared/models/compendium'
+import { Compendium } from '@shared/types/compendium'
 import { Observable, Subscription, of } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
 import _ from 'lodash'
 import { InputData } from './fusion-chain.worker'
+import { FusionChain, ChainMessage } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-fusion-chain',
@@ -50,7 +43,6 @@ export class FusionChainComponent implements OnInit {
 	chainSub?: Subscription
 	combo: number = 0
 	comboSub?: Subscription
-
 	deep: boolean = false
 
 	constructor() {}

@@ -4,7 +4,8 @@
 import { DOCUMENT } from '@angular/common'
 import { Component, Inject, Input, OnInit, Renderer2 } from '@angular/core'
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
-import { GameView } from '@shared/models/game-view'
+import { GameView } from '@shared/types/smt-tools.types'
+
 import GAME_MODELS from 'src/assets/game-models.json'
 
 @Component({

@@ -2,8 +2,9 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core'
 import { MatSort } from '@angular/material/sort'
 import { MatTableDataSource } from '@angular/material/table'
 import { Router } from '@angular/router'
-import { Compendium, Demon, Recipe } from '@shared//models/compendium'
-import { FusionCalculator } from '@shared//models/fusion-calculator'
+import { Compendium } from '@shared/types/compendium'
+import { FusionCalculator } from '@shared/types/fusion-calculator'
+import { Demon, Recipe } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-demon-entry',
@@ -45,9 +46,7 @@ export class DemonEntryComponent implements OnInit {
 		}
 		if (this.name.includes('%20')) this.name = this.name.replace('%20', ' ')
 		this.demon = this.compendium.demons[this.name]
-		this.inheritTypes = this.compendium.config.getInherits(
-			this.demon.inherits!
-		)
+		this.inheritTypes = this.compendium.getInherits(this.demon.inherits!)
 		this.fissions = this.calculator.getFissions(this.name)
 		this.fissionSource = new MatTableDataSource(this.fissions)
 		this.fusions = this.calculator.getFusions(this.name)

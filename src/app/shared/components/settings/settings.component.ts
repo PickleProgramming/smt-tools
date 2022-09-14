@@ -1,5 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core'
-import { Demon } from '@shared//models/compendium'
+import { Demon } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-settings',

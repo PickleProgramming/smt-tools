@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatTableDataSource } from '@angular/material/table'
-import { CompendiumConfig } from '@shared//models/compendium'
+import { TableConfig } from '@shared/types/table-config'
 
 @Component({
 	selector: 'app-normal-fusion-table',
@@ -8,7 +8,7 @@ import { CompendiumConfig } from '@shared//models/compendium'
 	styleUrls: ['./normal-fusion-table.component.scss'],
 })
 export class NormalFusionTableComponent implements OnInit {
-	@Input() config: CompendiumConfig | undefined
+	@Input() tableConfig: TableConfig | undefined
 	table!: string[][]
 	races!: string[]
 
@@ -18,14 +18,18 @@ export class NormalFusionTableComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		if (typeof this.config === undefined) {
+		if (typeof this.tableConfig === undefined) {
 			throw new Error('Normal Fusion Table must be called with a game')
 		}
-		this.races = this.config!.fusionTable.races
-		this.table = this.config!.fusionTable.table
-		this.displayedColumns = ['raceA'].concat(this.config!.fusionTable.races)
+		this.races = this.tableConfig!.fusionTable.races
+		this.table = this.tableConfig!.fusionTable.table
+		this.displayedColumns = ['raceA'].concat(
+			this.tableConfig!.fusionTable.races
+		)
 
-		this.raceSource = new MatTableDataSource(this.config!.fusionTable.table)
+		this.raceSource = new MatTableDataSource(
+			this.tableConfig!.fusionTable.table
+		)
 	}
 
 	applyFilter(event: Event) {

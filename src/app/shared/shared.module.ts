@@ -20,6 +20,7 @@ import { DataTablesModule } from 'angular-datatables'
 import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort'
 import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @NgModule({
 	declarations: [
@@ -47,6 +48,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 		MatTableModule,
 		MatSortModule,
 		MatCheckboxModule,
+		MatProgressSpinnerModule,
 	],
 	exports: [
 		DemonListComponent,

@@ -1,7 +1,8 @@
-import { Compendium, Recipe } from './compendium'
+import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
+import { ChainMessage, FusionChain, Recipe } from './smt-tools.types'
 
 export abstract class ChainCalculator {
 	protected compendium: Compendium
@@ -91,7 +92,7 @@ export abstract class ChainCalculator {
         true otherwise */
 	protected exceedsMaxLevel(recipe: Recipe): boolean {
 		for (let sourceName of recipe.sources)
-			if (this.compendium.demons[sourceName].lvl > this.maxLevel)
+			if (this.compendium.demons[sourceName].level > this.maxLevel)
 				return true
 		return false
 	}
@@ -183,26 +184,11 @@ export abstract class ChainCalculator {
 		let level = 0
 		for (let recipe of chain.steps) {
 			for (let demonName of recipe.sources)
-				if (this.compendium.demons[demonName].lvl > level)
-					level = this.compendium.demons[demonName].lvl
-			if (this.compendium.demons[recipe.result].lvl > level)
-				level = this.compendium.demons[recipe.result].lvl
+				if (this.compendium.demons[demonName].level > level)
+					level = this.compendium.demons[demonName].level
+			if (this.compendium.demons[recipe.result].level > level)
+				level = this.compendium.demons[recipe.result].level
 		}
 		return level
 	}
-}
-
-export interface FusionChain {
-	steps: Recipe[]
-	cost: number
-	inherittedSkills: string[][]
-	innates: string[]
-	level: number
-	result: string
-	directions: string[]
-}
-
-export interface ChainMessage {
-	chains: FusionChain[]
-	combo: number
 }

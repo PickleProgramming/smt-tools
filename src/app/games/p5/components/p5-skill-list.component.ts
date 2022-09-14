@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core'
-import { P5_COMPENDIUM } from '@shared/constants'
-import { Skill } from '@shared/models/compendium'
-import { P5CompendiumConfig } from '@p5/models/p5-compendium'
+import { Skill } from '@shared/types/smt-tools.types'
+
+import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-skill-list',
-	template: ` <app-skill-list [config]="config" [skills]="skills">
+	template: ` <app-skill-list [skills]="skills" [tableConfig]="tableConfig">
 	</app-skill-list>`,
 })
 export class P5SkillListComponent implements OnInit {
-	config: P5CompendiumConfig = P5_COMPENDIUM.config
 	skills: { [name: string]: Skill } = P5_COMPENDIUM.skills
+	tableConfig = P5_TABLE_CONFIG
 
 	constructor() {}
 

@@ -5,10 +5,11 @@ import {
 	OnInit,
 	ViewChild,
 } from '@angular/core'
-import { CompendiumConfig, Demon } from '@shared//models/compendium'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSort } from '@angular/material/sort'
 import _ from 'lodash'
+import { Demon } from '@shared/types/smt-tools.types'
+import { TableConfig } from '@shared/types/table-config'
 
 @Component({
 	selector: 'app-demon-list',
@@ -17,16 +18,15 @@ import _ from 'lodash'
 })
 export class DemonListComponent implements OnInit, AfterViewInit {
 	@Input() demons!: { [name: string]: Demon }
-	@Input() config!: CompendiumConfig
+	@Input() tableConfig!: TableConfig
 
-	displayedColumns: string[] = ['race', 'lvl', 'name', 'inherits']
 	demonSource!: MatTableDataSource<DemonElem>
 	@ViewChild(MatSort) sort!: MatSort
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.config || !this.demons) {
+		if (!this.tableConfig || !this.demons) {
 			throw new Error('Config/Demon List cannot be undefined')
 		}
 		let demonArr: DemonElem[] = []
@@ -35,29 +35,22 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 			demonArr.push(new DemonElem(demonName, demon))
 		}
 		this.demonSource = new MatTableDataSource(demonArr)
-
-		this.displayedColumns = this.displayedColumns.concat(
-			this.config.statCols
-		)
-		this.displayedColumns = this.displayedColumns.concat(
-			this.config.resistanceCols!
-		)
 	}
 
 	ngAfterViewInit(): void {
 		this.demonSource.sort = this.sort
 		this.demonSource.sortingDataAccessor = (data, sortHeadId) => {
-			let index = _.indexOf(this.config.statCols, sortHeadId)
+			let index = _.indexOf(this.tableConfig.statCols, sortHeadId)
 			if (index > -1) return data.stats[index]
-			index = _.indexOf(this.config.resistanceCols, sortHeadId)
+			index = _.indexOf(this.tableConfig.resistanceCols, sortHeadId)
 			if (index > -1) return data.resistances[index]
 			switch (sortHeadId) {
 				case 'race':
 					return data.race
 				case 'name':
 					return data.name
-				case 'lvl':
-					return data.lvl
+				case 'level':
+					return data.level
 				case 'inherits':
 					return data.inherits
 				default:
@@ -81,14 +74,14 @@ class DemonElem {
 	constructor(demonName: string, demon: Demon) {
 		this.name = demonName
 		this.race = demon.race
-		this.lvl = demon.lvl
+		this.level = demon.level
 		this.stats = demon.stats
 		this.resistances = demon.resistances
 		if (demon.inherits) this.inherits = demon.inherits
 	}
 	name: string
 	race: string
-	lvl: number
+	level: number
 	stats: number[]
 	resistances: string
 	inherits: string = ''

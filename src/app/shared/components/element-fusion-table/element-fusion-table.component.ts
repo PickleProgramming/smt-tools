@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { CompendiumConfig } from '@shared/models/compendium'
+import { TableConfig } from '@shared/types/table-config'
 
 @Component({
 	selector: 'app-element-fusion-table',
@@ -7,14 +7,14 @@ import { CompendiumConfig } from '@shared/models/compendium'
 	styleUrls: ['./element-fusion-table.component.scss'],
 })
 export class ElementFusionTableComponent implements OnInit {
-	@Input() config: CompendiumConfig | undefined
+	@Input() tableConfig: TableConfig | undefined
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.config)
+		if (!this.tableConfig)
 			throw new Error('ElementFusionTable must be called with a game')
-		if (!this.config.elementTable) {
+		if (!this.tableConfig.elementTable) {
 			throw new Error(
 				'app-element-fusion-table needs a config with a ' +
 					' defined elementTable'
