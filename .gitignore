@@ -52,7 +52,6 @@ Thumbs.db
 report*
 *.spec.*
 /e2e
-tsconfig.app.json
 karma.conf.js
 test*
 
