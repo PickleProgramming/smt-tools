@@ -7,8 +7,11 @@ import { Observable, Subscription, of } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
 import _ from 'lodash'
-import { InputData } from './fusion-chain.worker'
-import { FusionChain, ChainMessage } from '@shared/types/smt-tools.types'
+import {
+	FusionChain,
+	ChainMessage,
+	InputChainData,
+} from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-fusion-chain',
@@ -42,8 +45,12 @@ export class FusionChainComponent implements OnInit {
 	chainSource = new MatTableDataSource<FusionChain>()
 	chainSub?: Subscription
 	combo: number = 0
-	comboSub?: Subscription
 	deep: boolean = false
+	calculating: boolean = false
+
+	//TODO testing
+	testing: number[] = [0, 1]
+	testingControl = new FormControl('0')
 
 	constructor() {}
 
@@ -83,6 +90,7 @@ export class FusionChainComponent implements OnInit {
 		from worker funcion, and read the data we recieved back with .subscribe()
 		https://github.com/cloudnc/observable-webworker*/
 	calculate() {
+		this.calculating = true
 		let inputSkills: string[] = []
 		for (let skillControl of this.skillControls) {
 			if (skillControl.value) inputSkills.push(skillControl.value)
@@ -90,14 +98,14 @@ export class FusionChainComponent implements OnInit {
 		_.reject('inputSkills', _.isEmpty)
 		let level: number | null = null
 		if (this.levelControl.value) level = +this.levelControl.value
-		let data: InputData = {
+		let data: InputChainData = {
 			demonName: this.demonControl.value,
 			level: level,
 			inputSkills: inputSkills,
 			deep: this.deep,
 		}
 		let input$ = of(data)
-		fromWorker<InputData, ChainMessage>(
+		this.chainSub = fromWorker<InputChainData, ChainMessage>(
 			() =>
 				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
 					type: 'module',
@@ -109,12 +117,27 @@ export class FusionChainComponent implements OnInit {
 		})
 	}
 
+	stop() {
+		this.chainSub?.unsubscribe()
+		this.calculating = false
+	}
+
+	reset() {
+		this.stop()
+		this.demonControl.setValue('')
+		this.levelControl.setValue('')
+		for (let i of this.skillControls) i.setValue('')
+		this.chainSource = new MatTableDataSource<FusionChain>()
+		this.combo = 0
+		this.deep = false
+	}
+
 	//TODO: testing
-	test(which?: number): void {
-		switch (which) {
-			case 0:
-				this.demonControl.setValue('')
-				this.levelControl.setValue('')
+	test(): void {
+		this.reset()
+		if (!this.testingControl) return
+		switch (+this.testingControl.value!) {
+			case 1:
 				this.skillControls[0].setValue('Regenerate 3')
 				this.skillControls[1].setValue('Invigorate 3')
 				this.skillControls[2].setValue('Die For Me!')
@@ -122,7 +145,6 @@ export class FusionChainComponent implements OnInit {
 				this.skillControls[4].setValue('Attack Master')
 				return
 			default:
-				this.demonControl.setValue('')
 				this.levelControl.setValue('37')
 				this.skillControls[0].setValue('Miracle Punch')
 				this.skillControls[1].setValue('Apt Pupil')

@@ -71,6 +71,13 @@ export interface ChainMessage {
 	combo: number
 }
 
+export interface InputChainData {
+	demonName: string | null
+	level: number | null
+	inputSkills: string[]
+	deep: boolean
+}
+
 /* Interface to store the different values for each inividual game
 	@property mainList - whether the game uses Demons or Personas
 	@property otherLinks - all the links the game uses apart from the universal ones

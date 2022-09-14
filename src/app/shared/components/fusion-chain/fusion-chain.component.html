@@ -61,13 +61,32 @@
 			<button (click)="calculate()" color="primary" mat-raised-button>
 				Calculate
 			</button>
-			<button (click)="test(0)" color="warn" mat-raised-button>
+			<button (click)="stop()" color="primary" mat-raised-button>
+				Stop
+			</button>
+			<button (click)="reset()" color="primary" mat-raised-button>
+				Clear
+			</button>
+			<button (click)="test()" color="warn" mat-raised-button>
 				Testing
 			</button>
-			<mat-checkbox [(ngModel)]="deep">Deep?</mat-checkbox>
+			<mat-form-field class="testing-form-field" appearance="fill">
+				<mat-select [formControl]="testingControl">
+					<ng-container *ngFor="let case of testing">
+						<mat-option value="{{ case }}">{{ case }}</mat-option>
+					</ng-container>
+				</mat-select>
+			</mat-form-field>
+			<mat-checkbox class="testing-check" [(ngModel)]="deep"
+				>Deep?</mat-checkbox
+			>
 		</div>
 	</div>
 </div>
+
+<ng-container *ngIf="calculating">
+	<mat-spinner></mat-spinner>
+</ng-container>
 
 <p class="combos" *ngIf="combo > 0">{{ combo }} fusions attempted...</p>
 <!-- Chain Display -->

@@ -21,6 +21,7 @@ import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
 	declarations: [
@@ -49,6 +50,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 		MatSortModule,
 		MatCheckboxModule,
 		MatProgressSpinnerModule,
+		MatSelectModule,
 	],
 	exports: [
 		DemonListComponent,

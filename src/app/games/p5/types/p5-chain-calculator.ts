@@ -28,6 +28,8 @@ export class P5ChainCalculator extends ChainCalculator {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
 		} else this.getChains_targetSkills(targetSkills)
 
+		//TODO: Kill Worker Here
+
 		return this.chainMessageObservable
 	}
 	private getChains_targetSkills(targetSkills: string[]): void {
