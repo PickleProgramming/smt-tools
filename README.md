@@ -4,7 +4,7 @@ A series of tool to assist in fusing different personae/demons across the Shin M
 
 Currently supported games are:
 
-*Persona 5 (kind of)
+-   Persona 5 (kind of)
 
 ## Install
 
