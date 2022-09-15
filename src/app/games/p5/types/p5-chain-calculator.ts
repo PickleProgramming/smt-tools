@@ -22,14 +22,10 @@ export class P5ChainCalculator extends ChainCalculator {
 		targetSkills: string[],
 		demonName?: string
 	): Observable<ChainMessage> {
-		this.resetCombos()
-		this.resetChains()
 		if (demonName) {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
 		} else this.getChains_targetSkills(targetSkills)
-
-		//TODO: Kill Worker Here
-
+		this.chainMessageSubject.next({ chains: null, combo: null })
 		return this.chainMessageObservable
 	}
 	private getChains_targetSkills(targetSkills: string[]): void {

@@ -67,8 +67,8 @@ export interface FusionChain {
 }
 
 export interface ChainMessage {
-	chains: FusionChain[]
-	combo: number
+	chains: FusionChain[] | null
+	combo: number | null
 }
 
 export interface InputChainData {

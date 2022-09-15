@@ -3,8 +3,8 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
 import { Compendium } from '@shared/types/compendium'
-import { Observable, Subscription, of } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { Observable, Subscription, of, Subject } from 'rxjs'
+import { map, startWith, takeUntil, takeWhile } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
 import _ from 'lodash'
 import {
@@ -43,7 +43,7 @@ export class FusionChainComponent implements OnInit {
 	directions: string[][] = []
 
 	chainSource = new MatTableDataSource<FusionChain>()
-	chainSub?: Subscription
+	notifier = new Subject()
 	combo: number = 0
 	deep: boolean = false
 	calculating: boolean = false
@@ -105,20 +105,31 @@ export class FusionChainComponent implements OnInit {
 			deep: this.deep,
 		}
 		let input$ = of(data)
-		this.chainSub = fromWorker<InputChainData, ChainMessage>(
+		fromWorker<InputChainData, ChainMessage>(
 			() =>
 				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
 					type: 'module',
 				}),
 			input$
-		).subscribe((data) => {
-			this.chainSource.data = data.chains
-			this.combo = data.combo
-		})
+		)
+			.pipe(takeUntil(this.notifier))
+			.subscribe((data) => {
+				console.log(data)
+				if (data.combo == null || data.chains == null) {
+					this.calculating = false
+					this.notifier.next()
+					return
+				}
+				this.combo = data.combo
+				this.chainSource.data = data.chains
+			})
 	}
 
 	stop() {
-		this.chainSub?.unsubscribe()
+		this.notifier.next()
+		this.chainSource = new MatTableDataSource<FusionChain>()
+		this.combo = 0
+		this.deep = false
 		this.calculating = false
 	}
 
@@ -127,9 +138,6 @@ export class FusionChainComponent implements OnInit {
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
-		this.chainSource = new MatTableDataSource<FusionChain>()
-		this.combo = 0
-		this.deep = false
 	}
 
 	//TODO: testing

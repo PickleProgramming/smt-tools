@@ -97,28 +97,12 @@ export abstract class ChainCalculator {
 		return false
 	}
 
-	protected resetCombos(): void {
-		this.chainMessageSubject.next({
-			chains: this.chains,
-			combo: 0,
-		})
-		this.combo = 0
-	}
-
 	protected abstract finishChain(
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],
 		chain?: FusionChain
 	): void
-
-	protected resetChains(): void {
-		this.chainMessageSubject.next({
-			chains: [],
-			combo: this.combo,
-		})
-		this.chains = []
-	}
 
 	protected addStep(
 		chain: FusionChain,

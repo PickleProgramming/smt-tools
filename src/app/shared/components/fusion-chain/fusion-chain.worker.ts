@@ -16,18 +16,17 @@ export class FusionChainWorker
 	chains: FusionChain[] = []
 	chainCalc = P5_CHAIN_CALCULATOR
 
-	comboSub?: Subscription
-
 	public workUnit(input: InputChainData): Observable<ChainMessage> {
 		const output$: Subject<ChainMessage> = new ReplaySubject(Infinity)
-		this.comboSub = this.chainCalc.chainMessageObservable.subscribe(() => {
+		const sub = this.chainCalc.chainMessageObservable.subscribe((data) => {
 			output$.next({
-				chains: this.chainCalc.chains,
-				combo: this.chainCalc.combo,
+				chains: data.chains,
+				combo: data.combo,
 			})
 		})
 		this.calculate(input)
 		console.log('done!')
+		sub.unsubscribe()
 		return output$
 	}
 
