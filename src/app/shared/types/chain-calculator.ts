@@ -125,7 +125,7 @@ export abstract class ChainCalculator {
 			let direction = `Step ${i + 1}: `
 			if (step.sources.length > 2) {
 				direction += `Use the Special Recipe to fuse ${step.result}.`
-				continue
+				direction += ` Have ${step.result} inherit `
 			} else {
 				direction +=
 					`Fuse ${step.sources[0]} with ${step.sources[1]} to make ` +
