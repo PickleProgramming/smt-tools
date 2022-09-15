@@ -1,9 +1,13 @@
 @import '~src/assets/style/variables.scss';
 @import '~src/assets/style/mixins.scss';
 
-* {
+*,
+body {
 	text-decoration: none;
-	font-size: 1.15em;
+	font-size: 1.2em;
+	letter-spacing: 0.1em;
+	font-family: p5-header-font;
+	color: #ffffff !important;
 }
 
 .game-wrapper-table {

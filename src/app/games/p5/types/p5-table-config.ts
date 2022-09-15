@@ -11,14 +11,14 @@ export class P5TableConfig extends TableConfig {
 		this.statCols = ['St', 'Ma', 'En', 'Ag', 'Lu']
 		this.demonCols = this.demonCols.concat(this.statCols)
 		this.resistanceCols = [
-			'Physical',
+			'Phys',
 			'Gun',
 			'Fire',
 			'Ice',
-			'Lightning',
+			'Elec',
 			'Wind',
-			'Psychic',
-			'Nuclear',
+			'Psy',
+			'Nuke',
 			'Bless',
 			'Curse',
 		]

@@ -1,10 +1,16 @@
 import { trigger, state, style, transition, animate } from '@angular/animations'
-import { Component, Input, OnInit } from '@angular/core'
+import {
+	Component,
+	Input,
+	OnInit,
+	AfterViewInit,
+	ViewChild,
+} from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
 import { Compendium } from '@shared/types/compendium'
-import { Observable, Subscription, of, Subject } from 'rxjs'
-import { map, startWith, takeUntil, takeWhile } from 'rxjs/operators'
+import { Observable, of, Subject } from 'rxjs'
+import { map, startWith, takeUntil } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
 import _ from 'lodash'
 import {
@@ -12,6 +18,7 @@ import {
 	ChainMessage,
 	InputChainData,
 } from '@shared/types/smt-tools.types'
+import { MatSort } from '@angular/material/sort'
 
 @Component({
 	selector: 'app-fusion-chain',
@@ -28,7 +35,7 @@ import {
 		]),
 	],
 })
-export class FusionChainComponent implements OnInit {
+export class FusionChainComponent implements OnInit, AfterViewInit {
 	@Input() compendium!: Compendium
 	skills?: string[]
 	demons?: string[]
@@ -47,6 +54,7 @@ export class FusionChainComponent implements OnInit {
 	combo: number = 0
 	deep: boolean = false
 	calculating: boolean = false
+	@ViewChild(MatSort) sort!: MatSort
 
 	//TODO testing
 	testing: number[] = [0, 1, 2, 3]
@@ -75,6 +83,10 @@ export class FusionChainComponent implements OnInit {
 				)
 			)
 		}
+	}
+
+	ngAfterViewInit(): void {
+		this.chainSource.sort = this.sort
 	}
 
 	private _filter(value: string, list: string[]): string[] {

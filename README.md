@@ -26,3 +26,6 @@ Using `sudo` is not recommended as it can lead to issues trying to update your p
 ## Credits
 
 JSON Data and Inspiration: https://github.com/aqiu384/megaten-fusion-tool
+P5-Fonts:
+p5Hatty - https://www.youtube.com/watch?v=6B90DMr-OBY
+Expose - https://befonts.com/expose-typeface.html

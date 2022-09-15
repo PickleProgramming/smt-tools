@@ -6,5 +6,5 @@
 }
 
 @mixin set-game-font($game) {
-	font-family: map-get(map-get($games, #{$game}), 'font-family');
+	font-family: map-get(map-get($games, #{$game}), 'text-font');
 }
