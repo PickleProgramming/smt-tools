@@ -146,6 +146,7 @@ export abstract class ChainCalculator {
 			}
 			directions.push(direction)
 		}
+		if (chain.innates.length < 1) return directions
 		let direction = ` ${chain.result} will learn `
 		for (let j = 0; j <= chain.innates.length; j++) {
 			if (chain.innates.length === 1) {
