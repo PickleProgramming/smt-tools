@@ -3,15 +3,15 @@ import _ from 'lodash'
 import { Compendium } from '@shared/types/compendium'
 import { Skill, Recipe } from '@shared/types/smt-tools.types'
 
-import PERSONA_DATA from '@p5/data/persona-data.json'
-import SKILL_DATA from '@p5/data/skill-data.json'
-import SPECIAL_RECIPES from '@p5/data/special-recipes.json'
-import DLC_DATA from '@p5/data/dlc-data.json'
+import PERSONA_DATA from '@p5r/data/persona-data.json'
+import SKILL_DATA from '@p5r/data/skill-data.json'
+import SPECIAL_RECIPES from '@p5r/data/special-recipes.json'
+import DLC_DATA from '@p5r/data/dlc-data.json'
 import INHERIT_DATA from '@p5/data/inheritance-types.json'
-import FUSION_TABLE from '@p5/data/fusion-table.json'
-import ELEMENT_TABLE from '@p5/data/element-table.json'
+import FUSION_TABLE from '@p5r/data/fusion-table.json'
+import ELEMENT_TABLE from '@p5r/data/element-table.json'
 
-export class P5Compendium extends Compendium {
+export class P5RCompendium extends Compendium {
 	constructor() {
 		super(
 			PERSONA_DATA,

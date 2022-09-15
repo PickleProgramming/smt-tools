@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
+
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
+
+import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-persona-entry',

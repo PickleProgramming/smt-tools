@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 
-import { P5Compendium } from '@p5/types/p5-compendium'
+import { P5RCompendium } from '@p5r/types/p5r-compendium'
 import { Demon } from '@shared/types/smt-tools.types'
 
-import { P5_COMPENDIUM } from '@shared/constants'
+import { P5R_COMPENDIUM } from '@shared/constants'
 
 @Component({
-	selector: 'app-p5-fusion-settings',
+	selector: 'app-p5r-fusion-settings',
 	template: ` <app-settings
 		[dlcDemons]="dlcDemons!"
 		[packsEnabled]="packsEnabled"
@@ -14,8 +14,8 @@ import { P5_COMPENDIUM } from '@shared/constants'
 	>
 	</app-settings>`,
 })
-export class P5SettingsComponent implements OnInit {
-	compendium: P5Compendium = P5_COMPENDIUM
+export class P5RSettingsComponent implements OnInit {
+	compendium: P5RCompendium = P5R_COMPENDIUM
 	dlcDemons?: { [name: string]: Demon } = this.compendium.dlcDemons
 
 	//keeps track of which DLC packs have been enabled in the compendium
@@ -37,7 +37,7 @@ export class P5SettingsComponent implements OnInit {
 
 	ngOnInit(): void {
 		if (!this.dlcDemons) {
-			throw new Error('P5-settings-component couldnt find dlc demons')
+			throw new Error('P5R-settings-component couldnt find dlc demons')
 		}
 		/* enables/disables the packs in the view by checking if they are in 
 		the demonlist */

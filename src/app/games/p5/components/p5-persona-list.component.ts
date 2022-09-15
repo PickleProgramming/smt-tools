@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core'
+
 import { P5TableConfig } from '@p5/types/p5-table-config'
-import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 import { Demon } from '@shared/types/smt-tools.types'
+
+import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-persona-list',

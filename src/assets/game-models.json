@@ -37,6 +37,27 @@
 			}
 		]
 	},
+	"p5r": {
+		"game": "Persona 5 Royal",
+		"logo": "assets/img/game-logos/p5r.png",
+		"colors": {
+			"primary": "#ef0006",
+			"secondary": "#ffff00",
+			"text": "#000000"
+		},
+		"font": "p5-font",
+		"mainList": "persona",
+		"otherLinks": [
+			{
+				"title": "Fusion Chain",
+				"url": "fusion-chain"
+			},
+			{
+				"title": "DLC Settings",
+				"url": "settings"
+			}
+		]
+	},
 	"pq2": {
 		"game": "Persona Q2: New Cinema Labyrinth",
 		"logo": "assets/img/game-logos/pq2.png",

@@ -14,6 +14,11 @@ const routes: Routes = [
 			import('../games/p5/p5.module').then((m) => m.P5Module),
 	},
 	{
+		path: 'p5r',
+		loadChildren: () =>
+			import('../games/p5r/p5r.module').then((m) => m.P5RModule),
+	},
+	{
 		path: 'pq2',
 		loadChildren: () =>
 			import('../games/pq2/pq2.module').then((m) => m.PQ2Module),

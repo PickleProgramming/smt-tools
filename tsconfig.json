@@ -20,7 +20,8 @@
 		"lib": ["es2018", "dom"],
 		"paths": {
 			"@shared/*": ["./src/app/shared/*"],
-			"@p5/*": ["./src/app/games/p5/*"]
+			"@p5/*": ["./src/app/games/p5/*"],
+			"@p5r/*": ["./src/app/games/p5r/*"]
 		}
 	},
 	"angularCompilerOptions": {

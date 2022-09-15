@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { P5ChainCalculator } from '@p5/types/p5-chain-calculator'
+
 import { P5Compendium } from '@p5/types/p5-compendium'
-import { P5_CHAIN_CALCULATOR, P5_COMPENDIUM } from '@shared/constants'
+
+import { P5_COMPENDIUM } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-fusion-chain',
