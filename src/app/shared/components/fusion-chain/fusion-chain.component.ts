@@ -49,7 +49,7 @@ export class FusionChainComponent implements OnInit {
 	calculating: boolean = false
 
 	//TODO testing
-	testing: number[] = [0, 1, 2]
+	testing: number[] = [0, 1, 2, 3]
 	testingControl = new FormControl('0')
 
 	constructor() {}
@@ -126,14 +126,14 @@ export class FusionChainComponent implements OnInit {
 
 	stop() {
 		this.notifier.next()
-		this.chainSource = new MatTableDataSource<FusionChain>()
-		this.combo = 0
-		this.deep = false
 		this.calculating = false
 	}
 
 	reset() {
 		this.stop()
+		this.deep = false
+		this.chainSource = new MatTableDataSource<FusionChain>()
+		this.combo = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
@@ -154,6 +154,13 @@ export class FusionChainComponent implements OnInit {
 			case 2:
 				this.demonControl.setValue('Neko Shogun')
 				this.skillControls[0].setValue('Dekaja')
+				return
+			case 3:
+				this.skillControls[0].setValue('Life Aid')
+				this.skillControls[1].setValue('Gigantomachia')
+				this.skillControls[2].setValue('Arms Master')
+				this.skillControls[3].setValue('Auto-Mataru')
+				this.skillControls[4].setValue('Angelic Grace')
 				return
 			default:
 				this.levelControl.setValue('37')

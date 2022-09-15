@@ -101,7 +101,6 @@ export class P5ChainCalculator extends ChainCalculator {
 			)
 		}
 		if (recursiveDepth > this.recursiveDepth) return null
-		if (this.compendium.isElemental(demonName)) return null
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
@@ -265,6 +264,7 @@ export class P5ChainCalculator extends ChainCalculator {
 	): boolean {
 		if (this.compendium.demons[demonName].level > this.maxLevel)
 			return false
+		if (this.compendium.isElemental(demonName)) return false
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
 			if (skill.unique && skill.unique !== demonName) return false
