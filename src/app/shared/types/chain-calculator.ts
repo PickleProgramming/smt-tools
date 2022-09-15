@@ -22,7 +22,6 @@ export abstract class ChainCalculator {
 	constructor(compendium: Compendium, calculator: FusionCalculator) {
 		this.compendium = compendium
 		this.calculator = calculator
-		console.log('Chain Calculator Created')
 	}
 
 	/*  @param targetSkills: a list of skills for the final demon

@@ -38,10 +38,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		let chains: FusionChain[] = []
 		for (let demonName in this.compendium.demons) {
 			this.combo++
-			if (chains.length >= this.maxChainLength) {
-				console.log('Chain number Reached')
-				return
-			}
+			if (chains.length >= this.maxChainLength) return
 			if (!this.isPossible(targetSkills, demonName)) continue
 			let newChains: FusionChain[] = []
 			let demon = this.compendium.demons[demonName]
@@ -81,7 +78,7 @@ export class P5ChainCalculator extends ChainCalculator {
 					let diff = _.difference(targetSkills, foundSkills)
 					if (diff.length == 0) {
 						this.finishChain(fission, foundSkills, innates)
-						continue
+						break
 					}
 					let chain = this.getChain(diff, 0, sourceName)
 					if (chain != null) {

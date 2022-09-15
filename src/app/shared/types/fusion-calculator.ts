@@ -6,7 +6,6 @@ export abstract class FusionCalculator {
 
 	constructor(compendium: Compendium) {
 		this.compendium = compendium
-		console.log('Fusion Calculator created')
 	}
 
 	/* get list of different fusions that result in the passed demon

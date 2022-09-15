@@ -75,7 +75,6 @@ export class P5SettingsComponent implements OnInit {
 				}
 			}
 		} else {
-			console.log('foo')
 			for (let demonName of this.packDemons[pack]) {
 				for (let skillName in this.compendium.dlcSkills) {
 					let skill = this.compendium.dlcSkills[skillName]

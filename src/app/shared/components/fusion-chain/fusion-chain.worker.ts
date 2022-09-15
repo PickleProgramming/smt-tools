@@ -25,7 +25,6 @@ export class FusionChainWorker
 			})
 		})
 		this.calculate(input)
-		console.log('done!')
 		sub.unsubscribe()
 		return output$
 	}

@@ -114,7 +114,6 @@ export class FusionChainComponent implements OnInit {
 		)
 			.pipe(takeUntil(this.notifier))
 			.subscribe((data) => {
-				console.log(data)
 				if (data.combo == null || data.chains == null) {
 					this.calculating = false
 					this.notifier.next()

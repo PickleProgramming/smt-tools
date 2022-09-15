@@ -28,7 +28,6 @@ export class GameWrapperComponent implements OnInit {
 		this.router.events.subscribe((e) => {
 			if (e instanceof NavigationEnd) {
 				this.changeGame(e.urlAfterRedirects.split('/')[1])
-				//console.log(e.urlAfterRedirects.split('/')[1])
 			}
 		})
 	}

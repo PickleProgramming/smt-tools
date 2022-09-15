@@ -38,7 +38,6 @@ export class P5Compendium extends Compendium {
 		//remove any skills that are only used by party members
 		for (let skill in this.skills) {
 		}
-		console.log('Created P5Compendium')
 	}
 
 	protected parseSkills(skillData: Object): { [name: string]: Skill } {
@@ -109,7 +108,6 @@ export class P5Compendium extends Compendium {
         returns: an array of the inheritance capabilites of the demon
             see https://megamitensei.fandom.com/wiki/Skill_Inheritance */
 	getInherits(element: string): boolean[] {
-		console.log('getInherits() called with "element" : ' + element)
 		let ret: boolean[] = []
 		let inherits =
 			INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split(

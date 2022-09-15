@@ -9,18 +9,15 @@ export class P5FusionCalculator extends FusionCalculator {
 	}
 
 	getFissions(targetName: string): Recipe[] {
-		if (this.isElemental(targetName))
+		if (this.isElemental(targetName)) {
 			throw new Error('Called getFissions on an elemental demon')
-
-		console.debug('Getting fissions for ' + targetName)
+		}
 		if (this.isSpecial(targetName))
 			return [this.compendium.buildSpecialRecipe(targetName)]
-
 		let targetRace: string = this.compendium.demons[targetName].race
 		let raceCombos: string[][] = []
 		let races = this.compendium.fusionTable.races
 		let table = this.compendium.fusionTable.table
-
 		//get all arcana combinations that result in target arcana
 		for (let raceA of races) {
 			for (let raceB of races) {
@@ -28,7 +25,6 @@ export class P5FusionCalculator extends FusionCalculator {
 				if (result == targetRace) raceCombos.push([raceA, raceB])
 			}
 		}
-
 		/* try all fusion with potential combinations filtering those without
             the desired result */
 		let fissions: Recipe[] = []
@@ -61,7 +57,6 @@ export class P5FusionCalculator extends FusionCalculator {
 	}
 
 	getFusions(targetName: string): Recipe[] {
-		console.log('Getting fusions for ' + targetName)
 		let recipes: Recipe[] = []
 		for (let name in this.compendium.demons) {
 			let result = this.fuse(targetName, name)
@@ -73,14 +68,12 @@ export class P5FusionCalculator extends FusionCalculator {
 	protected fuse(nameA: string, nameB: string): Recipe | null {
 		let demonA = this.compendium.demons[nameA]
 		let demonB = this.compendium.demons[nameB]
-
 		let recipeLevel: number =
 			1 + Math.floor((demonA.level + demonB.level) / 2)
 		let race = this.getResultantRace(nameA, nameB)
 		if (race == null) return null
 		let possibleDemons = this.getDemonsByRace(race)
 		let result: string = ''
-
 		//when two persona of the same race fuse, the result will be lower level
 		if (demonA.race == demonB.race) {
 			let level: number = 0
