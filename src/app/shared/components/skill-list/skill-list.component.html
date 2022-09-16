@@ -56,8 +56,8 @@
 
 		<tr
 			mat-header-row
-			*matHeaderRowDef="tableConfig?.skillCols; sticky: true"
+			*matHeaderRowDef="tableConfig.skillCols; sticky: true"
 		></tr>
-		<tr mat-row *matRowDef="let row; columns: tableConfig?.skillCols"></tr>
+		<tr mat-row *matRowDef="let row; columns: tableConfig.skillCols"></tr>
 	</table>
 </div>

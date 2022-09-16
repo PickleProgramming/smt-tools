@@ -8,21 +8,22 @@ import { TableConfig } from '@shared/types/table-config'
 	styleUrls: ['./normal-fusion-table.component.scss'],
 })
 export class NormalFusionTableComponent implements OnInit {
-	@Input() tableConfig: TableConfig | undefined
+	@Input() tableConfig!: TableConfig
 	table!: string[][]
 	races!: string[]
-
-	displayedColumns: string[] = []
+	displayedColumns!: string[]
 	raceSource!: MatTableDataSource<string[]>
 
 	constructor() {}
 
 	ngOnInit(): void {
 		if (typeof this.tableConfig === undefined) {
-			throw new Error('Normal Fusion Table must be called with a game')
+			throw new Error(
+				'NormalFusionTableComponent was not given a TableConfig'
+			)
 		}
-		this.races = this.tableConfig!.fusionTable.races
-		this.table = this.tableConfig!.fusionTable.table
+		this.races = this.tableConfig.fusionTable.races
+		this.table = this.tableConfig.fusionTable.table
 		this.displayedColumns = ['raceA'].concat(
 			this.tableConfig!.fusionTable.races
 		)

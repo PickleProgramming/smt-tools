@@ -12,16 +12,18 @@ import { Demon, Recipe } from '@shared/types/smt-tools.types'
 	styleUrls: ['./demon-entry.component.scss'],
 })
 export class DemonEntryComponent implements OnInit {
-	@Input() compendium: Compendium | undefined
-	@Input() calculator: FusionCalculator | undefined
-	name: string = this.router.url.split('/')[3]
-	demon: Demon | undefined
+	@Input() compendium!: Compendium
+	@Input() calculator!: FusionCalculator
+	@ViewChild(MatSort) sort!: MatSort
+
+	demon!: Demon
 	inheritTypes!: boolean[]
 	fissions!: Recipe[]
-	fusions!: Recipe[]
-
 	fissionSource!: MatTableDataSource<Recipe>
+	fusions!: Recipe[]
 	fusionSource!: MatTableDataSource<Recipe>
+
+	name: string = this.router.url.split('/')[3]
 	displayedColumns = [
 		'cost',
 		'raceA',
@@ -31,17 +33,16 @@ export class DemonEntryComponent implements OnInit {
 		'nameB',
 		'levelB',
 	]
-	@ViewChild(MatSort) sort!: MatSort
 
 	constructor(private router: Router) {}
 
 	ngOnInit(): void {
 		if (!this.compendium) {
-			throw new Error('DemonEntryComponent must be passed a compendium')
+			throw new Error('DemonEntryComponent was not passed a Compendium')
 		}
 		if (!this.calculator) {
 			throw new Error(
-				'DemonEntryComponent must be passed a FusionCalculator'
+				'DemonEntryComponent was not passed a FusionCalculator'
 			)
 		}
 		if (this.name.includes('%20')) this.name = this.name.replace('%20', ' ')

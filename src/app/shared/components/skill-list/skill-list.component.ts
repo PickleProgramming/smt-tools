@@ -12,24 +12,20 @@ import { TableConfig } from '@shared/types/table-config'
 	styleUrls: ['./skill-list.component.scss'],
 })
 export class SkillListComponent implements OnInit {
-	@Input() skills: { [name: string]: Skill } | undefined
-	@Input() tableConfig: TableConfig | undefined
+	@Input() skills!: { [name: string]: Skill }
+	@Input() tableConfig!: TableConfig
+	@ViewChild(MatSort) sort!: MatSort
 
 	skillSource!: MatTableDataSource<SkillElem>
-	@ViewChild(MatSort) sort!: MatSort
 
 	constructor() {}
 
 	ngOnInit(): void {
 		if (!this.skills) {
-			throw new Error(
-				'called SkillListComponent without passing skills variable'
-			)
+			throw new Error('SkillListComponent was not given a Skills list.')
 		}
 		if (!this.tableConfig) {
-			throw new Error(
-				'called SkillListComponent without passing tableConfig'
-			)
+			throw new Error('SkillListComponent was not given a TableConfig')
 		}
 		let skillArr: SkillElem[] = []
 		for (let skillName in this.skills) {

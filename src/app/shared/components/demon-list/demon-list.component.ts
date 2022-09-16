@@ -19,15 +19,17 @@ import { TableConfig } from '@shared/types/table-config'
 export class DemonListComponent implements OnInit, AfterViewInit {
 	@Input() demons!: { [name: string]: Demon }
 	@Input() tableConfig!: TableConfig
-
-	demonSource!: MatTableDataSource<DemonElem>
 	@ViewChild(MatSort) sort!: MatSort
+	demonSource!: MatTableDataSource<DemonElem>
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.tableConfig || !this.demons) {
-			throw new Error('Config/Demon List cannot be undefined')
+		if (!this.tableConfig) {
+			throw new Error('DemonListComponent was not passed a TableConfig')
+		}
+		if (!this.demons) {
+			throw new Error('DemonListComponent was not passed a Demon list')
 		}
 		let demonArr: DemonElem[] = []
 		for (let demonName in this.demons) {

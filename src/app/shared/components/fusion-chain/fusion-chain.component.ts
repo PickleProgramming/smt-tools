@@ -37,24 +37,27 @@ import { MatSort } from '@angular/material/sort'
 })
 export class FusionChainComponent implements OnInit, AfterViewInit {
 	@Input() compendium!: Compendium
-	skills?: string[]
-	demons?: string[]
+	@ViewChild(MatSort) sort!: MatSort
+
+	skills!: string[]
+	demons!: string[]
+	filteredDemons!: Observable<string[]>
+	filteredSkills!: Observable<string[]>[]
+	expandedChain!: FusionChain
+	directions!: string[][]
+
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
 	skillControls: FormControl[] = []
-	filteredDemons?: Observable<string[]>
-	filteredSkills: Observable<string[]>[] = []
-
 	columnsToDisplay = ['result', 'cost', 'level', 'steps']
-	expandedChain!: FusionChain | null
-	directions: string[][] = []
-
 	chainSource = new MatTableDataSource<FusionChain>()
-	notifier = new Subject()
 	combo: number = 0
 	deep: boolean = false
+	//when true, a progress spinner is rendered on the page
 	calculating: boolean = false
-	@ViewChild(MatSort) sort!: MatSort
+	/* The web worker runs until the notifier subject emits any event,
+	 letting us stop it whenever with notifier.next() */
+	notifier = new Subject()
 
 	//TODO testing
 	testing: number[] = [0, 1, 2, 3]
@@ -64,9 +67,7 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		if (!this.compendium) {
-			throw new Error(
-				'FusionChainComponent called without passing compendium'
-			)
+			throw new Error('FusionChainComponent was not given a Compendium')
 		}
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
@@ -98,8 +99,8 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 
 	/* Calls an observable-webworker to do the potenitally intensive 
 		calculation in the background. We format our data in the InputData 
-		interface defined in ./fusion-chain-worker and send it over using the 
-		from worker funcion, and read the data we recieved back with .subscribe()
+		interface and send it over using the from worker funcion,
+		and read the data we recieved back with .subscribe().
 		https://github.com/cloudnc/observable-webworker*/
 	calculate() {
 		this.calculating = true

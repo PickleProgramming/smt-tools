@@ -19,18 +19,20 @@ import { Demon } from '@shared/types/smt-tools.types'
 	styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-	@Input() dlcDemons: { [name: string]: Demon } | undefined
-	@Input() packsEnabled: { [name: string]: boolean } | undefined
+	@Input() dlcDemons!: { [name: string]: Demon }
+	@Input() packsEnabled!: { [name: string]: boolean }
 	@Input() togglePack!: (event: any) => void
 
 	constructor() {}
 
 	ngOnInit(): void {
 		if (!this.dlcDemons)
-			throw new Error('SettingsComponent requires a dlcDemons property')
+			throw new Error('SettingsComponent was not gived a Demon list')
 		if (!this.packsEnabled)
-			throw new Error('SettingsComponent requires a packs object.')
+			throw new Error(
+				'SettingsComponent was not given a Boolean : String list.'
+			)
 		if (!this.togglePack)
-			throw new Error('SettingsComponent requires a togglePack function')
+			throw new Error('SettingsComponent was not given a function')
 	}
 }

@@ -7,17 +7,19 @@ import { TableConfig } from '@shared/types/table-config'
 	styleUrls: ['./element-fusion-table.component.scss'],
 })
 export class ElementFusionTableComponent implements OnInit {
-	@Input() tableConfig: TableConfig | undefined
+	@Input() tableConfig!: TableConfig
 
 	constructor() {}
 
 	ngOnInit(): void {
 		if (!this.tableConfig)
-			throw new Error('ElementFusionTable must be called with a game')
+			throw new Error(
+				'ElementFusionTableComponent was not passed a TableConfig'
+			)
 		if (!this.tableConfig.elementTable) {
 			throw new Error(
-				'app-element-fusion-table needs a config with a ' +
-					' defined elementTable'
+				'ElementFusionTableComponent was passed a TableConfig with ' +
+					'no elementTable property.'
 			)
 		}
 	}
