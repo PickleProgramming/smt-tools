@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
 
 	ngOnInit(): void {
 		if (!this.dlcDemons)
-			throw new Error('SettingsComponent was not gived a Demon list')
+			throw new Error('SettingsComponent was not given a Demon list')
 		if (!this.packsEnabled)
 			throw new Error(
 				'SettingsComponent was not given a Boolean : String list.'

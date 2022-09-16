@@ -14,9 +14,9 @@ import GAME_MODELS from 'src/assets/game-models.json'
 	styleUrls: ['./game-wrapper.component.scss'],
 })
 export class GameWrapperComponent implements OnInit {
-	@Input() gameName: string = 'p5'
+	gameName: string
 	gameViews: { [game: string]: GameView } = GAME_MODELS
-	gameView: GameView = this.gameViews[this.gameName]
+	gameView: GameView
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
@@ -24,6 +24,8 @@ export class GameWrapperComponent implements OnInit {
 		private renderer: Renderer2,
 		private activatedRoute: ActivatedRoute
 	) {
+		this.gameName = this.router.url.split('/')[1]
+		this.gameView = this.gameViews[this.gameName]
 		//this block will run everytime the user navigates to a new page
 		this.router.events.subscribe((e) => {
 			if (e instanceof NavigationEnd) {

@@ -40,4 +40,4 @@ const routes: Routes = [
 	imports: [RouterModule.forChild(routes)],
 	exports: [RouterModule],
 })
-export class P5RoutingModule {}
+export class P5RRoutingModule {}

@@ -22,6 +22,7 @@ import { MatSortModule } from '@angular/material/sort'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSelectModule } from '@angular/material/select'
+import { GameHeaderComponent } from './components/game-header/game-header.component'
 
 @NgModule({
 	declarations: [
@@ -33,6 +34,7 @@ import { MatSelectModule } from '@angular/material/select'
 		DemonEntryComponent,
 		ShortenPipe,
 		FusionChainComponent,
+		GameHeaderComponent,
 	],
 	imports: [
 		CommonModule,
@@ -61,6 +63,7 @@ import { MatSelectModule } from '@angular/material/select'
 		DemonEntryComponent,
 		FusionChainComponent,
 		ShortenPipe,
+		GameHeaderComponent,
 	],
 })
 export class SharedModule {}

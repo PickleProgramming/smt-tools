@@ -10,9 +10,11 @@ import { P5SettingsComponent } from './components/p5-settings.component'
 import { P5RoutingModule } from './p5-routing.module'
 import { P5PersonaEntryComponent } from './components/p5-persona-entry.component'
 import { P5FusionChainComponent } from './components/p5-fusion-chain.component'
+import { P5HeaderComponent } from './components/p5-game-header.component'
 
 @NgModule({
 	declarations: [
+		P5HeaderComponent,
 		P5PersonaListComponent,
 		P5FusionTableComponent,
 		P5SkillListComponent,

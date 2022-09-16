@@ -16,5 +16,7 @@ export class P5RFusionTableComponent implements OnInit {
 
 	constructor() {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		console.log('P5R FusionTableComponent')
+	}
 }
