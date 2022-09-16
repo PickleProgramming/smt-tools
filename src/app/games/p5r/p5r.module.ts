@@ -10,9 +10,11 @@ import { P5RPersonaEntryComponent } from './components/p5r-persona-entry.compone
 import { P5RPersonaListComponent } from './components/p5r-persona-list.component'
 import { P5RSettingsComponent } from './components/p5r-settings.component'
 import { P5RSkillListComponent } from './components/p5r-skill-list.component'
+import { P5RHeaderComponent } from './components/p5r-game-header.component'
 
 @NgModule({
 	declarations: [
+		P5RHeaderComponent,
 		P5RPersonaListComponent,
 		P5RFusionTableComponent,
 		P5RSkillListComponent,
