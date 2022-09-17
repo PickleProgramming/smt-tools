@@ -42,13 +42,13 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 	skills!: string[]
 	demons!: string[]
 	filteredDemons!: Observable<string[]>
-	filteredSkills!: Observable<string[]>[]
 	expandedChain!: FusionChain
 	directions!: string[][]
 
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
 	skillControls: FormControl[] = []
+	filteredSkills: Observable<string[]>[] = []
 	columnsToDisplay = ['result', 'cost', 'level', 'steps']
 	chainSource = new MatTableDataSource<FusionChain>()
 	combo: number = 0
@@ -60,7 +60,7 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 	notifier = new Subject()
 
 	//TODO testing
-	testing: number[] = [0, 1, 2, 3]
+	testing: number[] = [0, 1, 2, 3, 4]
 	testingControl = new FormControl('0')
 
 	constructor() {}
@@ -174,6 +174,14 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 				this.skillControls[2].setValue('Arms Master')
 				this.skillControls[3].setValue('Auto-Mataru')
 				this.skillControls[4].setValue('Angelic Grace')
+				return
+			case 4:
+				this.demonControl.setValue('Sandman')
+				this.levelControl.setValue('26')
+				this.skillControls[0].setValue('Pulinpa')
+				this.skillControls[1].setValue('Confuse Boost')
+				this.skillControls[2].setValue('Dodge Phys')
+				this.skillControls[3].setValue('Sharp Student')
 				return
 			default:
 				this.levelControl.setValue('37')
