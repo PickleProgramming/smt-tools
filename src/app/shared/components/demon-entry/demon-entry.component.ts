@@ -24,7 +24,7 @@ export class DemonEntryComponent implements OnInit {
 	fusionSource!: MatTableDataSource<Recipe>
 
 	name: string = this.router.url.split('/')[3]
-	displayedColumns = [
+	displayedFissionColumns = [
 		'cost',
 		'raceA',
 		'levelA',
@@ -32,6 +32,15 @@ export class DemonEntryComponent implements OnInit {
 		'raceB',
 		'nameB',
 		'levelB',
+	]
+	displayedFusionColumns = [
+		'cost',
+		'raceB',
+		'levelB',
+		'nameB',
+		'raceResult',
+		'nameResult',
+		'levelResult',
 	]
 
 	constructor(private router: Router) {}
