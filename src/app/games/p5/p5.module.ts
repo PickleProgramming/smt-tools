@@ -11,6 +11,7 @@ import { P5RoutingModule } from './p5-routing.module'
 import { P5PersonaEntryComponent } from './components/p5-persona-entry.component'
 import { P5FusionChainComponent } from './components/p5-fusion-chain.component'
 import { P5HeaderComponent } from './components/p5-game-header.component'
+import { P5Service } from './p5.service'
 
 @NgModule({
 	declarations: [
@@ -24,4 +25,9 @@ import { P5HeaderComponent } from './components/p5-game-header.component'
 	],
 	imports: [P5RoutingModule, CommonModule, SharedModule, RouterModule],
 })
-export class P5Module {}
+export class P5Module {
+	hello: String
+	constructor() {
+		this.hello = 'world'
+	}
+}
