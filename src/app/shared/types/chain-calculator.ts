@@ -13,6 +13,9 @@ export abstract class ChainCalculator {
 	chainMessageObservable = this.chainMessageSubject.asObservable()
 
 	maxLevel = 99
+	/* @setting deep: if true the functions will search fissions even if they
+	don't immediately have any desired skills. Vastly increases computational
+	time, but finds results with longer fusion chains */
 	deep: boolean = false
 	//@setting the amount of times getChain is allowed to call itself
 	recursiveDepth = 2
@@ -25,9 +28,6 @@ export abstract class ChainCalculator {
 	}
 
 	/*  @param targetSkills: a list of skills for the final demon
-        @param deep: if true the function will search fissions even if they
-            don't immediately have any desired skills. Vastly increases
-            computational time
         @param demonName: the name of the demon to fuse to
         @returns a stream of messages updated whenever a chain is added to 
 			this.chains configured by ChainCalculator's properties*/
@@ -40,17 +40,14 @@ export abstract class ChainCalculator {
         @param recursiveDepth: an incremental number to keep track of the
             number of times the function has called itself. should be 0
             unless the function is calling itself
-        @param demonName: name of the demon to fuse to
-        @param deep: if true the function will search fissions even if they
-            don't immediately have any desired skills. Vastly increases
-            computational time*/
+        @param demonName: name of the demon to fuse to*/
 	protected abstract getChain(
 		targetSkills: string[],
 		recursiveDepth: number,
 		demonName: string
 	): FusionChain | null
 
-	/* Determines if the passed persona is capable oflearning the skills passed
+	/* Determines if the passed persona is capable of learning the skills passed
         determines if ANY persona is capable if no name or recipe is give. 
         Throws error if both a demonName and a recipe are provided.
         @param skills: a list of skills to check if possible to inherit
@@ -103,6 +100,11 @@ export abstract class ChainCalculator {
 		chain?: FusionChain
 	): void
 
+	/* adds a step to the recipe by pushing the step too the recipe object and
+	adding the skills to inherit in that step to the inherrittedSkills array
+	@param chain: the chain to add the steps to
+	@param recipe: the recipe to add the steps to
+	@param inherittedSkills: the array of skills to inherit in that step */
 	protected addStep(
 		chain: FusionChain,
 		recipe: Recipe,
@@ -112,12 +114,19 @@ export abstract class ChainCalculator {
 		chain.inherittedSkills.push(inherittedSkills)
 	}
 
+	/* gets the estimated cost of the fusion chain
+	@param chain: the fusion chain to estimate the cost for
+	@return number: the estimated cost */
 	protected getCost(chain: FusionChain): number {
 		let cost: number = 0
 		for (let step of chain.steps) cost += step.cost!
 		return cost
 	}
 
+	/* generates a string to be shown in the html instructing the user
+	how to fuse the desired demon
+	@param chain: the chain to get instructions for
+	@return string[]: an array of lines to be displayed in the html*/
 	protected getDirections(chain: FusionChain): string[] {
 		let directions: string[] = []
 		for (let i = 0; i < chain.steps.length; i++) {
