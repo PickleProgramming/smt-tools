@@ -21,7 +21,7 @@ export class P5Compendium extends Compendium {
 			DLC_DATA,
 			ELEMENT_TABLE
 		)
-		//move dlc demon skills to anothe list
+		//move dlc demon skills to another list
 		this.dlcSkills = {}
 		for (let skillName in this.skills) {
 			if (Object.keys(this.skills[skillName].learnedBy).length == 0) {

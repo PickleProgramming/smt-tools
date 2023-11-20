@@ -215,7 +215,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		return this.isPossible_targetSkills(targetSkills)
 	}
 	private isPossible_targetSkills(targetSkills: string[]): boolean {
-		//check the demon necessary for a given unique skill
+		//check is the skill is unique, if it is, fuse for that demon
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
 			if (skill.unique) {
@@ -225,8 +225,9 @@ export class P5ChainCalculator extends ChainCalculator {
 				)
 			}
 		}
-		//only 4 skills can be inheritted, the others will need to be learned
-		// either through hangings or innate skills
+		//only 4 skills can be inheritted, if the user requested more,
+		// the others will need to be learned either through hangings or innate
+		// skills
 		if (targetSkills.length > 4) {
 			let numberNeeded: number = targetSkills.length - 4
 			//build every combination of skills with length numberNeeded

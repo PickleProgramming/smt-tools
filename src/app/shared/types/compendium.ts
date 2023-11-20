@@ -41,6 +41,7 @@ export abstract class Compendium {
 
 	/* reads the skills from the JSON files into respective objects and lists*/
 	protected abstract parseSkills(skillData: Object): { [name: string]: Skill }
+
 	/* reads the demons from the JSON files into respective objects */
 	protected parseDemons(
 		demonData: Object,
