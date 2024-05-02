@@ -129,7 +129,6 @@
 			}
 		}
 	},
-	"defaultProject": "smt-tools",
 	"schematics": {
 		"@schematics/angular:component": {
 			"styleext": "scss"
