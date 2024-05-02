@@ -25,14 +25,14 @@ $p5-accent: mat.define-palette($p5-accent-palette, A200, A100, A400);
 }
 $p5-typograpghy: mat.define-typography-config(
 	$font-family: 'p5-text-font',
-	$display-4:
+	$headline-4:
 		mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
-	$display-3:
+	$headline-3:
 		mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
-	$display-2:
+	$headline-2:
 		mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
-	$display-1: mat.define-typography-level(34px, 40px, 400),
-	$headline: mat.define-typography-level(24px, 32px, 400),
+	$headline-1: mat.define-typography-level(34px, 40px, 400),
+	$headline-5: mat.define-typography-level(24px, 32px, 400),
 	$body-1:
 		mat.define-typography-level(25px, 48px, 400, $letter-spacing: -0.005em),
 	$body-2:
