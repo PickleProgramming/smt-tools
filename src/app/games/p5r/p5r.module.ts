@@ -7,12 +7,14 @@ import { P5RRoutingModule } from './p5r-routing.module'
 import { P5RPersonaListComponent } from './components/p5r-persona-list.component'
 import { P5RPersonaEntryComponent } from './components/p5r-persona-entry.component'
 import { P5RSkillListComponent } from './components/p5r-skill-list.component'
+import { P5RFusionTableComponent } from './components/p5r-fusion-table.component'
 
 @NgModule({
 	declarations: [
 		P5RPersonaListComponent,
 		P5RPersonaEntryComponent,
 		P5RSkillListComponent,
+		P5RFusionTableComponent,
 	],
 	imports: [CommonModule, SharedModule, RouterModule, P5RRoutingModule],
 })

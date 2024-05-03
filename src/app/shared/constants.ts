@@ -11,6 +11,8 @@ import P5_INHERIT_DATA from '@p5/data/inheritance-types.json'
 import P5_FUSION_TABLE from '@p5/data/fusion-table.json'
 import P5_ELEMENT_TABLE from '@p5/data/element-table.json'
 
+import { P5RTableConfig } from '@p5r/types/p5r-table-config'
+
 import P5R_PERSONA_DATA from '@p5r/data/persona-data.json'
 import P5R_SKILL_DATA from '@p5r/data/skill-data.json'
 import P5R_SPECIAL_RECIPES from '@p5r/data/special-recipes.json'
@@ -40,3 +42,4 @@ export const P5R_COMPENDIUM: P5Compendium = new P5Compendium(
 	P5R_ELEMENT_TABLE,
 	P5_INHERIT_DATA
 )
+export const P5R_TABLE_CONFIG: P5RTableConfig = new P5RTableConfig()
