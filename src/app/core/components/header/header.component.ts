@@ -7,6 +7,7 @@ import GAME_MODELS from 'src/assets/game-models.json'
 	selector: 'app-header',
 	styleUrls: ['./header.component.scss'],
 	template: `
+		Branch: add-game-p5r
 		<ul class="smt-navbar">
 			<li
 				*ngFor="let game of gameViews | keyvalue"
