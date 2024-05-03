@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router'
 import { P5RPersonaListComponent } from './components/p5r-persona-list.component'
 import { P5RPersonaEntryComponent } from './components/p5r-persona-entry.component'
 import { P5HeaderComponent } from '@p5/components/p5-game-header.component'
+import { P5RSkillListComponent } from './components/p5r-skill-list.component'
 
 const routes: Routes = [
 	{
@@ -15,6 +16,7 @@ const routes: Routes = [
 				path: 'personas/:demonName',
 				component: P5RPersonaEntryComponent,
 			},
+			{ path: 'skills', component: P5RSkillListComponent },
 		],
 	},
 ]
