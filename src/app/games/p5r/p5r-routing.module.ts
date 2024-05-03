@@ -7,6 +7,7 @@ import { P5RPersonaEntryComponent } from './components/p5r-persona-entry.compone
 import { P5RSkillListComponent } from './components/p5r-skill-list.component'
 import { P5RFusionTableComponent } from './components/p5r-fusion-table.component'
 import { P5RFusionChainComponent } from './components/p5r-fusion-chain.component'
+import { P5RSettingsComponent } from './components/p5r-settings.component'
 
 const routes: Routes = [
 	{
@@ -21,6 +22,7 @@ const routes: Routes = [
 			{ path: 'skills', component: P5RSkillListComponent },
 			{ path: 'fusion-table', component: P5RFusionTableComponent },
 			{ path: 'fusion-chain', component: P5RFusionChainComponent },
+			{ path: 'settings', component: P5RSettingsComponent },
 		],
 	},
 ]

@@ -9,6 +9,7 @@ import { P5RPersonaEntryComponent } from './components/p5r-persona-entry.compone
 import { P5RSkillListComponent } from './components/p5r-skill-list.component'
 import { P5RFusionTableComponent } from './components/p5r-fusion-table.component'
 import { P5RFusionChainComponent } from './components/p5r-fusion-chain.component'
+import { P5RSettingsComponent } from './components/p5r-settings.component'
 
 @NgModule({
 	declarations: [
@@ -17,6 +18,7 @@ import { P5RFusionChainComponent } from './components/p5r-fusion-chain.component
 		P5RSkillListComponent,
 		P5RFusionTableComponent,
 		P5RFusionChainComponent,
+		P5RSettingsComponent,
 	],
 	imports: [CommonModule, SharedModule, RouterModule, P5RRoutingModule],
 })
