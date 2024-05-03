@@ -55,4 +55,11 @@ report*
 karma.conf.js
 test*
 
+# Docker
+.dockerignore
+Dockerfile
+
+# Nginx
+nginx.conf
+
 .angular
