@@ -63,16 +63,16 @@
 			Clear
 		</button>
 		<button (click)="test()" color="warn" mat-raised-button>Testing</button>
-		<mat-form-field class="testing-form-field" appearance="fill">
+		<mat-form-field appearance="fill">
 			<mat-select [formControl]="testingControl">
 				<ng-container *ngFor="let case of testing">
 					<mat-option value="{{ case }}">{{ case }}</mat-option>
 				</ng-container>
 			</mat-select>
 		</mat-form-field>
-		<mat-checkbox class="testing-check" [(ngModel)]="deep"
-			>Deep?</mat-checkbox
-		>
+		<mat-checkbox class="testing-check" [(ngModel)]="deep">
+			Deep?
+		</mat-checkbox>
 	</div>
 </mat-card>
 
