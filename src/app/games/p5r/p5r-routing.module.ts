@@ -9,7 +9,13 @@ const routes: Routes = [
 	{
 		path: '',
 		component: P5HeaderComponent,
-		children: [{ path: 'personas', component: P5RPersonaListComponent }],
+		children: [
+			{ path: 'personas', component: P5RPersonaListComponent },
+			{
+				path: 'personas/:demonName',
+				component: P5RPersonaEntryComponent,
+			},
+		],
 	},
 ]
 
