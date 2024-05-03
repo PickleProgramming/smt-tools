@@ -1,4 +1,4 @@
-import _, { values } from 'lodash'
+import _ from 'lodash'
 
 import { Compendium } from '@shared/types/compendium'
 import {
