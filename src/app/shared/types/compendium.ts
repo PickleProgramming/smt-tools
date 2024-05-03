@@ -2,9 +2,9 @@ import _ from 'lodash'
 import {
 	Demon,
 	Skill,
+	FusionTable,
 	Recipe,
 	ElementTable,
-	FusionTable,
 } from './smt-tools.types'
 
 /* Root object used by a game view. Each game should have their own compendium
@@ -13,17 +13,17 @@ import {
 export abstract class Compendium {
 	demons: { [name: string]: Demon } = {}
 	skills: { [name: string]: Skill }
+	fusionTable: FusionTable
 	specialRecipes?: { [name: string]: string[] }
 	dlcDemons?: { [name: string]: Demon }
 	dlcSkills?: { [name: string]: Skill }
-	fusionTable: FusionTable
 	elementTable?: ElementTable
 
 	constructor(
 		demonData: Object,
 		skillData: Object,
-		specialData: Object,
 		fusionTable: FusionTable,
+		specialData: Object,
 		dlcData?: Object,
 		elementTable?: ElementTable
 	) {
