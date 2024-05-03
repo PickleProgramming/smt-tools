@@ -16,8 +16,8 @@ export class P5Compendium extends Compendium {
 		super(
 			PERSONA_DATA,
 			SKILL_DATA,
-			SPECIAL_RECIPES,
 			FUSION_TABLE,
+			SPECIAL_RECIPES,
 			DLC_DATA,
 			ELEMENT_TABLE
 		)
