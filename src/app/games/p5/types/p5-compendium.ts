@@ -1,26 +1,36 @@
-import _ from 'lodash'
+import _, { values } from 'lodash'
 
 import { Compendium } from '@shared/types/compendium'
-import { Skill, Recipe } from '@shared/types/smt-tools.types'
-
-import PERSONA_DATA from '@p5/data/persona-data.json'
-import SKILL_DATA from '@p5/data/skill-data.json'
-import SPECIAL_RECIPES from '@p5/data/special-recipes.json'
-import DLC_DATA from '@p5/data/dlc-data.json'
-import INHERIT_DATA from '@p5/data/inheritance-types.json'
-import FUSION_TABLE from '@p5/data/fusion-table.json'
-import ELEMENT_TABLE from '@p5/data/element-table.json'
+import {
+	Skill,
+	Recipe,
+	ElementTable,
+	FusionTable,
+} from '@shared/types/smt-tools.types'
+import { P5InheritanceType } from './p5-inheritance-types'
 
 export class P5Compendium extends Compendium {
-	constructor() {
+	inheritance: P5InheritanceType
+	constructor(
+		personaData: Object,
+		skillData: Object,
+		fusionTable: FusionTable,
+		specialRecipes: Object,
+		dlcData: Object,
+		elementTable: ElementTable,
+		inheritData: P5InheritanceType
+	) {
 		super(
-			PERSONA_DATA,
-			SKILL_DATA,
-			FUSION_TABLE,
-			SPECIAL_RECIPES,
-			DLC_DATA,
-			ELEMENT_TABLE
+			personaData,
+			skillData,
+			fusionTable,
+			specialRecipes,
+			dlcData,
+			elementTable
 		)
+
+		this.inheritance = inheritData
+
 		//move dlc demon skills to another list
 		this.dlcSkills = {}
 		for (let skillName in this.skills) {
@@ -36,6 +46,9 @@ export class P5Compendium extends Compendium {
 				delete this.skills[skillName]
 			}
 		}
+
+		console.log('P5 Compendium Created')
+
 		//remove any skills that are only used by party members
 		for (let skill in this.skills) {
 		}
@@ -89,8 +102,10 @@ export class P5Compendium extends Compendium {
 			return true
 		let demonElem = this.demons[demonName].inherits
 		let ratios =
-			INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(demonElem!)]
-		if (ratios.charAt(INHERIT_DATA.elems.indexOf(skillElem)) == 'O')
+			this.inheritance.ratios[
+				this.inheritance.inherits.indexOf(demonElem!)
+			]
+		if (ratios.charAt(this.inheritance.elems.indexOf(skillElem)) == 'O')
 			return true
 		return false
 	}
@@ -111,9 +126,9 @@ export class P5Compendium extends Compendium {
 	getInherits(element: string): boolean[] {
 		let ret: boolean[] = []
 		let inherits =
-			INHERIT_DATA.ratios[INHERIT_DATA.inherits.indexOf(element)].split(
-				''
-			)
+			this.inheritance.ratios[
+				this.inheritance.inherits.indexOf(element)
+			].split('')
 		for (let elem of inherits) {
 			if (elem === 'O') ret.push(true)
 			else ret.push(false)
