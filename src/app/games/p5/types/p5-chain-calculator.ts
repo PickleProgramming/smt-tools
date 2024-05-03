@@ -278,13 +278,16 @@ export class P5ChainCalculator extends ChainCalculator {
 				return false
 			}
 		}
-		let inheritNum: number
+		//maximum number of skills the demon could possibly inherit
+		let maxInherit: number
 		if (this.compendium.isSpecial(demonName)) {
 			let specialRecipe = this.compendium.buildSpecialRecipe(demonName)
-			inheritNum = this.getMaxNumOfInherittedSkills(specialRecipe)
-		} else inheritNum = 4
-		if (targetSkills.length > inheritNum) {
-			let numberNeeded: number = targetSkills.length - inheritNum
+			maxInherit = this.getMaxNumOfInherittedSkills(specialRecipe)
+		} else maxInherit = 4
+		//if we need to learn more skills than can be inheritted
+		if (targetSkills.length > maxInherit) {
+			//number of skills needed to be learned after inheritance
+			let numberNeeded: number = targetSkills.length - maxInherit
 			//build every combination of skills with length numberNeeded
 			let innates = this.getSubArrays(targetSkills)
 			for (let i = 0; i < innates.length; i++) {
