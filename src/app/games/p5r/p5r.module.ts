@@ -8,6 +8,7 @@ import { P5RPersonaListComponent } from './components/p5r-persona-list.component
 import { P5RPersonaEntryComponent } from './components/p5r-persona-entry.component'
 import { P5RSkillListComponent } from './components/p5r-skill-list.component'
 import { P5RFusionTableComponent } from './components/p5r-fusion-table.component'
+import { P5RFusionChainComponent } from './components/p5r-fusion-chain.component'
 
 @NgModule({
 	declarations: [
@@ -15,6 +16,7 @@ import { P5RFusionTableComponent } from './components/p5r-fusion-table.component
 		P5RPersonaEntryComponent,
 		P5RSkillListComponent,
 		P5RFusionTableComponent,
+		P5RFusionChainComponent,
 	],
 	imports: [CommonModule, SharedModule, RouterModule, P5RRoutingModule],
 })
