@@ -11,8 +11,6 @@
 # dependencies
 /node_modules
 package-lock.json
-tslint.json
-packages.microsoft.gpg
 
 # profiling files
 chrome-profiler-events*.json
@@ -26,6 +24,7 @@ speed-measure-plugin*.json
 *.launch
 .settings/
 *.sublime-workspace
+tslint.json
 
 # IDE - VSCode
 .vscode/*
