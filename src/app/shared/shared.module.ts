@@ -21,9 +21,7 @@ import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSelectModule } from '@angular/material/select';
-import { HeaderComponent } from './components/header/header.component';
-import { BookmarksComponent } from './components/bookmarks/bookmarks.component'
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
 	declarations: [
@@ -35,8 +33,6 @@ import { BookmarksComponent } from './components/bookmarks/bookmarks.component'
 		DemonEntryComponent,
 		ShortenPipe,
 		FusionChainComponent,
-  HeaderComponent,
-  BookmarksComponent,
 	],
 	imports: [
 		CommonModule,
