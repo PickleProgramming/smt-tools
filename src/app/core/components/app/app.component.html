@@ -12,8 +12,8 @@
 	</mat-sidenav>
 	<!-- main content -->
 	<mat-sidenav-content class="lightgreen">
-		<!-- header -->
-		<app-sidenav-button></app-sidenav-button>
+		<!-- button to open sidenav -->
+		<button mat-button (click)="sidenav.toggle()">Options</button>
 		<!-- game content -->
 		<div class="game">
 			<router-outlet></router-outlet>

@@ -8,11 +8,10 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './components/app/app.component'
-import { SidenavButtonComponent } from './components/sidenav-button/sidenav-button.component'
 import { FooterComponent } from './components/footer/footer.component'
 
 @NgModule({
-	declarations: [AppComponent, SidenavButtonComponent, FooterComponent],
+	declarations: [AppComponent, FooterComponent],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
