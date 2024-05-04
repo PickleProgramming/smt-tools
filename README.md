@@ -19,6 +19,8 @@ ng serve
 
 Then you can navigate to http://127.0.0.1:4200/ to see the webpage
 
+If you are having trouble due to having an outdated version of Node.js, I recommend using nvm: https://github.com/nvm-sh/nvm
+
 If you get an `EACCESS` error trying to globally install angular-cli you can follow this guide to setup an installation just for your user: https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#reinstall-npm-with-a-node-version-manager
 
 Using `sudo` is not recommended as it can lead to issues trying to update your projects to new versions of angular.
