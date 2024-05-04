@@ -9,7 +9,7 @@ Currently supported games are:
 ## Install
 
 ```
-sudo snap install node --classic
+sudo apt install -y nodejs npm
 npm install -g @angular/cli
 git clone https://github.com/PickleProgramming/smt-tools.git
 cd smt-tools
