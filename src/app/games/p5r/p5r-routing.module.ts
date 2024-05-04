@@ -1,29 +1,14 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
-import { P5HeaderComponent } from '@p5/components/p5-game-header.component'
-import { P5RPersonaListComponent } from './components/p5r-persona-list.component'
 import { P5RPersonaEntryComponent } from './components/p5r-persona-entry.component'
-import { P5RSkillListComponent } from './components/p5r-skill-list.component'
-import { P5RFusionTableComponent } from './components/p5r-fusion-table.component'
-import { P5RFusionChainComponent } from './components/p5r-fusion-chain.component'
-import { P5RSettingsComponent } from './components/p5r-settings.component'
 
 const routes: Routes = [
+	{ path: '', redirectTo: 'personas', pathMatch: 'full' },
 	{
-		path: '',
-		component: P5HeaderComponent,
-		children: [
-			{ path: 'personas', component: P5RPersonaListComponent },
-			{
-				path: 'personas/:demonName',
-				component: P5RPersonaEntryComponent,
-			},
-			{ path: 'skills', component: P5RSkillListComponent },
-			{ path: 'fusion-table', component: P5RFusionTableComponent },
-			{ path: 'fusion-chain', component: P5RFusionChainComponent },
-			{ path: 'settings', component: P5RSettingsComponent },
-		],
+		path: 'personas',
+		component: P5RPersonaEntryComponent,
+		data: { gameName: 'p5r' },
 	},
 ]
 
