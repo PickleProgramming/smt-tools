@@ -1,0 +1,27 @@
+<mat-sidenav-container>
+	<!-- content that will be in the sidenav -->
+	<mat-sidenav
+		#sidenav
+		class="lightblue"
+		mode="side"
+		[(opened)]="opened"
+		(opened)="events.push('open!')"
+		(closed)="events.push('close')"
+	>
+		<p>Sidenav Content</p>
+	</mat-sidenav>
+	<!-- main content -->
+	<mat-sidenav-content class="lightgreen">
+		<!-- header -->
+		<app-header></app-header>
+		<!-- game content -->
+		<div class="game">
+			<p class="change">Main Content</p>
+			<router-outlet></router-outlet>
+		</div>
+		<!-- footer -->
+		<div class="footer">
+			<app-footer></app-footer>
+		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>

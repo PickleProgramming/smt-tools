@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatSidenavModule } from '@angular/material/sidenav'
 
 import { AppRoutingModule } from './app-routing.module'
-import { AppComponent } from './app.component'
+import { AppComponent } from './components/app/app.component'
 import { HeaderComponent } from './components/header/header.component'
 import { FooterComponent } from './components/footer/footer.component'
 
