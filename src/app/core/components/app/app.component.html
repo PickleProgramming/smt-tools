@@ -1,0 +1,38 @@
+<mat-sidenav-container>
+	<!-- content that will be in the sidenav -->
+	<mat-sidenav
+		#sidenav
+		mode="over"
+		[(opened)]="opened"
+		(opened)="events.push('open!')"
+		(closed)="events.push('close')"
+	>
+		<!-- Sidenav Content Goes Here -->
+		<div class="games">
+			<div
+				class="game"
+				*ngFor="let link of links"
+				routerLinkActive="active"
+			>
+				<a routerLink="{{ link.url }}">
+					<img class="logo" src="{{ link.img }}" />
+				</a>
+			</div>
+		</div>
+	</mat-sidenav>
+	<!-- main content -->
+	<mat-sidenav-content>
+		<!-- button to open sidenav -->
+		<button mat-button class="sidenav-button" (click)="sidenav.toggle()">
+			Options
+		</button>
+		<!-- game content -->
+		<div class="game">
+			<router-outlet></router-outlet>
+		</div>
+		<!-- footer -->
+		<div class="footer">
+			<app-footer></app-footer>
+		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>

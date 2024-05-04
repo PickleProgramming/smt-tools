@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
-import { P5HeaderComponent } from './components/p5-game-header.component'
+import { P5WrapperComponent } from './components/p5-wrapper/p5-wrapper.component'
 import { P5PersonaListComponent } from './components/p5-persona-list.component'
 import { P5PersonaEntryComponent } from './components/p5-persona-entry.component'
 import { P5SkillListComponent } from './components/p5-skill-list.component'
@@ -12,7 +12,7 @@ import { P5SettingsComponent } from './components/p5-settings.component'
 const routes: Routes = [
 	{
 		path: '',
-		component: P5HeaderComponent,
+		component: P5WrapperComponent,
 		children: [
 			{ path: 'personas', component: P5PersonaListComponent },
 			{ path: 'personas/:demonName', component: P5PersonaEntryComponent },
