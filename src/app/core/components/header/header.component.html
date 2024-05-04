@@ -1,0 +1,8 @@
+<ul class="smt-navbar">
+	<li *ngFor="let game of gameViews | keyvalue" class="{{ game.key }}">
+		<a routerLink="{{ game.key }}" routerLinkActive="active">
+			<img src="{{ game.value.logo }}" />
+		</a>
+	</li>
+</ul>
+<router-outlet></router-outlet>
