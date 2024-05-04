@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router'
 import { SharedModule } from '@shared/shared.module'
 
 import { P5RoutingModule } from './p5-routing.module'
-import { P5HeaderComponent } from './components/p5-game-header.component'
 import { P5PersonaListComponent } from './components/p5-persona-list.component'
 import { P5PersonaEntryComponent } from './components/p5-persona-entry.component'
 import { P5SkillListComponent } from './components/p5-skill-list.component'
@@ -14,7 +13,6 @@ import { P5SettingsComponent } from './components/p5-settings.component'
 
 @NgModule({
 	declarations: [
-		P5HeaderComponent,
 		P5PersonaListComponent,
 		P5PersonaEntryComponent,
 		P5SkillListComponent,
