@@ -1,1 +1,16 @@
-<p>p5-bookmarks works!</p>
+<!-- bar for navigating between different tools specific to a gameName -->
+<table id="navRow" class="game-wrapper-table">
+	<thead>
+		<tr class="bookmarks-row">
+			<th
+				class="game-wrapper-entry"
+				*ngFor="let link of links"
+				routerLinkActive="active"
+			>
+				<a routerLink="{{ link.url }}">
+					{{ link.title }}
+				</a>
+			</th>
+		</tr>
+	</thead>
+</table>
