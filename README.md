@@ -16,6 +16,10 @@ cd smt-tools
 npm install
 ng serve
 ```
+At the time of writing a dependency, AngularDataTables, installs a bad version by defualt onto my version of Angular. Run the following command in the root directory of the repo to install a working version:
+```
+npm install @types/datatables.net@1.10.21
+```
 
 Then you can navigate to http://127.0.0.1:4200/ to see the webpage
 
