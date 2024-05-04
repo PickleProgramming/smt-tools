@@ -1,8 +1,20 @@
-<ul class="smt-navbar">
-	<li *ngFor="let game of gameViews | keyvalue" class="{{ game.key }}">
-		<a routerLink="{{ game.key }}" routerLinkActive="active">
-			<img src="{{ game.value.logo }}" />
-		</a>
-	</li>
-</ul>
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+	<mat-sidenav
+		#sidenav
+		mode="side"
+		[(opened)]="opened"
+		(opened)="events.push('open!')"
+		(closed)="events.push('close')"
+	>
+		<!-- content that will be in the sidenav -->
+		Sidenav Content
+	</mat-sidenav>
+
+	<mat-sidenav-content>
+		<!-- main content -->
+		<button mat-button (click)="sidenav.toggle()">sidenav.toggle()</button>
+		Main Content
+		<router-outlet></router-outlet>
+		<app-footer></app-footer>
+	</mat-sidenav-content>
+</mat-sidenav-container>
