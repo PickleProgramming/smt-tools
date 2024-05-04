@@ -1,4 +1,4 @@
-<mat-sidenav-container>
+<mat-sidenav-container class="sidenav-container">
 	<mat-sidenav
 		#sidenav
 		mode="side"
@@ -7,13 +7,13 @@
 		(closed)="events.push('close')"
 	>
 		<!-- content that will be in the sidenav -->
-		Sidenav Content
+		<p class="change">Sidenav Content</p>
 	</mat-sidenav>
 
 	<mat-sidenav-content>
 		<!-- main content -->
 		<button mat-button (click)="sidenav.toggle()">sidenav.toggle()</button>
-		Main Content
+		<p class="change">Main Content</p>
 		<router-outlet></router-outlet>
 		<app-footer></app-footer>
 	</mat-sidenav-content>
