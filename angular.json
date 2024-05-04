@@ -31,9 +31,7 @@
 							"src/assets/style/styles.scss"
 						],
 						"stylePreprocessorOptions": {
-							"includePaths": [
-								"src/assets/style"
-							]
+							"includePaths": ["src/assets/style"]
 						},
 						"scripts": [],
 						"vendorChunk": true,
@@ -41,8 +39,8 @@
 						"buildOptimizer": false,
 						"sourceMap": true,
 						"optimization": false,
-            "namedChunks": true,
-            "webWorkerTsConfig": "tsconfig.worker.json"
+						"namedChunks": true,
+						"webWorkerTsConfig": "tsconfig.worker.json"
 					},
 					"configurations": {
 						"production": {
@@ -104,8 +102,8 @@
 							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
 							"src/assets/style/styles.scss"
 						],
-            "scripts": [],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+						"scripts": [],
+						"webWorkerTsConfig": "tsconfig.worker.json"
 					}
 				},
 				"lint": {
@@ -134,11 +132,7 @@
 			}
 		}
 	},
-	"schematics": {
-		"@schematics/angular:component": {
-			"styleext": "scss"
-		}
-	},
+	"schematics": {},
 	"cli": {
 		"analytics": "45b11677-9356-4f87-9922-ad75ab909edf"
 	}
