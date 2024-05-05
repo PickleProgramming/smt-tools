@@ -1,15 +1,15 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core'
+import { Component, Input, OnInit, ViewChild } from "@angular/core"
 
-import { MatTableDataSource } from '@angular/material/table'
-import { MatSort } from '@angular/material/sort'
-import _ from 'lodash'
-import { Skill } from '@shared/types/smt-tools.types'
-import { TableConfig } from '@shared/types/table-config'
+import { MatTableDataSource } from "@angular/material/table"
+import { MatSort } from "@angular/material/sort"
+import _ from "lodash"
+import { Skill } from "@shared/types/smt-tools.types"
+import { TableConfig } from "@shared/types/table-config"
 
 @Component({
-	selector: 'app-skill-list',
-	templateUrl: './skill-list.component.html',
-	styleUrls: ['./skill-list.component.scss'],
+	selector: "app-skill-list",
+	templateUrl: "./skill-list.component.html",
+	styleUrls: ["./skill-list.component.sass"],
 })
 export class SkillListComponent implements OnInit {
 	@Input() skills!: { [name: string]: Skill }
@@ -22,10 +22,10 @@ export class SkillListComponent implements OnInit {
 
 	ngOnInit(): void {
 		if (!this.skills) {
-			throw new Error('SkillListComponent was not given a Skills list.')
+			throw new Error("SkillListComponent was not given a Skills list.")
 		}
 		if (!this.tableConfig) {
-			throw new Error('SkillListComponent was not given a TableConfig')
+			throw new Error("SkillListComponent was not given a TableConfig")
 		}
 		let skillArr: SkillElem[] = []
 		for (let skillName in this.skills) {

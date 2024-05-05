@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { GameView } from '@shared/types/smt-tools.types'
+import { Component, Input, OnInit } from "@angular/core"
+import { GameView } from "@shared/types/smt-tools.types"
 
-import GAME_MODELS from 'src/assets/game-models.json'
+import GAME_MODELS from "src/assets/game-models.json"
 
 @Component({
-	selector: 'app-header',
-	styleUrls: ['./header.component.scss'],
+	selector: "app-header",
+	styleUrls: ["./header.component.sass"],
 	template: `
 		<ul class="smt-navbar">
 			<li

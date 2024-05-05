@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
+import { Component, OnInit } from "@angular/core"
+import { Router } from "@angular/router"
 
 @Component({
-	selector: 'app-footer',
-	styleUrls: ['./footer.component.scss'],
+	selector: "app-footer",
+	styleUrls: ["./footer.component.sass"],
 	template: `
 		<div>
 			<a

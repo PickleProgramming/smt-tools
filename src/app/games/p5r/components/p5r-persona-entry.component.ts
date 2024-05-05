@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from "@angular/core"
 
 @Component({
-	selector: 'app-p5r-persona-entry-component',
-	styleUrls: ['./p5r-persona-entry.component.scss'],
+	selector: "app-p5r-persona-entry-component",
+	styleUrls: ["./p5r-persona-entry.component.sass"],
 	template: ` p5r-persona-entry works `,
 })
 export class P5RPersonaEntryComponent implements OnInit {
