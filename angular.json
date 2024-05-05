@@ -31,9 +31,7 @@
 							"src/assets/style/styles.scss"
 						],
 						"stylePreprocessorOptions": {
-							"includePaths": [
-								"src/assets/style"
-							]
+							"includePaths": ["src/assets/style"]
 						},
 						"scripts": [],
 						"vendorChunk": true,
@@ -41,8 +39,8 @@
 						"buildOptimizer": false,
 						"sourceMap": true,
 						"optimization": false,
-            "namedChunks": true,
-            "webWorkerTsConfig": "tsconfig.worker.json"
+						"namedChunks": true,
+						"webWorkerTsConfig": "tsconfig.worker.json"
 					},
 					"configurations": {
 						"production": {
@@ -77,19 +75,19 @@
 				},
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "smt-tools:build"
+					"options": {
+						"buildTarget": "smt-tools:build"
 					},
 					"configurations": {
-            "production": {
-              "buildTarget": "smt-tools:build:production"
+						"production": {
+							"buildTarget": "smt-tools:build:production"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "smt-tools:build"
+					"options": {
+						"buildTarget": "smt-tools:build"
 					}
 				},
 				"test": {
@@ -104,8 +102,8 @@
 							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
 							"src/assets/style/styles.scss"
 						],
-            "scripts": [],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+						"scripts": [],
+						"webWorkerTsConfig": "tsconfig.worker.json"
 					}
 				},
 				"lint": {
@@ -136,7 +134,11 @@
 	},
 	"schematics": {
 		"@schematics/angular:component": {
-			"styleext": "scss"
+			"skipTests": true,
+			"standalone": false,
+			"inlineStyle": false,
+			"inlineTemplate": false,
+			"style": "sass"
 		}
 	},
 	"cli": {
