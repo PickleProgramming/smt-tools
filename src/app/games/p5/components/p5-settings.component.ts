@@ -10,8 +10,7 @@ import { P5_COMPENDIUM } from '@shared/constants'
 	template: ` <app-settings
 		[dlcDemons]="dlcDemons!"
 		[packsEnabled]="packsEnabled"
-		[togglePack]="togglePack"
-	>
+		[togglePack]="togglePack">
 	</app-settings>`,
 })
 export class P5SettingsComponent implements OnInit {

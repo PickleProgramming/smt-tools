@@ -4,17 +4,17 @@ import {
 	Input,
 	OnInit,
 	ViewChild,
-} from "@angular/core"
-import { MatTableDataSource } from "@angular/material/table"
-import { MatSort } from "@angular/material/sort"
-import _ from "lodash"
-import { Demon } from "@shared/types/smt-tools.types"
-import { TableConfig } from "@shared/types/table-config"
+} from '@angular/core'
+import { MatTableDataSource } from '@angular/material/table'
+import { MatSort } from '@angular/material/sort'
+import _ from 'lodash'
+import { Demon } from '@shared/types/smt-tools.types'
+import { TableConfig } from '@shared/types/table-config'
 
 @Component({
-	selector: "app-demon-list",
-	templateUrl: "./demon-list.component.html",
-	styleUrls: ["./demon-list.component.sass"],
+	selector: 'app-demon-list',
+	templateUrl: './demon-list.component.html',
+	styleUrls: ['./demon-list.component.sass'],
 })
 export class DemonListComponent implements OnInit, AfterViewInit {
 	@Input() demons!: { [name: string]: Demon }
@@ -26,10 +26,10 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		if (!this.tableConfig) {
-			throw new Error("DemonListComponent was not passed a TableConfig")
+			throw new Error('DemonListComponent was not passed a TableConfig')
 		}
 		if (!this.demons) {
-			throw new Error("DemonListComponent was not passed a Demon list")
+			throw new Error('DemonListComponent was not passed a Demon list')
 		}
 		let demonArr: DemonElem[] = []
 		for (let demonName in this.demons) {
@@ -47,13 +47,13 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 			index = _.indexOf(this.tableConfig.resistanceCols, sortHeadId)
 			if (index > -1) return data.resistances[index]
 			switch (sortHeadId) {
-				case "race":
+				case 'race':
 					return data.race
-				case "name":
+				case 'name':
 					return data.name
-				case "level":
+				case 'level':
 					return data.level
-				case "inherits":
+				case 'inherits':
 					return data.inherits
 				default:
 					return 0
@@ -86,8 +86,8 @@ class DemonElem {
 	level: number
 	stats: number[]
 	resistances: string
-	inherits: string = ""
+	inherits: string = ''
 	affinities: number[] = []
 	estats: number[] = []
-	align: string = ""
+	align: string = ''
 }

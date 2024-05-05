@@ -60,7 +60,7 @@ export abstract class FusionCalculator {
 	protected isSpecial(name: string): boolean {
 		if (this.compendium.specialRecipes === undefined)
 			throw new Error(
-				'isSpecial() called on compendium with no special recipes'
+				'isSpecial() called on compendium with no special recipes',
 			)
 		for (let recipe in this.compendium.specialRecipes)
 			if (name == recipe) return true
@@ -71,7 +71,7 @@ export abstract class FusionCalculator {
 	protected isElemental(name: string): boolean {
 		if (this.compendium.elementTable === undefined)
 			throw new Error(
-				'isElemental() called on compendium with no elementals'
+				'isElemental() called on compendium with no elementals',
 			)
 		for (let element of this.compendium.elementTable.elems)
 			if (name == element) return true

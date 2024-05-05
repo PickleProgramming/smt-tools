@@ -1,15 +1,14 @@
-import { Component, OnInit } from "@angular/core"
-import { Router } from "@angular/router"
+import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 
 @Component({
-	selector: "app-footer",
-	styleUrls: ["./footer.component.sass"],
+	selector: 'app-footer',
+	styleUrls: ['./footer.component.sass'],
 	template: `
 		<div>
 			<a
 				id="github"
-				href="https://github.com/PickleProgramming/smt-tools"
-			>
+				href="https://github.com/PickleProgramming/smt-tools">
 				<img src="assets/img/github-logo.png" />
 			</a>
 		</div>

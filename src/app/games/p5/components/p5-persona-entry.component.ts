@@ -10,8 +10,7 @@ import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 	selector: 'app-p5-persona-entry',
 	template: ` <app-demon-entry
 		[compendium]="compendium"
-		[calculator]="calculator"
-	>
+		[calculator]="calculator">
 	</app-demon-entry>`,
 })
 export class P5PersonaEntryComponent implements OnInit {

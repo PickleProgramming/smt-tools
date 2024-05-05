@@ -35,7 +35,7 @@ export class FusionChainWorker
 		if (inputData.demonName) {
 			return this.chainCalc.getChains(
 				inputData.inputSkills,
-				inputData.demonName
+				inputData.demonName,
 			)
 		}
 		return this.chainCalc.getChains(inputData.inputSkills)

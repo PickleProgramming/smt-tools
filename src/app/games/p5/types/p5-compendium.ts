@@ -18,7 +18,7 @@ export class P5Compendium extends Compendium {
 		specialRecipes: Object,
 		dlcData: Object,
 		elementTable: ElementTable,
-		inheritData: P5InheritanceType
+		inheritData: P5InheritanceType,
 	) {
 		super(
 			personaData,
@@ -26,7 +26,7 @@ export class P5Compendium extends Compendium {
 			fusionTable,
 			specialRecipes,
 			dlcData,
-			elementTable
+			elementTable,
 		)
 
 		this.inheritance = inheritData
@@ -37,7 +37,7 @@ export class P5Compendium extends Compendium {
 			if (Object.keys(this.skills[skillName].learnedBy).length == 0) {
 				for (let demonName in this.dlcDemons) {
 					let demonSkills: string[] = Object.keys(
-						this.dlcDemons[demonName].skills
+						this.dlcDemons[demonName].skills,
 					)
 					if (_.indexOf(demonSkills, skillName) != -1) {
 						this.dlcSkills[skillName] = this.skills[skillName]
@@ -80,7 +80,7 @@ export class P5Compendium extends Compendium {
 	} {
 		let specialRecipes: { [demonName: string]: string[] } = {}
 		Object.entries(specialData).forEach(
-			([demon, recipe]) => (specialRecipes[demon] = recipe)
+			([demon, recipe]) => (specialRecipes[demon] = recipe),
 		)
 		return specialRecipes
 	}

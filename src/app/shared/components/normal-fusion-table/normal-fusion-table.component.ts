@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core"
-import { MatTableDataSource } from "@angular/material/table"
-import { TableConfig } from "@shared/types/table-config"
+import { Component, Input, OnInit } from '@angular/core'
+import { MatTableDataSource } from '@angular/material/table'
+import { TableConfig } from '@shared/types/table-config'
 
 @Component({
-	selector: "app-normal-fusion-table",
-	templateUrl: "./normal-fusion-table.component.html",
-	styleUrls: ["./normal-fusion-table.component.sass"],
+	selector: 'app-normal-fusion-table',
+	templateUrl: './normal-fusion-table.component.html',
+	styleUrls: ['./normal-fusion-table.component.sass'],
 })
 export class NormalFusionTableComponent implements OnInit {
 	@Input() tableConfig!: TableConfig
@@ -19,17 +19,17 @@ export class NormalFusionTableComponent implements OnInit {
 	ngOnInit(): void {
 		if (typeof this.tableConfig === undefined) {
 			throw new Error(
-				"NormalFusionTableComponent was not given a TableConfig"
+				'NormalFusionTableComponent was not given a TableConfig',
 			)
 		}
 		this.races = this.tableConfig.fusionTable.races
 		this.table = this.tableConfig.fusionTable.table
-		this.displayedColumns = ["raceA"].concat(
-			this.tableConfig!.fusionTable.races
+		this.displayedColumns = ['raceA'].concat(
+			this.tableConfig!.fusionTable.races,
 		)
 
 		this.raceSource = new MatTableDataSource(
-			this.tableConfig!.fusionTable.table
+			this.tableConfig!.fusionTable.table,
 		)
 	}
 

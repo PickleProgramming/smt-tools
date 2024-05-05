@@ -9,14 +9,14 @@
 	>
 		<!-- Sidenav Content Goes Here -->
 		<div class="games">
-			@for ( link of links; track $index ) {
-			<div class="game" routerLinkActive="active">
-				<a routerLink="{{ link.url }}">
-					<img src="{{ link.img }}" class="logo" />
-				</a>
-			</div>
+			@for (link of links; track $index) {
+				<div class="game" routerLinkActive="active">
+					<a routerLink="{{ link.url }}">
+						<img src="{{ link.img }}" class="logo" />
+					</a>
+				</div>
 			} @empty {
-			<div>No games found...</div>
+				<div>No games found...</div>
 			}
 		</div>
 	</mat-sidenav>

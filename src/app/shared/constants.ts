@@ -27,7 +27,7 @@ export const P5_COMPENDIUM: P5Compendium = new P5Compendium(
 	P5_SPECIAL_RECIPES,
 	P5_DLC_DATA,
 	P5_ELEMENT_TABLE,
-	P5_INHERIT_DATA
+	P5_INHERIT_DATA,
 )
 export const P5_TABLE_CONFIG: P5TableConfig = new P5TableConfig()
 export const P5_FUSION_CALCULATOR: P5FusionCalculator = new P5FusionCalculator()
