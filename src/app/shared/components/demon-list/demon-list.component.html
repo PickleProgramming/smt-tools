@@ -33,7 +33,7 @@
 			</td>
 		</ng-container>
 
-		<ng-container *ngIf="tableConfig.inheritCols">
+		@if (tableConfig.inheritCols) {
 			<ng-container matColumnDef="Inherits">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header>
 					Inherits
@@ -44,23 +44,21 @@
 					/>
 				</td>
 			</ng-container>
-		</ng-container>
+		}
 
-		<ng-container *ngFor="let stat of tableConfig.statCols; let i = index">
+		@for (stat of tableConfig.statCols; track $index) {
 			<ng-container matColumnDef="{{ stat }}">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header>
 					{{ stat }}
 				</th>
-				<td mat-cell *matCellDef="let demon">{{ demon.stats[i] }}</td>
+				<td mat-cell *matCellDef="let demon">
+					{{ demon.stats[$index] }}
+				</td>
 			</ng-container>
-		</ng-container>
-		<ng-container *ngIf="tableConfig.resistanceCols">
-			<ng-container
-				*ngFor="
-					let resistance of tableConfig.resistanceCols;
-					let i = index
-				"
-			>
+		}
+
+		@if (tableConfig.resistanceCols) {
+			@for (resistance of tableConfig.resistanceCols; track $index) {
 				<ng-container matColumnDef="{{ resistance }}">
 					<th mat-header-cell *matHeaderCellDef mat-sort-header>
 						<img
@@ -71,7 +69,7 @@
 					</th>
 					<td mat-cell *matCellDef="let demon">
 						<ng-container
-							[ngSwitch]="demon.resistances.split('')[i]"
+							[ngSwitch]="demon.resistances.split('')[$index]"
 						>
 							<p *ngSwitchCase="'d'">absorb</p>
 							<p *ngSwitchCase="'w'">weak</p>
@@ -82,8 +80,8 @@
 						</ng-container>
 					</td>
 				</ng-container>
-			</ng-container>
-		</ng-container>
+			}
+		}
 
 		<tr
 			mat-header-row
