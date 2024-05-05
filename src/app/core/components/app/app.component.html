@@ -9,15 +9,15 @@
 	>
 		<!-- Sidenav Content Goes Here -->
 		<div class="games">
-			<div
-				class="game"
-				*ngFor="let link of links"
-				routerLinkActive="active"
-			>
+			@for ( link of links; track $index ) {
+			<div class="game" routerLinkActive="active">
 				<a routerLink="{{ link.url }}">
-					<img class="logo" src="{{ link.img }}" />
+					<img src="{{ link.img }}" class="logo" />
 				</a>
 			</div>
+			} @empty {
+			<div>No games found...</div>
+			}
 		</div>
 	</mat-sidenav>
 	<!-- main content -->

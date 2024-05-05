@@ -2,15 +2,15 @@
 <table id="navRow" class="game-wrapper-table">
 	<thead>
 		<tr class="bookmarks-row">
-			<th
-				class="game-wrapper-entry"
-				*ngFor="let link of links"
-				routerLinkActive="active"
-			>
+			@for ( link of links; track $index ) {
+			<th class="game-wrapper-entry" routerLinkActive="active">
 				<a routerLink="{{ link.url }}">
 					{{ link.title }}
 				</a>
 			</th>
+			} @empty {
+			<div>No links found...</div>
+			}
 		</tr>
 	</thead>
 </table>
