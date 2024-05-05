@@ -32,8 +32,7 @@
     "lodash": "^4.17.21",
     "observable-webworker": "^4.0.1",
     "rxjs": "~6.6.0",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.13.3"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~16.2.10",
@@ -55,6 +54,7 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~5.1.6"
+    "typescript": "^5.4.5",
+    "zone.js": "^0.14.5"
   }
 }
