@@ -75,19 +75,19 @@
 				},
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "smt-tools:build"
+					"options": {
+						"buildTarget": "smt-tools:build"
 					},
 					"configurations": {
-            "production": {
-              "buildTarget": "smt-tools:build:production"
+						"production": {
+							"buildTarget": "smt-tools:build:production"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "smt-tools:build"
+					"options": {
+						"buildTarget": "smt-tools:build"
 					}
 				},
 				"test": {
@@ -132,7 +132,15 @@
 			}
 		}
 	},
-	"schematics": {},
+	"schematics": {
+		"@schematics/angular:component": {
+			"skipTests": true,
+			"standalone": false,
+			"inlineStyle": false,
+			"inlineTemplate": false,
+			"style": "sass"
+		}
+	},
 	"cli": {
 		"analytics": "45b11677-9356-4f87-9922-ad75ab909edf"
 	}
