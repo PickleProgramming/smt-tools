@@ -6,30 +6,29 @@
 	</thead>
 	<thead>
 		<tr>
-			<ng-container *ngIf="this.tableConfig.elementTable">
-				<th *ngFor="let elem of this.tableConfig.elementTable?.elems">
+			@if (this.tableConfig.elementTable) {
+				@for (
+					elem of this.tableConfig.elementTable?.elems;
+					track $index
+				) {
 					{{ elem }}
-				</th>
-			</ng-container>
+				}
+			}
 		</tr>
 	</thead>
 	<tbody>
-		<ng-container *ngIf="this.tableConfig.elementTable">
-			<tr
-				*ngFor="
-					let race of this.tableConfig.elementTable?.races;
-					let i = index
-				"
-			>
+		@if (this.tableConfig.elementTable) {
+			@for (race of this.tableConfig.elementTable?.races; track $index) {
 				<th>
 					{{ race }}
 				</th>
-				<td
-					*ngFor="let elem of this.tableConfig.elementTable!.table[i]"
-				>
+				@for (
+					elem of this.tableConfig.elementTable!.table[$index];
+					track $index
+				) {
 					{{ elem }}
-				</td>
-			</tr>
-		</ng-container>
+				}
+			}
+		}
 	</tbody>
 </table>
