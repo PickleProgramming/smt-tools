@@ -12,12 +12,11 @@
 				[matAutocomplete]="auto"
 			/>
 			<mat-autocomplete #auto="matAutocomplete">
-				<mat-option
-					*ngFor="let demon of filteredDemons | async"
-					[value]="demon"
-				>
-					{{ demon }}
-				</mat-option>
+				@for (demon of filteredDemons | async; track $index) {
+					<mat-option [value]="demon">
+						{{ demon }}
+					</mat-option>
+				}
 			</mat-autocomplete>
 		</mat-form-field>
 		<mat-form-field class="demon-form-field" appearance="fill">
@@ -28,10 +27,10 @@
 
 	<!-- Skills -->
 	<div class="skills" layout="column">
-		<ng-container *ngFor="let skillControl of skillControls; let i = index">
+		@for (skillControl of skillControls; track $index) {
 			<form class="skill-form">
 				<mat-form-field class="skill-form-field" appearance="fill">
-					<mat-label>Skill {{ i + 1 }}</mat-label>
+					<mat-label>Skill {{ $index + 1 }}</mat-label>
 					<input
 						type="text"
 						placeholder="Maragi"
@@ -41,16 +40,18 @@
 						[matAutocomplete]="auto"
 					/>
 					<mat-autocomplete #auto="matAutocomplete">
-						<mat-option
-							*ngFor="let skill of filteredSkills[i] | async"
-							[value]="skill"
-						>
-							{{ skill }}
-						</mat-option>
+						@for (
+							skill of filteredSkills[$index] | async;
+							track $index
+						) {
+							<mat-option [value]="skill">
+								{{ skill }}
+							</mat-option>
+						}
 					</mat-autocomplete>
 				</mat-form-field>
 			</form>
-		</ng-container>
+		}
 	</div>
 
 	<!-- Buttons -->
@@ -65,9 +66,11 @@
 		<button (click)="test()" color="warn" mat-raised-button>Testing</button>
 		<mat-form-field appearance="fill">
 			<mat-select [formControl]="testingControl">
-				<ng-container *ngFor="let case of testing">
-					<mat-option value="{{ case }}">{{ case }}</mat-option>
-				</ng-container>
+				@for (case of testing; track $index) {
+					<mat-option value="{{ case }}">
+						{{ case }}
+					</mat-option>
+				}
 			</mat-select>
 		</mat-form-field>
 		<mat-checkbox class="testing-check" [(ngModel)]="deep">
@@ -76,111 +79,76 @@
 	</div>
 </mat-card>
 
-<ng-container *ngIf="calculating">
+@if (calculating) {
 	<mat-spinner></mat-spinner>
-</ng-container>
+}
 
-<p class="combos" *ngIf="combo > 0">{{ combo }} fusions attempted...</p>
+@if (combo > 0) {
+	<p class="combos">
+		{{ combo }}
+	</p>
+}
+
 <!-- Chain Display -->
-<table
-	*ngIf="chainSource.data.length > 0"
-	mat-table
-	[dataSource]="chainSource"
-	multiTemplateDataRows
-	class="mat-elevation-z12"
-	matSort
->
-	<ng-container matColumnDef="result">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header>Result</th>
-		<td mat-cell *matCellDef="let chain">{{ chain.result }}</td>
-	</ng-container>
-	<ng-container matColumnDef="cost">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
-		<td mat-cell *matCellDef="let chain">{{ chain.cost }}</td>
-	</ng-container>
-	<ng-container matColumnDef="level">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header>
-			Level Required
-		</th>
-		<td mat-cell *matCellDef="let chain">{{ chain.level }}</td>
-	</ng-container>
-	<ng-container matColumnDef="steps">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header>Steps</th>
-		<td mat-cell *matCellDef="let chain">{{ chain.steps.length }}</td>
-	</ng-container>
+@if (chainSource.data.length > 0) {
+	<table
+		mat-table
+		[dataSource]="chainSource"
+		multiTemplateDataRows
+		class="mat-elevation-z12"
+		matSort
+	>
+		<ng-container matColumnDef="result">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Result</th>
+			<td mat-cell *matCellDef="let chain">{{ chain.result }}</td>
+		</ng-container>
+		<ng-container matColumnDef="cost">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
+			<td mat-cell *matCellDef="let chain">{{ chain.cost }}</td>
+		</ng-container>
+		<ng-container matColumnDef="level">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>
+				Level Required
+			</th>
+			<td mat-cell *matCellDef="let chain">{{ chain.level }}</td>
+		</ng-container>
+		<ng-container matColumnDef="steps">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Steps</th>
+			<td mat-cell *matCellDef="let chain">{{ chain.steps.length }}</td>
+		</ng-container>
 
-	<ng-container matColumnDef="expandedDetail">
-		<td
-			mat-cell
-			*matCellDef="let chain"
-			[attr.colspan]="columnsToDisplay.length"
-		>
-			<div
-				class="chain-detail"
-				[@detailExpand]="
-					chain == expandedChain ? 'expanded' : 'collapsed'
-				"
+		<ng-container matColumnDef="expandedDetail">
+			<td
+				mat-cell
+				*matCellDef="let chain"
+				[attr.colspan]="columnsToDisplay.length"
 			>
-				<div class="directions">
-					<ng-container *ngFor="let direction of chain.directions">
-						<p>{{ direction }} <br /></p>
-					</ng-container>
+				<div
+					class="chain-detail"
+					[@detailExpand]="
+						chain == expandedChain ? 'expanded' : 'collapsed'
+					"
+				>
+					<div class="directions">
+						@for (direction of chain.directions; track $index) {
+							<p>{{ direction }} <br /></p>
+						}
+					</div>
 				</div>
-			</div>
-		</td>
-	</ng-container>
-	<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-	<tr
-		mat-row
-		*matRowDef="let chain; columns: columnsToDisplay"
-		class="chain-row"
-		[class.chain-row]="expandedChain === chain"
-		(click)="expandedChain = expandedChain === chain ? null : chain"
-	></tr>
-	<tr
-		mat-row
-		*matRowDef="let row; columns: ['expandedDetail']"
-		class="chain-detail-row"
-	></tr>
-</table>
-
-<!-- <div class="accordion" *ngIf="chains">
-	<mat-accordion>
-		<mat-expansion-panel *ngFor="let chain of chains; let i = index">
-			<mat-expansion-panel-header>
-				<mat-panel-title>
-					{{ chain.result }}
-				</mat-panel-title>
-				<mat-panel-description>
-					<p>
-						Price: {{ chain.cost | number: '1.0':'en-US' }} Level
-						Required: {{ chain.level }} Steps:
-						{{ chain.steps.length }}
-					</p>
-				</mat-panel-description>
-			</mat-expansion-panel-header>
-			<ng-container *ngFor="let recipe of chain.steps; let j = index">
-				<div style="white-space: pre">
-					Step {{ j + 1 }}: Fuse
-					<ng-container *ngFor="let source of recipe.sources">
-						{{ source }},
-					</ng-container>
-					to make {{ recipe.result }}. Have
-					{{ recipe.result }} inherit
-					<ng-container
-						*ngFor="let skill of chain.inherittedSkills[j]"
-					>
-						{{ skill }},
-					</ng-container>
-				</div>
-			</ng-container>
-			<div>
-				{{ chain.result }} will learn
-				<ng-container *ngFor="let skill of chain.innates">
-					{{ skill }}
-				</ng-container>
-				on it's own.
-			</div>
-		</mat-expansion-panel>
-	</mat-accordion>
-</div> -->
+			</td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+		<tr
+			mat-row
+			*matRowDef="let chain; columns: columnsToDisplay"
+			class="chain-row"
+			[class.chain-row]="expandedChain === chain"
+			(click)="expandedChain = expandedChain === chain ? null : chain"
+		></tr>
+		<tr
+			mat-row
+			*matRowDef="let row; columns: ['expandedDetail']"
+			class="chain-detail-row"
+		></tr>
+	</table>
+}
