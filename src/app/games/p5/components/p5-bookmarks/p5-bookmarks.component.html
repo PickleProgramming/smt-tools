@@ -2,7 +2,7 @@
 <div class="bookmarks-row">
 	@for (link of links; track $index) {
 		<a routerLink="{{ link.url }}">
-			{{ link.title }}
+			<img class="link" src="{{ link.img }}" alt=" {{ link.title }}" />
 		</a>
 	} @empty {
 		<div>No links found...</div>
