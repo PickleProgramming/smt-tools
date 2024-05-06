@@ -1,16 +1,10 @@
 <!-- bar for navigating between different tools specific to a gameName -->
-<table id="navRow" class="game-wrapper-table">
-	<thead>
-		<tr class="bookmarks-row">
-			@for (link of links; track $index) {
-				<th class="game-wrapper-entry" routerLinkActive="active">
-					<a routerLink="{{ link.url }}">
-						{{ link.title }}
-					</a>
-				</th>
-			} @empty {
-				<div>No links found...</div>
-			}
-		</tr>
-	</thead>
-</table>
+<div class="bookmarks-row">
+	@for (link of links; track $index) {
+		<a routerLink="{{ link.url }}">
+			{{ link.title }}
+		</a>
+	} @empty {
+		<div>No links found...</div>
+	}
+</div>
