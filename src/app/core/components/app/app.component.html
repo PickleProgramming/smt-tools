@@ -8,13 +8,22 @@
 		(closed)="events.push('close')"
 	>
 		<!-- Sidenav Content Goes Here -->
-		<div class="games">
+		<div class="sidenav">
 			@for (link of links; track $index) {
-				<div class="game" routerLinkActive="active">
-					<a routerLink="{{ link.url }}">
-						<img src="{{ link.img }}" class="logo" />
-					</a>
-				</div>
+				<mat-card
+					class="card"
+					[ngStyle]="{ 'background-color': link.color }"
+				>
+					<mat-card-content>
+						<a routerLink="{{ link.url }}">
+							<img
+								class="logo"
+								src="{{ link.img }}"
+								class="logo"
+							/>
+						</a>
+					</mat-card-content>
+				</mat-card>
 			} @empty {
 				<div>No games found...</div>
 			}
@@ -27,7 +36,7 @@
 			Options
 		</button>
 		<!-- game content -->
-		<div class="game">
+		<div class="main">
 			<router-outlet></router-outlet>
 		</div>
 		<!-- footer -->
