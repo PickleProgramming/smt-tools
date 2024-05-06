@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { SharedModule } from '@shared/shared.module'
 
+import { MatCard } from '@angular/material/card'
+
 import { P5RoutingModule } from './p5-routing.module'
 import { P5WrapperComponent } from './components/p5-wrapper/p5-wrapper.component'
 import { P5HeaderComponent } from './components/p5-header/p5-header.component'
@@ -26,6 +28,12 @@ import { P5SettingsComponent } from './components/p5-settings.component'
 		P5FusionChainComponent,
 		P5SettingsComponent,
 	],
-	imports: [CommonModule, SharedModule, RouterModule, P5RoutingModule],
+	imports: [
+		CommonModule,
+		SharedModule,
+		RouterModule,
+		MatCard,
+		P5RoutingModule,
+	],
 })
 export class P5Module {}

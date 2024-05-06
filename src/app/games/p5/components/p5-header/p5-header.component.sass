@@ -1,11 +1,13 @@
-.contain
+@use '@angular/material' as mat
+
+.card
 	display: flex
 	justify-content: center
-	// background: #c10b0a
-	background-image: linear-gradient(rgba(193,11,10,1) 30%, rgba(0,212,255,0) 100%)
+	background: #c10b0a
 	margin-bottom: 2vh
+	@include mat.elevation(12)
+	border-radius: 0
 
 .p5-logo
 	height: 15vh
-	margin-top: 2vh
-	margin-bottom: 7vh
+	margin: 2vh
