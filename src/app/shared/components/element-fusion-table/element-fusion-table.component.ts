@@ -7,19 +7,19 @@ import { TableConfig } from '@shared/types/table-config'
 	styleUrls: ['./element-fusion-table.component.sass'],
 })
 export class ElementFusionTableComponent implements OnInit {
-	@Input() tableConfig!: TableConfig
+	@Input() declare tableConfig: TableConfig
 
 	constructor() {}
 
 	ngOnInit(): void {
 		if (!this.tableConfig)
 			throw new Error(
-				'ElementFusionTableComponent was not passed a TableConfig',
+				'ElementFusionTableComponent was not passed a TableConfig'
 			)
 		if (!this.tableConfig.elementTable) {
 			throw new Error(
 				'ElementFusionTableComponent was passed a TableConfig with ' +
-					'no elementTable property.',
+					'no elementTable property.'
 			)
 		}
 	}

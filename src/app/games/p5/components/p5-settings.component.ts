@@ -10,7 +10,8 @@ import { P5_COMPENDIUM } from '@shared/constants'
 	template: ` <app-settings
 		[dlcDemons]="dlcDemons!"
 		[packsEnabled]="packsEnabled"
-		[togglePack]="togglePack">
+		[togglePack]="togglePack"
+	>
 	</app-settings>`,
 })
 export class P5SettingsComponent implements OnInit {
@@ -35,9 +36,6 @@ export class P5SettingsComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.dlcDemons) {
-			throw new Error('P5-settings-component couldnt find dlc demons')
-		}
 		/* enables/disables the packs in the view by checking if they are in 
 		the demonlist */
 		this.packsEnabled = {

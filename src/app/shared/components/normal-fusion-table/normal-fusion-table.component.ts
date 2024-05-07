@@ -8,28 +8,23 @@ import { TableConfig } from '@shared/types/table-config'
 	styleUrls: ['./normal-fusion-table.component.sass'],
 })
 export class NormalFusionTableComponent implements OnInit {
-	@Input() tableConfig!: TableConfig
-	table!: string[][]
-	races!: string[]
-	displayedColumns!: string[]
-	raceSource!: MatTableDataSource<string[]>
+	@Input() declare tableConfig: TableConfig
+	declare table: string[][]
+	declare races: string[]
+	declare displayedColumns: string[]
+	declare raceSource: MatTableDataSource<string[]>
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (typeof this.tableConfig === undefined) {
-			throw new Error(
-				'NormalFusionTableComponent was not given a TableConfig',
-			)
-		}
 		this.races = this.tableConfig.fusionTable.races
 		this.table = this.tableConfig.fusionTable.table
 		this.displayedColumns = ['raceA'].concat(
-			this.tableConfig!.fusionTable.races,
+			this.tableConfig.fusionTable.races
 		)
 
 		this.raceSource = new MatTableDataSource(
-			this.tableConfig!.fusionTable.table,
+			this.tableConfig.fusionTable.table
 		)
 	}
 

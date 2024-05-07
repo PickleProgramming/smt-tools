@@ -30,20 +30,20 @@ import { MatSort } from '@angular/material/sort'
 			state('expanded', style({ height: '*' })),
 			transition(
 				'expanded <=> collapsed',
-				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
+				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
 			),
 		]),
 	],
 })
 export class FusionChainComponent implements OnInit, AfterViewInit {
-	@Input() compendium!: Compendium
-	@ViewChild(MatSort) sort!: MatSort
+	@Input() declare compendium: Compendium
+	@ViewChild(MatSort) declare sort: MatSort
 
-	skills!: string[]
-	demons!: string[]
-	filteredDemons!: Observable<string[]>
-	expandedChain!: FusionChain
-	directions!: string[][]
+	declare skills: string[]
+	declare demons: string[]
+	declare filteredDemons: Observable<string[]>
+	declare expandedChain: FusionChain
+	declare directions: string[][]
 
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
@@ -66,22 +66,19 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.compendium) {
-			throw new Error('FusionChainComponent was not given a Compendium')
-		}
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
 			startWith(''),
-			map((value) => this._filter(value || '', this.demons!)),
+			map((value) => this._filter(value || '', this.demons))
 		)
 		for (let i = 0; i < 8; i++) {
 			this.skillControls.push(new FormControl(''))
 			this.filteredSkills.push(
 				this.skillControls[i].valueChanges.pipe(
 					startWith(''),
-					map((value) => this._filter(value || '', this.skills!)),
-				),
+					map((value) => this._filter(value || '', this.skills))
+				)
 			)
 		}
 	}
@@ -93,7 +90,7 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 	private _filter(value: string, list: string[]): string[] {
 		let filterValue = value.toLocaleLowerCase()
 		return list.filter((option) =>
-			option.toLowerCase().includes(filterValue),
+			option.toLowerCase().includes(filterValue)
 		)
 	}
 
@@ -123,7 +120,7 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
 					type: 'module',
 				}),
-			input$,
+			input$
 		)
 			.pipe(takeUntil(this.notifier))
 			.subscribe((data) => {

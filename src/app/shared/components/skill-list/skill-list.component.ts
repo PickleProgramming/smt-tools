@@ -12,20 +12,14 @@ import { TableConfig } from '@shared/types/table-config'
 	styleUrls: ['./skill-list.component.sass'],
 })
 export class SkillListComponent implements OnInit {
-	@Input() skills!: { [name: string]: Skill }
-	@Input() tableConfig!: TableConfig
-	@ViewChild(MatSort) sort!: MatSort
-	skillSource!: MatTableDataSource<SkillElem>
+	@Input() declare skills: { [name: string]: Skill }
+	@Input() declare tableConfig: TableConfig
+	@ViewChild(MatSort) declare sort: MatSort
+	declare skillSource: MatTableDataSource<SkillElem>
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.skills) {
-			throw new Error('SkillListComponent was not given a Skills list.')
-		}
-		if (!this.tableConfig) {
-			throw new Error('SkillListComponent was not given a TableConfig')
-		}
 		let skillArr: SkillElem[] = []
 		for (let skillName in this.skills) {
 			let skill = this.skills[skillName]
