@@ -15,7 +15,6 @@ export class SkillListComponent implements OnInit {
 	@Input() skills!: { [name: string]: Skill }
 	@Input() tableConfig!: TableConfig
 	@ViewChild(MatSort) sort!: MatSort
-
 	skillSource!: MatTableDataSource<SkillElem>
 
 	constructor() {}

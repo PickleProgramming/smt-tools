@@ -39,6 +39,11 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 		this.demonSource = new MatTableDataSource(demonArr)
 	}
 
+	applyFilter(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value
+		this.demonSource.filter = filterValue.trim().toLowerCase()
+	}
+
 	ngAfterViewInit(): void {
 		this.demonSource.sort = this.sort
 		this.demonSource.sortingDataAccessor = (data, sortHeadId) => {
@@ -59,11 +64,6 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 					return 0
 			}
 		}
-	}
-
-	applyFilter(event: Event) {
-		const filterValue = (event.target as HTMLInputElement).value
-		this.demonSource.filter = filterValue.trim().toLowerCase()
 	}
 }
 
