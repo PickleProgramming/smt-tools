@@ -1,47 +1,40 @@
-table {
-  width: 95vw;
-}
-
-.table-div {
-  padding-top: 2vh;
-  display: flex;
-  justify-content: center;
-}
+@use 'smt-tools.scss';
 
 .filter-div {
-  display: flex;
-  justify-content: center;
+	@include smt-tools.angular-table-filter;
 }
-
-.filter {
-  width: 60vw;
-  font-size: 14px;
-}
-
-.mat-form-field {
-  width: 95vw;
-}
-
 .table-div {
-  display: flex;
-  justify-content: center;
-  width: 98vw;
+	@include smt-tools.angular-table;
+}
 
-  .mat-elevation-z12 {
-    margin: 0;
-    padding: 0;
-    background-color: #231f20;
-
-    th, td {
-      color: #ffffff;
-    }
+//Force widths upon all columns in table
+$colWidth: 1vw;
+//List of strings corresponding to each class for the columns in the table
+$col-selectors: '.mat-column-level', '.mat-column-inherits',
+	'.mat-column-inherits', '.mat-column-St', '.mat-column-Ma', '.mat-column-En',
+	'.mat-column-Ag', '.mat-column-Lu', '.mat-column-Phys', '.mat-column-Gun',
+	'.mat-column-Fire', '.mat-column-Ice', '.mat-column-Elec',
+	'.mat-column-Wind', '.mat-column-Psy', '.mat-column-Nuke',
+	'.mat-column-Bles';
+@each $col in $col-selectors {
+  #{$col} {
+    max-width: $colWidth;
   }
 }
+.mat-column-race {
+	max-width: 3vw;
+}
+.mat-column-name {
+	max-width: 2vw;
+}
 
+.icon {
+	max-width: 1vw;
+}
 a:visited {
-  color: #ff0000;
+	color: #ff0000;
 }
 
 a:link {
-  color: #ffffff;
+	color: #ffffff;
 }

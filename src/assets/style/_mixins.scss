@@ -1,0 +1,25 @@
+// Formats an table with the standard properties
+@mixin angular-table {
+	margin: 1vw;
+	display: flex;
+	justify-content: center;
+	.mat-elevation-z12 {
+		max-width: 90vw;
+		background-color: #231f20;
+		th,
+		td {
+			color: #ffffff;
+		}
+	}
+}
+
+// Formats a filter box that filters an angular table with the standard 
+//  properties
+@mixin angular-table-filter {
+	display: flex;
+	justify-content: center;
+	.filter {
+		width: 60vw;
+		font-size: 14px;
+	}
+}
