@@ -1,24 +1,8 @@
-table {
-  width: 95%;
-}
-
-.table-div {
-  padding-top: 20px;
-  display: flex;
-  justify-content: center;
-}
+@use 'smt-tools.scss';
 
 .filter-div {
-  font-size: 14px;
-  width: 90%;
-  margin: auto;
+	@include smt-tools.angular-table-filter;
 }
-
-.mat-form-field {
-  width: 95%;
-}
-
-.table {
-  width: 95%;
-  margin: auto;
+.table-div {
+	@include smt-tools.angular-table;
 }
