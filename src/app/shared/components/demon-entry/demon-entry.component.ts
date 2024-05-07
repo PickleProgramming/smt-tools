@@ -9,7 +9,7 @@ import { Demon, Recipe } from '@shared/types/smt-tools.types'
 @Component({
 	selector: 'app-demon-entry',
 	templateUrl: './demon-entry.component.html',
-	styleUrls: ['./demon-entry.component.sass'],
+	styleUrls: ['./demon-entry.component.scss'],
 })
 export class DemonEntryComponent implements OnInit {
 	@Input() declare compendium: Compendium

@@ -21,9 +21,9 @@ import {
 import { MatSort } from '@angular/material/sort'
 
 @Component({
-	selector: 'app-fusion-chain',
-	templateUrl: './fusion-chain.component.html',
-	styleUrls: ['./fusion-chain.component.sass'],
+	selector: 'app-demon-builder',
+	templateUrl: './demon-builder.component.html',
+	styleUrls: ['./demon-builder.component.scss'],
 	animations: [
 		trigger('detailExpand', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -35,15 +35,15 @@ import { MatSort } from '@angular/material/sort'
 		]),
 	],
 })
-export class FusionChainComponent implements OnInit, AfterViewInit {
-	@Input() declare compendium: Compendium
-	@ViewChild(MatSort) declare sort: MatSort
+export class DemonBuilderComponent implements OnInit, AfterViewInit {
+	@Input() compendium!: Compendium
+	@ViewChild(MatSort) sort!: MatSort
 
-	declare skills: string[]
-	declare demons: string[]
-	declare filteredDemons: Observable<string[]>
-	declare expandedChain: FusionChain
-	declare directions: string[][]
+	skills!: string[]
+	demons!: string[]
+	filteredDemons!: Observable<string[]>
+	expandedChain!: FusionChain
+	directions!: string[][]
 
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
@@ -66,18 +66,21 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 	constructor() {}
 
 	ngOnInit(): void {
+		if (!this.compendium) {
+			throw new Error('FusionChainComponent was not given a Compendium')
+		}
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
 			startWith(''),
-			map((value) => this._filter(value || '', this.demons))
+			map((value) => this._filter(value || '', this.demons!))
 		)
 		for (let i = 0; i < 8; i++) {
 			this.skillControls.push(new FormControl(''))
 			this.filteredSkills.push(
 				this.skillControls[i].valueChanges.pipe(
 					startWith(''),
-					map((value) => this._filter(value || '', this.skills))
+					map((value) => this._filter(value || '', this.skills!))
 				)
 			)
 		}
@@ -117,7 +120,7 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 		let input$ = of(data)
 		fromWorker<InputChainData, ChainMessage>(
 			() =>
-				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
+				new Worker(new URL('./demon-builder.worker', import.meta.url), {
 					type: 'module',
 				}),
 			input$

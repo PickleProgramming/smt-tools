@@ -3,7 +3,7 @@ import { Router } from '@angular/router'
 
 @Component({
 	selector: 'app-footer',
-	styleUrls: ['./footer.component.sass'],
+	styleUrls: ['./footer.component.scss'],
 	template: `
 		<div>
 			<a

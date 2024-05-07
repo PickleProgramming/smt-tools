@@ -9,7 +9,7 @@ import { TableConfig } from '@shared/types/table-config'
 @Component({
 	selector: 'app-skill-list',
 	templateUrl: './skill-list.component.html',
-	styleUrls: ['./skill-list.component.sass'],
+	styleUrls: ['./skill-list.component.scss'],
 })
 export class SkillListComponent implements OnInit {
 	@Input() declare skills: { [name: string]: Skill }

@@ -6,13 +6,13 @@ import {
 	FusionChain,
 	Recipe,
 } from '@shared/types/smt-tools.types'
-import { ChainCalculator } from '@shared/types/chain-calculator'
+import { DemonBuilder } from '@shared/types/demon-builder'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
 
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 
-export class P5ChainCalculator extends ChainCalculator {
+export class P5ChainCalculator extends DemonBuilder {
 	declare compendium: P5Compendium
 	declare calculator: P5FusionCalculator
 

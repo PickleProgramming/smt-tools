@@ -21,7 +21,7 @@ import { NormalFusionTableComponent } from './components/normal-fusion-table/nor
 import { ElementFusionTableComponent } from './components/element-fusion-table/element-fusion-table.component'
 import { SettingsComponent } from './components/settings/settings.component'
 import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
-import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component'
+import { DemonBuilderComponent } from './components/demon-builder/demon-builder.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
 
 @NgModule({
@@ -33,7 +33,7 @@ import { ShortenPipe } from './pipes/shorten.pipe'
 		SettingsComponent,
 		DemonEntryComponent,
 		ShortenPipe,
-		FusionChainComponent,
+		DemonBuilderComponent,
 	],
 	imports: [
 		CommonModule,
@@ -59,7 +59,7 @@ import { ShortenPipe } from './pipes/shorten.pipe'
 		ElementFusionTableComponent,
 		SettingsComponent,
 		DemonEntryComponent,
-		FusionChainComponent,
+		DemonBuilderComponent,
 		ShortenPipe,
 	],
 })
