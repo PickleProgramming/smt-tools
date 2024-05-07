@@ -21,21 +21,21 @@ import {
 import { MatSort } from '@angular/material/sort'
 
 @Component({
-	selector: 'app-fusion-chain',
-	templateUrl: './fusion-chain.component.html',
-	styleUrls: ['./fusion-chain.component.sass'],
+	selector: 'app-demon-builder',
+	templateUrl: './demon-builder.component.html',
+	styleUrls: ['./demon-builder.component.sass'],
 	animations: [
 		trigger('detailExpand', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),
 			state('expanded', style({ height: '*' })),
 			transition(
 				'expanded <=> collapsed',
-				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
+				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
 			),
 		]),
 	],
 })
-export class FusionChainComponent implements OnInit, AfterViewInit {
+export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	@Input() compendium!: Compendium
 	@ViewChild(MatSort) sort!: MatSort
 
@@ -73,15 +73,15 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 		this.demons = Object.keys(this.compendium.demons)
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
 			startWith(''),
-			map((value) => this._filter(value || '', this.demons!)),
+			map((value) => this._filter(value || '', this.demons!))
 		)
 		for (let i = 0; i < 8; i++) {
 			this.skillControls.push(new FormControl(''))
 			this.filteredSkills.push(
 				this.skillControls[i].valueChanges.pipe(
 					startWith(''),
-					map((value) => this._filter(value || '', this.skills!)),
-				),
+					map((value) => this._filter(value || '', this.skills!))
+				)
 			)
 		}
 	}
@@ -93,7 +93,7 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 	private _filter(value: string, list: string[]): string[] {
 		let filterValue = value.toLocaleLowerCase()
 		return list.filter((option) =>
-			option.toLowerCase().includes(filterValue),
+			option.toLowerCase().includes(filterValue)
 		)
 	}
 
@@ -120,10 +120,10 @@ export class FusionChainComponent implements OnInit, AfterViewInit {
 		let input$ = of(data)
 		fromWorker<InputChainData, ChainMessage>(
 			() =>
-				new Worker(new URL('./fusion-chain.worker', import.meta.url), {
+				new Worker(new URL('./demon-builder.worker', import.meta.url), {
 					type: 'module',
 				}),
-			input$,
+			input$
 		)
 			.pipe(takeUntil(this.notifier))
 			.subscribe((data) => {

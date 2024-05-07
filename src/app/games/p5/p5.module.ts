@@ -13,7 +13,7 @@ import { P5PersonaListComponent } from './components/p5-persona-list.component'
 import { P5PersonaEntryComponent } from './components/p5-persona-entry.component'
 import { P5SkillListComponent } from './components/p5-skill-list.component'
 import { P5FusionTableComponent } from './components/p5-fusion-table.component'
-import { P5FusionChainComponent } from './components/p5-fusion-chain.component'
+import { P5DemonBuilderComponent } from './components/p5-demon-builder.component'
 import { P5SettingsComponent } from './components/p5-settings.component'
 
 @NgModule({
@@ -25,7 +25,7 @@ import { P5SettingsComponent } from './components/p5-settings.component'
 		P5PersonaEntryComponent,
 		P5SkillListComponent,
 		P5FusionTableComponent,
-		P5FusionChainComponent,
+		P5DemonBuilderComponent,
 		P5SettingsComponent,
 	],
 	imports: [

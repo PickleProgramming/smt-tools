@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
 import { ChainMessage, FusionChain, Recipe } from './smt-tools.types'
 
-export abstract class ChainCalculator {
+export abstract class DemonBuilder {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
 	protected chainMessageSubject = new Subject<ChainMessage>()
@@ -33,7 +33,7 @@ export abstract class ChainCalculator {
 			this.chains configured by ChainCalculator's properties*/
 	abstract getChains(
 		targetSkills: string[],
-		demonName?: string,
+		demonName?: string
 	): Observable<ChainMessage>
 
 	/*  @param targetSkills: list of skills for the final demon to inherit
@@ -44,7 +44,7 @@ export abstract class ChainCalculator {
 	protected abstract getChain(
 		targetSkills: string[],
 		recursiveDepth: number,
-		demonName: string,
+		demonName: string
 	): FusionChain | null
 
 	/* Determines if the passed persona is capable of learning the skills passed
@@ -58,7 +58,7 @@ export abstract class ChainCalculator {
 	protected abstract isPossible(
 		skills: string[],
 		demonName?: string,
-		recipe?: Recipe,
+		recipe?: Recipe
 	): boolean
 
 	/*  @param recipe: recipe to be checked
@@ -79,7 +79,7 @@ export abstract class ChainCalculator {
 			let subarr = this.getSubArrays(arr.slice(1))
 			return subarr.concat(
 				subarr.map((e) => e.concat(arr[0])),
-				[[arr[0]]],
+				[[arr[0]]]
 			)
 		}
 	}
@@ -97,7 +97,7 @@ export abstract class ChainCalculator {
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],
-		chain?: FusionChain,
+		chain?: FusionChain
 	): void
 
 	/* adds a step to the recipe by pushing the step too the recipe object and
@@ -108,7 +108,7 @@ export abstract class ChainCalculator {
 	protected addStep(
 		chain: FusionChain,
 		recipe: Recipe,
-		inherittedSkills: string[],
+		inherittedSkills: string[]
 	) {
 		chain.steps.push(recipe)
 		chain.inherittedSkills.push(inherittedSkills)

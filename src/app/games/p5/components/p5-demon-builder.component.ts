@@ -5,11 +5,11 @@ import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5_COMPENDIUM } from '@shared/constants'
 
 @Component({
-	selector: 'app-p5-fusion-chain',
-	template: ` <app-fusion-chain [compendium]="compendium">
-	</app-fusion-chain>`,
+	selector: 'app-p5-demon-builder',
+	template: ` <app-demon-builder [compendium]="compendium">
+	</app-demon-builder>`,
 })
-export class P5FusionChainComponent implements OnInit {
+export class P5DemonBuilderComponent implements OnInit {
 	compendium: P5Compendium = P5_COMPENDIUM
 
 	constructor() {}

@@ -6,13 +6,13 @@ import {
 	FusionChain,
 	Recipe,
 } from '@shared/types/smt-tools.types'
-import { ChainCalculator } from '@shared/types/chain-calculator'
+import { DemonBuilder } from '@shared/types/demon-builder'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
 
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 
-export class P5ChainCalculator extends ChainCalculator {
+export class P5ChainCalculator extends DemonBuilder {
 	compendium!: P5Compendium
 	calculator!: P5FusionCalculator
 
@@ -22,7 +22,7 @@ export class P5ChainCalculator extends ChainCalculator {
 
 	getChains(
 		targetSkills: string[],
-		demonName?: string,
+		demonName?: string
 	): Observable<ChainMessage> {
 		if (demonName) {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
@@ -46,7 +46,7 @@ export class P5ChainCalculator extends ChainCalculator {
 			let demon = this.compendium.demons[demonName]
 			let intersects = _.intersection(
 				targetSkills,
-				Object.keys(demon.skills),
+				Object.keys(demon.skills)
 			)
 			if (intersects.length > 0 || this.deep) {
 				this.getChains_targetSkills_demonName(targetSkills, demonName)
@@ -56,7 +56,7 @@ export class P5ChainCalculator extends ChainCalculator {
 	}
 	private getChains_targetSkills_demonName(
 		skills: string[],
-		demonName: string,
+		demonName: string
 	): void {
 		let chains: FusionChain[] = []
 		let targetSkills = _.cloneDeep(skills)
@@ -94,12 +94,12 @@ export class P5ChainCalculator extends ChainCalculator {
 	protected getChain(
 		targetSkills: string[],
 		recursiveDepth: number,
-		demonName: string,
+		demonName: string
 	): FusionChain | null {
 		this.combo++
 		if (targetSkills.length == 0) {
 			throw new Error(
-				'getChain was called with an empty targetSkills arg',
+				'getChain was called with an empty targetSkills arg'
 			)
 		}
 		if (recursiveDepth > this.recursiveDepth) return null
@@ -120,7 +120,7 @@ export class P5ChainCalculator extends ChainCalculator {
 					let chain = this.getChain(
 						diff,
 						recursiveDepth + 1,
-						sourceName,
+						sourceName
 					)
 					if (chain != null) {
 						this.addStep(chain, fission, foundSkills)
@@ -136,13 +136,13 @@ export class P5ChainCalculator extends ChainCalculator {
 		and all the skills in @param recipe sources */
 	private checkRecipeSkills(
 		targetSkills: string[],
-		recipe: Recipe,
+		recipe: Recipe
 	): string[] {
 		let foundSkills: string[] = []
 		for (let sourceName of recipe.sources) {
 			let intersects = _.intersection(
 				targetSkills,
-				Object.keys(this.compendium.demons[sourceName].skills),
+				Object.keys(this.compendium.demons[sourceName].skills)
 			)
 			if (intersects.length > 0) {
 				foundSkills = foundSkills.concat(intersects)
@@ -170,7 +170,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],
-		chain?: FusionChain,
+		chain?: FusionChain
 	): void {
 		if (!chain) chain = this.getEmptyChain()
 		this.addStep(chain, recipe, skills)
@@ -181,7 +181,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		if (chain.steps.length > 1) {
 			for (let i = 1; i < chain.steps.length; i++) {
 				chain.inherittedSkills[i] = chain.inherittedSkills[i].concat(
-					chain.inherittedSkills[i - 1],
+					chain.inherittedSkills[i - 1]
 				)
 			}
 		}
@@ -196,12 +196,11 @@ export class P5ChainCalculator extends ChainCalculator {
 	protected isPossible(
 		targetSkills: string[],
 		demonName?: string,
-		recipe?: Recipe,
+		recipe?: Recipe
 	): boolean {
 		if (recipe !== undefined && demonName !== undefined) {
 			throw new Error(
-				'isPossible() cannot accept both a demon ' +
-					'name and a recipe',
+				'isPossible() cannot accept both a demon ' + 'name and a recipe'
 			)
 		}
 		if (recipe) {
@@ -210,7 +209,7 @@ export class P5ChainCalculator extends ChainCalculator {
 		if (demonName) {
 			return this.isPossible_targetSkills_demonName(
 				targetSkills,
-				demonName,
+				demonName
 			)
 		}
 		return this.isPossible_targetSkills(targetSkills)
@@ -222,7 +221,7 @@ export class P5ChainCalculator extends ChainCalculator {
 			if (skill.unique) {
 				return this.isPossible_targetSkills_demonName(
 					targetSkills,
-					skill.unique,
+					skill.unique
 				)
 			}
 		}
@@ -249,13 +248,13 @@ export class P5ChainCalculator extends ChainCalculator {
 	}
 	private isPossible_targetSkills_recipe(
 		targetSkills: string[],
-		recipe: Recipe,
+		recipe: Recipe
 	): boolean {
 		for (let sourceName of recipe.sources) {
 			if (
 				!this.isPossible_targetSkills_demonName(
 					targetSkills,
-					sourceName,
+					sourceName
 				)
 			)
 				return false
@@ -264,7 +263,7 @@ export class P5ChainCalculator extends ChainCalculator {
 	}
 	private isPossible_targetSkills_demonName(
 		targetSkills: string[],
-		demonName: string,
+		demonName: string
 	): boolean {
 		if (this.compendium.demons[demonName].level > this.maxLevel)
 			return false
