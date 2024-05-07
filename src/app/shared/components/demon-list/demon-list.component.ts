@@ -14,7 +14,7 @@ import { TableConfig } from '@shared/types/table-config'
 @Component({
 	selector: 'app-demon-list',
 	templateUrl: './demon-list.component.html',
-	styleUrls: ['./demon-list.component.sass'],
+	styleUrls: ['./demon-list.component.scss'],
 })
 export class DemonListComponent implements OnInit, AfterViewInit {
 	@Input() demons!: { [name: string]: Demon }

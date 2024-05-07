@@ -23,7 +23,7 @@ import { MatSort } from '@angular/material/sort'
 @Component({
 	selector: 'app-demon-builder',
 	templateUrl: './demon-builder.component.html',
-	styleUrls: ['./demon-builder.component.sass'],
+	styleUrls: ['./demon-builder.component.scss'],
 	animations: [
 		trigger('detailExpand', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),

@@ -14,7 +14,7 @@ import { Demon } from '@shared/types/smt-tools.types'
 		{{ pack.key }}
 		<br />
 	</div>`,
-	styleUrls: ['./settings.component.sass'],
+	styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
 	@Input() dlcDemons!: { [name: string]: Demon }

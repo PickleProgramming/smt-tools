@@ -5,7 +5,7 @@ import { TableConfig } from '@shared/types/table-config'
 @Component({
 	selector: 'app-normal-fusion-table',
 	templateUrl: './normal-fusion-table.component.html',
-	styleUrls: ['./normal-fusion-table.component.sass'],
+	styleUrls: ['./normal-fusion-table.component.scss'],
 })
 export class NormalFusionTableComponent implements OnInit {
 	@Input() tableConfig!: TableConfig
