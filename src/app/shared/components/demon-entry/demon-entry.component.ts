@@ -51,7 +51,7 @@ export class DemonEntryComponent implements OnInit {
 		}
 		if (!this.calculator) {
 			throw new Error(
-				'DemonEntryComponent was not passed a FusionCalculator',
+				'DemonEntryComponent was not passed a FusionCalculator'
 			)
 		}
 		if (this.name.includes('%20')) this.name = this.name.replace('%20', ' ')

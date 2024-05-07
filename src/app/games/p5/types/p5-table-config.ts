@@ -7,7 +7,7 @@ import INHERIT_DATA from '@p5/data/inheritance-types.json'
 export class P5TableConfig extends TableConfig {
 	constructor() {
 		super(FUSION_TABLE, ELEMENT_TABLE)
-		this.demonCols.push('Inherits')
+		this.demonCols.push('inherits')
 		this.statCols = ['St', 'Ma', 'En', 'Ag', 'Lu']
 		this.demonCols = this.demonCols.concat(this.statCols)
 		this.resistanceCols = [
