@@ -19,7 +19,10 @@
 		<ng-container matColumnDef="Element">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header>Element</th>
 			<td mat-cell *matCellDef="let skill">
-				<img src="assets/img/icons/persona/{{ skill.element }}.png" />
+				<img
+					src="assets/img/icons/persona/{{ skill.element }}.png"
+					title="{{ skill.element }}"
+				/>
 			</td>
 		</ng-container>
 
