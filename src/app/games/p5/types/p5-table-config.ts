@@ -24,6 +24,6 @@ export class P5TableConfig extends TableConfig {
 		]
 		this.demonCols = this.demonCols.concat(this.resistanceCols)
 		this.inheritCols = INHERIT_DATA.elems
-		this.skillCols.push('Skill Card')
+		this.skillCols.push('skillCard')
 	}
 }
