@@ -8,15 +8,14 @@
 }
 .expansion-panel {
 	@include smt-tools.expansion-panel;
+	padding: 0;
+	margin: 0;
 }
 
-.wrapper {
-	display: flex;
+.grid-wrapper {
+	display: grid;
+	grid-gap: 1vw;
+	grid-template-columns: auto auto;
+	width: 100%;
 	justify-content: center;
-	flex-wrap: wrap;
-}
-
-.expansion-panel {
-	min-width: 300px;
-	max-width: 900px;
 }

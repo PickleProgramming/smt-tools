@@ -22,7 +22,7 @@
 // base styling for expansion panels
 @mixin expansion-panel {
 	margin: 1vw;
-	max-width: 90%;
+	max-width: 800px;
 	mat-panel-title {
 		justify-content: center;
 	}

@@ -1,291 +1,289 @@
 <!-- Fissions -->
-<div class="wrapper">
-	<mat-expansion-panel class="expansion-panel">
-		<mat-expansion-panel-header>
-			<mat-panel-title>
-				<!-- Expansion Bar -->
-				<p>Ingredient A x Ingredient B = {{ name }}</p>
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		<div class="filter-div">
-			<mat-form-field class="filter">
-				<mat-label>Filter</mat-label>
-				<input
-					matInput
-					(keyup)="applyFilterFissions($event)"
-					placeholder="Ex. Mara"
-					#input
-				/>
-			</mat-form-field>
-		</div>
-		<div class="table-div">
-			<table
-				mat-table
-				[dataSource]="fissionSource"
-				class="mat-elevation-z12"
-				matSort
-			>
-				<!-- Ingredient A Race -->
-				<ng-container matColumnDef="raceA">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						<p>Race</p>
-					</th>
-					<td class="race-cell" mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons[recipe.sources[0]].race }}</p>
-					</td>
-				</ng-container>
+<div class="grid-wrapper">
+	<div class="expansion-div">
+		<mat-expansion-panel class="expansion-panel">
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<!-- Expansion Bar -->
+					<p>Ingredient A x Ingredient B = {{ name }}</p>
+				</mat-panel-title>
+			</mat-expansion-panel-header>
+			<div class="filter-div">
+				<mat-form-field class="filter">
+					<mat-label>Filter</mat-label>
+					<input
+						matInput
+						(keyup)="applyFilterFissions($event)"
+						placeholder="Ex. Mara"
+						#input
+					/>
+				</mat-form-field>
+			</div>
+			<div class="table-div">
+				<table
+					mat-table
+					[dataSource]="fissionSource"
+					class="mat-elevation-z12"
+					matSort
+				>
+					<!-- Ingredient A Race -->
+					<ng-container matColumnDef="raceA">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							<p>Race</p>
+						</th>
+						<td class="race-cell" mat-cell *matCellDef="let recipe">
+							<p>
+								{{ compendium.demons[recipe.sources[0]].race }}
+							</p>
+						</td>
+					</ng-container>
+					<!-- Ingredient A Level -->
+					<ng-container matColumnDef="levelA">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							<p>Level</p>
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>
+								{{ compendium.demons[recipe.sources[0]].level }}
+							</p>
+						</td>
+					</ng-container>
+					<!-- Ingredient A Name -->
+					<ng-container matColumnDef="nameA">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							<p>Name</p>
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>{{ [recipe.sources[0]] }}</p>
+						</td>
+					</ng-container>
+					<!-- Ingredient B Race -->
+					<ng-container matColumnDef="raceB">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							<p>Race</p>
+						</th>
+						<td class="race-cell" mat-cell *matCellDef="let recipe">
+							<p>
+								{{ compendium.demons[recipe.sources[1]].race }}
+							</p>
+						</td>
+					</ng-container>
+					<!-- Ingredient B Level -->
+					<ng-container matColumnDef="levelB">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							<p>Level</p>
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>
+								{{ compendium.demons[recipe.sources[1]].level }}
+							</p>
+						</td>
+					</ng-container>
+					<!-- Ingredient B Name -->
+					<ng-container matColumnDef="nameB">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							<p>Name</p>
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>{{ [recipe.sources[1]] }}</p>
+						</td>
+					</ng-container>
+					<!-- Cost Column -->
+					<ng-container matColumnDef="cost">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							<p>Cost</p>
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>{{ recipe.cost }}</p>
+						</td>
+					</ng-container>
+					<!-- Second Header Row: Ingredient A -->
+					<ng-container matColumnDef="header-row-ingredient-a">
+						<th
+							mat-header-cell
+							*matHeaderCellDef
+							[style.text-align]="'center'"
+							[attr.colspan]="3"
+						>
+							Ingredient A
+						</th>
+					</ng-container>
+					<!-- Second Header Row: Ingredient B -->
+					<ng-container matColumnDef="header-row-ingredient-b">
+						<th
+							mat-header-cell
+							*matHeaderCellDef
+							[style.text-align]="'center'"
+							[attr.colspan]="3"
+						>
+							Ingredient B
+						</th>
+					</ng-container>
+					<tr
+						mat-header-row
+						*matHeaderRowDef="[
+							'header-row-cost',
+							'header-row-ingredient-a',
+							'header-row-ingredient-b'
+						]"
+					></tr>
+					<!-- Second Header Row: Cost -->
+					<ng-container matColumnDef="header-row-cost">
+						<th mat-header-cell *matHeaderCellDef></th>
+					</ng-container>
+					<tr
+						mat-header-row
+						*matHeaderRowDef="displayedFissionColumns; sticky: true"
+					></tr>
+					<tr
+						mat-row
+						*matRowDef="
+							let recipe;
+							columns: displayedFissionColumns
+						"
+					></tr>
+				</table>
+			</div>
+		</mat-expansion-panel>
+	</div>
 
-				<!-- Ingredient A Level -->
-				<ng-container matColumnDef="levelA">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						<p>Level</p>
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons[recipe.sources[0]].level }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Ingredient A Name -->
-				<ng-container matColumnDef="nameA">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						<p>Name</p>
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ [recipe.sources[0]] }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Ingredient B Race -->
-				<ng-container matColumnDef="raceB">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						<p>Race</p>
-					</th>
-					<td class="race-cell" mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons[recipe.sources[1]].race }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Ingredient B Level -->
-				<ng-container matColumnDef="levelB">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						<p>Level</p>
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons[recipe.sources[1]].level }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Ingredient B Name -->
-				<ng-container matColumnDef="nameB">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						<p>Name</p>
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ [recipe.sources[1]] }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Cost Column -->
-				<ng-container matColumnDef="cost">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						<p>Cost</p>
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ recipe.cost }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Second Header Row: Ingredient A -->
-				<ng-container matColumnDef="header-row-ingredient-a">
-					<th
-						mat-header-cell
-						*matHeaderCellDef
-						[style.text-align]="'center'"
-						[attr.colspan]="3"
-					>
-						Ingredient A
-					</th>
-				</ng-container>
-
-				<!-- Second Header Row: Ingredient B -->
-				<ng-container matColumnDef="header-row-ingredient-b">
-					<th
-						mat-header-cell
-						*matHeaderCellDef
-						[style.text-align]="'center'"
-						[attr.colspan]="3"
-					>
-						Ingredient B
-					</th>
-				</ng-container>
-
-				<tr
-					mat-header-row
-					*matHeaderRowDef="[
-						'header-row-cost',
-						'header-row-ingredient-a',
-						'header-row-ingredient-b'
-					]"
-				></tr>
-
-				<!-- Second Header Row: Cost -->
-				<ng-container matColumnDef="header-row-cost">
-					<th mat-header-cell *matHeaderCellDef></th>
-				</ng-container>
-
-				<tr
-					mat-header-row
-					*matHeaderRowDef="displayedFissionColumns; sticky: true"
-				></tr>
-				<tr
-					mat-row
-					*matRowDef="let recipe; columns: displayedFissionColumns"
-				></tr>
-			</table>
-		</div>
-	</mat-expansion-panel>
-
-	<!-- Fusions -->
-	<mat-expansion-panel class="expansion-panel">
-		<mat-expansion-panel-header>
-			<mat-panel-title>
-				<p>{{ name }} x Ingredient B = Result</p>
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		<div class="filter-div">
-			<mat-form-field class="filter">
-				<mat-label>Filter</mat-label>
-				<input
-					matInput
-					(keyup)="applyFilterFusions($event)"
-					placeholder="Ex. Mara"
-					#input
-				/>
-			</mat-form-field>
-		</div>
-		<div class="table-div">
-			<table
-				mat-table
-				[dataSource]="fusionSource"
-				class="mat-elevation-z12"
-				matSort
-			>
-				<!-- Cost Column -->
-				<ng-container matColumnDef="cost">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						Cost
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						{{ recipe.cost }}
-					</td>
-				</ng-container>
-
-				<!-- Ingredient B Race -->
-				<ng-container matColumnDef="raceB">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						Race
-					</th>
-					<td class="race-cell" mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons![recipe.sources[1]].race }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Ingredient B Level -->
-				<ng-container matColumnDef="levelB">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						Level
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons[recipe.sources[1]].level }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Ingredient B Name -->
-				<ng-container matColumnDef="nameB">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						Name
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ [recipe.sources[1]] }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Result Race -->
-				<ng-container matColumnDef="raceResult">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						Race
-					</th>
-					<td class="race-cell" mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons[recipe.result].race }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Result Level -->
-				<ng-container matColumnDef="levelResult">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						Level
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ compendium.demons[recipe.result].level }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Result Name -->
-				<ng-container matColumnDef="nameResult">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
-						Name
-					</th>
-					<td mat-cell *matCellDef="let recipe">
-						<p>{{ [recipe.result] }}</p>
-					</td>
-				</ng-container>
-
-				<!-- Second Header Row: Cost -->
-				<ng-container matColumnDef="header-row-cost">
-					<th mat-header-cell *matHeaderCellDef></th>
-				</ng-container>
-
-				<!-- Second Header Row: Ingredient B -->
-				<ng-container matColumnDef="header-row-ingredient-b">
-					<th
-						mat-header-cell
-						*matHeaderCellDef
-						[style.text-align]="'center'"
-						[attr.colspan]="3"
-					>
-						Ingredient B
-					</th>
-				</ng-container>
-
-				<!-- Second Header Row: Result -->
-				<ng-container matColumnDef="header-row-result">
-					<th
-						mat-header-cell
-						*matHeaderCellDef
-						[style.text-align]="'center'"
-						[attr.colspan]="3"
-					>
-						Result
-					</th>
-				</ng-container>
-
-				<tr
-					mat-header-row
-					*matHeaderRowDef="[
-						'header-row-cost',
-						'header-row-ingredient-b',
-						'header-row-result'
-					]"
-				></tr>
-				<tr
-					mat-header-row
-					*matHeaderRowDef="displayedFusionColumns; sticky: true"
-				></tr>
-				<tr
-					mat-row
-					*matRowDef="let recipe; columns: displayedFusionColumns"
-				></tr>
-			</table>
-		</div>
-	</mat-expansion-panel>
+	<div class="expansion-div">
+		<!-- Fusions -->
+		<mat-expansion-panel class="expansion-panel">
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<p>{{ name }} x Ingredient B = Result</p>
+				</mat-panel-title>
+			</mat-expansion-panel-header>
+			<div class="filter-div">
+				<mat-form-field class="filter">
+					<mat-label>Filter</mat-label>
+					<input
+						matInput
+						(keyup)="applyFilterFusions($event)"
+						placeholder="Ex. Mara"
+						#input
+					/>
+				</mat-form-field>
+			</div>
+			<div class="table-div">
+				<table
+					mat-table
+					[dataSource]="fusionSource"
+					class="mat-elevation-z12"
+					matSort
+				>
+					<!-- Cost Column -->
+					<ng-container matColumnDef="cost">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							Cost
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							{{ recipe.cost }}
+						</td>
+					</ng-container>
+					<!-- Ingredient B Race -->
+					<ng-container matColumnDef="raceB">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							Race
+						</th>
+						<td class="race-cell" mat-cell *matCellDef="let recipe">
+							<p>
+								{{ compendium.demons![recipe.sources[1]].race }}
+							</p>
+						</td>
+					</ng-container>
+					<!-- Ingredient B Level -->
+					<ng-container matColumnDef="levelB">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							Level
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>
+								{{ compendium.demons[recipe.sources[1]].level }}
+							</p>
+						</td>
+					</ng-container>
+					<!-- Ingredient B Name -->
+					<ng-container matColumnDef="nameB">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							Name
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>{{ [recipe.sources[1]] }}</p>
+						</td>
+					</ng-container>
+					<!-- Result Race -->
+					<ng-container matColumnDef="raceResult">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							Race
+						</th>
+						<td class="race-cell" mat-cell *matCellDef="let recipe">
+							<p>{{ compendium.demons[recipe.result].race }}</p>
+						</td>
+					</ng-container>
+					<!-- Result Level -->
+					<ng-container matColumnDef="levelResult">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							Level
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>{{ compendium.demons[recipe.result].level }}</p>
+						</td>
+					</ng-container>
+					<!-- Result Name -->
+					<ng-container matColumnDef="nameResult">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>
+							Name
+						</th>
+						<td mat-cell *matCellDef="let recipe">
+							<p>{{ [recipe.result] }}</p>
+						</td>
+					</ng-container>
+					<!-- Second Header Row: Cost -->
+					<ng-container matColumnDef="header-row-cost">
+						<th mat-header-cell *matHeaderCellDef></th>
+					</ng-container>
+					<!-- Second Header Row: Ingredient B -->
+					<ng-container matColumnDef="header-row-ingredient-b">
+						<th
+							mat-header-cell
+							*matHeaderCellDef
+							[style.text-align]="'center'"
+							[attr.colspan]="3"
+						>
+							Ingredient B
+						</th>
+					</ng-container>
+					<!-- Second Header Row: Result -->
+					<ng-container matColumnDef="header-row-result">
+						<th
+							mat-header-cell
+							*matHeaderCellDef
+							[style.text-align]="'center'"
+							[attr.colspan]="3"
+						>
+							Result
+						</th>
+					</ng-container>
+					<tr
+						mat-header-row
+						*matHeaderRowDef="[
+							'header-row-cost',
+							'header-row-ingredient-b',
+							'header-row-result'
+						]"
+					></tr>
+					<tr
+						mat-header-row
+						*matHeaderRowDef="displayedFusionColumns; sticky: true"
+					></tr>
+					<tr
+						mat-row
+						*matRowDef="let recipe; columns: displayedFusionColumns"
+					></tr>
+				</table>
+			</div>
+		</mat-expansion-panel>
+	</div>
 </div>
