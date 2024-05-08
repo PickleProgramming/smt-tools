@@ -18,9 +18,9 @@ export abstract class TableConfig {
 	inheritCols?: string[]
 
 	constructor(fusionTable: FusionTable, elementTable?: ElementTable) {
-		this.demonCols = ['Race', 'Level', 'Name']
+		this.demonCols = ['race', 'level', 'name']
 		this.statCols = ['St', 'Ma', 'Ag', 'Lu']
-		this.skillCols = ['Element', 'Name', 'Cost', 'Effect', 'Learned By']
+		this.skillCols = ['Element', 'Name', 'Cost', 'Effect', 'learnedBy']
 
 		this.fusionTable = {
 			races: fusionTable['races'],

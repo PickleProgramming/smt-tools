@@ -1,34 +1,36 @@
-<table>
-	<thead>
-		<tr>
-			<th colSpan="8">Element Table</th>
-		</tr>
-	</thead>
-	<thead>
-		<tr>
-			@if (this.tableConfig.elementTable) {
-				@for (
-					elem of this.tableConfig.elementTable?.elems;
-					track $index
-				) {
-					{{ elem }}
-				}
-			}
-		</tr>
-	</thead>
-	<tbody>
-		@if (this.tableConfig.elementTable) {
-			@for (race of this.tableConfig.elementTable?.races; track $index) {
-				<th>
-					{{ race }}
+<div class="table-div">
+	<table
+		mat-table
+		[dataSource]="elemsSource"
+		class="mat-elevation-z12"
+		matSort
+	>
+		<!-- Header Row, Elemental Names -->
+		<ng-container matColumnDef="elementals">
+			<th mat-header-cell *matHeaderCellDef>Race</th>
+			<td mat-cell *matCellDef="let race; let i = index">
+				{{ races[i] }}
+			</td>
+		</ng-container>
+
+		<!-- Header Column, Race Names -->
+		@for (result of races; track $index) {
+			<ng-container matColumnDef="{{ result }}">
+				<th mat-header-cell *matHeaderCellDef>
+					{{ elementals[$index] }}
 				</th>
-				@for (
-					elem of this.tableConfig.elementTable!.table[$index];
-					track $index
-				) {
-					{{ elem }}
-				}
-			}
+
+				<td mat-cell *matCellDef="let results">
+					{{ results[races.indexOf(result)] }}
+				</td>
+			</ng-container>
 		}
-	</tbody>
-</table>
+
+		<!-- Anuglar Table Initializors -->
+		<tr
+			mat-header-row
+			*matHeaderRowDef="displayedColumns; sticky: true"
+		></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+</div>

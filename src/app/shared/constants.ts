@@ -3,7 +3,7 @@ import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import { P5TableConfig } from '@p5/types/p5-table-config'
 
-import P5_PERSONA_DATA from '@p5/data/persona-data.json'
+import P5_DEMON_Data from '@p5/data/demon-data.json'
 import P5_SKILL_DATA from '@p5/data/skill-data.json'
 import P5_SPECIAL_RECIPES from '@p5/data/special-recipes.json'
 import P5_DLC_DATA from '@p5/data/dlc-data.json'
@@ -21,7 +21,7 @@ import P5_ELEMENT_TABLE from '@p5/data/element-table.json'
 // import P5R_ELEMENT_TABLE from '@p5r/data/element-table.json'
 
 export const P5_COMPENDIUM: P5Compendium = new P5Compendium(
-	P5_PERSONA_DATA,
+	P5_DEMON_Data,
 	P5_SKILL_DATA,
 	P5_FUSION_TABLE,
 	P5_SPECIAL_RECIPES,

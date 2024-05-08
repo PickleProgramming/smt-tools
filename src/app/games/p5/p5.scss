@@ -1,0 +1,79 @@
+// --Styles for P5 Module--
+
+// --General Styling
+@mixin p5-paragraph {
+	:host ::ng-deep p {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		font-size: 16pt;
+	}
+}
+@mixin p5-expansion-panel {
+	:host ::ng-deep .expansion-panel {
+		background-color: black;
+		border-radius: 3px;
+		border: 3px solid white;
+	}
+}
+// --Table Styling--
+@mixin p5-table {
+	:host ::ng-deep table {
+		background-color: black;
+		border-radius: 3px;
+		border: 3px solid white;
+	}
+}
+@mixin p5-race-cell {
+	:host ::ng-deep .race-cell {
+		text-align: center;
+		padding-left: 0px;
+		margin-left: 0px;
+		font-size: 18pt;
+		p {
+			color: black;
+			letter-spacing: -1px;
+			font-weight: 900;
+
+			transform: scale(0.7, 1.5);
+			border-radius: 3px;
+			background: white;
+			padding: 2px;
+			margin: 0;
+		}
+	}
+}
+@mixin p5-level-cell {
+	:host ::ng-deep .level-cell {
+		padding-top: 1%;
+		p {
+			font-weight: 900;
+			color: white;
+		}
+	}
+}
+@mixin p5-name-cell {
+	:host ::ng-deep .name-cell {
+		text-align: left;
+		p {
+			font-weight: 500;
+			color: white;
+		}
+	}
+}
+@mixin p5-header-cell {
+	:host ::ng-deep .header-cell {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		font-size: 16pt;
+		font-weight: 900;
+		font-style: italic;
+	}
+}
+
+//global mixin that can be called for every p5 component
+@mixin style-p5 {
+	@include p5-expansion-panel;
+	@include p5-table;
+	@include p5-race-cell;
+	@include p5-level-cell;
+	@include p5-name-cell;
+	@include p5-header-cell;
+}

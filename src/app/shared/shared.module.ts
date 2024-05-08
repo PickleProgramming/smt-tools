@@ -14,7 +14,6 @@ import { MatSortModule } from '@angular/material/sort'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSelectModule } from '@angular/material/select'
-import { DataTablesModule } from 'angular-datatables'
 
 import { DemonListComponent } from './components/demon-list/demon-list.component'
 import { SkillListComponent } from './components/skill-list/skill-list.component'
@@ -52,7 +51,6 @@ import { ShortenPipe } from './pipes/shorten.pipe'
 		MatCheckboxModule,
 		MatProgressSpinnerModule,
 		MatSelectModule,
-		DataTablesModule,
 	],
 	exports: [
 		DemonListComponent,

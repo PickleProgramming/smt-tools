@@ -1,0 +1,29 @@
+// --Shared Mixins--
+// base styling for data tables
+@mixin angular-table {
+	margin: 1vw;
+	display: flex;
+	justify-content: center;
+	.mat-elevation-z12 {
+		max-width: 90vw;
+	}
+}
+
+// base styling for form-fields that filter tables
+@mixin angular-table-filter {
+	display: flex;
+	justify-content: center;
+	.filter {
+		width: 60vw;
+		font-size: 14px;
+	}
+}
+
+// base styling for expansion panels
+@mixin expansion-panel {
+	margin: 1vw;
+	max-width: 800px;
+	mat-panel-title {
+		justify-content: center;
+	}
+}

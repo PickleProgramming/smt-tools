@@ -25,7 +25,7 @@ export abstract class Compendium {
 		fusionTable: FusionTable,
 		specialData: Object,
 		dlcData?: Object,
-		elementTable?: ElementTable,
+		elementTable?: ElementTable
 	) {
 		this.skills = this.parseSkills(skillData)
 		this.parseDemons(demonData, this.demons, this.skills)
@@ -48,7 +48,7 @@ export abstract class Compendium {
 	protected parseDemons(
 		demonData: Object,
 		demonList: { [name: string]: Demon },
-		skillList?: { [name: string]: Skill },
+		skillList?: { [name: string]: Skill }
 	): void {
 		Object.entries(demonData).forEach(([demon, data]) => {
 			demonList[demon] = {
@@ -89,7 +89,7 @@ export abstract class Compendium {
 	isSpecial(demonName: string): boolean {
 		if (this.specialRecipes == undefined)
 			throw new Error(
-				'called isSpecial on a compendium with no specialRecipes',
+				'called isSpecial on a compendium with no specialRecipes'
 			)
 		let specialNames = Object.keys(this.specialRecipes)
 		if (_.intersection(specialNames, [demonName]).length > 0) return true
@@ -101,7 +101,7 @@ export abstract class Compendium {
 		if (this.specialRecipes == undefined)
 			throw new Error(
 				'called buildSpecialRecipe on a compendium with ' +
-					' no specialRecipes',
+					' no specialRecipes'
 			)
 		let recipe: Recipe = {
 			sources: [],
@@ -127,7 +127,7 @@ export abstract class Compendium {
 	isElemental(demonName: string): boolean {
 		if (this.elementTable == undefined)
 			throw new Error(
-				'isElemental called on a comp that has no elementals',
+				'isElemental called on a comp that has no elementals'
 			)
 		let intersect = _.intersection(this.elementTable.elems, [demonName])
 		if (intersect.length > 0) return true

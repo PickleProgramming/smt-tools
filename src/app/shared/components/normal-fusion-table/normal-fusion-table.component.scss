@@ -1,5 +1,10 @@
-table {
-  width: 95%;
+@use 'smt-tools.scss';
+
+.filter-div {
+	@include smt-tools.angular-table-filter;
+}
+.table-div {
+	@include smt-tools.angular-table;
 }
 
 td.mat-cell {
@@ -8,25 +13,4 @@ td.mat-cell {
     border: 1px solid;
     text-align: center;
   }
-}
-
-.table-div {
-  padding-top: 20px;
-  display: flex;
-  justify-content: center;
-}
-
-.filter-div {
-  font-size: 14px;
-  width: 90%;
-  margin: auto;
-}
-
-.mat-form-field {
-  width: 95%;
-}
-
-.table {
-  width: 95%;
-  margin: auto;
 }

@@ -13,8 +13,8 @@ import { P5FusionCalculator } from './p5-fusion-calculator'
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 
 export class P5ChainCalculator extends DemonBuilder {
-	compendium!: P5Compendium
-	calculator!: P5FusionCalculator
+	declare compendium: P5Compendium
+	declare calculator: P5FusionCalculator
 
 	constructor() {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
