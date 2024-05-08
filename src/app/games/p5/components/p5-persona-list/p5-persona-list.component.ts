@@ -7,8 +7,10 @@ import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-persona-list',
-	template: ` <app-demon-list [tableConfig]="tableConfig" [demons]="demons">
+	template: `<app-demon-list [tableConfig]="tableConfig" [demons]="demons"
+		>,
 	</app-demon-list>`,
+	styleUrl: './p5-persona-list.component.scss',
 })
 export class P5PersonaListComponent implements OnInit {
 	tableConfig: P5TableConfig = P5_TABLE_CONFIG

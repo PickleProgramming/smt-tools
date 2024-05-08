@@ -5,27 +5,25 @@
 }
 .table-div {
 	@include smt-tools.angular-table;
+	width: 0;
 }
 
-//Force widths upon all columns in table
-$colWidth: 1vw;
-//List of strings corresponding to each class for the columns in the table
-$col-selectors: '.mat-column-level', '.mat-column-inherits',
-	'.mat-column-inherits', '.mat-column-St', '.mat-column-Ma', '.mat-column-En',
-	'.mat-column-Ag', '.mat-column-Lu', '.mat-column-Phys', '.mat-column-Gun',
-	'.mat-column-Fire', '.mat-column-Ice', '.mat-column-Elec',
-	'.mat-column-Wind', '.mat-column-Psy', '.mat-column-Nuke',
-	'.mat-column-Bles';
-@each $col in $col-selectors {
-  #{$col} {
-    max-width: $colWidth;
-  }
-}
 .mat-column-race {
-	max-width: 3vw;
+	text-align: center;
+	padding-right: 0px;
+}
+.mat-column-level {
+	text-align: center;
+	border-right: 1px solid white;
+	padding-left: 0px;
 }
 .mat-column-name {
-	max-width: 2vw;
+	border-right: 1px solid white;
+}
+.mat-column-inherits {
+	justify-content: center;
+	justify-items: center;
+	text-align: center;
 }
 
 .icon {
