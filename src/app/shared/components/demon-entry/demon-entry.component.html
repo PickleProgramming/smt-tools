@@ -6,6 +6,17 @@
 			Ingredient A x Ingredient B = {{ name }}
 		</mat-panel-title>
 	</mat-expansion-panel-header>
+	<div class="filter-div">
+		<mat-form-field class="filter">
+			<mat-label>Filter</mat-label>
+			<input
+				matInput
+				(keyup)="applyFilterFissions($event)"
+				placeholder="Ex. Mara"
+				#input
+			/>
+		</mat-form-field>
+	</div>
 	<div class="table-div">
 		<table
 			mat-table
@@ -123,6 +134,17 @@
 	<mat-expansion-panel-header>
 		<mat-panel-title> {{ name }} x Ingredient B = Result </mat-panel-title>
 	</mat-expansion-panel-header>
+	<div class="filter-div">
+		<mat-form-field class="filter">
+			<mat-label>Filter</mat-label>
+			<input
+				matInput
+				(keyup)="applyFilterFusions($event)"
+				placeholder="Ex. Mara"
+				#input
+			/>
+		</mat-form-field>
+	</div>
 	<div class="table-div">
 		<table
 			mat-table

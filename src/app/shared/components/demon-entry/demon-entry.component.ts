@@ -59,4 +59,14 @@ export class DemonEntryComponent implements OnInit {
 	ngAfterViewInit(): void {
 		this.fissionSource.sort = this.sort
 	}
+
+	applyFilterFissions(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value
+		this.fissionSource.filter = filterValue.trim().toLowerCase()
+	}
+
+	applyFilterFusions(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value
+		this.fusionSource.filter = filterValue.trim().toLowerCase()
+	}
 }
