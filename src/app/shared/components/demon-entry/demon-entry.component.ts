@@ -25,22 +25,22 @@ export class DemonEntryComponent implements OnInit {
 	declare fusionSource: MatTableDataSource<Recipe>
 
 	displayedFissionColumns = [
-		'cost',
 		'raceA',
 		'levelA',
 		'nameA',
 		'raceB',
 		'nameB',
 		'levelB',
+		'cost',
 	]
 	displayedFusionColumns = [
-		'cost',
 		'raceB',
 		'levelB',
 		'nameB',
 		'raceResult',
 		'nameResult',
 		'levelResult',
+		'cost',
 	]
 
 	constructor(private router: Router) {}
