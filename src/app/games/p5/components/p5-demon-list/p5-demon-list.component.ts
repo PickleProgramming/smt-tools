@@ -12,7 +12,7 @@ import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 	template: `<app-demon-list [tableConfig]="tableConfig" [demons]="demons"
 		>,
 	</app-demon-list>`,
-	styleUrl: './p5-persona-list.component.scss',
+	styleUrl: './p5-demon-list.component.scss',
 })
 export class P5PersonaListComponent implements OnInit {
 	tableConfig: P5TableConfig = P5_TABLE_CONFIG
