@@ -83,16 +83,23 @@
 						/>
 					</th>
 					<td mat-cell *matCellDef="let demon">
-						<ng-container
-							[ngSwitch]="demon.resistances.split('')[$index]"
-						>
-							<p *ngSwitchCase="'d'">ab</p>
-							<p *ngSwitchCase="'w'">wk</p>
-							<p *ngSwitchCase="'n'">nl</p>
-							<p *ngSwitchCase="'s'">rs</p>
-							<p *ngSwitchCase="'r'">rp</p>
-							<p *ngSwitchDefault></p>
-						</ng-container>
+						@switch (demon.resistances.split("")[$index]) {
+							@case ("d") {
+								ab
+							}
+							@case ("w") {
+								wk
+							}
+							@case ("n") {
+								nl
+							}
+							@case ("s") {
+								rs
+							}
+							@case ("r") {
+								rp
+							}
+						}
 					</td>
 				</ng-container>
 			}
