@@ -1,6 +1,11 @@
 // base styling for data tables
 @mixin angular-table {
 	margin: 1vw;
+	display: flex;
+	justify-content: center;
+	.mat-elevation-z12 {
+		max-width: 90vw;
+	}
 }
 
 // base styling for form-fields that filter tables

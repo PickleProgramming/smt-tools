@@ -9,3 +9,14 @@
 .expansion-panel {
 	@include smt-tools.expansion-panel;
 }
+
+.wrapper {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.expansion-panel {
+	min-width: 300px;
+	max-width: 800px;
+}
