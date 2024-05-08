@@ -10,9 +10,9 @@ import { P5_TABLE_CONFIG } from '@shared/constants'
 		</app-normal-fusion-table>
 		<app-element-fusion-table [tableConfig]="tableConfig">
 		</app-element-fusion-table>`,
-	styleUrl: './p5-fusion-table.component.scss',
+	styleUrl: './p5-tables.component.scss',
 })
-export class P5FusionTableComponent implements OnInit {
+export class P5TablesComponent implements OnInit {
 	tableConfig: P5TableConfig = P5_TABLE_CONFIG
 
 	constructor() {}
