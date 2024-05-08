@@ -21,8 +21,15 @@
 	>
 		<!-- Race Column -->
 		<ng-container matColumnDef="race">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>Race</th>
-			<td mat-cell *matCellDef="let demon">
+			<th
+				class="header-cell"
+				mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+			>
+				Race
+			</th>
+			<td class="race-cell" mat-cell *matCellDef="let demon">
 				<p>{{ demon.race }}</p>
 			</td>
 		</ng-container>
@@ -37,8 +44,12 @@
 
 		<!-- Level Column -->
 		<ng-container matColumnDef="level">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>L</th>
-			<td mat-cell *matCellDef="let demon">{{ demon.level }}</td>
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Level</th>
+			<td class="level-cell" mat-cell *matCellDef="let demon">
+				<p>
+					{{ demon.level }}
+				</p>
+			</td>
 		</ng-container>
 
 		<!-- Inherits Column (if applicable) -->

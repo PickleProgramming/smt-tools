@@ -5,7 +5,6 @@
 }
 .table-div {
 	@include smt-tools.angular-table;
-	width: 0;
 }
 
 .mat-column-race {
@@ -14,20 +13,25 @@
 }
 .mat-column-level {
 	text-align: center;
-	border-right: 1px solid white;
 	padding-left: 0px;
 }
 .mat-column-name {
-	border-right: 1px solid white;
+	text-align: center;
 }
 .mat-column-inherits {
 	justify-content: center;
 	justify-items: center;
 	text-align: center;
+	border-right: 2px solid white;
+}
+
+.mat-column-Lu {
+	border-right: 2px solid white;
+	padding-right: 5px;
 }
 
 .icon {
-	max-width: 1vw;
+	max-width: 3vw;
 }
 a:visited {
 	color: #ff0000;
