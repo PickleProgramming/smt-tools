@@ -5,11 +5,6 @@
 	justify-content: center;
 	.mat-elevation-z12 {
 		max-width: 90vw;
-		background-color: #231f20;
-		th,
-		td {
-			color: #ffffff;
-		}
 	}
 }
 
@@ -26,10 +21,8 @@
 // base styling for expansion panels
 @mixin expansion-panel {
 	margin: 1vw;
-	background-color: #231f20;
 	max-width: 90vw;
 	mat-panel-title {
-		color: #ffffff;
 		justify-content: center;
 	}
 
