@@ -1,14 +1,17 @@
+:host ::ng-deep p {
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 16pt;
+}
+
 :host ::ng-deep .race-cell {
 	align-items: center;
 	align-content: center;
 	padding-left: 0px;
 	margin-left: 0px;
 	p {
-		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-		font-size: 16pt;
-		font-weight: 900;
 		color: black;
 		letter-spacing: -1px;
+		font-weight: 900;
 
 		transform: scale(0.7, 1.5);
 		border-radius: 3px;
@@ -21,10 +24,28 @@
 :host ::ng-deep .level-cell {
 	padding-top: 1%;
 	p {
-		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-		font-size: 16pt;
 		font-weight: 900;
 		color: white;
-		letter-spacing: -1px;
 	}
+}
+
+:host ::ng-deep .name-cell {
+	text-align: left;
+	p {
+		font-weight: 500;
+		color: white;
+	}
+}
+
+:host ::ng-deep .header-cell {
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 16pt;
+	font-weight: 900;
+	font-style: italic;
+}
+
+:host ::ng-deep table {
+	background-color: black;
+	border-radius: 3px;
+	border: 3px solid white;
 }
