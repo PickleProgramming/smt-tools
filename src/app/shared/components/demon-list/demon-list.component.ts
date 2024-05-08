@@ -17,26 +17,25 @@ import { TableConfig } from '@shared/types/table-config'
 	styleUrls: ['./demon-list.component.scss'],
 })
 export class DemonListComponent implements OnInit, AfterViewInit {
-	@Input() demons!: { [name: string]: Demon }
-	@Input() tableConfig!: TableConfig
-	@ViewChild(MatSort) sort!: MatSort
-	demonSource!: MatTableDataSource<DemonElem>
+	@Input() declare demons: { [name: string]: Demon }
+	@Input() declare tableConfig: TableConfig
+	@ViewChild(MatSort) declare sort: MatSort
+	declare demonSource: MatTableDataSource<DemonElem>
 
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.tableConfig) {
-			throw new Error('DemonListComponent was not passed a TableConfig')
-		}
-		if (!this.demons) {
-			throw new Error('DemonListComponent was not passed a Demon list')
-		}
 		let demonArr: DemonElem[] = []
 		for (let demonName in this.demons) {
 			let demon = this.demons[demonName]
 			demonArr.push(new DemonElem(demonName, demon))
 		}
 		this.demonSource = new MatTableDataSource(demonArr)
+	}
+
+	applyFilter(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value
+		this.demonSource.filter = filterValue.trim().toLowerCase()
 	}
 
 	ngAfterViewInit(): void {
@@ -59,11 +58,6 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 					return 0
 			}
 		}
-	}
-
-	applyFilter(event: Event) {
-		const filterValue = (event.target as HTMLInputElement).value
-		this.demonSource.filter = filterValue.trim().toLowerCase()
 	}
 }
 

@@ -1,28 +1,28 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { DemonListComponent } from './components/demon-list/demon-list.component'
 import { RouterModule } from '@angular/router'
-import { SkillListComponent } from './components/skill-list/skill-list.component'
-import { NormalFusionTableComponent } from './components/normal-fusion-table/normal-fusion-table.component'
-import { ElementFusionTableComponent } from './components/element-fusion-table/element-fusion-table.component'
-import { SettingsComponent } from './components/settings/settings.component'
-import { ShortenPipe } from './pipes/shorten.pipe'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
-import { FusionChainComponent } from './components/fusion-chain/fusion-chain.component'
+
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
-import { DataTablesModule } from 'angular-datatables'
 import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSelectModule } from '@angular/material/select'
-import { GameHeaderComponent } from './components/game-header/game-header.component'
+
+import { DemonListComponent } from './components/demon-list/demon-list.component'
+import { SkillListComponent } from './components/skill-list/skill-list.component'
+import { NormalFusionTableComponent } from './components/normal-fusion-table/normal-fusion-table.component'
+import { ElementFusionTableComponent } from './components/element-fusion-table/element-fusion-table.component'
+import { SettingsComponent } from './components/settings/settings.component'
+import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
+import { DemonBuilderComponent } from './components/demon-builder/demon-builder.component'
+import { ShortenPipe } from './pipes/shorten.pipe'
 
 @NgModule({
 	declarations: [
@@ -33,8 +33,7 @@ import { GameHeaderComponent } from './components/game-header/game-header.compon
 		SettingsComponent,
 		DemonEntryComponent,
 		ShortenPipe,
-		FusionChainComponent,
-		GameHeaderComponent,
+		DemonBuilderComponent,
 	],
 	imports: [
 		CommonModule,
@@ -47,7 +46,6 @@ import { GameHeaderComponent } from './components/game-header/game-header.compon
 		MatInputModule,
 		MatButtonModule,
 		MatCardModule,
-		DataTablesModule,
 		MatTableModule,
 		MatSortModule,
 		MatCheckboxModule,
@@ -61,9 +59,8 @@ import { GameHeaderComponent } from './components/game-header/game-header.compon
 		ElementFusionTableComponent,
 		SettingsComponent,
 		DemonEntryComponent,
-		FusionChainComponent,
+		DemonBuilderComponent,
 		ShortenPipe,
-		GameHeaderComponent,
 	],
 })
 export class SharedModule {}

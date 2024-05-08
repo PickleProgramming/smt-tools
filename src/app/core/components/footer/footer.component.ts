@@ -8,8 +8,7 @@ import { Router } from '@angular/router'
 		<div>
 			<a
 				id="github"
-				href="https://github.com/PickleProgramming/smt-tools"
-			>
+				href="https://github.com/PickleProgramming/smt-tools">
 				<img src="assets/img/github-logo.png" />
 			</a>
 		</div>

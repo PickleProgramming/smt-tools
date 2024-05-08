@@ -1,0 +1,10 @@
+<!-- bar for navigating between different tools specific to a gameName -->
+<div class="bookmarks-row">
+	@for (link of links; track $index) {
+		<a routerLink="{{ link.url }}">
+			<img class="link" src="{{ link.img }}" alt=" {{ link.title }}" />
+		</a>
+	} @empty {
+		<div>No links found...</div>
+	}
+</div>

@@ -12,48 +12,41 @@ import { Demon, Recipe } from '@shared/types/smt-tools.types'
 	styleUrls: ['./demon-entry.component.scss'],
 })
 export class DemonEntryComponent implements OnInit {
-	@Input() compendium!: Compendium
-	@Input() calculator!: FusionCalculator
-	@ViewChild(MatSort) sort!: MatSort
+	@Input() declare compendium: Compendium
+	@Input() declare calculator: FusionCalculator
+	@ViewChild(MatSort) declare sort: MatSort
 
-	demon!: Demon
-	inheritTypes!: boolean[]
-	fissions!: Recipe[]
-	fissionSource!: MatTableDataSource<Recipe>
-	fusions!: Recipe[]
-	fusionSource!: MatTableDataSource<Recipe>
+	declare name: string
+	declare demon: Demon
+	declare inheritTypes: boolean[]
+	declare fissions: Recipe[]
+	declare fissionSource: MatTableDataSource<Recipe>
+	declare fusions: Recipe[]
+	declare fusionSource: MatTableDataSource<Recipe>
 
-	name: string = this.router.url.split('/')[3]
 	displayedFissionColumns = [
-		'cost',
 		'raceA',
 		'levelA',
 		'nameA',
 		'raceB',
 		'nameB',
 		'levelB',
+		'cost',
 	]
 	displayedFusionColumns = [
-		'cost',
 		'raceB',
 		'levelB',
 		'nameB',
 		'raceResult',
 		'nameResult',
 		'levelResult',
+		'cost',
 	]
 
 	constructor(private router: Router) {}
 
 	ngOnInit(): void {
-		if (!this.compendium) {
-			throw new Error('DemonEntryComponent was not passed a Compendium')
-		}
-		if (!this.calculator) {
-			throw new Error(
-				'DemonEntryComponent was not passed a FusionCalculator'
-			)
-		}
+		this.name = this.router.url.split('/')[3]
 		if (this.name.includes('%20')) this.name = this.name.replace('%20', ' ')
 		this.demon = this.compendium.demons[this.name]
 		this.inheritTypes = this.compendium.getInherits(this.demon.inherits!)
@@ -65,5 +58,15 @@ export class DemonEntryComponent implements OnInit {
 
 	ngAfterViewInit(): void {
 		this.fissionSource.sort = this.sort
+	}
+
+	applyFilterFissions(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value
+		this.fissionSource.filter = filterValue.trim().toLowerCase()
+	}
+
+	applyFilterFusions(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value
+		this.fusionSource.filter = filterValue.trim().toLowerCase()
 	}
 }

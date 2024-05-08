@@ -1,0 +1,47 @@
+<mat-sidenav-container>
+	<!-- content that will be in the sidenav -->
+	<mat-sidenav
+		#sidenav
+		mode="over"
+		[(opened)]="opened"
+		(opened)="events.push('open!')"
+		(closed)="events.push('close')"
+	>
+		<!-- Sidenav Content Goes Here -->
+		<div class="sidenav">
+			@for (link of links; track $index) {
+				<mat-card
+					class="card"
+					[ngStyle]="{ 'background-color': link.color }"
+				>
+					<mat-card-content>
+						<a routerLink="{{ link.url }}">
+							<img
+								class="logo"
+								src="{{ link.img }}"
+								class="logo"
+							/>
+						</a>
+					</mat-card-content>
+				</mat-card>
+			} @empty {
+				<div>No games found...</div>
+			}
+		</div>
+	</mat-sidenav>
+	<!-- main content -->
+	<mat-sidenav-content>
+		<!-- button to open sidenav -->
+		<button mat-button class="sidenav-button" (click)="sidenav.toggle()">
+			Options
+		</button>
+		<!-- game content -->
+		<div class="main">
+			<router-outlet></router-outlet>
+		</div>
+		<!-- footer -->
+		<div class="footer">
+			<app-footer></app-footer>
+		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>

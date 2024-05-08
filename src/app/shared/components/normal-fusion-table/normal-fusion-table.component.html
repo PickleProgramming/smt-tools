@@ -5,34 +5,37 @@
 		class="mat-elevation-z12"
 		matSort
 	>
+		<!-- Header Row -->
 		<ng-container matColumnDef="raceA">
 			<th mat-header-cell *matHeaderCellDef>Race</th>
 			<td mat-cell *matCellDef="let race; let i = index">
 				{{ races[i] }}
 			</td>
 		</ng-container>
-		<ng-container *ngFor="let result of races; let i = index">
+
+		@for (result of races; track $index) {
 			<ng-container matColumnDef="{{ result }}">
+				<!-- Header Column -->
 				<th mat-header-cell *matHeaderCellDef>
 					{{ result }}
 				</th>
 
+				<!-- Cells -->
 				<td mat-cell *matCellDef="let results">
-					<ng-container
-						*ngIf="
-							results[races.indexOf(result)] == '-' ||
-								results[races.indexOf(result)] === undefined;
-							else shorter
-						"
-					>
+					<!-- Shorten the race name, if applicable -->
+					@if (
+						results[races.indexOf(result)] == "-" ||
+						results[races.indexOf(result)] === undefined
+					) {
 						{{ results[races.indexOf(result)] }}
-					</ng-container>
-					<ng-template #shorter>
+					} @else {
 						{{ results[races.indexOf(result)] | shorten }}
-					</ng-template>
+					}
 				</td>
 			</ng-container>
-		</ng-container>
+		}
+
+		<!-- Anuglar Table Initializors -->
 		<tr
 			mat-header-row
 			*matHeaderRowDef="displayedColumns; sticky: true"

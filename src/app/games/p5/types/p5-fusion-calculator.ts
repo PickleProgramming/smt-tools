@@ -31,10 +31,10 @@ export class P5FusionCalculator extends FusionCalculator {
 		for (let combo of raceCombos) {
 			let fission: Recipe
 			let raceA: { [name: string]: Demon } = this.getDemonsByRace(
-				combo[0]
+				combo[0],
 			)
 			let raceB: { [name: string]: Demon } = this.getDemonsByRace(
-				combo[1]
+				combo[1],
 			)
 			for (let nameA in raceA) {
 				if (this.isElemental(nameA)) continue

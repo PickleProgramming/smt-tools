@@ -1,35 +1,36 @@
-<table>
-	<thead>
-		<tr>
-			<th colSpan="8">Element Table</th>
-		</tr>
-	</thead>
-	<thead>
-		<tr>
-			<ng-container *ngIf="this.tableConfig.elementTable">
-				<th *ngFor="let elem of this.tableConfig.elementTable?.elems">
-					{{ elem }}
-				</th>
-			</ng-container>
-		</tr>
-	</thead>
-	<tbody>
-		<ng-container *ngIf="this.tableConfig.elementTable">
-			<tr
-				*ngFor="
-					let race of this.tableConfig.elementTable?.races;
-					let i = index
-				"
-			>
-				<th>
-					{{ race }}
-				</th>
-				<td
-					*ngFor="let elem of this.tableConfig.elementTable!.table[i]"
-				>
-					{{ elem }}
-				</td>
-			</tr>
+<div class="table-div">
+	<table
+		mat-table
+		[dataSource]="elemsSource"
+		class="mat-elevation-z12"
+		matSort
+	>
+		<!-- Header Row, Elemental Names -->
+		<ng-container matColumnDef="elementals">
+			<th mat-header-cell *matHeaderCellDef>Race</th>
+			<td mat-cell *matCellDef="let race; let i = index">
+				{{ races[i] }}
+			</td>
 		</ng-container>
-	</tbody>
-</table>
+
+		<!-- Header Column, Race Names -->
+		@for (result of races; track $index) {
+			<ng-container matColumnDef="{{ result }}">
+				<th mat-header-cell *matHeaderCellDef>
+					{{ elementals[$index] }}
+				</th>
+
+				<td mat-cell *matCellDef="let results">
+					{{ results[races.indexOf(result)] }}
+				</td>
+			</ng-container>
+		}
+
+		<!-- Anuglar Table Initializors -->
+		<tr
+			mat-header-row
+			*matHeaderRowDef="displayedColumns; sticky: true"
+		></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+</div>

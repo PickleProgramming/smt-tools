@@ -36,9 +36,6 @@ export class P5SettingsComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.dlcDemons) {
-			throw new Error('P5-settings-component couldnt find dlc demons')
-		}
 		/* enables/disables the packs in the view by checking if they are in 
 		the demonlist */
 		this.packsEnabled = {
