@@ -1,4 +1,4 @@
-// Formats an table with the standard properties
+// base styling for data tables
 @mixin angular-table {
 	margin: 1vw;
 	display: flex;
@@ -13,8 +13,7 @@
 	}
 }
 
-// Formats a filter box that filters an angular table with the standard 
-//  properties
+// base styling for form-fields that filter tables
 @mixin angular-table-filter {
 	display: flex;
 	justify-content: center;
@@ -22,4 +21,16 @@
 		width: 60vw;
 		font-size: 14px;
 	}
+}
+
+// base styling for expansion panels
+@mixin expansion-panel {
+	margin: 1vw;
+	background-color: #231f20;
+	max-width: 90vw;
+	mat-panel-title {
+		color: #ffffff;
+		justify-content: center;
+	}
+
 }
