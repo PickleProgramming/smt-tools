@@ -7,7 +7,13 @@
 		font-size: 16pt;
 	}
 }
-
+@mixin p5-expansion-panel {
+	:host ::ng-deep .expansion-panel {
+		background-color: black;
+		border-radius: 3px;
+		border: 3px solid white;
+	}
+}
 // --Table Styling--
 @mixin p5-table {
 	:host ::ng-deep table {
@@ -64,6 +70,7 @@
 
 //global mixin that can be called for every p5 component
 @mixin style-p5 {
+	@include p5-expansion-panel;
 	@include p5-table;
 	@include p5-race-cell;
 	@include p5-level-cell;
