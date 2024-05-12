@@ -3,10 +3,11 @@
 	<div class="expansion-div">
 		<mat-expansion-panel class="expansion-panel">
 			<mat-expansion-panel-header>
-				<mat-panel-title>
-					<!-- Expansion Bar -->
-					<p>Ingredient A x Ingredient B = {{ name }}</p>
-				</mat-panel-title>
+				<!-- Expansion Bar -->
+				<mat-panel-title> Fuse To {{ name }} </mat-panel-title>
+				<mat-panel-description>
+					Ingredient A x Ingredient B = {{ name }}
+				</mat-panel-description>
 			</mat-expansion-panel-header>
 			<div class="filter-div">
 				<mat-form-field class="filter">
@@ -151,9 +152,10 @@
 		<!-- Fusions -->
 		<mat-expansion-panel class="expansion-panel">
 			<mat-expansion-panel-header>
-				<mat-panel-title>
-					<p>{{ name }} x Ingredient B = Result</p>
-				</mat-panel-title>
+				<mat-panel-title> Fuse From {{ name }} </mat-panel-title>
+				<mat-panel-description>
+					{{ name }} x Ingredient B = Result
+				</mat-panel-description>
 			</mat-expansion-panel-header>
 			<div class="filter-div">
 				<mat-form-field class="filter">
