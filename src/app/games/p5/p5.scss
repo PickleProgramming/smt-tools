@@ -14,6 +14,23 @@
 		border: 3px solid white;
 	}
 }
+@mixin form-field {
+	:host ::ng-deep .filter {
+		color: black;
+		border: 3px solid white;
+		background: black;
+	}
+}
+@mixin label {
+	:host ::ng-deep .label {
+		color: white;
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		font-size: 16pt;
+	}
+	:host ::ng-deep .mat-mdc-text-field-wrapper {
+		--mdc-filled-text-field-container-color: black;
+	}
+}
 // --Table Styling--
 @mixin table {
 	:host ::ng-deep table {
@@ -71,6 +88,8 @@
 //global mixin that can be called for every p5 component
 @mixin style {
 	@include expansion-panel;
+	@include form-field;
+	@include label;
 	@include table;
 	@include race-cell;
 	@include level-cell;
