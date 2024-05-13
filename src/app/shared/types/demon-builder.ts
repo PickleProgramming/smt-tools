@@ -135,21 +135,53 @@ export abstract class DemonBuilder {
 	}
 
 	/**
-	 * Formats a chain and adds the information from @param recipe and emits the
-	 * chain through the Subject. If an existing chain is provided, that chain
-	 * will be formatted, otherwise a new empty chain will be created.
+	 * Checks the sources of a given recipe for the skills specified
 	 *
-	 * @param recipe
-	 * @param skills
-	 * @param innates
-	 * @param chain
+	 * @param targetSkills Skills to look for
+	 * @param recipe Recipe to look in
+	 * @returns List of skills in both @param targetSkills and sources of @param
+	 *   recipe
 	 */
-	protected abstract emitChain(
-		recipe: Recipe,
-		skills: string[],
-		innates: string[],
-		chain?: FusionChain
-	): void
+	protected checkRecipeSkills(
+		targetSkills: string[],
+		recipe: Recipe
+	): string[] {
+		let foundSkills: string[] = []
+		for (let sourceName of recipe.sources) {
+			let intersects = _.intersection(
+				targetSkills,
+				Object.keys(this.compendium.demons[sourceName].skills)
+			)
+			if (intersects.length > 0) {
+				foundSkills = foundSkills.concat(intersects)
+				foundSkills = _.uniq(foundSkills)
+			}
+		}
+		return foundSkills
+	}
+
+	/** @returns A chain with with default initialized values */
+	protected getEmptyChain(): FusionChain {
+		return {
+			steps: [],
+			cost: 0,
+			inherittedSkills: [],
+			innates: [],
+			level: 0,
+			result: '',
+			directions: [],
+		}
+	}
+
+	/**
+	 * Builds the recipe steps for a given chain, and emits the necessary
+	 * information to the DemonBuilder subject
+	 *
+	 * @param skills Target skills to be inherritted on the resultant demon
+	 * @param innates Target skills the resulatant demon will learn
+	 * @param chain FusionChain to emit and build the recipe steps around
+	 */
+	protected abstract emitChain(chain: FusionChain, innates: string[]): void
 
 	/**
 	 * Adds a step to the recipe by pushing the step too the recipe object and

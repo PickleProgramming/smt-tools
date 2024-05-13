@@ -108,12 +108,15 @@ export class P5ChainCalculator extends DemonBuilder {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					if (diff.length == 0) {
-						this.emitChain(fission, foundSkills, innates)
+						let chain = this.getEmptyChain()
+						this.addStep(chain, fission, foundSkills)
+						this.emitChain(chain, innates)
 						break
 					}
 					let chain = this.getChain(diff, 0, sourceName)
 					if (chain != null) {
-						this.emitChain(fission, foundSkills, innates, chain)
+						this.addStep(chain, fission, foundSkills)
+						this.emitChain(chain, innates)
 					}
 				}
 			}
@@ -177,51 +180,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		return null
 	}
 
-	/**
-	 * Checks the sources of a given recipe for the skills specified
-	 *
-	 * @param targetSkills Skills to look for
-	 * @param recipe Recipe to look in
-	 * @returns List of skills in both @param targetSkills and sources of @param
-	 *   recipe
-	 */
-	private checkRecipeSkills(
-		targetSkills: string[],
-		recipe: Recipe
-	): string[] {
-		let foundSkills: string[] = []
-		for (let sourceName of recipe.sources) {
-			let intersects = _.intersection(
-				targetSkills,
-				Object.keys(this.compendium.demons[sourceName].skills)
-			)
-			if (intersects.length > 0) {
-				foundSkills = foundSkills.concat(intersects)
-				foundSkills = _.uniq(foundSkills)
-			}
-		}
-		return foundSkills
-	}
-
-	protected getEmptyChain(): FusionChain {
-		return {
-			steps: [],
-			cost: 0,
-			inherittedSkills: [],
-			innates: [],
-			level: 0,
-			result: '',
-			directions: [],
-		}
-	}
-	protected emitChain(
-		recipe: Recipe,
-		skills: string[],
-		innates: string[],
-		chain?: FusionChain
-	): void {
-		if (!chain) chain = this.getEmptyChain()
-		this.addStep(chain, recipe, skills)
+	protected emitChain(chain: FusionChain, innates: string[]): void {
 		chain.cost = this.getCost(chain)
 		chain.level = this.levelRequired(chain)
 		chain.innates = innates
@@ -235,7 +194,6 @@ export class P5ChainCalculator extends DemonBuilder {
 		}
 		chain.directions = this.getDirections(chain)
 		this.chains.push(chain)
-		//emit the data from the observable, thus adding it to the table
 		this.resultMessageSubject.next({
 			results: this.chains,
 			combo: this.combo,
