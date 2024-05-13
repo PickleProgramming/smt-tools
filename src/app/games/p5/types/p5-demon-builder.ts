@@ -35,8 +35,6 @@ export class P5ChainCalculator extends DemonBuilder {
 		})
 		return this.resultMessageObservable
 	}
-	/* returns void because it will emit an event to the observable upon 
-		completion instead */
 	private getChains_targetSkills(targetSkills: string[]): void {
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
@@ -76,8 +74,6 @@ export class P5ChainCalculator extends DemonBuilder {
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
-	/* returns void because it will emit an event to the observable upon 
-		completion instead */
 	private getChains_targetSkills_demonName(
 		skills: string[],
 		demonName: string
@@ -112,12 +108,12 @@ export class P5ChainCalculator extends DemonBuilder {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					if (diff.length == 0) {
-						this.finishChain(fission, foundSkills, innates)
+						this.emitChain(fission, foundSkills, innates)
 						break
 					}
 					let chain = this.getChain(diff, 0, sourceName)
 					if (chain != null) {
-						this.finishChain(fission, foundSkills, innates, chain)
+						this.emitChain(fission, foundSkills, innates, chain)
 					}
 				}
 			}
@@ -181,8 +177,14 @@ export class P5ChainCalculator extends DemonBuilder {
 		return null
 	}
 
-	/* @returns a list of skils that intersects @param targetSkills
-		and all the skills in @param recipe sources */
+	/**
+	 * Checks the sources of a given recipe for the skills specified
+	 *
+	 * @param targetSkills Skills to look for
+	 * @param recipe Recipe to look in
+	 * @returns List of skills in both @param targetSkills and sources of @param
+	 *   recipe
+	 */
 	private checkRecipeSkills(
 		targetSkills: string[],
 		recipe: Recipe
@@ -212,9 +214,7 @@ export class P5ChainCalculator extends DemonBuilder {
 			directions: [],
 		}
 	}
-	/* formats/creates a chain and adds the information from @param recipe and 
-	@param skills and adds it to the @param fusionChain */
-	protected finishChain(
+	protected emitChain(
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],

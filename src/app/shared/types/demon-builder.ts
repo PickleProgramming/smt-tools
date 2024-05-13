@@ -27,52 +27,86 @@ export abstract class DemonBuilder {
 		this.calculator = calculator
 	}
 
-	/*  @param targetSkills: a list of skills for the final demon
-        @param demonName: the name of the demon to fuse to
-        @returns a stream of messages updated whenever a chain is added to 
-			this.chains configured by ChainCalculator's properties*/
+	/**
+	 * Attempts to create as many fusion chains as possible that match the given
+	 * parameters. If it finds the fusion is impossible, it should emit and
+	 * FusionChain with an error explaining why. If it finds possible fusions,
+	 * it should emit them to the observable as it calculates them
+	 *
+	 * @param targetSkills: A list of skills for the final demon
+	 * @param demonName: The name of the demon to fuse to
+	 * @returns A stream of messages updated whenever a chain is added to
+	 *   this.chains configured by ChainCalculator's properties
+	 */
 	abstract getChains(
 		targetSkills: string[],
 		demonName?: string
 	): Observable<ResultsMessage>
 
-	/*  @param targetSkills: list of skills for the final demon to inherit
-        @param recursiveDepth: an incremental number to keep track of the
-            number of times the function has called itself. should be 0
-            unless the function is calling itself
-        @param demonName: name of the demon to fuse to*/
+	/**
+	 * Attempts to create a single fusion chain that results in the specified
+	 * demon with the specified skills.
+	 *
+	 * @param targetSkills: List of skills for the final demon to inherit
+	 * @param recursiveDepth: An incremental number to keep track of the number
+	 *   of times the function has called itself. should be 0 unless the
+	 *   function is calling itself
+	 * @param demonName: Name of the demon to fuse to
+	 * @returns A single chain of fusions that result in specified demon and
+	 *   skills
+	 */
 	protected abstract getChain(
 		targetSkills: string[],
 		recursiveDepth: number,
 		demonName: string
 	): FusionChain | null
 
-	/* Determines if the passed persona is capable of learning the skills passed
-        determines if ANY persona is capable if no name or recipe is give. 
-        Throws error if both a demonName and a recipe are provided.
-        @param skills: a list of skills to check if possible to inherit
-        @param demonName: a demon to check if they can inherit the skills
-        @param recipe: a recipe to check if either source is incapable of
-            inheritting. True if sourceA || sourceB can, false otherwise
-        @returns {possible: boolean, reason: string} if possible, reason is 
-		always null, if not possible, reason should contain feedback for user
-		as to why this fusion is impossible.*/
+	/**
+	 * Throws error if both a demonName and a recipe are provided.
+	 *
+	 * If a demon name is provided: determines if the passed demon is capable of
+	 * learning the skills passed.
+	 *
+	 * If a recipe is provied, determines if the sources are capable of
+	 * inheritting the specified skills.
+	 *
+	 * If neither are provided checks to see if the specified skills are
+	 * possible for ANY demon.
+	 *
+	 * @param skills: A list of skills to check if possible to inherit
+	 * @param demonName: A demon to check if they can inherit the skills
+	 * @param recipe: A recipe to check if either source is incapable of
+	 *   inheritting. True if sourceA || sourceB can, false otherwise
+	 * @returns {possible: boolean, reason: string} If possible, reason is
+	 *   always null, if not possible, reason should contain feedback for user
+	 *   as to why this fusion is impossible.
+	 */
 	protected abstract isPossible(
 		skills: string[],
 		demonName?: string,
 		recipe?: Recipe
 	): { possible: boolean; reason: string }
 
-	/*  @param recipe: recipe to be checked
-        @returns the total number of skills the demon in the recipes result
-            can inherit from its sources*/
+	/**
+	 * Gets the maximum number of a skills a demon can inherit in a given
+	 * recipe.
+	 *
+	 * @param recipe: Recipe to be checked
+	 * @returns The total number of skills the demon in the recipes result can
+	 *   inherit from its sources
+	 */
 	protected getMaxNumOfInherittedSkills(recipe: Recipe): number {
 		if (recipe.sources.length == 2) return 4
 		if (recipe.sources.length >= 4) return 6
 		return 5
 	}
 
-	/* Returns every combination of subarrays from the passed array*/
+	/**
+	 * Returns every combination of subarrays from the passed array
+	 *
+	 * @param arr
+	 * @returns
+	 */
 	protected getSubArrays(arr: string[]): string[][] {
 		if (arr === undefined)
 			throw new Error('getSubArrays called with undefined argument')
@@ -86,8 +120,13 @@ export abstract class DemonBuilder {
 		}
 	}
 
-	/* false if none of the sources in the recipe exceed max level, 
-        true otherwise */
+	/**
+	 * False if none of the sources in the recipe exceed this.maxLevel, true
+	 * otherwise
+	 *
+	 * @param recipe
+	 * @returns
+	 */
 	protected exceedsMaxLevel(recipe: Recipe): boolean {
 		for (let sourceName of recipe.sources)
 			if (this.compendium.demons[sourceName].level > this.maxLevel)
@@ -95,18 +134,31 @@ export abstract class DemonBuilder {
 		return false
 	}
 
-	protected abstract finishChain(
+	/**
+	 * Formats a chain and adds the information from @param recipe and emits the
+	 * chain through the Subject. If an existing chain is provided, that chain
+	 * will be formatted, otherwise a new empty chain will be created.
+	 *
+	 * @param recipe
+	 * @param skills
+	 * @param innates
+	 * @param chain
+	 */
+	protected abstract emitChain(
 		recipe: Recipe,
 		skills: string[],
 		innates: string[],
 		chain?: FusionChain
 	): void
 
-	/* adds a step to the recipe by pushing the step too the recipe object and
-	adding the skills to inherit in that step to the inherrittedSkills array
-	@param chain: the chain to add the steps to
-	@param recipe: the recipe to add the steps to
-	@param inherittedSkills: the array of skills to inherit in that step */
+	/**
+	 * Adds a step to the recipe by pushing the step too the recipe object and
+	 * adding the skills to inherit in that step to the inherrittedSkills array
+	 *
+	 * @param chain: The chain to add the steps to
+	 * @param recipe: The recipe to add the steps to
+	 * @param inherittedSkills: The array of skills to inherit in that step
+	 */
 	protected addStep(
 		chain: FusionChain,
 		recipe: Recipe,
@@ -116,19 +168,25 @@ export abstract class DemonBuilder {
 		chain.inherittedSkills.push(inherittedSkills)
 	}
 
-	/* gets the estimated cost of the fusion chain
-	@param chain: the fusion chain to estimate the cost for
-	@return number: the estimated cost */
+	/**
+	 * Gets the estimated cost of the fusion chain
+	 *
+	 * @param chain: The fusion chain to estimate the cost for
+	 * @returns Number: the estimated cost
+	 */
 	protected getCost(chain: FusionChain): number {
 		let cost: number = 0
 		for (let step of chain.steps) cost += step.cost!
 		return cost
 	}
 
-	/* generates a string to be shown in the html instructing the user
-	how to fuse the desired demon
-	@param chain: the chain to get instructions for
-	@return string[]: an array of lines to be displayed in the html*/
+	/**
+	 * Generates a string to be shown in the html instructing the user how to
+	 * fuse the desired demon
+	 *
+	 * @param chain: The chain to get instructions for
+	 * @returns String[]: an array of lines to be displayed in the html
+	 */
 	protected getDirections(chain: FusionChain): string[] {
 		let directions: string[] = []
 		for (let i = 0; i < chain.steps.length; i++) {
@@ -174,7 +232,12 @@ export abstract class DemonBuilder {
 		return directions
 	}
 
-	/* returns the level of the highest level demon in the provided chain */
+	/**
+	 * Returns the level of the highest level demon in the provided chain.
+	 *
+	 * @param chain FusionChain to be evaluated
+	 * @returns The largest level in the chain
+	 */
 	levelRequired(chain: FusionChain): number {
 		let level = 0
 		for (let recipe of chain.steps) {
