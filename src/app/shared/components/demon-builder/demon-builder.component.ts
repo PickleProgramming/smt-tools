@@ -12,7 +12,7 @@ import { Compendium } from '@shared/types/compendium'
 import { Observable, of, Subject } from 'rxjs'
 import { map, startWith, takeUntil } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
-import _ from 'lodash'
+import _, { round } from 'lodash'
 import {
 	BuildRecipe,
 	ResultsMessage,
@@ -61,6 +61,10 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/*if the worker detects an error to display to the user, it will be in this 
 	variable*/
 	userError = ''
+	/* time the function ran */
+	startTime = 0
+	endTime = 0
+	deltaTime = 0
 
 	//TODO testing
 	testing: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -103,6 +107,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		and read the data we recieved back with .subscribe().
 		https://github.com/cloudnc/observable-webworker*/
 	calculate() {
+		this.startTime = performance.now()
 		this.userError = ''
 		this.calculating = true
 		let inputSkills: string[] = []
@@ -130,29 +135,35 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			.subscribe((data) => {
 				if (data.error) {
 					this.userError = data.error
-				} else {
-					if (data.combo == null || data.results == null) {
-						this.calculating = false
-						this.notifier.next()
-						if (this.buildsSource.data.length == 0) {
-							if (this.userError == '') {
-								this.userError =
-									"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-							}
-						} else {
-							this.userError = ''
-						}
-						return
-					}
-					this.combo = data.combo
-					this.buildsSource.data = data.results
 				}
+				if (data.combo == null || data.results == null) {
+					this.endTime = performance.now()
+					this.deltaTime = round(
+						(this.endTime - this.startTime) / 1000,
+						3
+					)
+					this.calculating = false
+					this.notifier.next()
+					if (this.buildsSource.data.length == 0) {
+						if (this.userError == '') {
+							this.userError =
+								"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+						}
+					} else {
+						this.userError = ''
+					}
+					return
+				}
+				this.combo = data.combo
+				this.buildsSource.data = data.results
 			})
 	}
 
 	stop() {
 		this.notifier.next()
 		this.calculating = false
+		this.endTime = performance.now()
+		this.deltaTime = round((this.endTime - this.startTime) / 1000, 3)
 	}
 
 	reset() {
@@ -166,7 +177,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.userError = ''
 	}
 
-	//TODO: testing
+	// testing stuff
 	test(): void {
 		this.reset()
 		if (!this.testingControl) return
@@ -242,7 +253,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			default:
 				this.levelControl.setValue('37')
 				this.skillControls[0].setValue('Miracle Punch')
-				this.skillControls[1].setValue('Mabufalu')
+				this.skillControls[1].setValue('Mabufula')
 				this.skillControls[2].setValue('Attack Master')
 				return
 		}

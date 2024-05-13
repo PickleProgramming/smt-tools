@@ -114,6 +114,9 @@
 		}
 		<!-- Chain Display -->
 		@if (buildsSource.data.length > 0) {
+			@if (!calculating) {
+				<p>Ran for {{ deltaTime }} seconds</p>
+			}
 			<table
 				mat-table
 				[dataSource]="buildsSource"
