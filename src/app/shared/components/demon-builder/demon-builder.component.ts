@@ -39,11 +39,11 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	@Input() compendium!: Compendium
 	@ViewChild(MatSort) sort!: MatSort
 
-	skills!: string[]
-	demons!: string[]
-	filteredDemons!: Observable<string[]>
-	expandedChain!: FusionChain
-	directions!: string[][]
+	declare skills: string[]
+	declare demons: string[]
+	declare filteredDemons: Observable<string[]>
+	declare expandedChain: FusionChain
+	declare directions: string[][]
 
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
@@ -66,9 +66,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		if (!this.compendium) {
-			throw new Error('FusionChainComponent was not given a Compendium')
-		}
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
 		this.filteredDemons = this.demonControl.valueChanges.pipe(

@@ -10,7 +10,7 @@ import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
 /* Class to run the fusion calculator in a web worker utilizes the 
     observable-worker library to make things much easier to deal with 
     https://github.com/cloudnc/observable-webworker*/
-export class FusionChainWorker
+export class DemonBuilderWorker
 	implements DoWorkUnit<InputChainData, ChainMessage>
 {
 	chains: FusionChain[] = []
@@ -35,11 +35,11 @@ export class FusionChainWorker
 		if (inputData.demonName) {
 			return this.chainCalc.getChains(
 				inputData.inputSkills,
-				inputData.demonName,
+				inputData.demonName
 			)
 		}
 		return this.chainCalc.getChains(inputData.inputSkills)
 	}
 }
 
-runWorker(FusionChainWorker)
+runWorker(DemonBuilderWorker)
