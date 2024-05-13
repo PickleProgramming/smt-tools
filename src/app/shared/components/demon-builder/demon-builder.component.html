@@ -1,154 +1,181 @@
-<mat-card class="demon-form">
-	<!-- Demon and Level -->
-	<form>
-		<mat-form-field class="demon-form-field" appearance="fill">
-			<mat-label>Demon</mat-label>
-			<input
-				type="text"
-				placeholder="Mara"
-				aria-label="Demon Name"
-				matInput
-				[formControl]="demonControl"
-				[matAutocomplete]="auto"
-			/>
-			<mat-autocomplete #auto="matAutocomplete">
-				@for (demon of filteredDemons | async; track $index) {
-					<mat-option [value]="demon">
-						{{ demon }}
-					</mat-option>
-				}
-			</mat-autocomplete>
-		</mat-form-field>
-		<mat-form-field class="demon-form-field" appearance="fill">
-			<mat-label>Max Level</mat-label>
-			<input type="number" matInput [formControl]="levelControl" />
-		</mat-form-field>
-	</form>
-
-	<!-- Skills -->
-	<div class="skills" layout="column">
-		@for (skillControl of skillControls; track $index) {
-			<form class="skill-form">
-				<mat-form-field class="skill-form-field" appearance="fill">
-					<mat-label>Skill {{ $index + 1 }}</mat-label>
+<div class="builder-div">
+	<div class="form-wrapper">
+		<mat-card class="demon-form">
+			<!-- Demon and Level -->
+			<form>
+				<mat-form-field class="demon-form-field" appearance="fill">
+					<mat-label>Demon</mat-label>
 					<input
 						type="text"
-						placeholder="Maragi"
-						aria-label="Skill"
+						placeholder="Mara"
+						aria-label="Demon Name"
 						matInput
-						[formControl]="skillControl"
+						[formControl]="demonControl"
 						[matAutocomplete]="auto"
 					/>
 					<mat-autocomplete #auto="matAutocomplete">
-						@for (
-							skill of filteredSkills[$index] | async;
-							track $index
-						) {
-							<mat-option [value]="skill">
-								{{ skill }}
+						@for (demon of filteredDemons | async; track $index) {
+							<mat-option [value]="demon">
+								{{ demon }}
 							</mat-option>
 						}
 					</mat-autocomplete>
 				</mat-form-field>
+				<mat-form-field class="demon-form-field" appearance="fill">
+					<mat-label>Max Level</mat-label>
+					<input
+						type="number"
+						matInput
+						[formControl]="levelControl"
+					/>
+				</mat-form-field>
 			</form>
-		}
-	</div>
-
-	<!-- Buttons -->
-	<div class="buttons">
-		<button (click)="calculate()" color="primary" mat-raised-button>
-			Calculate
-		</button>
-		<button (click)="stop()" color="primary" mat-raised-button>Stop</button>
-		<button (click)="reset()" color="primary" mat-raised-button>
-			Clear
-		</button>
-		<button (click)="test()" color="warn" mat-raised-button>Testing</button>
-		<mat-form-field appearance="fill">
-			<mat-select [formControl]="testingControl">
-				@for (case of testing; track $index) {
-					<mat-option value="{{ case }}">
-						{{ case }}
-					</mat-option>
+			<!-- Skills -->
+			<div class="skills-div" layout="column">
+				@for (skillControl of skillControls; track $index) {
+					<form>
+						<mat-form-field
+							class="skill-form-field"
+							appearance="fill"
+						>
+							<mat-label>Skill {{ $index + 1 }}</mat-label>
+							<input
+								type="text"
+								placeholder="Maragi"
+								aria-label="Skill"
+								matInput
+								[formControl]="skillControl"
+								[matAutocomplete]="auto"
+							/>
+							<mat-autocomplete #auto="matAutocomplete">
+								@for (
+									skill of filteredSkills[$index] | async;
+									track $index
+								) {
+									<mat-option [value]="skill">
+										{{ skill }}
+									</mat-option>
+								}
+							</mat-autocomplete>
+						</mat-form-field>
+					</form>
 				}
-			</mat-select>
-		</mat-form-field>
-		<mat-checkbox class="testing-check" [(ngModel)]="deep">
-			Deep?
-		</mat-checkbox>
-	</div>
-</mat-card>
-
-@if (calculating) {
-	<mat-spinner></mat-spinner>
-}
-
-@if (combo > 0) {
-	<p class="combos">
-		{{ combo }}
-	</p>
-}
-
-<!-- Chain Display -->
-@if (chainSource.data.length > 0) {
-	<table
-		mat-table
-		[dataSource]="chainSource"
-		multiTemplateDataRows
-		class="mat-elevation-z12"
-		matSort
-	>
-		<ng-container matColumnDef="result">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>Result</th>
-			<td mat-cell *matCellDef="let chain">{{ chain.result }}</td>
-		</ng-container>
-		<ng-container matColumnDef="cost">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
-			<td mat-cell *matCellDef="let chain">{{ chain.cost }}</td>
-		</ng-container>
-		<ng-container matColumnDef="level">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>
-				Level Required
-			</th>
-			<td mat-cell *matCellDef="let chain">{{ chain.level }}</td>
-		</ng-container>
-		<ng-container matColumnDef="steps">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>Steps</th>
-			<td mat-cell *matCellDef="let chain">{{ chain.steps.length }}</td>
-		</ng-container>
-
-		<ng-container matColumnDef="expandedDetail">
-			<td
-				mat-cell
-				*matCellDef="let chain"
-				[attr.colspan]="columnsToDisplay.length"
-			>
-				<div
-					class="chain-detail"
-					[@detailExpand]="
-						chain == expandedChain ? 'expanded' : 'collapsed'
-					"
-				>
-					<div class="directions">
-						@for (direction of chain.directions; track $index) {
-							<p>{{ direction }} <br /></p>
+			</div>
+			<!-- Buttons -->
+			<div class="buttons-div">
+				<button (click)="calculate()" color="primary" mat-raised-button>
+					Calculate
+				</button>
+				<button (click)="stop()" color="primary" mat-raised-button>
+					Stop
+				</button>
+				<button (click)="reset()" color="primary" mat-raised-button>
+					Clear
+				</button>
+			</div>
+			<div class="testing-div">
+				<button (click)="test()" color="warn" mat-raised-button>
+					Testing
+				</button>
+				<mat-form-field appearance="fill">
+					<mat-select [formControl]="testingControl">
+						@for (case of testing; track $index) {
+							<mat-option value="{{ case }}">
+								{{ case }}
+							</mat-option>
 						}
-					</div>
-				</div>
-			</td>
-		</ng-container>
-		<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-		<tr
-			mat-row
-			*matRowDef="let chain; columns: columnsToDisplay"
-			class="chain-row"
-			[class.chain-row]="expandedChain === chain"
-			(click)="expandedChain = expandedChain === chain ? null : chain"
-		></tr>
-		<tr
-			mat-row
-			*matRowDef="let row; columns: ['expandedDetail']"
-			class="chain-detail-row"
-		></tr>
-	</table>
-}
+					</mat-select>
+				</mat-form-field>
+				<mat-checkbox [(ngModel)]="deep"> Recursive? </mat-checkbox>
+			</div>
+		</mat-card>
+	</div>
+
+	<mat-card class="build-results">
+		@if (calculating) {
+			<mat-spinner></mat-spinner>
+		}
+		@if (combo > 0) {
+			<p class="combos">
+				{{ combo }}
+			</p>
+		}
+		<!-- Chain Display -->
+		@if (chainSource.data.length > 0) {
+			<table
+				mat-table
+				[dataSource]="chainSource"
+				multiTemplateDataRows
+				class="mat-elevation-z12"
+				matSort
+			>
+				<ng-container matColumnDef="result">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+						Result
+					</th>
+					<td mat-cell *matCellDef="let chain">{{ chain.result }}</td>
+				</ng-container>
+				<ng-container matColumnDef="cost">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+						Cost
+					</th>
+					<td mat-cell *matCellDef="let chain">{{ chain.cost }}</td>
+				</ng-container>
+				<ng-container matColumnDef="level">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+						Level Required
+					</th>
+					<td mat-cell *matCellDef="let chain">{{ chain.level }}</td>
+				</ng-container>
+				<ng-container matColumnDef="steps">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+						Steps
+					</th>
+					<td mat-cell *matCellDef="let chain">
+						{{ chain.steps.length }}
+					</td>
+				</ng-container>
+				<ng-container matColumnDef="expandedDetail">
+					<td
+						mat-cell
+						*matCellDef="let chain"
+						[attr.colspan]="columnsToDisplay.length"
+					>
+						<div
+							class="chain-detail"
+							[@detailExpand]="
+								chain == expandedChain
+									? 'expanded'
+									: 'collapsed'
+							"
+						>
+							<div class="directions">
+								@for (
+									direction of chain.directions;
+									track $index
+								) {
+									<p>{{ direction }} <br /></p>
+								}
+							</div>
+						</div>
+					</td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+				<tr
+					mat-row
+					*matRowDef="let chain; columns: columnsToDisplay"
+					class="chain-row"
+					[class.chain-row]="expandedChain === chain"
+					(click)="
+						expandedChain = expandedChain === chain ? null : chain
+					"
+				></tr>
+				<tr
+					mat-row
+					*matRowDef="let row; columns: ['expandedDetail']"
+					class="chain-detail-row"
+				></tr>
+			</table>
+		}
+	</mat-card>
+</div>
