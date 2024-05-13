@@ -7,10 +7,10 @@ import { ResultsMessage, FusionChain, Recipe } from './smt-tools.types'
 export abstract class DemonBuilder {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
-	protected chainMessageSubject = new Subject<ResultsMessage>()
+	protected resultMessageSubject = new Subject<ResultsMessage>()
 	combo: number = 0
 	chains: FusionChain[] = []
-	chainMessageObservable = this.chainMessageSubject.asObservable()
+	resultMessageObservable = this.resultMessageSubject.asObservable()
 
 	maxLevel = 99
 	/* @setting deep: if true the functions will search fissions even if they

@@ -18,7 +18,7 @@ export class DemonBuilderWorker
 
 	public workUnit(input: InputChainData): Observable<ResultsMessage> {
 		const output$: Subject<ResultsMessage> = new ReplaySubject(Infinity)
-		const sub = this.demonBuilder.chainMessageObservable.subscribe(
+		const sub = this.demonBuilder.resultMessageObservable.subscribe(
 			(data) => {
 				output$.next({
 					results: data.results,

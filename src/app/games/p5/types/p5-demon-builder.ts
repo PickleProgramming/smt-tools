@@ -28,12 +28,12 @@ export class P5ChainCalculator extends DemonBuilder {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
 		} else this.getChains_targetSkills(targetSkills)
 		// null data tells listeners the messages are finished
-		this.chainMessageSubject.next({
+		this.resultMessageSubject.next({
 			results: null,
 			combo: null,
 			error: null,
 		})
-		return this.chainMessageObservable
+		return this.resultMessageObservable
 	}
 	/* returns void because it will emit an event to the observable upon 
 		completion instead */
@@ -54,7 +54,7 @@ export class P5ChainCalculator extends DemonBuilder {
 			if (chains.length >= this.maxChainLength) return
 			let possibility = this.isPossible(targetSkills, demonName)
 			if (!possibility.possible) {
-				this.chainMessageSubject.next({
+				this.resultMessageSubject.next({
 					results: null,
 					combo: null,
 					error: possibility.reason,
@@ -86,7 +86,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		let targetSkills = _.cloneDeep(skills)
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) {
-			this.chainMessageSubject.next({
+			this.resultMessageSubject.next({
 				results: null,
 				combo: null,
 				error: possibility.reason,
@@ -138,7 +138,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		if (recursiveDepth > this.recursiveDepth) return null
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) {
-			this.chainMessageSubject.next({
+			this.resultMessageSubject.next({
 				results: null,
 				combo: null,
 				error: possibility.reason,
@@ -150,7 +150,7 @@ export class P5ChainCalculator extends DemonBuilder {
 			this.combo++
 			let possibility = this.isPossible(targetSkills, undefined, fission)
 			if (!possibility.possible) {
-				this.chainMessageSubject.next({
+				this.resultMessageSubject.next({
 					results: null,
 					combo: null,
 					error: possibility.reason,
@@ -236,7 +236,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		chain.directions = this.getDirections(chain)
 		this.chains.push(chain)
 		//emit the data from the observable, thus adding it to the table
-		this.chainMessageSubject.next({
+		this.resultMessageSubject.next({
 			results: this.chains,
 			combo: this.combo,
 			error: null,
