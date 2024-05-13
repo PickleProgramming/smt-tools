@@ -3,8 +3,8 @@ import { Observable } from 'rxjs'
 
 import {
 	ResultsMessage,
-	FusionChain,
-	Recipe,
+	BuildRecipe,
+	Fusion,
 } from '@shared/types/smt-tools.types'
 import { DemonBuilder } from '@shared/types/demon-builder'
 import { P5Compendium } from './p5-compendium'
@@ -44,7 +44,7 @@ export class P5ChainCalculator extends DemonBuilder {
 				this.getChains_targetSkills_demonName(targetSkills, unique)
 			}
 		}
-		let chains: FusionChain[] = []
+		let chains: BuildRecipe[] = []
 		let errors: string[] = []
 
 		/* Loop through every demon in the compendium checking if they are 
@@ -61,7 +61,7 @@ export class P5ChainCalculator extends DemonBuilder {
 				})
 				continue
 			}
-			let newChains: FusionChain[] = []
+			let newChains: BuildRecipe[] = []
 			let demon = this.compendium.demons[demonName]
 
 			//check if the demon has any skills we need
@@ -80,7 +80,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		skills: string[],
 		demonName: string
 	): void {
-		let chains: FusionChain[] = []
+		let chains: BuildRecipe[] = []
 		let targetSkills = _.cloneDeep(skills)
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) {
@@ -128,7 +128,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		targetSkills: string[],
 		recursiveDepth: number,
 		demonName: string
-	): FusionChain | null {
+	): BuildRecipe | null {
 		this.combo++
 		if (targetSkills.length == 0) {
 			throw new Error(
@@ -183,7 +183,7 @@ export class P5ChainCalculator extends DemonBuilder {
 	protected isPossible(
 		targetSkills: string[],
 		demonName?: string,
-		recipe?: Recipe
+		recipe?: Fusion
 	): { possible: boolean; reason: string } {
 		if (recipe !== undefined && demonName !== undefined) {
 			throw new Error(
@@ -258,7 +258,7 @@ export class P5ChainCalculator extends DemonBuilder {
 	}
 	private isPossible_targetSkills_recipe(
 		targetSkills: string[],
-		recipe: Recipe
+		recipe: Fusion
 	): { possible: boolean; reason: string } {
 		for (let sourceName of recipe.sources) {
 			let possibility = this.isPossible_targetSkills_demonName(

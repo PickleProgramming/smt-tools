@@ -3,7 +3,7 @@ import {
 	Demon,
 	Skill,
 	FusionTable,
-	Recipe,
+	Fusion,
 	ElementTable,
 } from './smt-tools.types'
 
@@ -77,7 +77,7 @@ export abstract class Compendium {
 	/* calculate the approximate cost of the given recipe cost is impossible
       to determine exactly as it varies on in game factors that are simply
       not feasible to account for. */
-	abstract getCost(recipe: Recipe): number
+	abstract getCost(recipe: Fusion): number
 
 	/* Returns an array of boolean that correspon to which 
     type of skills the passed element can inherit
@@ -97,13 +97,13 @@ export abstract class Compendium {
 	}
 
 	/* @returns: a recipe interface for the provided specialFusion result */
-	buildSpecialRecipe(targetName: string): Recipe {
+	buildSpecialRecipe(targetName: string): Fusion {
 		if (this.specialRecipes == undefined)
 			throw new Error(
 				'called buildSpecialRecipe on a compendium with ' +
 					' no specialRecipes'
 			)
-		let recipe: Recipe = {
+		let recipe: Fusion = {
 			sources: [],
 			result: targetName,
 		}

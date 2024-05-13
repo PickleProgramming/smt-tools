@@ -1,7 +1,7 @@
 import { P5_DEMON_BUILDER } from '@shared/constants'
 import {
 	ResultsMessage,
-	FusionChain,
+	BuildRecipe,
 	InputChainData,
 } from '@shared/types/smt-tools.types'
 import { DoWorkUnit, runWorker } from 'observable-webworker'
@@ -13,7 +13,7 @@ import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
 export class DemonBuilderWorker
 	implements DoWorkUnit<InputChainData, ResultsMessage>
 {
-	chains: FusionChain[] = []
+	chains: BuildRecipe[] = []
 	demonBuilder = P5_DEMON_BUILDER
 
 	public workUnit(input: InputChainData): Observable<ResultsMessage> {

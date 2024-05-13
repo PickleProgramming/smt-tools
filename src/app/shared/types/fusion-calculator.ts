@@ -1,5 +1,5 @@
 import { Compendium } from './compendium'
-import { Recipe, Demon } from './smt-tools.types'
+import { Fusion, Demon } from './smt-tools.types'
 
 export abstract class FusionCalculator {
 	compendium: Compendium
@@ -12,19 +12,19 @@ export abstract class FusionCalculator {
         @param demon: name of the resultant demon
         @returns {Recipe[]} a list of recipes where the passed
             demon is the resultant demon*/
-	abstract getFissions(targetName: string): Recipe[]
+	abstract getFissions(targetName: string): Fusion[]
 
 	/* get list of different fusions that the passed demon can participate in
         @param demon: name of factor demon
         @returns {Recipe[]} a list of recipes where the passed demon is a factor */
-	abstract getFusions(targetName: string): Recipe[]
+	abstract getFusions(targetName: string): Fusion[]
 
 	/* determine the recipe object given the 2 sources
         @param nameA: name of first demon to fuse
         @param nameB: name of second demon to fuse
         @returns {Recipe | null}: returns Recipe object if fusion was possible
             or null otherwise */
-	protected abstract fuse(nameA: string, nameB: string): Recipe | null
+	protected abstract fuse(nameA: string, nameB: string): Fusion | null
 
 	/* Returns all the demons in the compendium with the corresponding race
         @param race: the target race
@@ -60,7 +60,7 @@ export abstract class FusionCalculator {
 	protected isSpecial(name: string): boolean {
 		if (this.compendium.specialRecipes === undefined)
 			throw new Error(
-				'isSpecial() called on compendium with no special recipes',
+				'isSpecial() called on compendium with no special recipes'
 			)
 		for (let recipe in this.compendium.specialRecipes)
 			if (name == recipe) return true
@@ -71,7 +71,7 @@ export abstract class FusionCalculator {
 	protected isElemental(name: string): boolean {
 		if (this.compendium.elementTable === undefined)
 			throw new Error(
-				'isElemental() called on compendium with no elementals',
+				'isElemental() called on compendium with no elementals'
 			)
 		for (let element of this.compendium.elementTable.elems)
 			if (name == element) return true

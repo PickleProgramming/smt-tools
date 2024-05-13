@@ -63,7 +63,7 @@ export interface ElementTable {
  * Interface that stores a single fusion in the form of the fusion sources, the
  * resultant demon, and optionally the estimated cost of the fusion
  */
-export interface Recipe {
+export interface Fusion {
 	sources: string[]
 	result: string
 	cost?: number
@@ -73,7 +73,7 @@ export interface Recipe {
  * Interface that stores a chain of fusions to create a desired results, as well
  * as store directions to follow to create the result
  *
- * @property steps A list of recipes that will result in the resultant demon
+ * @property fusions A list of fusions that will result in the resultant demon
  * @property cost Estimated cost of fusing all the demons
  * @property inherittedSkills A list parallel to steps that specificies what
  *   skills should be inheritted at each step
@@ -85,8 +85,8 @@ export interface Recipe {
  *   fusion chain in plain english. This is what is meant to be displayed on the
  *   webpage
  */
-export interface FusionChain {
-	steps: Recipe[]
+export interface BuildRecipe {
+	fusions: Fusion[]
 	cost: number
 	inherittedSkills: string[][]
 	innates: string[]
@@ -102,7 +102,7 @@ export interface FusionChain {
  * the errors are not, the fusion the user asked for was impossible.
  */
 export interface ResultsMessage {
-	results: FusionChain[] | null
+	results: BuildRecipe[] | null
 	combo: number | null
 	error: string | null
 }

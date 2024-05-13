@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table'
 import { Router } from '@angular/router'
 import { Compendium } from '@shared/types/compendium'
 import { FusionCalculator } from '@shared/types/fusion-calculator'
-import { Demon, Recipe } from '@shared/types/smt-tools.types'
+import { Demon, Fusion } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-demon-entry',
@@ -19,10 +19,10 @@ export class DemonEntryComponent implements OnInit {
 	declare name: string
 	declare demon: Demon
 	declare inheritTypes: boolean[]
-	declare fissions: Recipe[]
-	declare fissionSource: MatTableDataSource<Recipe>
-	declare fusions: Recipe[]
-	declare fusionSource: MatTableDataSource<Recipe>
+	declare fissions: Fusion[]
+	declare fissionSource: MatTableDataSource<Fusion>
+	declare fusions: Fusion[]
+	declare fusionSource: MatTableDataSource<Fusion>
 
 	displayedFissionColumns = [
 		'raceA',

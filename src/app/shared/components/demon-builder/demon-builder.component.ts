@@ -14,7 +14,7 @@ import { map, startWith, takeUntil } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
 import _ from 'lodash'
 import {
-	FusionChain,
+	BuildRecipe,
 	ResultsMessage,
 	InputChainData,
 } from '@shared/types/smt-tools.types'
@@ -42,7 +42,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	declare skills: string[]
 	declare demons: string[]
 	declare filteredDemons: Observable<string[]>
-	declare expandedChain: FusionChain
+	declare expandedChain: BuildRecipe
 	declare directions: string[][]
 
 	demonControl = new FormControl('')
@@ -50,7 +50,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	skillControls: FormControl[] = []
 	filteredSkills: Observable<string[]>[] = []
 	columnsToDisplay = ['result', 'cost', 'level', 'steps']
-	chainSource = new MatTableDataSource<FusionChain>()
+	chainSource = new MatTableDataSource<BuildRecipe>()
 	combo: number = 0
 	deep: boolean = false
 	//when true, a progress spinner is rendered on the page
@@ -158,7 +158,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	reset() {
 		this.stop()
 		this.deep = false
-		this.chainSource = new MatTableDataSource<FusionChain>()
+		this.chainSource = new MatTableDataSource<BuildRecipe>()
 		this.combo = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')

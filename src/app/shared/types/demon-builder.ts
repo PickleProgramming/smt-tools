@@ -2,14 +2,14 @@ import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
-import { ResultsMessage, FusionChain, Recipe } from './smt-tools.types'
+import { ResultsMessage, BuildRecipe, Fusion } from './smt-tools.types'
 
 export abstract class DemonBuilder {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
 	protected resultMessageSubject = new Subject<ResultsMessage>()
 	combo: number = 0
-	chains: FusionChain[] = []
+	chains: BuildRecipe[] = []
 	resultMessageObservable = this.resultMessageSubject.asObservable()
 
 	maxLevel = 99
@@ -59,7 +59,7 @@ export abstract class DemonBuilder {
 		targetSkills: string[],
 		recursiveDepth: number,
 		demonName: string
-	): FusionChain | null
+	): BuildRecipe | null
 
 	/**
 	 * Throws error if both a demonName and a recipe are provided.
@@ -84,7 +84,7 @@ export abstract class DemonBuilder {
 	protected abstract isPossible(
 		skills: string[],
 		demonName?: string,
-		recipe?: Recipe
+		recipe?: Fusion
 	): { possible: boolean; reason: string }
 
 	/**
@@ -95,7 +95,7 @@ export abstract class DemonBuilder {
 	 * @returns The total number of skills the demon in the recipes result can
 	 *   inherit from its sources
 	 */
-	protected getMaxNumOfInherittedSkills(recipe: Recipe): number {
+	protected getMaxNumOfInherittedSkills(recipe: Fusion): number {
 		if (recipe.sources.length == 2) return 4
 		if (recipe.sources.length >= 4) return 6
 		return 5
@@ -127,7 +127,7 @@ export abstract class DemonBuilder {
 	 * @param recipe
 	 * @returns
 	 */
-	protected exceedsMaxLevel(recipe: Recipe): boolean {
+	protected exceedsMaxLevel(recipe: Fusion): boolean {
 		for (let sourceName of recipe.sources)
 			if (this.compendium.demons[sourceName].level > this.maxLevel)
 				return true
@@ -144,7 +144,7 @@ export abstract class DemonBuilder {
 	 */
 	protected checkRecipeSkills(
 		targetSkills: string[],
-		recipe: Recipe
+		recipe: Fusion
 	): string[] {
 		let foundSkills: string[] = []
 		for (let sourceName of recipe.sources) {
@@ -161,9 +161,9 @@ export abstract class DemonBuilder {
 	}
 
 	/** @returns A chain with with default initialized values */
-	protected getEmptyChain(): FusionChain {
+	protected getEmptyChain(): BuildRecipe {
 		return {
-			steps: [],
+			fusions: [],
 			cost: 0,
 			inherittedSkills: [],
 			innates: [],
@@ -181,13 +181,13 @@ export abstract class DemonBuilder {
 	 * @param innates Target skills the resulatant demon will learn
 	 * @param chain FusionChain to emit and build the recipe steps around
 	 */
-	protected emitChain(chain: FusionChain, innates: string[]): void {
+	protected emitChain(chain: BuildRecipe, innates: string[]): void {
 		chain.cost = this.getCost(chain)
 		chain.level = this.levelRequired(chain)
 		chain.innates = innates
-		chain.result = chain.steps[chain.steps.length - 1].result
-		if (chain.steps.length > 1) {
-			for (let i = 1; i < chain.steps.length; i++) {
+		chain.result = chain.fusions[chain.fusions.length - 1].result
+		if (chain.fusions.length > 1) {
+			for (let i = 1; i < chain.fusions.length; i++) {
 				chain.inherittedSkills[i] = chain.inherittedSkills[i].concat(
 					chain.inherittedSkills[i - 1]
 				)
@@ -211,11 +211,11 @@ export abstract class DemonBuilder {
 	 * @param inherittedSkills: The array of skills to inherit in that step
 	 */
 	protected addStep(
-		chain: FusionChain,
-		recipe: Recipe,
+		chain: BuildRecipe,
+		recipe: Fusion,
 		inherittedSkills: string[]
 	) {
-		chain.steps.push(recipe)
+		chain.fusions.push(recipe)
 		chain.inherittedSkills.push(inherittedSkills)
 	}
 
@@ -225,9 +225,9 @@ export abstract class DemonBuilder {
 	 * @param chain: The fusion chain to estimate the cost for
 	 * @returns Number: the estimated cost
 	 */
-	protected getCost(chain: FusionChain): number {
+	protected getCost(chain: BuildRecipe): number {
 		let cost: number = 0
-		for (let step of chain.steps) cost += step.cost!
+		for (let step of chain.fusions) cost += step.cost!
 		return cost
 	}
 
@@ -238,10 +238,10 @@ export abstract class DemonBuilder {
 	 * @param chain: The chain to get instructions for
 	 * @returns String[]: an array of lines to be displayed in the html
 	 */
-	protected getDirections(chain: FusionChain): string[] {
+	protected getDirections(chain: BuildRecipe): string[] {
 		let directions: string[] = []
-		for (let i = 0; i < chain.steps.length; i++) {
-			let step = chain.steps[i]
+		for (let i = 0; i < chain.fusions.length; i++) {
+			let step = chain.fusions[i]
 			let direction = `Step ${i + 1}: `
 			if (step.sources.length > 2) {
 				direction += `Use the Special Recipe to fuse ${step.result}.`
@@ -289,9 +289,9 @@ export abstract class DemonBuilder {
 	 * @param chain FusionChain to be evaluated
 	 * @returns The largest level in the chain
 	 */
-	levelRequired(chain: FusionChain): number {
+	levelRequired(chain: BuildRecipe): number {
 		let level = 0
-		for (let recipe of chain.steps) {
+		for (let recipe of chain.fusions) {
 			for (let demonName of recipe.sources)
 				if (this.compendium.demons[demonName].level > level)
 					level = this.compendium.demons[demonName].level

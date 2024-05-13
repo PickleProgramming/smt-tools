@@ -1,5 +1,5 @@
 import { FusionCalculator } from '@shared/types/fusion-calculator'
-import { Recipe, Demon } from '@shared/types/smt-tools.types'
+import { Fusion, Demon } from '@shared/types/smt-tools.types'
 
 import { P5_COMPENDIUM } from '@shared/constants'
 
@@ -8,7 +8,7 @@ export class P5FusionCalculator extends FusionCalculator {
 		super(P5_COMPENDIUM)
 	}
 
-	getFissions(targetName: string): Recipe[] {
+	getFissions(targetName: string): Fusion[] {
 		if (this.isElemental(targetName)) {
 			throw new Error('Called getFissions on an elemental demon')
 		}
@@ -27,14 +27,14 @@ export class P5FusionCalculator extends FusionCalculator {
 		}
 		/* try all fusion with potential combinations filtering those without
             the desired result */
-		let fissions: Recipe[] = []
+		let fissions: Fusion[] = []
 		for (let combo of raceCombos) {
-			let fission: Recipe
+			let fission: Fusion
 			let raceA: { [name: string]: Demon } = this.getDemonsByRace(
-				combo[0],
+				combo[0]
 			)
 			let raceB: { [name: string]: Demon } = this.getDemonsByRace(
-				combo[1],
+				combo[1]
 			)
 			for (let nameA in raceA) {
 				if (this.isElemental(nameA)) continue
@@ -56,8 +56,8 @@ export class P5FusionCalculator extends FusionCalculator {
 		return fissions
 	}
 
-	getFusions(targetName: string): Recipe[] {
-		let recipes: Recipe[] = []
+	getFusions(targetName: string): Fusion[] {
+		let recipes: Fusion[] = []
 		for (let name in this.compendium.demons) {
 			let result = this.fuse(targetName, name)
 			if (result != null) recipes.push(result)
@@ -65,7 +65,7 @@ export class P5FusionCalculator extends FusionCalculator {
 		return recipes
 	}
 
-	protected fuse(nameA: string, nameB: string): Recipe | null {
+	protected fuse(nameA: string, nameB: string): Fusion | null {
 		let demonA = this.compendium.demons[nameA]
 		let demonB = this.compendium.demons[nameB]
 		let recipeLevel: number =
@@ -107,7 +107,7 @@ export class P5FusionCalculator extends FusionCalculator {
 				}
 			}
 		}
-		let ret: Recipe = {
+		let ret: Fusion = {
 			sources: [nameA, nameB],
 			result: result,
 		}
