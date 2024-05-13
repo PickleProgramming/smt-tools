@@ -12,7 +12,7 @@ import { P5FusionCalculator } from './p5-fusion-calculator'
 
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 
-export class P5ChainCalculator extends DemonBuilder {
+export class P5FusionChaainCalculator extends DemonBuilder {
 	declare compendium: P5Compendium
 	declare calculator: P5FusionCalculator
 
@@ -20,14 +20,14 @@ export class P5ChainCalculator extends DemonBuilder {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
 	}
 
-	getChains(
+	getFusionChains(
 		targetSkills: string[],
 		demonName?: string
 	): Observable<ResultsMessage> {
 		/* Begins recursive calls, either with a specified demon or without.*/
 		if (demonName) {
-			this.getChains_targetSkills_demonName(targetSkills, demonName)
-		} else this.getChains_targetSkills(targetSkills)
+			this.getFusionChains_targetSkills_demonName(targetSkills, demonName)
+		} else this.getFusionChains_targetSkills(targetSkills)
 		/* null data tells listeners the messages are finished, and they can 
 			stop listening */
 		this.resultMessageSubject.next({
@@ -37,11 +37,14 @@ export class P5ChainCalculator extends DemonBuilder {
 		})
 		return this.resultMessageObservable
 	}
-	private getChains_targetSkills(targetSkills: string[]): void {
+	private getFusionChains_targetSkills(targetSkills: string[]): void {
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
 			if (unique) {
-				this.getChains_targetSkills_demonName(targetSkills, unique)
+				this.getFusionChains_targetSkills_demonName(
+					targetSkills,
+					unique
+				)
 			}
 		}
 		let chains: BuildRecipe[] = []
@@ -70,13 +73,16 @@ export class P5ChainCalculator extends DemonBuilder {
 				Object.keys(demon.skills)
 			)
 			if (intersects.length > 0 || this.deep) {
-				this.getChains_targetSkills_demonName(targetSkills, demonName)
+				this.getFusionChains_targetSkills_demonName(
+					targetSkills,
+					demonName
+				)
 			}
 
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
-	private getChains_targetSkills_demonName(
+	private getFusionChains_targetSkills_demonName(
 		skills: string[],
 		demonName: string
 	): void {
@@ -105,26 +111,26 @@ export class P5ChainCalculator extends DemonBuilder {
 			this.combo++
 			if (chains.length >= this.maxChainLength) return
 			if (!this.isPossible(targetSkills, undefined, fission)) continue
-			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
+			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length > 0 || this.deep) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					if (diff.length == 0) {
-						let chain = this.getEmptyChain()
+						let chain = this.getEmptyFusionChain()
 						this.addStep(chain, fission, foundSkills)
-						this.emitChain(chain, innates)
+						this.emitFusionChain(chain, innates)
 						break
 					}
-					let chain = this.getChain(diff, 0, sourceName)
+					let chain = this.getFusionChain(diff, 0, sourceName)
 					if (chain != null) {
 						this.addStep(chain, fission, foundSkills)
-						this.emitChain(chain, innates)
+						this.emitFusionChain(chain, innates)
 					}
 				}
 			}
 		}
 	}
-	protected getChain(
+	protected getFusionChain(
 		targetSkills: string[],
 		recursiveDepth: number,
 		demonName: string
@@ -157,16 +163,16 @@ export class P5ChainCalculator extends DemonBuilder {
 				})
 				continue
 			}
-			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
+			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
-				let chain = this.getEmptyChain()
+				let chain = this.getEmptyFusionChain()
 				this.addStep(chain, fission, targetSkills)
 				return chain
 			}
 			if (foundSkills.length > 0 || this.deep) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
-					let chain = this.getChain(
+					let chain = this.getFusionChain(
 						diff,
 						recursiveDepth + 1,
 						sourceName

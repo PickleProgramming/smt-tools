@@ -36,12 +36,12 @@ export class DemonBuilderWorker
 		this.demonBuilder.deep = inputData.deep
 		if (inputData.level) this.demonBuilder.maxLevel = inputData.level
 		if (inputData.demonName) {
-			return this.demonBuilder.getChains(
+			return this.demonBuilder.getFusionChains(
 				inputData.inputSkills,
 				inputData.demonName
 			)
 		}
-		return this.demonBuilder.getChains(inputData.inputSkills)
+		return this.demonBuilder.getFusionChains(inputData.inputSkills)
 	}
 }
 

@@ -38,7 +38,7 @@ export abstract class DemonBuilder {
 	 * @returns A stream of messages updated whenever a chain is added to
 	 *   this.chains configured by ChainCalculator's properties
 	 */
-	abstract getChains(
+	abstract getFusionChains(
 		targetSkills: string[],
 		demonName?: string
 	): Observable<ResultsMessage>
@@ -55,7 +55,7 @@ export abstract class DemonBuilder {
 	 * @returns A single chain of fusions that result in specified demon and
 	 *   skills
 	 */
-	protected abstract getChain(
+	protected abstract getFusionChain(
 		targetSkills: string[],
 		recursiveDepth: number,
 		demonName: string
@@ -142,7 +142,7 @@ export abstract class DemonBuilder {
 	 * @returns List of skills in both @param targetSkills and sources of @param
 	 *   recipe
 	 */
-	protected checkRecipeSkills(
+	protected checkFusionSkills(
 		targetSkills: string[],
 		recipe: Fusion
 	): string[] {
@@ -161,7 +161,7 @@ export abstract class DemonBuilder {
 	}
 
 	/** @returns A chain with with default initialized values */
-	protected getEmptyChain(): BuildRecipe {
+	protected getEmptyFusionChain(): BuildRecipe {
 		return {
 			fusions: [],
 			cost: 0,
@@ -181,7 +181,7 @@ export abstract class DemonBuilder {
 	 * @param innates Target skills the resulatant demon will learn
 	 * @param chain FusionChain to emit and build the recipe steps around
 	 */
-	protected emitChain(chain: BuildRecipe, innates: string[]): void {
+	protected emitFusionChain(chain: BuildRecipe, innates: string[]): void {
 		chain.cost = this.getCost(chain)
 		chain.level = this.levelRequired(chain)
 		chain.innates = innates
