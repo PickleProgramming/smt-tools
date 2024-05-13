@@ -57,10 +57,9 @@
 // --Results Table--
 .build-results {
 	width: 65%;
-}
-table {
-	width: 100;
-	margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 tr.chain-detail-row {
@@ -80,11 +79,6 @@ tr.chain-detail-row {
 	text-align: center;
 	width: 90%;
 	margin: auto;
-}
-
-.demon-form {
-	padding-top: 30px;
-	padding-bottom: 30px;
 }
 
 .directions {

@@ -94,11 +94,19 @@
 	<mat-card class="build-results">
 		@if (calculating) {
 			<mat-spinner></mat-spinner>
+		} @else {
+			@if (chainSource.data.length == 0) {
+				Create a demon with your desired skills on the left.
+			}
 		}
 		@if (combo > 0) {
-			<p class="combos">
-				{{ combo }}
-			</p>
+			<p>{{ combo }} fusion attempted...</p>
+			<p>{{ chainSource.data.length }} successful recipes found.</p>
+			@if (calculating) {
+				<p>
+					You can stop whenever you want and view the current results.
+				</p>
+			}
 		}
 		<!-- Chain Display -->
 		@if (chainSource.data.length > 0) {
