@@ -1,8 +1,8 @@
-import _ from 'lodash'
+import _, { result } from 'lodash'
 import { Observable } from 'rxjs'
 
 import {
-	ChainMessage,
+	ResultsMessage,
 	FusionChain,
 	Recipe,
 } from '@shared/types/smt-tools.types'
@@ -23,13 +23,20 @@ export class P5ChainCalculator extends DemonBuilder {
 	getChains(
 		targetSkills: string[],
 		demonName?: string
-	): Observable<ChainMessage> {
+	): Observable<ResultsMessage> {
 		if (demonName) {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
 		} else this.getChains_targetSkills(targetSkills)
-		this.chainMessageSubject.next({ chains: null, combo: null })
+		// null data tells listeners the messages are finished
+		this.chainMessageSubject.next({
+			results: null,
+			combo: null,
+			error: null,
+		})
 		return this.chainMessageObservable
 	}
+	/* returns void because it will emit an event to the observable upon 
+		completion instead */
 	private getChains_targetSkills(targetSkills: string[]): void {
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
@@ -38,12 +45,26 @@ export class P5ChainCalculator extends DemonBuilder {
 			}
 		}
 		let chains: FusionChain[] = []
+		let errors: string[] = []
+
+		/* Loop through every demon in the compendium checking if they are 
+		possible fusions and if they have specified skills */
 		for (let demonName in this.compendium.demons) {
 			this.combo++
 			if (chains.length >= this.maxChainLength) return
-			if (!this.isPossible(targetSkills, demonName)) continue
+			let possibility = this.isPossible(targetSkills, demonName)
+			if (!possibility.possible) {
+				this.chainMessageSubject.next({
+					results: null,
+					combo: null,
+					error: possibility.reason,
+				})
+				continue
+			}
 			let newChains: FusionChain[] = []
 			let demon = this.compendium.demons[demonName]
+
+			//check if the demon has any skills we need
 			let intersects = _.intersection(
 				targetSkills,
 				Object.keys(demon.skills)
@@ -51,17 +72,29 @@ export class P5ChainCalculator extends DemonBuilder {
 			if (intersects.length > 0 || this.deep) {
 				this.getChains_targetSkills_demonName(targetSkills, demonName)
 			}
+
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
+	/* returns void because it will emit an event to the observable upon 
+		completion instead */
 	private getChains_targetSkills_demonName(
 		skills: string[],
 		demonName: string
 	): void {
 		let chains: FusionChain[] = []
 		let targetSkills = _.cloneDeep(skills)
-		if (!this.isPossible(targetSkills, demonName)) return
+		let possibility = this.isPossible(targetSkills, demonName)
+		if (!possibility.possible) {
+			this.chainMessageSubject.next({
+				results: null,
+				combo: null,
+				error: possibility.reason,
+			})
+			return
+		}
 		let demon = this.compendium.demons[demonName]
+		//filter out skills the demon learns innately
 		let innates = _.intersection(targetSkills, Object.keys(demon.skills))
 		if (innates.length > 0) {
 			if (innates.length == targetSkills.length) return
@@ -103,11 +136,27 @@ export class P5ChainCalculator extends DemonBuilder {
 			)
 		}
 		if (recursiveDepth > this.recursiveDepth) return null
-		if (!this.isPossible(targetSkills, demonName)) return null
+		let possibility = this.isPossible(targetSkills, demonName)
+		if (!possibility.possible) {
+			this.chainMessageSubject.next({
+				results: null,
+				combo: null,
+				error: possibility.reason,
+			})
+			return null
+		}
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
 			this.combo++
-			if (!this.isPossible(targetSkills, undefined, fission)) continue
+			let possibility = this.isPossible(targetSkills, undefined, fission)
+			if (!possibility.possible) {
+				this.chainMessageSubject.next({
+					results: null,
+					combo: null,
+					error: possibility.reason,
+				})
+				continue
+			}
 			let foundSkills = this.checkRecipeSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
 				let chain = this.getEmptyChain()
@@ -163,8 +212,7 @@ export class P5ChainCalculator extends DemonBuilder {
 			directions: [],
 		}
 	}
-
-	/* formats/creates a chain and adds the information from @param reicpe and 
+	/* formats/creates a chain and adds the information from @param recipe and 
 	@param skills and adds it to the @param fusionChain */
 	protected finishChain(
 		recipe: Recipe,
@@ -187,9 +235,11 @@ export class P5ChainCalculator extends DemonBuilder {
 		}
 		chain.directions = this.getDirections(chain)
 		this.chains.push(chain)
+		//emit the data from the observable, thus adding it to the table
 		this.chainMessageSubject.next({
-			chains: this.chains,
+			results: this.chains,
 			combo: this.combo,
+			error: null,
 		})
 	}
 
@@ -197,7 +247,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		targetSkills: string[],
 		demonName?: string,
 		recipe?: Recipe
-	): boolean {
+	): { possible: boolean; reason: string } {
 		if (recipe !== undefined && demonName !== undefined) {
 			throw new Error(
 				'isPossible() cannot accept both a demon ' + 'name and a recipe'
@@ -214,7 +264,10 @@ export class P5ChainCalculator extends DemonBuilder {
 		}
 		return this.isPossible_targetSkills(targetSkills)
 	}
-	private isPossible_targetSkills(targetSkills: string[]): boolean {
+	private isPossible_targetSkills(targetSkills: string[]): {
+		possible: boolean
+		reason: string
+	} {
 		//check is the skill is unique, if it is, fuse for that demon
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
@@ -239,43 +292,92 @@ export class P5ChainCalculator extends DemonBuilder {
 			for (let name in this.compendium.demons) {
 				let skills = Object.keys(this.compendium.demons[name].skills)
 				for (let innate of innates)
-					if (_.intersection(innate, skills).length == numberNeeded)
-						return true
+					if (_.intersection(innate, skills).length == numberNeeded) {
+						return { possible: true, reason: '' }
+					}
 			}
-			return false
+			if (targetSkills.length - 4 == 1) {
+				return {
+					possible: false,
+					reason:
+						'In Persona 5, a demon can only inherit a maximum of 4 ' +
+						'skills. Since you specificed more than that, there must ' +
+						'be a demon that can learn at least one' +
+						" of the other specificed skills on it's own. Unfortunately, no such demon exists.",
+				}
+			} else {
+				return {
+					possible: false,
+					reason:
+						'In Persona 5, a demon can only inherit a maximum of 4 ' +
+						'skills. Since you specificed more than that, there must ' +
+						'be a demon that can learn at least ' +
+						(targetSkills.length - 4) +
+						" of the other specificed skills on it's own. Unfortunately, no such demon exists.",
+				}
+			}
 		}
-		return true
+		return { possible: true, reason: '' }
 	}
 	private isPossible_targetSkills_recipe(
 		targetSkills: string[],
 		recipe: Recipe
-	): boolean {
+	): { possible: boolean; reason: string } {
 		for (let sourceName of recipe.sources) {
-			if (
-				!this.isPossible_targetSkills_demonName(
-					targetSkills,
-					sourceName
-				)
+			let possibility = this.isPossible_targetSkills_demonName(
+				targetSkills,
+				sourceName
 			)
-				return false
+			if (!possibility.possible) {
+				return possibility
+			}
 		}
-		return true
+		return { possible: true, reason: '' }
 	}
 	private isPossible_targetSkills_demonName(
 		targetSkills: string[],
 		demonName: string
-	): boolean {
-		if (this.compendium.demons[demonName].level > this.maxLevel)
-			return false
-		if (this.compendium.isElemental(demonName)) return false
+	): { possible: boolean; reason: string } {
+		if (this.compendium.demons[demonName].level > this.maxLevel) {
+			return {
+				possible: false,
+				reason: 'The name of the demon you entered has a minimum level greater than the level you specified.',
+			}
+		}
+		if (this.compendium.isElemental(demonName)) {
+			return {
+				possible: false,
+				reason: 'The name of the demon you entered is a treasure demon, and cannot be fused.',
+			}
+		}
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
-			if (skill.unique && skill.unique !== demonName) return false
+			if (skill.unique && skill.unique !== demonName) {
+				return {
+					possible: false,
+					reason:
+						'You entered a skill that is unique to ' +
+						skill.unique +
+						'. But you specified the demon name ' +
+						demonName +
+						'.',
+				}
+			}
+
 			if (!this.compendium.isInheritable(demonName, skillName)) {
-				return false
+				return {
+					possible: false,
+					reason: 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
+				}
 			}
 			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
-				return false
+				return {
+					possible: false,
+					reason:
+						'You have specified a level that is lower than the minimum required level to learn ' +
+						skillName +
+						'.',
+				}
 			}
 		}
 		//maximum number of skills the demon could possibly inherit
@@ -297,11 +399,32 @@ export class P5ChainCalculator extends DemonBuilder {
 			let skills = Object.keys(this.compendium.demons[demonName].skills)
 			for (let innate of innates) {
 				if (_.intersection(innate, skills).length == numberNeeded) {
-					return true
+					return { possible: true, reason: '' }
 				}
 			}
-			return false
+			if (targetSkills.length - 4 == 1) {
+				return {
+					possible: false,
+					reason:
+						'In Persona 5, a normal demon can only inherit a maximum of 4 ' +
+						'skills (special demons can inherit 5). Since you specificed more than that, ' +
+						demonName +
+						' at least one of the ' +
+						'other specificed skills on their own. Unfortunately, they cannot.',
+				}
+			} else {
+				return {
+					possible: false,
+					reason:
+						'In Persona 5, a normal demon can only inherit a maximum of 4 ' +
+						'skills (special demons can inherit 5). Since you specificed more than that, ' +
+						demonName +
+						' must be able to learn at least ' +
+						(targetSkills.length - 4) +
+						' of the other specificed skills on their own. Unfortunately, they cannot.',
+				}
+			}
 		}
-		return true
+		return { possible: true, reason: '' }
 	}
 }

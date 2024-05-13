@@ -31,7 +31,7 @@ export const P5_COMPENDIUM: P5Compendium = new P5Compendium(
 )
 export const P5_TABLE_CONFIG: P5TableConfig = new P5TableConfig()
 export const P5_FUSION_CALCULATOR: P5FusionCalculator = new P5FusionCalculator()
-export const P5_CHAIN_CALCULATOR: P5ChainCalculator = new P5ChainCalculator()
+export const P5_DEMON_BUILDER: P5ChainCalculator = new P5ChainCalculator()
 
 // export const P5R_COMPENDIUM: P5Compendium = new P5Compendium(
 // 	P5R_PERSONA_DATA,

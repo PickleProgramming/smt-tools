@@ -56,6 +56,8 @@ export interface Recipe {
 	cost?: number
 }
 
+/* Object that stores a chain of fusions to create a desired results, as well 
+	as store directions to follow to create the result*/
 export interface FusionChain {
 	steps: Recipe[]
 	cost: number
@@ -66,11 +68,18 @@ export interface FusionChain {
 	directions: string[]
 }
 
-export interface ChainMessage {
-	chains: FusionChain[] | null
+/*  Object that contains a series of fusion chains that are found based on 
+	the user input. Sent to the DOM as a message via rxjs. Also contains a 
+	series of reasons that certain fusions were impossible. If the results
+	are empty, but the errors are not, the fusion the user asked for was 
+	impossible. */
+export interface ResultsMessage {
+	results: FusionChain[] | null
 	combo: number | null
+	error: string | null
 }
 
+/* User input data taken from the demon form*/
 export interface InputChainData {
 	demonName: string | null
 	level: number | null

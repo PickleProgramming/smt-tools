@@ -1,6 +1,6 @@
-import { P5_CHAIN_CALCULATOR } from '@shared/constants'
+import { P5_DEMON_BUILDER } from '@shared/constants'
 import {
-	ChainMessage,
+	ResultsMessage,
 	FusionChain,
 	InputChainData,
 } from '@shared/types/smt-tools.types'
@@ -11,34 +11,37 @@ import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
     observable-worker library to make things much easier to deal with 
     https://github.com/cloudnc/observable-webworker*/
 export class DemonBuilderWorker
-	implements DoWorkUnit<InputChainData, ChainMessage>
+	implements DoWorkUnit<InputChainData, ResultsMessage>
 {
 	chains: FusionChain[] = []
-	chainCalc = P5_CHAIN_CALCULATOR
+	demonBuilder = P5_DEMON_BUILDER
 
-	public workUnit(input: InputChainData): Observable<ChainMessage> {
-		const output$: Subject<ChainMessage> = new ReplaySubject(Infinity)
-		const sub = this.chainCalc.chainMessageObservable.subscribe((data) => {
-			output$.next({
-				chains: data.chains,
-				combo: data.combo,
-			})
-		})
+	public workUnit(input: InputChainData): Observable<ResultsMessage> {
+		const output$: Subject<ResultsMessage> = new ReplaySubject(Infinity)
+		const sub = this.demonBuilder.chainMessageObservable.subscribe(
+			(data) => {
+				output$.next({
+					results: data.results,
+					combo: data.combo,
+					error: data.error,
+				})
+			}
+		)
 		this.calculate(input)
 		sub.unsubscribe()
 		return output$
 	}
 
-	private calculate(inputData: InputChainData): Observable<ChainMessage> {
-		this.chainCalc.deep = inputData.deep
-		if (inputData.level) this.chainCalc.maxLevel = inputData.level
+	private calculate(inputData: InputChainData): Observable<ResultsMessage> {
+		this.demonBuilder.deep = inputData.deep
+		if (inputData.level) this.demonBuilder.maxLevel = inputData.level
 		if (inputData.demonName) {
-			return this.chainCalc.getChains(
+			return this.demonBuilder.getChains(
 				inputData.inputSkills,
 				inputData.demonName
 			)
 		}
-		return this.chainCalc.getChains(inputData.inputSkills)
+		return this.demonBuilder.getChains(inputData.inputSkills)
 	}
 }
 

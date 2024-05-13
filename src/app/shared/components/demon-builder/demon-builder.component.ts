@@ -15,7 +15,7 @@ import { fromWorker } from 'observable-webworker'
 import _ from 'lodash'
 import {
 	FusionChain,
-	ChainMessage,
+	ResultsMessage,
 	InputChainData,
 } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
@@ -58,9 +58,12 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/* The web worker runs until the notifier subject emits any event,
 	 letting us stop it whenever with notifier.next() */
 	notifier = new Subject()
+	/*if the worker detects an error to display to the user, it will be in this 
+	variable*/
+	userError = ''
 
 	//TODO testing
-	testing: number[] = [0, 1, 2, 3, 4]
+	testing: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	testingControl = new FormControl('0')
 
 	constructor() {}
@@ -100,6 +103,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		and read the data we recieved back with .subscribe().
 		https://github.com/cloudnc/observable-webworker*/
 	calculate() {
+		this.userError = ''
 		this.calculating = true
 		let inputSkills: string[] = []
 		for (let skillControl of this.skillControls) {
@@ -115,7 +119,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			deep: this.deep,
 		}
 		let input$ = of(data)
-		fromWorker<InputChainData, ChainMessage>(
+		fromWorker<InputChainData, ResultsMessage>(
 			() =>
 				new Worker(new URL('./demon-builder.worker', import.meta.url), {
 					type: 'module',
@@ -124,13 +128,25 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		)
 			.pipe(takeUntil(this.notifier))
 			.subscribe((data) => {
-				if (data.combo == null || data.chains == null) {
-					this.calculating = false
-					this.notifier.next()
-					return
+				if (data.error) {
+					this.userError = data.error
+				} else {
+					if (data.combo == null || data.results == null) {
+						this.calculating = false
+						this.notifier.next()
+						if (this.chainSource.data.length == 0) {
+							if (this.userError == '') {
+								this.userError =
+									"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+							}
+						} else {
+							this.userError = ''
+						}
+						return
+					}
+					this.combo = data.combo
+					this.chainSource.data = data.results
 				}
-				this.combo = data.combo
-				this.chainSource.data = data.chains
 			})
 	}
 
@@ -147,6 +163,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
+		this.userError = ''
 	}
 
 	//TODO: testing
@@ -154,6 +171,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.reset()
 		if (!this.testingControl) return
 		switch (+this.testingControl.value!) {
+			//Special Fusion that requires recursive enabled
 			case 1:
 				this.skillControls[0].setValue('Regenerate 3')
 				this.skillControls[1].setValue('Invigorate 3')
@@ -161,10 +179,12 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 				this.skillControls[3].setValue('Spell Master')
 				this.skillControls[4].setValue('Attack Master')
 				return
+			//Special fusion with easy solution
 			case 2:
 				this.demonControl.setValue('Neko Shogun')
 				this.skillControls[0].setValue('Dekaja')
 				return
+			//Difficult high level fusion that doesn't require recursive
 			case 3:
 				this.skillControls[0].setValue('Life Aid')
 				this.skillControls[1].setValue('Gigantomachia')
@@ -172,6 +192,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 				this.skillControls[3].setValue('Auto-Mataru')
 				this.skillControls[4].setValue('Angelic Grace')
 				return
+			//Level specified possible fusion
 			case 4:
 				this.demonControl.setValue('Sandman')
 				this.levelControl.setValue('26')
@@ -180,10 +201,48 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 				this.skillControls[2].setValue('Dodge Phys')
 				this.skillControls[3].setValue('Sharp Student')
 				return
+			//fusion is impossible because level is too low
+			case 5:
+				this.levelControl.setValue('17')
+				this.skillControls[0].setValue('Die For Me!')
+				return
+			//fusion is impossible because persona cant learn unique skill
+			case 6:
+				this.demonControl.setValue('Agathion')
+				this.skillControls[0].setValue('Die For Me!')
+				return
+			//fusion is impossible becasue persona cant inherit type
+			case 7:
+				this.demonControl.setValue('Agathion')
+				this.skillControls[0].setValue('Garu')
+				return
+			//fusion is impossible because persona cant inherit more than 4 skills
+			case 8:
+				this.demonControl.setValue('Sandman')
+				this.levelControl.setValue('26')
+				this.skillControls[0].setValue('Pulinpa')
+				this.skillControls[1].setValue('Confuse Boost')
+				this.skillControls[2].setValue('Dodge Phys')
+				this.skillControls[3].setValue('Sharp Student')
+				this.skillControls[4].setValue('Bufu')
+				this.skillControls[5].setValue('Magaru')
+				this.skillControls[6].setValue('Agi')
+				this.skillControls[7].setValue('Garu')
+				return
+			//fusion is impossibe because persona is treasure demon
+			case 9:
+				this.demonControl.setValue('Hope Diamond')
+				return
+			//fusion is impossible because level is lower than skill level
+			case 10:
+				this.demonControl.setValue('Jack Frost')
+				this.skillControls[0].setValue('Mabufula')
+				return
+			//easy mid level fusion
 			default:
 				this.levelControl.setValue('37')
 				this.skillControls[0].setValue('Miracle Punch')
-				this.skillControls[1].setValue('Apt Pupil')
+				this.skillControls[1].setValue('Mabufalu')
 				this.skillControls[2].setValue('Attack Master')
 				return
 		}

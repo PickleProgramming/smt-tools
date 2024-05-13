@@ -2,12 +2,12 @@ import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
-import { ChainMessage, FusionChain, Recipe } from './smt-tools.types'
+import { ResultsMessage, FusionChain, Recipe } from './smt-tools.types'
 
 export abstract class DemonBuilder {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
-	protected chainMessageSubject = new Subject<ChainMessage>()
+	protected chainMessageSubject = new Subject<ResultsMessage>()
 	combo: number = 0
 	chains: FusionChain[] = []
 	chainMessageObservable = this.chainMessageSubject.asObservable()
@@ -34,7 +34,7 @@ export abstract class DemonBuilder {
 	abstract getChains(
 		targetSkills: string[],
 		demonName?: string
-	): Observable<ChainMessage>
+	): Observable<ResultsMessage>
 
 	/*  @param targetSkills: list of skills for the final demon to inherit
         @param recursiveDepth: an incremental number to keep track of the
@@ -54,12 +54,14 @@ export abstract class DemonBuilder {
         @param demonName: a demon to check if they can inherit the skills
         @param recipe: a recipe to check if either source is incapable of
             inheritting. True if sourceA || sourceB can, false otherwise
-        @returns {boolean}*/
+        @returns {possible: boolean, reason: string} if possible, reason is 
+		always null, if not possible, reason should contain feedback for user
+		as to why this fusion is impossible.*/
 	protected abstract isPossible(
 		skills: string[],
 		demonName?: string,
 		recipe?: Recipe
-	): boolean
+	): { possible: boolean; reason: string }
 
 	/*  @param recipe: recipe to be checked
         @returns the total number of skills the demon in the recipes result

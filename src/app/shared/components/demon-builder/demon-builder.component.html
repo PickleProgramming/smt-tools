@@ -95,8 +95,12 @@
 		@if (calculating) {
 			<mat-spinner></mat-spinner>
 		} @else {
-			@if (chainSource.data.length == 0) {
-				Create a demon with your desired skills on the left.
+			@if (userError) {
+				<p>{{ userError }}</p>
+			} @else {
+				@if (chainSource.data.length == 0) {
+					Create a demon with your desired skills on the left.
+				}
 			}
 		}
 		@if (combo > 0) {
