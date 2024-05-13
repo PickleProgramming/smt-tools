@@ -24,12 +24,17 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		targetSkills: string[],
 		demonName?: string
 	): Observable<ResultsMessage> {
-		/* Begins recursive calls, either with a specified demon or without.*/
+		/* check for any immediate problems with user input then begin recursive
+			 calls, either with a specified demon or without.*/
 		if (demonName) {
+			this.validateInput(targetSkills, demonName)
 			this.getFusionChains_targetSkills_demonName(targetSkills, demonName)
-		} else this.getFusionChains_targetSkills(targetSkills)
-		/* null data tells listeners the messages are finished, and they can 
-			stop listening */
+		} else {
+			this.validateInput(targetSkills)
+			this.getFusionChains_targetSkills(targetSkills)
+		}
+		/* emitting null data tells listeners the messages are finished, and 
+			they can stop listening */
 		this.resultMessageSubject.next({
 			results: null,
 			combo: null,
@@ -37,7 +42,49 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		})
 		return this.resultMessageObservable
 	}
+	protected validateInput(targetSkills: string[], demonName?: string): void {
+		if (demonName) {
+			this.validateInput_targetSkills_demonName(targetSkills, demonName)
+		} else {
+			this.validateInput_targetSkills(targetSkills)
+		}
+	}
+	private validateInput_targetSkills(targetSkills: string[]) {
+		let possibility = this.isPossible(targetSkills)
+		if (!possibility.possible) {
+			this.resultMessageSubject.next({
+				results: null,
+				combo: null,
+				error: possibility.reason,
+			})
+		}
+	}
+	private validateInput_targetSkills_demonName(
+		targetSkills: string[],
+		demonName: string
+	): void {
+		let possibility = this.isPossible(targetSkills, demonName)
+		if (!possibility.possible) {
+			this.resultMessageSubject.next({
+				results: null,
+				combo: null,
+				error: possibility.reason,
+			})
+		}
+	}
+
+	/**
+	 * Attempts to build to build as many FusionChains as possible with the
+	 * given skills
+	 *
+	 * @param targetSkills Skills that the resultant demon will inherit or learn
+	 *
+	 *   - Will emit either an error or a list of at leasst one FusionChain that
+	 *       matches the specified skills
+	 */
 	private getFusionChains_targetSkills(targetSkills: string[]): void {
+		/* if there are any unique skills, we know we will be building to a 
+			specific demon. Switch to other method.*/
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
 			if (unique) {
@@ -47,8 +94,8 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				)
 			}
 		}
+
 		let chains: BuildRecipe[] = []
-		let errors: string[] = []
 
 		/* Loop through every demon in the compendium checking if they are 
 			possible fusions and if they have specified skills */
@@ -56,14 +103,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			this.combo++
 			if (chains.length >= this.maxChainLength) return
 			let possibility = this.isPossible(targetSkills, demonName)
-			if (!possibility.possible) {
-				this.resultMessageSubject.next({
-					results: null,
-					combo: null,
-					error: possibility.reason,
-				})
-				continue
-			}
+			if (!possibility.possible) continue
 			let newChains: BuildRecipe[] = []
 			let demon = this.compendium.demons[demonName]
 
@@ -82,6 +122,17 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
+
+	/**
+	 * Attempts to build as many FusionChains as possible with the given skills
+	 * and name
+	 *
+	 * @param skills Skills that the resultant demon will inherit or learn
+	 * @param demonName Name of the resultatn demon
+	 *
+	 *   - Will emit either an error or a list of at least one FusionChain that
+	 *       matches the specified skills and name
+	 */
 	private getFusionChains_targetSkills_demonName(
 		skills: string[],
 		demonName: string
@@ -89,14 +140,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		let chains: BuildRecipe[] = []
 		let targetSkills = _.cloneDeep(skills)
 		let possibility = this.isPossible(targetSkills, demonName)
-		if (!possibility.possible) {
-			this.resultMessageSubject.next({
-				results: null,
-				combo: null,
-				error: possibility.reason,
-			})
-			return
-		}
+		if (!possibility.possible) return
 		let demon = this.compendium.demons[demonName]
 		//filter out skills the demon learns innately
 		let innates = _.intersection(targetSkills, Object.keys(demon.skills))
@@ -138,31 +182,18 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		this.combo++
 		if (targetSkills.length == 0) {
 			throw new Error(
-				'getChain was called with an empty targetSkills arg'
+				'getFusionChain was called with an empty targetSkills arg'
 			)
 		}
 		if (recursiveDepth > this.recursiveDepth) return null
 		let possibility = this.isPossible(targetSkills, demonName)
-		if (!possibility.possible) {
-			this.resultMessageSubject.next({
-				results: null,
-				combo: null,
-				error: possibility.reason,
-			})
-			return null
-		}
+		if (!possibility.possible) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
 			this.combo++
 			let possibility = this.isPossible(targetSkills, undefined, fission)
-			if (!possibility.possible) {
-				this.resultMessageSubject.next({
-					results: null,
-					combo: null,
-					error: possibility.reason,
-				})
-				continue
-			}
+			if (!possibility.possible) continue
+
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
 				let chain = this.getEmptyFusionChain()
@@ -189,15 +220,15 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	protected isPossible(
 		targetSkills: string[],
 		demonName?: string,
-		recipe?: Fusion
+		fusion?: Fusion
 	): { possible: boolean; reason: string } {
-		if (recipe !== undefined && demonName !== undefined) {
+		if (fusion !== undefined && demonName !== undefined) {
 			throw new Error(
 				'isPossible() cannot accept both a demon ' + 'name and a recipe'
 			)
 		}
-		if (recipe) {
-			return this.isPossible_targetSkills_recipe(targetSkills, recipe)
+		if (fusion) {
+			return this.isPossible_targetSkills_recipe(targetSkills, fusion)
 		}
 		if (demonName) {
 			return this.isPossible_targetSkills_demonName(
@@ -207,10 +238,28 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		}
 		return this.isPossible_targetSkills(targetSkills)
 	}
+	/**
+	 * Checks if ANY demon can inherit the given skills
+	 *
+	 * @param targetSkills Skills the check for
+	 * @returns True if there exists such a demon
+	 */
 	private isPossible_targetSkills(targetSkills: string[]): {
 		possible: boolean
 		reason: string
 	} {
+		//check if any of the skills are too high level
+		for (let skillName of targetSkills) {
+			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
+				return {
+					possible: false,
+					reason:
+						'You have specified a level that is lower than the minimum required level to learn ' +
+						skillName +
+						'.',
+				}
+			}
+		}
 		//check is the skill is unique, if it is, fuse for that demon
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
@@ -221,9 +270,9 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				)
 			}
 		}
-		//only 4 skills can be inheritted, if the user requested more,
-		// the others will need to be learned either through hangings or innate
-		// skills
+		/* only 4 skills can be inheritted, if the user requested more,
+			the others will need to be learned either through hangings or innate
+			skills */
 		if (targetSkills.length > 4) {
 			let numberNeeded: number = targetSkills.length - 4
 			//build every combination of skills with length numberNeeded
@@ -262,11 +311,19 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		}
 		return { possible: true, reason: '' }
 	}
+	/**
+	 * Checks if the sources in the fusion are capable of inheritting the
+	 * specified skills
+	 *
+	 * @param targetSkills Skills to check for
+	 * @param fusion Fusion to check
+	 * @returns True if any source in the fusion can inherit the skills
+	 */
 	private isPossible_targetSkills_recipe(
 		targetSkills: string[],
-		recipe: Fusion
+		fusion: Fusion
 	): { possible: boolean; reason: string } {
-		for (let sourceName of recipe.sources) {
+		for (let sourceName of fusion.sources) {
 			let possibility = this.isPossible_targetSkills_demonName(
 				targetSkills,
 				sourceName
@@ -277,6 +334,13 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		}
 		return { possible: true, reason: '' }
 	}
+	/**
+	 * Checks if the passed demon is capable of inheritting the specified skills
+	 *
+	 * @param targetSkills Skills to check
+	 * @param demonName Demon to check
+	 * @returns True if the demon can inherit all the skill
+	 */
 	private isPossible_targetSkills_demonName(
 		targetSkills: string[],
 		demonName: string

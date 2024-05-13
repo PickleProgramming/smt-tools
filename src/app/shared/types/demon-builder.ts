@@ -44,6 +44,19 @@ export abstract class DemonBuilder {
 	): Observable<ResultsMessage>
 
 	/**
+	 * Checks for any immediately obvious reasons that building the specified
+	 * demon is impossible. Emit feedback to the DOM explaining why it is
+	 * impossible.
+	 *
+	 * @param targetSkills Skills specified by user
+	 * @param demonName Name of demon specified by user
+	 */
+	protected abstract validateInput(
+		targetSkills: string[],
+		demonName?: string
+	): void
+
+	/**
 	 * Attempts to create a single fusion chain that results in the specified
 	 * demon with the specified skills.
 	 *
@@ -75,7 +88,7 @@ export abstract class DemonBuilder {
 	 *
 	 * @param skills: A list of skills to check if possible to inherit
 	 * @param demonName: A demon to check if they can inherit the skills
-	 * @param recipe: A recipe to check if either source is incapable of
+	 * @param fusion: A recipe to check if either source is incapable of
 	 *   inheritting. True if sourceA || sourceB can, false otherwise
 	 * @returns {possible: boolean, reason: string} If possible, reason is
 	 *   always null, if not possible, reason should contain feedback for user
@@ -84,7 +97,7 @@ export abstract class DemonBuilder {
 	protected abstract isPossible(
 		skills: string[],
 		demonName?: string,
-		recipe?: Fusion
+		fusion?: Fusion
 	): { possible: boolean; reason: string }
 
 	/**
