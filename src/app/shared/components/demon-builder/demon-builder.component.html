@@ -98,14 +98,14 @@
 			@if (userError) {
 				<p>{{ userError }}</p>
 			} @else {
-				@if (chainSource.data.length == 0) {
+				@if (buildsSource.data.length == 0) {
 					Create a demon with your desired skills on the left.
 				}
 			}
 		}
 		@if (combo > 0) {
 			<p>{{ combo }} fusion attempted...</p>
-			<p>{{ chainSource.data.length }} successful recipes found.</p>
+			<p>{{ buildsSource.data.length }} successful recipes found.</p>
 			@if (calculating) {
 				<p>
 					You can stop whenever you want and view the current results.
@@ -113,10 +113,10 @@
 			}
 		}
 		<!-- Chain Display -->
-		@if (chainSource.data.length > 0) {
+		@if (buildsSource.data.length > 0) {
 			<table
 				mat-table
-				[dataSource]="chainSource"
+				[dataSource]="buildsSource"
 				multiTemplateDataRows
 				class="mat-elevation-z12"
 				matSort
@@ -125,45 +125,49 @@
 					<th mat-header-cell *matHeaderCellDef mat-sort-header>
 						Result
 					</th>
-					<td mat-cell *matCellDef="let chain">{{ chain.result }}</td>
+					<td mat-cell *matCellDef="let build">
+						{{ build.result }}
+					</td>
 				</ng-container>
 				<ng-container matColumnDef="cost">
 					<th mat-header-cell *matHeaderCellDef mat-sort-header>
 						Cost
 					</th>
-					<td mat-cell *matCellDef="let chain">{{ chain.cost }}</td>
+					<td mat-cell *matCellDef="let build">{{ build.cost }}</td>
 				</ng-container>
 				<ng-container matColumnDef="level">
 					<th mat-header-cell *matHeaderCellDef mat-sort-header>
 						Level Required
 					</th>
-					<td mat-cell *matCellDef="let chain">{{ chain.level }}</td>
+					<td mat-cell *matCellDef="let build">
+						{{ build.level }}
+					</td>
 				</ng-container>
-				<ng-container matColumnDef="steps">
+				<ng-container matColumnDef="fusions">
 					<th mat-header-cell *matHeaderCellDef mat-sort-header>
 						Steps
 					</th>
-					<td mat-cell *matCellDef="let chain">
-						{{ chain.steps.length }}
+					<td mat-cell *matCellDef="let build">
+						{{ build.fusions.length }}
 					</td>
 				</ng-container>
 				<ng-container matColumnDef="expandedDetail">
 					<td
 						mat-cell
-						*matCellDef="let chain"
+						*matCellDef="let build"
 						[attr.colspan]="columnsToDisplay.length"
 					>
 						<div
 							class="chain-detail"
 							[@detailExpand]="
-								chain == expandedChain
+								build == expandedChain
 									? 'expanded'
 									: 'collapsed'
 							"
 						>
 							<div class="directions">
 								@for (
-									direction of chain.directions;
+									direction of build.directions;
 									track $index
 								) {
 									<p>{{ direction }} <br /></p>
@@ -175,11 +179,11 @@
 				<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
 				<tr
 					mat-row
-					*matRowDef="let chain; columns: columnsToDisplay"
+					*matRowDef="let build; columns: columnsToDisplay"
 					class="chain-row"
-					[class.chain-row]="expandedChain === chain"
+					[class.chain-row]="expandedChain === build"
 					(click)="
-						expandedChain = expandedChain === chain ? null : chain
+						expandedChain = expandedChain === build ? null : build
 					"
 				></tr>
 				<tr

@@ -49,8 +49,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	levelControl = new FormControl('')
 	skillControls: FormControl[] = []
 	filteredSkills: Observable<string[]>[] = []
-	columnsToDisplay = ['result', 'cost', 'level', 'steps']
-	chainSource = new MatTableDataSource<BuildRecipe>()
+	columnsToDisplay = ['result', 'cost', 'level', 'fusions']
+	buildsSource = new MatTableDataSource<BuildRecipe>()
 	combo: number = 0
 	deep: boolean = false
 	//when true, a progress spinner is rendered on the page
@@ -87,7 +87,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.chainSource.sort = this.sort
+		this.buildsSource.sort = this.sort
 	}
 
 	private _filter(value: string, list: string[]): string[] {
@@ -134,7 +134,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					if (data.combo == null || data.results == null) {
 						this.calculating = false
 						this.notifier.next()
-						if (this.chainSource.data.length == 0) {
+						if (this.buildsSource.data.length == 0) {
 							if (this.userError == '') {
 								this.userError =
 									"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
@@ -145,7 +145,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 						return
 					}
 					this.combo = data.combo
-					this.chainSource.data = data.results
+					this.buildsSource.data = data.results
 				}
 			})
 	}
@@ -158,7 +158,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	reset() {
 		this.stop()
 		this.deep = false
-		this.chainSource = new MatTableDataSource<BuildRecipe>()
+		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.combo = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
