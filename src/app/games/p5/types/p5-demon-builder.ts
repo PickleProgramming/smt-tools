@@ -24,10 +24,12 @@ export class P5ChainCalculator extends DemonBuilder {
 		targetSkills: string[],
 		demonName?: string
 	): Observable<ResultsMessage> {
+		/* Begins recursive calls, either with a specified demon or without.*/
 		if (demonName) {
 			this.getChains_targetSkills_demonName(targetSkills, demonName)
 		} else this.getChains_targetSkills(targetSkills)
-		// null data tells listeners the messages are finished
+		/* null data tells listeners the messages are finished, and they can 
+			stop listening */
 		this.resultMessageSubject.next({
 			results: null,
 			combo: null,
@@ -46,7 +48,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		let errors: string[] = []
 
 		/* Loop through every demon in the compendium checking if they are 
-		possible fusions and if they have specified skills */
+			possible fusions and if they have specified skills */
 		for (let demonName in this.compendium.demons) {
 			this.combo++
 			if (chains.length >= this.maxChainLength) return
@@ -122,7 +124,6 @@ export class P5ChainCalculator extends DemonBuilder {
 			}
 		}
 	}
-
 	protected getChain(
 		targetSkills: string[],
 		recursiveDepth: number,
@@ -179,28 +180,6 @@ export class P5ChainCalculator extends DemonBuilder {
 		}
 		return null
 	}
-
-	protected emitChain(chain: FusionChain, innates: string[]): void {
-		chain.cost = this.getCost(chain)
-		chain.level = this.levelRequired(chain)
-		chain.innates = innates
-		chain.result = chain.steps[chain.steps.length - 1].result
-		if (chain.steps.length > 1) {
-			for (let i = 1; i < chain.steps.length; i++) {
-				chain.inherittedSkills[i] = chain.inherittedSkills[i].concat(
-					chain.inherittedSkills[i - 1]
-				)
-			}
-		}
-		chain.directions = this.getDirections(chain)
-		this.chains.push(chain)
-		this.resultMessageSubject.next({
-			results: this.chains,
-			combo: this.combo,
-			error: null,
-		})
-	}
-
 	protected isPossible(
 		targetSkills: string[],
 		demonName?: string,

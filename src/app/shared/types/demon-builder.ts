@@ -181,7 +181,26 @@ export abstract class DemonBuilder {
 	 * @param innates Target skills the resulatant demon will learn
 	 * @param chain FusionChain to emit and build the recipe steps around
 	 */
-	protected abstract emitChain(chain: FusionChain, innates: string[]): void
+	protected emitChain(chain: FusionChain, innates: string[]): void {
+		chain.cost = this.getCost(chain)
+		chain.level = this.levelRequired(chain)
+		chain.innates = innates
+		chain.result = chain.steps[chain.steps.length - 1].result
+		if (chain.steps.length > 1) {
+			for (let i = 1; i < chain.steps.length; i++) {
+				chain.inherittedSkills[i] = chain.inherittedSkills[i].concat(
+					chain.inherittedSkills[i - 1]
+				)
+			}
+		}
+		chain.directions = this.getDirections(chain)
+		this.chains.push(chain)
+		this.resultMessageSubject.next({
+			results: this.chains,
+			combo: this.combo,
+			error: null,
+		})
+	}
 
 	/**
 	 * Adds a step to the recipe by pushing the step too the recipe object and
