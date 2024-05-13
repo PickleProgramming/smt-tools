@@ -39,12 +39,22 @@ export abstract class Compendium {
 		if (elementTable) this.elementTable = elementTable
 	}
 
-	/* reads the skills from the JSON files into respective objects and lists*/
+	/**
+	 * Reads the skills from the JSON files into respective objects and lists
+	 *
+	 * @param skillData JSON to be read
+	 */
 	protected abstract parseSkills(skillData: Object): {
 		[name: string]: Skill
 	}
 
-	/* reads the demons from the JSON files into respective objects */
+	/**
+	 * Reads the demons from the JSON files into respective objects
+	 *
+	 * @param demonData JSON data to parse
+	 * @param demonList Object to parse demon data into
+	 * @param skillList Object to parse skill data into
+	 */
 	protected parseDemons(
 		demonData: Object,
 		demonList: { [name: string]: Demon },
@@ -69,23 +79,40 @@ export abstract class Compendium {
 			}
 		}
 	}
-	/* reads the specialRecipes from the JSON files into respective objects */
+	/**
+	 * Reads the specialRecipes from the JSON files into respective objects
+	 *
+	 * @param specialData JSON data to be read
+	 */
 	protected abstract parseSpecial?(specialData: Object): {
 		[name: string]: string[]
 	}
 
-	/* calculate the approximate cost of the given recipe cost is impossible
-      to determine exactly as it varies on in game factors that are simply
-      not feasible to account for. */
-	abstract getCost(recipe: Fusion): number
+	/**
+	 * Calculate the approximate cost of the given recipe cost is impossible to
+	 * determine exactly as it varies on in game factors that are simply not
+	 * feasible to account for.
+	 *
+	 * @param fusion Fusion to be calculated
+	 */
+	abstract getCost(fusion: Fusion): number
 
-	/* Returns an array of boolean that correspon to which 
-    type of skills the passed element can inherit
-    read more: https://gamefaqs.gamespot.com/boards/835628-persona-5/75476187
-    @param element: what element the returned array will evaluate*/
+	/**
+	 * Returns an array of boolean that correspon to which type of skills the
+	 * passed element can inherit read more:
+	 * https://gamefaqs.gamespot.com/boards/835628-persona-5/75476187
+	 *
+	 * @param element: What element the returned array will evaluate
+	 * @param element
+	 */
 	abstract getInherits(element: string): boolean[]
 
-	/* @returns: true if the demon provided is a special recipe, false otherwise */
+	/**
+	 * Checks if the specified demon is the result of a special fusion
+	 *
+	 * @param demonName Name of demon to check
+	 * @returns True if the demon provided is a special recipe, false otherwise
+	 */
 	isSpecial(demonName: string): boolean {
 		if (this.specialRecipes == undefined)
 			throw new Error(
@@ -96,8 +123,13 @@ export abstract class Compendium {
 		return false
 	}
 
-	/* @returns: a recipe interface for the provided specialFusion result */
-	buildSpecialRecipe(targetName: string): Fusion {
+	/**
+	 * Creates a Fusion object for a special fusion
+	 *
+	 * @param targetName Name of demon to fuse to
+	 * @returns: a recipe interface for the provided specialFusion result
+	 */
+	buildSpecialFusion(targetName: string): Fusion {
 		if (this.specialRecipes == undefined)
 			throw new Error(
 				'called buildSpecialRecipe on a compendium with ' +
@@ -113,8 +145,14 @@ export abstract class Compendium {
 		return recipe
 	}
 
-	/* returns the lowest level demon that learns the given skill */
-	getSkillLevel(skillName: string) {
+	/**
+	 * Gets the level of the lowest level demon that can learn the specified
+	 * skill
+	 *
+	 * @param skillName Name of skill to find
+	 * @returns The level of the lowest level demon that learns the given skill
+	 */
+	getSkillLevel(skillName: string): number {
 		let level: number = 99
 		for (let demonName in this.skills[skillName].learnedBy) {
 			let demon = this.demons[demonName]
@@ -123,7 +161,12 @@ export abstract class Compendium {
 		return level
 	}
 
-	/* @returns: true if the demon provided is an elemental, false otherwise */
+	/**
+	 * Checks if the demon specified is an Elemental demon or not
+	 *
+	 * @param demonName Name of demon to check
+	 * @returns True if the demon provided is an elemental, false otherwise
+	 */
 	isElemental(demonName: string): boolean {
 		if (this.elementTable == undefined)
 			throw new Error(

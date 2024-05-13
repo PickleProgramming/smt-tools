@@ -320,7 +320,7 @@ export class P5ChainCalculator extends DemonBuilder {
 		//maximum number of skills the demon could possibly inherit
 		let maxInherit: number
 		if (this.compendium.isSpecial(demonName)) {
-			let specialRecipe = this.compendium.buildSpecialRecipe(demonName)
+			let specialRecipe = this.compendium.buildSpecialFusion(demonName)
 			maxInherit = this.getMaxNumOfInherittedSkills(specialRecipe)
 		} else maxInherit = 4
 		//if we need to learn more skills than can be inheritted

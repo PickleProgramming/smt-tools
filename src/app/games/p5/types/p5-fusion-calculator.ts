@@ -13,7 +13,7 @@ export class P5FusionCalculator extends FusionCalculator {
 			throw new Error('Called getFissions on an elemental demon')
 		}
 		if (this.isSpecial(targetName))
-			return [this.compendium.buildSpecialRecipe(targetName)]
+			return [this.compendium.buildSpecialFusion(targetName)]
 		let targetRace: string = this.compendium.demons[targetName].race
 		let raceCombos: string[][] = []
 		let races = this.compendium.fusionTable.races
