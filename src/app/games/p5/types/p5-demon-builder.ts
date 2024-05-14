@@ -68,7 +68,9 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	/**
 	 * ---DEMON METHODS---
 	 *
-	 * These methods will be called when the user provides a demon name.
+	 * These methods will be called when the user provides a demon name. All the
+	 * methods do the same thing as stated in DemonBuilder, just with different
+	 * arguments.
 	 */
 	protected demon_getFusionChains(
 		targetSkills: string[],
@@ -76,32 +78,28 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	): void {
 		let chains: BuildRecipe[] = []
 		let skills = _.cloneDeep(targetSkills)
-		let possibility = this.isPossible(targetSkills, demonName)
-		if (!possibility.possible) return
 		let demon = this.compendium.demons[demonName]
 		//filter out skills the demon learns innately
-		let innates = _.intersection(targetSkills, Object.keys(demon.skills))
-		if (innates.length > 0) {
-			if (innates.length == targetSkills.length) return
-			let diff = _.difference(targetSkills, innates)
-			if (diff.length > 4) return
-			_.pullAll(targetSkills, innates)
-		}
+		let innates = _.intersection(skills, Object.keys(demon.skills))
+		if (innates.length > 0) _.pullAll(skills, innates)
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
 			this.combo++
 			if (chains.length >= this.maxChainLength) return
-			if (!this.canSourcesInherit(targetSkills, fission)) continue
-			let foundSkills = this.checkFusionSkills(targetSkills, fission)
+			//check if fissions have desirable skills
+			if (!this.canSourcesInherit(skills, fission)) continue
+			let foundSkills = this.checkFusionSkills(skills, fission)
 			if (foundSkills.length > 0 || this.deep) {
 				for (let sourceName of fission.sources) {
-					let diff = _.difference(targetSkills, foundSkills)
+					let diff = _.difference(skills, foundSkills)
+					//finish chain if we have found all skills
 					if (diff.length == 0) {
 						let chain = this.getEmptyFusionChain()
 						this.addStep(chain, fission, foundSkills)
 						this.emitFusionChain(chain, innates)
 						break
 					}
+					//check the fissions heritage for more skills
 					let chain = this.getFusionChain(diff, 0, sourceName)
 					if (chain != null) {
 						this.addStep(chain, fission, foundSkills)
@@ -222,19 +220,17 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	 * ---NO-DEMON METHODS---
 	 *
 	 * These methods will be called with the user does not provide a demon name.
+	 * All the methods do the same thing as stated in DemonBuilder, just with
+	 * different arguments.
 	 */
 	protected noDemon_getFusionChains(targetSkills: string[]): void {
 		/* if there are any unique skills, we know we will be building to a 
 			specific demon. Switch to other method.*/
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
-			if (unique) {
-				this.demon_getFusionChains(targetSkills, unique)
-			}
+			if (unique) this.demon_getFusionChains(targetSkills, unique)
 		}
-
 		let chains: BuildRecipe[] = []
-
 		/* Loop through every demon in the compendium checking if they are 
 			possible fusions and if they have specified skills */
 		for (let demonName in this.compendium.demons) {
@@ -244,8 +240,6 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (!possibility.possible) continue
 			let newChains: BuildRecipe[] = []
 			let demon = this.compendium.demons[demonName]
-
-			//check if the demon has any skills we need
 			let intersects = _.intersection(
 				targetSkills,
 				Object.keys(demon.skills)
@@ -253,7 +247,6 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (intersects.length > 0 || this.deep) {
 				this.demon_getFusionChains(targetSkills, demonName)
 			}
-
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
