@@ -45,34 +45,37 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	declare expandedChain: BuildRecipe
 	declare directions: string[][]
 
+	//Variables for user form and typeahead
 	demonControl = new FormControl('')
 	levelControl = new FormControl('')
 	skillControls: FormControl[] = []
 	filteredSkills: Observable<string[]>[] = []
+
+	//Variables for results table display
 	columnsToDisplay = ['result', 'cost', 'level', 'fusions']
 	buildsSource = new MatTableDataSource<BuildRecipe>()
+
+	//Variables for demon-builder
+	//keeps track of amount of fusions attempted by demon-builder
 	combo: number = 0
+	//configuration variable for demon-builder
 	deep: boolean = false
 	//when true, a progress spinner is rendered on the page
 	calculating: boolean = false
 	/* The web worker runs until the notifier subject emits any event,
-	 letting us stop it whenever with notifier.next() */
+	 letting us stop the web worker whenever with notifier.next() */
 	notifier = new Subject()
 	/*if the worker detects an error to display to the user, it will be in this 
 	variable*/
 	userError = ''
-	/* time the function ran */
+	/* variables that hold data regarding how long the webworker was running */
 	startTime = 0
 	endTime = 0
 	deltaTime = 0
 
-	//TODO testing
-	testing: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-	testingControl = new FormControl('0')
-
 	constructor() {}
-
 	ngOnInit(): void {
+		//Facilitates type-ahead in the left form
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
@@ -89,11 +92,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			)
 		}
 	}
-
-	ngAfterViewInit(): void {
-		this.buildsSource.sort = this.sort
-	}
-
 	private _filter(value: string, list: string[]): string[] {
 		let filterValue = value.toLocaleLowerCase()
 		return list.filter((option) =>
@@ -101,12 +99,21 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		)
 	}
 
-	/* Calls an observable-webworker to do the potenitally intensive 
-		calculation in the background. We format our data in the InputData 
-		interface and send it over using the from worker funcion,
-		and read the data we recieved back with .subscribe().
-		https://github.com/cloudnc/observable-webworker*/
-	calculate() {
+	/**
+	 * Supposed to faciliate table sorting, but I haven't got it to work yet
+	 * with the expandable table
+	 */
+	ngAfterViewInit(): void {
+		this.buildsSource.sort = this.sort
+	}
+
+	/**
+	 * Calls an observable-webworker to do the potenitally intensive calculation
+	 * in the background. We format our data in the InputData interface and send
+	 * it over using the from worker funcion, and read the data we recieved back
+	 * with .subscribe(). https://github.com/cloudnc/observable-webworker
+	 */
+	calculate(): void {
 		this.startTime = performance.now()
 		this.userError = ''
 		this.calculating = true
@@ -159,6 +166,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			})
 	}
 
+	/** Tells the webworker to stop */
 	stop() {
 		this.notifier.next()
 		this.calculating = false
@@ -166,6 +174,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.deltaTime = round((this.endTime - this.startTime) / 1000, 3)
 	}
 
+	/** Clears out input from form fields and stops the webworker */
 	reset() {
 		this.stop()
 		this.deep = false
@@ -177,7 +186,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.userError = ''
 	}
 
-	// testing stuff
+	//TODO testing
+	testing: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	testingControl = new FormControl('0')
 	test(): void {
 		this.reset()
 		if (!this.testingControl) return
