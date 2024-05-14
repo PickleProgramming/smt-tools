@@ -232,16 +232,16 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	/**
 	 * ---AGNOSTIC METHODS---
 	 *
-	 * These methods will work regardless of it a demon name was provided or
-	 * not.
+	 * These methods will work the same regardless of if the user provided demon
+	 * name was provided or not.
 	 */
 	protected getFusionChain(
 		targetSkills: string[],
-		recursiveDepth: number,
+		depth: number,
 		demonName: string
 	): BuildRecipe | null {
 		this.combo++
-		if (recursiveDepth > this.recursiveDepth) return null
+		if (depth > this.recursiveDepth) return null
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) return null
 		let fissions = this.calculator.getFissions(demonName)
@@ -257,11 +257,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (foundSkills.length > 0 || this.deep) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
-					let chain = this.getFusionChain(
-						diff,
-						recursiveDepth + 1,
-						sourceName
-					)
+					let chain = this.getFusionChain(diff, depth + 1, sourceName)
 					if (chain != null) {
 						this.addStep(chain, fission, foundSkills)
 						return chain
@@ -273,16 +269,17 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	}
 	/**
 	 * Checks if a demon can learn the number of skills in target skills. In P5,
-	 * normal demons can only inherit a maximum of 4 skills. If the user
-	 * specifies more skills than a demon can inherit, the resultant demon will
-	 * need to learn the rest of the skills on their own.
+	 * normal demons can only inherit a maximum of 4 skills. Special demons can
+	 * inherit up to 5 under the right conditions. If the user specifies more
+	 * skills than a demon can inherit, the resultant demon will need to learn
+	 * the rest of the skills on their own.
 	 *
 	 * @param targetSkills List of skills for the resultant to learn
 	 * @param demonName Name of the resultant demon
 	 * @param maxInherit Maximum number of skills the demon can inherit
 	 * @returns {possible: boolean, reason: string} If possible, reason is
-	 *   always null, if not possible, reason should contain feedback for user
-	 *   as to why this fusion is impossible.
+	 *   always null, if not possible, reason contains feedback for user about
+	 *   max inheritance.
 	 */
 	private canInheritOrLearn(
 		targetSkills: string[],
