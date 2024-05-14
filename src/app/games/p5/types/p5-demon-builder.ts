@@ -1,14 +1,10 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
-import {
-	ResultsMessage,
-	BuildRecipe,
-	Fusion,
-} from '@shared/types/smt-tools.types'
+import { ResultsMessage, BuildRecipe } from '@shared/types/smt-tools.types'
 import { Observable } from 'rxjs'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
-import _ from 'lodash'
+import _, { max } from 'lodash'
 
 export class P5FusionChaainCalculator extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -127,44 +123,26 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		demonName: string
 	): { possible: boolean; reason: string } {
 		if (this.compendium.demons[demonName].level > this.maxLevel) {
-			return {
-				possible: false,
-				reason: 'The name of the demon you entered has a minimum level greater than the level you specified.',
-			}
+			return { possible: false, reason: Errors.LowLevel }
 		}
 		if (this.compendium.isElemental(demonName)) {
-			return {
-				possible: false,
-				reason: 'The name of the demon you entered is a treasure demon, and cannot be fused.',
-			}
+			return { possible: false, reason: Errors.Treasure }
 		}
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
 			if (skill.unique && skill.unique !== demonName) {
 				return {
 					possible: false,
-					reason:
-						'You entered a skill that is unique to ' +
-						skill.unique +
-						'. But you specified the demon name ' +
-						demonName +
-						'.',
+					reason: `You entered a skill that is unique to ${skill.unique}. But you specified the demon name ${demonName}.`,
 				}
 			}
-
 			if (!this.compendium.isInheritable(demonName, skillName)) {
-				return {
-					possible: false,
-					reason: 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
-				}
+				return { possible: false, reason: Errors.Inherit }
 			}
 			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
 				return {
 					possible: false,
-					reason:
-						'You have specified a level that is lower than the minimum required level to learn ' +
-						skillName +
-						'.',
+					reason: `You have specified a level that is lower than the minimum required level to learn ${skillName}.`,
 				}
 			}
 		}
@@ -174,46 +152,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			let specialRecipe = this.compendium.buildSpecialFusion(demonName)
 			maxInherit = this.getMaxNumOfInherittedSkills(specialRecipe)
 		} else maxInherit = 4
-		//if we need to learn more skills than can be inheritted
-		if (targetSkills.length > maxInherit) {
-			//number of skills needed to be learned after inheritance
-			let numberNeeded: number = targetSkills.length - maxInherit
-			//build every combination of skills with length numberNeeded
-			let innates = this.getSubArrays(targetSkills)
-			for (let i = 0; i < innates.length; i++) {
-				if (innates[i].length != numberNeeded) delete innates[i]
-			}
-			innates = _.compact(innates)
-			let skills = Object.keys(this.compendium.demons[demonName].skills)
-			for (let innate of innates) {
-				if (_.intersection(innate, skills).length == numberNeeded) {
-					return { possible: true, reason: '' }
-				}
-			}
-			if (targetSkills.length - 4 == 1) {
-				return {
-					possible: false,
-					reason:
-						'In Persona 5, a normal demon can only inherit a maximum of 4 ' +
-						'skills (special demons can inherit 5). Since you specificed more than that, ' +
-						demonName +
-						' at least one of the ' +
-						'other specificed skills on their own. Unfortunately, they cannot.',
-				}
-			} else {
-				return {
-					possible: false,
-					reason:
-						'In Persona 5, a normal demon can only inherit a maximum of 4 ' +
-						'skills (special demons can inherit 5). Since you specificed more than that, ' +
-						demonName +
-						' must be able to learn at least ' +
-						(targetSkills.length - 4) +
-						' of the other specificed skills on their own. Unfortunately, they cannot.',
-				}
-			}
-		}
-		return { possible: true, reason: '' }
+		return this.canInheritOrLearn(targetSkills, maxInherit, demonName)
 	}
 
 	/**
@@ -228,9 +167,13 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			specific demon. Switch to other method.*/
 		for (let skillName of targetSkills) {
 			let unique = this.compendium.skills[skillName].unique
-			if (unique) this.demon_getFusionChains(targetSkills, unique)
+			if (unique) {
+				this.demon_getFusionChains(targetSkills, unique)
+			}
 		}
+
 		let chains: BuildRecipe[] = []
+
 		/* Loop through every demon in the compendium checking if they are 
 			possible fusions and if they have specified skills */
 		for (let demonName in this.compendium.demons) {
@@ -240,6 +183,8 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (!possibility.possible) continue
 			let newChains: BuildRecipe[] = []
 			let demon = this.compendium.demons[demonName]
+
+			//check if the demon has any skills we need
 			let intersects = _.intersection(
 				targetSkills,
 				Object.keys(demon.skills)
@@ -247,6 +192,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (intersects.length > 0 || this.deep) {
 				this.demon_getFusionChains(targetSkills, demonName)
 			}
+
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
@@ -260,20 +206,14 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			})
 		}
 	}
-	protected noDemon_isPossible(
-		targetSkills: string[],
-		fusion?: Fusion | undefined
-	): { possible: boolean; reason: string } {
+	protected noDemon_isPossible(targetSkills: string[]): {
+		possible: boolean
+		reason: string
+	} {
 		//check if any of the skills are too high level
 		for (let skillName of targetSkills) {
 			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
-				return {
-					possible: false,
-					reason:
-						'You have specified a level that is lower than the minimum required level to learn ' +
-						skillName +
-						'.',
-				}
+				return { possible: false, reason: Errors.LowLevel }
 			}
 		}
 		//check is the skill is unique, if it is, fuse for that demon
@@ -283,44 +223,8 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				return this.demon_isPossible(targetSkills, skill.unique)
 			}
 		}
-		/* only 4 skills can be inheritted, if the user requested more,
-			the others will need to be learned either through hangings or innate
-			skills */
-		if (targetSkills.length > 4) {
-			let numberNeeded: number = targetSkills.length - 4
-			//build every combination of skills with length numberNeeded
-			let innates = this.getSubArrays(targetSkills)
-			for (let i = 0; i < innates.length; i++)
-				if (innates[i].length != numberNeeded) delete innates[i]
-			innates = _.compact(innates)
-			//see if there are any demons with innates skills as such
-			for (let name in this.compendium.demons) {
-				let skills = Object.keys(this.compendium.demons[name].skills)
-				for (let innate of innates)
-					if (_.intersection(innate, skills).length == numberNeeded) {
-						return { possible: true, reason: '' }
-					}
-			}
-			if (targetSkills.length - 4 == 1) {
-				return {
-					possible: false,
-					reason:
-						'In Persona 5, a demon can only inherit a maximum of 4 ' +
-						'skills. Since you specificed more than that, there must ' +
-						'be a demon that can learn at least one' +
-						" of the other specificed skills on it's own. Unfortunately, no such demon exists.",
-				}
-			} else {
-				return {
-					possible: false,
-					reason:
-						'In Persona 5, a demon can only inherit a maximum of 4 ' +
-						'skills. Since you specificed more than that, there must ' +
-						'be a demon that can learn at least ' +
-						(targetSkills.length - 4) +
-						" of the other specificed skills on it's own. Unfortunately, no such demon exists.",
-				}
-			}
+		if (targetSkills.length > 5) {
+			return this.canInheritOrLearn(targetSkills, 5)
 		}
 		return { possible: true, reason: '' }
 	}
@@ -367,4 +271,62 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		}
 		return null
 	}
+	/**
+	 * Checks if a demon can learn the number of skills in target skills. In P5,
+	 * normal demons can only inherit a maximum of 4 skills. If the user
+	 * specifies more skills than a demon can inherit, the resultant demon will
+	 * need to learn the rest of the skills on their own.
+	 *
+	 * @param targetSkills List of skills for the resultant to learn
+	 * @param demonName Name of the resultant demon
+	 * @param maxInherit Maximum number of skills the demon can inherit
+	 * @returns {possible: boolean, reason: string} If possible, reason is
+	 *   always null, if not possible, reason should contain feedback for user
+	 *   as to why this fusion is impossible.
+	 */
+	private canInheritOrLearn(
+		targetSkills: string[],
+		maxInherit?: number,
+		demonName?: string
+	): {
+		possible: boolean
+		reason: string
+	} {
+		if (!maxInherit) maxInherit = 5
+		//number of skills needed to be learned after inheritance
+		let numberNeeded: number = targetSkills.length - maxInherit
+		if (numberNeeded < 1) return { possible: true, reason: '' }
+		//build every combination of skills with length numberNeeded
+		let innates = this.getSubArrays(targetSkills)
+		for (let i = 0; i < innates.length; i++) {
+			if (innates[i].length != numberNeeded) delete innates[i]
+		}
+		innates = _.compact(innates)
+		if (demonName) {
+			let skills = Object.keys(this.compendium.demons[demonName].skills)
+			for (let innate of innates) {
+				if (_.intersection(innate, skills).length == numberNeeded) {
+					return { possible: true, reason: '' }
+				}
+			}
+		} else {
+			//see if there are any demons with innates skills as such
+			for (let name in this.compendium.demons) {
+				let skills = Object.keys(this.compendium.demons[name].skills)
+				for (let innate of innates)
+					if (_.intersection(innate, skills).length == numberNeeded) {
+						return { possible: true, reason: '' }
+					}
+			}
+		}
+		return { possible: false, reason: Errors.MaxSkills }
+	}
+}
+
+//enumeration to keep errors short within methods
+enum Errors {
+	LowLevel = 'The name of the demon you entered has a minimum level greater than the level you specified.',
+	Treasure = 'The name of the demon you entered is a treasure demon, and cannot be fused.',
+	Inherit = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
+	MaxSkills = 'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.',
 }
