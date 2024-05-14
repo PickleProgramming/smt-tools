@@ -63,13 +63,25 @@
 			</div>
 			<!-- Buttons -->
 			<div class="buttons-div">
-				<button (click)="calculate()" color="primary" mat-raised-button>
+				<button
+					(click)="startWebWorker()"
+					color="primary"
+					mat-raised-button
+				>
 					Calculate
 				</button>
-				<button (click)="stop()" color="primary" mat-raised-button>
+				<button
+					(click)="stopWebWorker()"
+					color="primary"
+					mat-raised-button
+				>
 					Stop
 				</button>
-				<button (click)="reset()" color="primary" mat-raised-button>
+				<button
+					(click)="resetDemonBuilder()"
+					color="primary"
+					mat-raised-button
+				>
 					Clear
 				</button>
 			</div>

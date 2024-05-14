@@ -36,42 +36,42 @@ import { MatSort } from '@angular/material/sort'
 	],
 })
 export class DemonBuilderComponent implements OnInit, AfterViewInit {
-	@Input() compendium!: Compendium
-	@ViewChild(MatSort) sort!: MatSort
+	@Input() declare compendium: Compendium
+	@ViewChild(MatSort) declare sort: MatSort
 
-	declare skills: string[]
-	declare demons: string[]
-	declare filteredDemons: Observable<string[]>
-	declare expandedChain: BuildRecipe
-	declare directions: string[][]
+	protected declare skills: string[]
+	protected declare demons: string[]
+	protected declare filteredDemons: Observable<string[]>
+	protected declare expandedChain: BuildRecipe
+	protected declare directions: string[][]
 
 	//Variables for user form and typeahead
-	demonControl = new FormControl('')
-	levelControl = new FormControl('')
-	skillControls: FormControl[] = []
-	filteredSkills: Observable<string[]>[] = []
+	protected demonControl = new FormControl('')
+	protected levelControl = new FormControl('')
+	protected skillControls: FormControl[] = []
+	protected filteredSkills: Observable<string[]>[] = []
 
 	//Variables for results table display
-	columnsToDisplay = ['result', 'cost', 'level', 'fusions']
-	buildsSource = new MatTableDataSource<BuildRecipe>()
+	protected columnsToDisplay = ['result', 'cost', 'level', 'fusions']
+	protected buildsSource = new MatTableDataSource<BuildRecipe>()
 
 	//Variables for demon-builder
 	//keeps track of amount of fusions attempted by demon-builder
-	combo: number = 0
+	protected combo: number = 0
 	//configuration variable for demon-builder
-	deep: boolean = false
+	protected deep: boolean = false
 	//when true, a progress spinner is rendered on the page
-	calculating: boolean = false
+	protected calculating: boolean = false
 	/* The web worker runs until the notifier subject emits any event,
 	 letting us stop the web worker whenever with notifier.next() */
-	notifier = new Subject()
+	protected notifier = new Subject()
 	/*if the worker detects an error to display to the user, it will be in this 
 	variable*/
-	userError = ''
+	protected userError = ''
 	/* variables that hold data regarding how long the webworker was running */
-	startTime = 0
-	endTime = 0
-	deltaTime = 0
+	protected startTime = 0
+	protected endTime = 0
+	protected deltaTime = 0
 
 	constructor() {}
 	ngOnInit(): void {
@@ -113,24 +113,12 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * it over using the from worker funcion, and read the data we recieved back
 	 * with .subscribe(). https://github.com/cloudnc/observable-webworker
 	 */
-	calculate(): void {
-		this.startTime = performance.now()
+	startWebWorker(): void {
+		this.startTimer()
 		this.userError = ''
 		this.calculating = true
-		let inputSkills: string[] = []
-		for (let skillControl of this.skillControls) {
-			if (skillControl.value) inputSkills.push(skillControl.value)
-		}
-		_.reject('inputSkills', _.isEmpty)
-		let level: number | null = null
-		if (this.levelControl.value) level = +this.levelControl.value
-		let data: InputChainData = {
-			demonName: this.demonControl.value,
-			level: level,
-			inputSkills: inputSkills,
-			deep: this.deep,
-		}
-		let input$ = of(data)
+
+		let input$ = of(this.getConfiguration())
 		fromWorker<InputChainData, ResultsMessage>(
 			() =>
 				new Worker(new URL('./demon-builder.worker', import.meta.url), {
@@ -144,13 +132,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					this.userError = data.error
 				}
 				if (data.combo == null || data.results == null) {
-					this.endTime = performance.now()
-					this.deltaTime = round(
-						(this.endTime - this.startTime) / 1000,
-						3
-					)
-					this.calculating = false
-					this.notifier.next()
+					this.stopWebWorker()
 					if (this.buildsSource.data.length == 0) {
 						if (this.userError == '') {
 							this.userError =
@@ -167,16 +149,15 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	/** Tells the webworker to stop */
-	stop() {
+	stopWebWorker() {
+		this.stopTimer
 		this.notifier.next()
 		this.calculating = false
-		this.endTime = performance.now()
-		this.deltaTime = round((this.endTime - this.startTime) / 1000, 3)
 	}
 
 	/** Clears out input from form fields and stops the webworker */
-	reset() {
-		this.stop()
+	resetDemonBuilder() {
+		this.stopWebWorker()
 		this.deep = false
 		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.combo = 0
@@ -186,11 +167,45 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.userError = ''
 	}
 
+	/**
+	 * Reads user data from form and builds InputChainData object accordingly
+	 *
+	 * @returns InputChainData built based on form to pass to webworker
+	 */
+	getConfiguration(): InputChainData {
+		let inputSkills: string[] = []
+		for (let skillControl of this.skillControls) {
+			if (skillControl.value) inputSkills.push(skillControl.value)
+		}
+		_.reject('inputSkills', _.isEmpty)
+		let level: number | null = null
+		if (this.levelControl.value) level = +this.levelControl.value
+		let data: InputChainData = {
+			demonName: this.demonControl.value,
+			level: level,
+			inputSkills: inputSkills,
+			deep: this.deep,
+		}
+		return data
+	}
+
+	/** Resets and starts the performance timer */
+	startTimer(): void {
+		this.startTime = performance.now()
+		this.endTime = 0
+		this.deltaTime = 0
+	}
+	/** Stops the performance time and updates variables with recorded time */
+	stopTimer(): void {
+		this.endTime = performance.now()
+		this.deltaTime = round((this.endTime - this.startTime) / 1000, 3)
+	}
+
 	//TODO testing
 	testing: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	testingControl = new FormControl('0')
 	test(): void {
-		this.reset()
+		this.resetDemonBuilder()
 		if (!this.testingControl) return
 		switch (+this.testingControl.value!) {
 			//Special Fusion that requires recursive enabled
