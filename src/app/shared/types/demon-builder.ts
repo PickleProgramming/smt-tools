@@ -80,9 +80,6 @@ export abstract class DemonBuilder {
 	 * If a demon name is provided: determines if the passed demon is capable of
 	 * learning the skills passed.
 	 *
-	 * If a recipe is provied, determines if the sources are capable of
-	 * inheritting the specified skills.
-	 *
 	 * If neither are provided checks to see if the specified skills are
 	 * possible for ANY demon.
 	 *
@@ -99,6 +96,24 @@ export abstract class DemonBuilder {
 		demonName?: string,
 		fusion?: Fusion
 	): { possible: boolean; reason: string }
+
+	/**
+	 * Determines if the sources are capable of inheritting the specified
+	 * skills.
+	 *
+	 * @param skills Skills to check for
+	 * @param fusion Fusion to check sources of
+	 */
+	protected canSourcesInherit(
+		targetSkills: string[],
+		fusion: Fusion
+	): boolean {
+		for (let sourceName of fusion.sources) {
+			let possibility = this.isPossible(targetSkills, sourceName)
+			if (!possibility.possible) return false
+		}
+		return true
+	}
 
 	/**
 	 * Gets the maximum number of a skills a demon can inherit in a given
