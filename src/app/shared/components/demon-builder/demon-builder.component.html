@@ -85,21 +85,6 @@
 					Clear
 				</button>
 			</div>
-			<div class="testing-div">
-				<button (click)="test()" color="warn" mat-raised-button>
-					Testing
-				</button>
-				<mat-form-field appearance="fill">
-					<mat-select [formControl]="testingControl">
-						@for (case of testing; track $index) {
-							<mat-option value="{{ case }}">
-								{{ case }}
-							</mat-option>
-						}
-					</mat-select>
-				</mat-form-field>
-				<mat-checkbox [(ngModel)]="deep"> Recursive? </mat-checkbox>
-			</div>
 		</mat-card>
 	</div>
 
