@@ -49,6 +49,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	protected demonControl = new FormControl('')
 	protected levelControl = new FormControl('')
 	protected skillControls: FormControl[] = []
+	protected recurDepthControl = new FormControl('')
 	protected filteredSkills: Observable<string[]>[] = []
 
 	//Variables for results table display
@@ -60,7 +61,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	protected combo: number = 0
 	/* how much depth the builder will go to even if there are no 
 		immediate skills in sources */
-	protected recurDepth = 1
+	protected recurDepth = 0
 	//when true, a progress spinner is rendered on the page
 	protected calculating: boolean = false
 	/* The web worker runs until the notifier subject emits any event,
@@ -177,6 +178,11 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		let inputSkills: string[] = []
 		for (let skillControl of this.skillControls) {
 			if (skillControl.value) inputSkills.push(skillControl.value)
+		}
+		if (!this.recurDepthControl.value) {
+			this.recurDepth = 0
+		} else {
+			this.recurDepth = parseInt(this.recurDepthControl.value)
 		}
 		_.reject('inputSkills', _.isEmpty)
 		let level: number | null = null

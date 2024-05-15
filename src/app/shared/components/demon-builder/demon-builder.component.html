@@ -61,6 +61,21 @@
 					</form>
 				}
 			</div>
+			<!-- Settings -->
+			<div class="settings-div">
+				<form>
+					<mat-form-field class="recurDepth" appearance="fill">
+						<mat-label>Recursive Depth</mat-label>
+						<input
+							type="text"
+							placeholder="0"
+							aria-label="0"
+							matInput
+							[formControl]="recurDepthControl"
+						/>
+					</mat-form-field>
+				</form>
+			</div>
 			<!-- Buttons -->
 			<div class="buttons-div">
 				<button
