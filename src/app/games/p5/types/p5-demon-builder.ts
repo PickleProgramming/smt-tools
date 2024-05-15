@@ -62,6 +62,28 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		return this.noDemon_isPossible(targetSkills)
 	}
 	/**
+	 * Checks if a demon can learn the number of skills in target skills. In P5,
+	 * normal demons can only inherit a maximum of 4 skills. Special demons can
+	 * inherit up to 5 under the right conditions. If the user specifies more
+	 * skills than a demon can inherit, the resultant demon will need to learn
+	 * the rest of the skills on their own.
+	 *
+	 * @param targetSkills List of skills for the resultant to learn
+	 * @param demonName Name of the resultant demon
+	 * @returns {possible: boolean, reason: string} If possible, reason is
+	 *   always null, if not possible, reason contains feedback for user about
+	 *   max inheritance.
+	 */
+	private canInheritOrLearn(
+		targetSkills: string[],
+		demonName?: string
+	): { possible: boolean; reason: string } {
+		if (demonName) {
+			return this.demon_canInheritOrLearn(targetSkills, demonName)
+		}
+		return this.noDemon_canInheritOrLearn(targetSkills)
+	}
+	/**
 	 * ---DEMON METHODS---
 	 *
 	 * These methods will be called when the user provides a demon name. All the
@@ -146,15 +168,34 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				}
 			}
 		}
-		//maximum number of skills the demon could possibly inherit
+		return this.canInheritOrLearn(targetSkills, demonName)
+	}
+	private demon_canInheritOrLearn(
+		targetSkills: string[],
+		demonName: string
+	): { possible: boolean; reason: string } {
 		let maxInherit: number
 		if (this.compendium.isSpecial(demonName)) {
 			let specialRecipe = this.compendium.buildSpecialFusion(demonName)
 			maxInherit = this.getMaxNumOfInherittedSkills(specialRecipe)
 		} else maxInherit = 4
-		return this.canInheritOrLearn(targetSkills, maxInherit, demonName)
+		//number of skills needed to be learned after inheritance
+		let numberNeeded: number = targetSkills.length - maxInherit
+		if (numberNeeded < 1) return { possible: true, reason: '' }
+		//build every combination of skills with length numberNeeded
+		let innates = this.getSubArrays(targetSkills)
+		for (let i = 0; i < innates.length; i++) {
+			if (innates[i].length != numberNeeded) delete innates[i]
+		}
+		innates = _.compact(innates)
+		let skills = Object.keys(this.compendium.demons[demonName].skills)
+		for (let innate of innates) {
+			if (_.intersection(innate, skills).length == numberNeeded) {
+				return { possible: true, reason: '' }
+			}
+		}
+		return { possible: false, reason: Errors.MaxSkills }
 	}
-
 	/**
 	 * ---NO-DEMON METHODS---
 	 *
@@ -224,11 +265,23 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			}
 		}
 		if (targetSkills.length > 5) {
-			return this.canInheritOrLearn(targetSkills, 5)
+			return this.canInheritOrLearn(targetSkills)
 		}
 		return { possible: true, reason: '' }
 	}
-
+	private noDemon_canInheritOrLearn(targetSkills: string[]): {
+		possible: boolean
+		reason: string
+	} {
+		//see if there are any demons with innates skills as such
+		for (let name in this.compendium.demons) {
+			if (this.compendium.isElemental(name)) continue
+			if (this.demon_canInheritOrLearn(targetSkills, name).possible) {
+				return { possible: true, reason: '' }
+			}
+		}
+		return { possible: false, reason: Errors.MaxSkills }
+	}
 	/**
 	 * ---AGNOSTIC METHODS---
 	 *
@@ -266,57 +319,6 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			}
 		}
 		return null
-	}
-	/**
-	 * Checks if a demon can learn the number of skills in target skills. In P5,
-	 * normal demons can only inherit a maximum of 4 skills. Special demons can
-	 * inherit up to 5 under the right conditions. If the user specifies more
-	 * skills than a demon can inherit, the resultant demon will need to learn
-	 * the rest of the skills on their own.
-	 *
-	 * @param targetSkills List of skills for the resultant to learn
-	 * @param demonName Name of the resultant demon
-	 * @param maxInherit Maximum number of skills the demon can inherit
-	 * @returns {possible: boolean, reason: string} If possible, reason is
-	 *   always null, if not possible, reason contains feedback for user about
-	 *   max inheritance.
-	 */
-	private canInheritOrLearn(
-		targetSkills: string[],
-		maxInherit?: number,
-		demonName?: string
-	): {
-		possible: boolean
-		reason: string
-	} {
-		if (!maxInherit) maxInherit = 5
-		//number of skills needed to be learned after inheritance
-		let numberNeeded: number = targetSkills.length - maxInherit
-		if (numberNeeded < 1) return { possible: true, reason: '' }
-		//build every combination of skills with length numberNeeded
-		let innates = this.getSubArrays(targetSkills)
-		for (let i = 0; i < innates.length; i++) {
-			if (innates[i].length != numberNeeded) delete innates[i]
-		}
-		innates = _.compact(innates)
-		if (demonName) {
-			let skills = Object.keys(this.compendium.demons[demonName].skills)
-			for (let innate of innates) {
-				if (_.intersection(innate, skills).length == numberNeeded) {
-					return { possible: true, reason: '' }
-				}
-			}
-		} else {
-			//see if there are any demons with innates skills as such
-			for (let name in this.compendium.demons) {
-				let skills = Object.keys(this.compendium.demons[name].skills)
-				for (let innate of innates)
-					if (_.intersection(innate, skills).length == numberNeeded) {
-						return { possible: true, reason: '' }
-					}
-			}
-		}
-		return { possible: false, reason: Errors.MaxSkills }
 	}
 }
 
