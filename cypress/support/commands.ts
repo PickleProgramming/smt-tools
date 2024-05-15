@@ -41,3 +41,34 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('enterName', (demonName: string) => {
+	cy.get('.demon-form-field').click().type(demonName)
+})
+Cypress.Commands.add('enterLevel', (level: number) => {
+	cy.get('.level-form-field')
+		.click()
+		.type('' + level)
+})
+Cypress.Commands.add('enterSkills', (skills: string[]) => {
+	skills.forEach((skill, index) => {
+		cy.get('.skill-form-field').eq(index).click().type(skill)
+	})
+})
+Cypress.Commands.add('enterRecurDepth', (depth: number) => {
+	cy.get('.recur-form-field')
+		.click()
+		.type('' + depth)
+})
+Cypress.Commands.add('pushButton', (text: string) => {
+	cy.get('button').contains(text).click()
+})
+Cypress.Commands.add('checkNumberOfResults', (amount: number) => {
+	cy.get('.build-results').should(
+		'contain',
+		amount + ' successful recipes found.'
+	)
+})
+Cypress.Commands.add('checkError', (error: string) => {
+	cy.get('.build-results').should('contain', error)
+})

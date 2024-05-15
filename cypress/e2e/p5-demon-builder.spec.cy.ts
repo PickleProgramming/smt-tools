@@ -6,37 +6,19 @@ describe('P5 Demon Builder Test', () => {
 		describe('Normal Fusions', () => {
 			describe('No Name', () => {
 				it('works with a normal, no-name, no-level, 1-depth, fusion', () => {
-					cy.get('.skill-form-field').eq(0).click().type('Life Aid')
-					cy.get('.skill-form-field')
-						.eq(1)
-						.click()
-						.type('Gigantomachia')
-					cy.get('.skill-form-field')
-						.eq(2)
-						.click()
-						.type('Arms Master')
-					cy.get('button').contains('Calculate').click()
-					cy.get('.build-results').should(
-						'contain',
-						'29 successful recipes found.'
-					)
+					cy.enterSkills(['Life Aid', 'Gigantomachia', 'Arms Master'])
+					cy.pushButton('Calculate')
+					cy.checkNumberOfResults(29)
 				})
 				it('works with a normal, no-name, level, 1-depth, fusion', () => {
-					cy.get('.demon-form-field').eq(1).click().type('37')
-					cy.get('.skill-form-field')
-						.first()
-						.click()
-						.type('Miracle Punch')
-					cy.get('.skill-form-field').eq(1).click().type('Mabufula')
-					cy.get('.skill-form-field')
-						.eq(2)
-						.click()
-						.type('Attack Master')
-					cy.get('button').contains('Calculate').click()
-					cy.get('.build-results').should(
-						'contain',
-						'33 successful recipes found.'
-					)
+					cy.enterLevel(37)
+					cy.enterSkills([
+						'Mabufula',
+						'Miracle Punch',
+						'Attack Master',
+					])
+					cy.pushButton('Calculate')
+					cy.checkNumberOfResults(33)
 				})
 				//TODO
 				/* it('works with a normal, no-name, no-level, 2+ depth, fusion', () => {
@@ -56,24 +38,17 @@ describe('P5 Demon Builder Test', () => {
 						.type('Neko Shogun')
 					cy.get('.skill-form-field').first().click().type('Dekaja')
 				}) */
-				it('works with a normal, named, level, ', () => {
-					cy.get('.demon-form-field').first().click().type('Sandman')
-					cy.get('.demon-form-field').eq(1).click().type('26')
-					cy.get('.skill-form-field').eq(0).click().type('Pulinpa')
-					cy.get('.skill-form-field')
-						.eq(1)
-						.click()
-						.type('Confuse Boost')
-					cy.get('.skill-form-field').eq(2).click().type('Dodge Phys')
-					cy.get('.skill-form-field')
-						.eq(3)
-						.click()
-						.type('Sharp Student')
-					cy.get('button').contains('Calculate').click()
-					cy.get('.build-results').should(
-						'contain',
-						'10 successful recipes found.'
-					)
+				it('works with a normal, named, level, fusion', () => {
+					cy.enterName('Sandman')
+					cy.enterLevel(26)
+					cy.enterSkills([
+						'Pulinpa',
+						'Confuse Boost',
+						'Dodge Phys',
+						'Sharp Student',
+					])
+					cy.pushButton('Calculate')
+					cy.checkNumberOfResults(5)
 				})
 				//TODO
 				/* it('works with a normal, named, no-level, 2+ depth, ', () => {
@@ -109,18 +84,13 @@ describe('P5 Demon Builder Test', () => {
 			})
 			describe('Name', () => {
 				it('works with a special, named, no-level, 1-depth fusion', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-					cy.get('button').contains('Calculate').click()
-					cy.get('.build-results').should(
-						'contain',
-						'1 successful recipes found.'
-					)
+					cy.enterName('Neko Shogun')
+					cy.enterSkills(['Dekaja'])
+					cy.pushButton('Calculate')
+					cy.checkNumberOfResults(1)
 				})
-				/* it('works with a special, named, level, 1-depth, fusion', () => {
+			})
+			/* it('works with a special, named, level, 1-depth, fusion', () => {
 					cy.get('.demon-form-field')
 						.first()
 						.click()
@@ -141,28 +111,23 @@ describe('P5 Demon Builder Test', () => {
 						.type('Neko Shogun')
 					cy.get('.skill-form-field').first().click().type('Dekaja')
 				}) */
-			})
 		})
 	})
+
 	describe('Failing Cases', () => {
 		//Failing cases
 		it('fails because the level is too for the demon', () => {
-			cy.get('.demon-form-field').first().click().type('Mara')
-			cy.get('.demon-form-field').eq(1).click().type('10')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'The name of the demon you entered has a minimum level greater than the level you specified.'
-			)
+			cy.enterName('Mara')
+			cy.enterLevel(10)
+			cy.enterSkills(['Zio'])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.LevelDemon)
 		})
 		it('fails because the level is too low for one of the skills', () => {
-			cy.get('.demon-form-field').eq(1).click().type('17')
-			cy.get('.skill-form-field').first().click().type('Maragion')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'You have specified a level that is lower than the minimum required level to learn'
-			)
+			cy.enterLevel(17)
+			cy.enterSkills(['Maragion'])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.LevelSkill)
 		})
 		//TODO bad output because its tries to build alice, so it switches to a named function
 		/* it('fails because the level is too low for one of the special skills', () => {
@@ -175,62 +140,59 @@ describe('P5 Demon Builder Test', () => {
 			)
 		}) */
 		it("fails because the demon can't learn a unique skills", () => {
-			cy.get('.demon-form-field').first().click().type('Agathion')
-			cy.get('.skill-form-field').first().click().type('Die For Me!')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'You entered a skill that is unique to'
-			)
+			cy.enterName('Agathion')
+			cy.enterSkills(['Die For Me!'])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.Unique)
 		})
 		it("fails because the demon can't inherit a type of a specified skill", () => {
-			cy.get('.demon-form-field').first().click().type('Agathion')
-			cy.get('.skill-form-field').first().click().type('Garu')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.'
-			)
+			cy.enterName('Agathion')
+			cy.enterSkills(['Garu'])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.InheritType)
 		})
 		it("fails because the demon can't inherit that many skills; with name", () => {
-			cy.get('.demon-form-field').first().click().type('Sandman')
-			cy.get('.skill-form-field').eq(0).click().type('Pulinpa')
-			cy.get('.skill-form-field').eq(1).click().type('Confuse Boost')
-			cy.get('.skill-form-field').eq(2).click().type('Dodge Phys')
-			cy.get('.skill-form-field').eq(3).click().type('Sharp Student')
-			cy.get('.skill-form-field').eq(4).click().type('Bufu')
-			cy.get('.skill-form-field').eq(5).click().type('Magaru')
-			cy.get('.skill-form-field').eq(6).click().type('Agi')
-			cy.get('.skill-form-field').eq(7).click().type('Garu')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.'
-			)
+			cy.enterName('Sandman')
+			cy.enterSkills([
+				'Pulinpa',
+				'Confuse Boost',
+				'Dodge Phys',
+				'Sharp Student',
+				'Bufu',
+				'Magaru',
+				'Agi',
+				'Garu',
+			])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.InheritLimit)
 		})
 		it("fails because the demon can't inherit that many skills; without name", () => {
-			cy.get('.skill-form-field').eq(0).click().type('Auto-Maraku')
-			cy.get('.skill-form-field').eq(1).click().type('Auto-Mataru')
-			cy.get('.skill-form-field').eq(2).click().type('Auto-Masuku')
-			cy.get('.skill-form-field').eq(3).click().type('Absorb Phys')
-			cy.get('.skill-form-field').eq(4).click().type('Absorb Bless')
-			cy.get('.skill-form-field').eq(5).click().type('Absorb Nuke')
-			cy.get('.skill-form-field').eq(6).click().type('Sharp Student')
-			cy.get('.skill-form-field').eq(7).click().type('Life Aid')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.'
-			)
+			cy.enterSkills([
+				'Auto-Maraku',
+				'Auto-Mataru',
+				'Auto-Masuku',
+				'Absorb Phys',
+				'Absorb Bless',
+				'Absorb Nuke',
+				'Sharp Student',
+				'Life Aid',
+			])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.InheritLimit)
 		})
 		it('fails because the demon is a treasure demon', () => {
-			cy.get('.demon-form-field').first().click().type('Hope Diamond')
-			cy.get('.skill-form-field').first().click().type('Mapsio')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'The name of the demon you entered is a treasure demon, and cannot be fused.'
-			)
+			cy.enterName('Hope Diamond')
+			cy.enterSkills(['Mapsio'])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.Treasure)
 		})
 	})
 })
+enum Errors {
+	LevelSkill = 'You have specified a level that is lower than the minimum required level to learn',
+	LevelDemon = 'The name of the demon you entered has a minimum level greater than the level you specified.',
+	InheritType = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
+	InheritLimit = 'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.',
+	Unique = 'You entered a skill that is unique to',
+	Treasure = 'The name of the demon you entered is a treasure demon, and cannot be fused.',
+}
