@@ -150,7 +150,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 
 	/** Tells the webworker to stop */
 	stopWebWorker() {
-		this.stopTimer
+		this.stopTimer()
 		this.notifier.next()
 		this.calculating = false
 	}
@@ -198,6 +198,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Stops the performance time and updates variables with recorded time */
 	stopTimer(): void {
 		this.endTime = performance.now()
-		this.deltaTime = round((this.endTime - this.startTime) / 1000, 3)
+		this.deltaTime = (this.endTime - this.startTime) / 1000
 	}
 }
