@@ -103,7 +103,7 @@ export interface BuildRecipe {
  */
 export interface ResultsMessage {
 	results: BuildRecipe[] | null
-	combo: number | null
+	fusionCounter: number | null
 	error: string | null
 }
 

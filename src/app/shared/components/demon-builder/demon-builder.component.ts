@@ -134,7 +134,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 				if (data.error) {
 					this.userError = data.error
 				}
-				if (data.combo == null || data.results == null) {
+				if (data.fusionCounter == null && data.results == null) {
 					this.stopWebWorker()
 					if (this.buildsSource.data.length == 0) {
 						if (this.userError == '') {
@@ -146,8 +146,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					}
 					return
 				}
-				this.combo = data.combo
-				this.buildsSource.data = data.results
+				if (data.fusionCounter) this.combo = data.fusionCounter
+				if (data.results) this.buildsSource.data = data.results
 			})
 	}
 

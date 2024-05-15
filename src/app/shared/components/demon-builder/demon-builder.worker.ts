@@ -22,7 +22,7 @@ export class DemonBuilderWorker
 			(data) => {
 				output$.next({
 					results: data.results,
-					combo: data.combo,
+					fusionCounter: data.fusionCounter,
 					error: data.error,
 				})
 			}

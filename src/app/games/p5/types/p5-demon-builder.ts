@@ -39,7 +39,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			they can stop listening */
 		this.resultMessageSubject.next({
 			results: null,
-			combo: null,
+			fusionCounter: null,
 			error: null,
 		})
 		return this.resultMessageObservable
@@ -112,7 +112,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		if (innates.length > 0) _.pullAll(skills, innates)
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.combo++
+			this.incCount()
 			if (chains.length >= this.maxChainLength) return
 			//check if fissions have desirable skills
 			if (!this.validSources(skills, fission)) continue
@@ -145,7 +145,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		if (!possibility.possible) {
 			this.resultMessageSubject.next({
 				results: null,
-				combo: null,
+				fusionCounter: null,
 				error: possibility.reason,
 			})
 			return false
@@ -224,7 +224,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		/* Loop through every demon in the compendium checking if they are 
 			possible fusions and if they have specified skills */
 		for (let demonName in this.compendium.demons) {
-			this.combo++
+			this.incCount()
 			if (chains.length >= this.maxChainLength) return
 			let possibility = this.isPossible(targetSkills, demonName)
 			if (!possibility.possible) continue
@@ -248,7 +248,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		if (!possibility.possible) {
 			this.resultMessageSubject.next({
 				results: null,
-				combo: null,
+				fusionCounter: null,
 				error: possibility.reason,
 			})
 			return false
@@ -295,13 +295,13 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		depth: number,
 		demonName: string
 	): BuildRecipe | null {
-		this.combo++
+		this.incCount()
 		if (depth - 1 > this.recurDepth) return null
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.combo++
+			this.incCount()
 			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {

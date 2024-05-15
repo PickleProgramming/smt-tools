@@ -8,7 +8,6 @@ export abstract class DemonBuilder {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
 	protected resultMessageSubject = new Subject<ResultsMessage>()
-	combo: number = 0
 	chains: BuildRecipe[] = []
 	resultMessageObservable = this.resultMessageSubject.asObservable()
 
@@ -16,8 +15,10 @@ export abstract class DemonBuilder {
 	/* the depth the builder will go to checking for skills even if immediate 
 		sources don't have desired skills */
 	recurDepth = 1
-	//@setting the max size array getChains can return
+	// the max size array getChains can return
 	maxChainLength = 20
+	// keeps track of the amount of fusion attempted
+	private fusionCounter: number = 0
 
 	constructor(compendium: Compendium, calculator: FusionCalculator) {
 		this.compendium = compendium
@@ -240,7 +241,7 @@ export abstract class DemonBuilder {
 		this.chains.push(chain)
 		this.resultMessageSubject.next({
 			results: this.chains,
-			combo: this.combo,
+			fusionCounter: this.fusionCounter,
 			error: null,
 		})
 	}
@@ -342,5 +343,18 @@ export abstract class DemonBuilder {
 				level = this.compendium.demons[recipe.result].level
 		}
 		return level
+	}
+
+	/**
+	 * Increments the counter and emits a new message to the webworker updating
+	 * the counter
+	 */
+	protected incCount(): void {
+		this.fusionCounter++
+		this.resultMessageSubject.next({
+			results: null,
+			fusionCounter: this.fusionCounter,
+			error: null,
+		})
 	}
 }
