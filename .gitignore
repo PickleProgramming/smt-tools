@@ -49,14 +49,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Testing
-report*
-*.spec.*
-/e2e
-karma.conf.js
-test*
-cypress*
-
 # Docker
 .dockerignore
 Dockerfile
