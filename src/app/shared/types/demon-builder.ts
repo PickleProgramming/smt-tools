@@ -50,11 +50,13 @@ export abstract class DemonBuilder {
 	 *
 	 * @param targetSkills Skills specified by user
 	 * @param demonName Name of demon specified by user
+	 * @returns False if input is invalid. Also emits and error to the
+	 *   webworker, telling it to stop
 	 */
-	protected abstract validateInput(
+	protected abstract isValidInput(
 		targetSkills: string[],
 		demonName?: string
-	): void
+	): boolean
 
 	/**
 	 * Attempts to create a single fusion chain that results in the specified

@@ -27,11 +27,13 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		/* check for any immediate problems with user input then begin recursive
 			 calls, either with a specified demon or without.*/
 		if (demonName) {
-			this.validateInput(targetSkills, demonName)
-			this.demon_getFusionChains(targetSkills, demonName)
+			if (this.isValidInput(targetSkills, demonName)) {
+				this.demon_getFusionChains(targetSkills, demonName)
+			}
 		} else {
-			this.validateInput(targetSkills)
-			this.noDemon_getFusionChains(targetSkills)
+			if (this.isValidInput(targetSkills)) {
+				this.noDemon_getFusionChains(targetSkills)
+			}
 		}
 		/* emitting null data tells listeners the messages are finished, and 
 			they can stop listening */
@@ -42,15 +44,14 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		})
 		return this.resultMessageObservable
 	}
-	protected validateInput(
+	protected isValidInput(
 		targetSkills: string[],
 		demonName?: string | undefined
-	): void {
+	): boolean {
 		if (demonName) {
-			this.demon_validateInput(targetSkills, demonName)
-		} else {
-			this.noDemon_validateInput(targetSkills)
+			return this.demon_isValidInput(targetSkills, demonName)
 		}
+		return this.noDemon_isValidInput(targetSkills)
 	}
 	protected isPossible(
 		targetSkills: string[],
@@ -136,10 +137,10 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			}
 		}
 	}
-	protected demon_validateInput(
+	protected demon_isValidInput(
 		targetSkills: string[],
 		demonName: string | undefined
-	): void {
+	): boolean {
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) {
 			this.resultMessageSubject.next({
@@ -147,7 +148,9 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				combo: null,
 				error: possibility.reason,
 			})
+			return false
 		}
+		return true
 	}
 	protected demon_isPossible(
 		targetSkills: string[],
@@ -240,7 +243,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
-	protected noDemon_validateInput(targetSkills: string[]): void {
+	protected noDemon_isValidInput(targetSkills: string[]): boolean {
 		let possibility = this.isPossible(targetSkills)
 		if (!possibility.possible) {
 			this.resultMessageSubject.next({
@@ -248,7 +251,9 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				combo: null,
 				error: possibility.reason,
 			})
+			return false
 		}
+		return true
 	}
 	protected noDemon_isPossible(targetSkills: string[]): {
 		possible: boolean
