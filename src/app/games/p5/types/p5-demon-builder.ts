@@ -115,7 +115,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			this.combo++
 			if (chains.length >= this.maxChainLength) return
 			//check if fissions have desirable skills
-			if (!this.canSourcesInherit(skills, fission)) continue
+			if (!this.validSources(skills, fission)) continue
 			let foundSkills = this.checkFusionSkills(skills, fission)
 			if (foundSkills.length > 0 || this.deep) {
 				for (let sourceName of fission.sources) {
@@ -302,7 +302,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
 			this.combo++
-			if (!this.canSourcesInherit(targetSkills, fission)) continue
+			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
 				let chain = this.getEmptyFusionChain()

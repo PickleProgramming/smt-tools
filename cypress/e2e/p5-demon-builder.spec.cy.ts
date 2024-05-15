@@ -35,7 +35,7 @@ describe('P5 Demon Builder Test', () => {
 					cy.get('button').contains('Calculate').click()
 					cy.get('.build-results').should(
 						'contain',
-						'38 successful recipes found.'
+						'33 successful recipes found.'
 					)
 				})
 				//TODO
@@ -72,7 +72,7 @@ describe('P5 Demon Builder Test', () => {
 					cy.get('button').contains('Calculate').click()
 					cy.get('.build-results').should(
 						'contain',
-						'11 successful recipes found.'
+						'10 successful recipes found.'
 					)
 				})
 				//TODO

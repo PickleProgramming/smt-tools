@@ -100,6 +100,24 @@ export abstract class DemonBuilder {
 	): { possible: boolean; reason: string }
 
 	/**
+	 * Determines if the sources in the given fusion are valid for a fusion
+	 * chain
+	 *
+	 * @param skills Skills fusion will need to be able to inherit
+	 * @param fusion Fusion to validate
+	 * @returns True if all sources can inherit and are within level range
+	 */
+	protected validSources(targetSkills: string[], fusion: Fusion): boolean {
+		for (let sourceName of fusion.sources) {
+			if (this.compendium.demons[sourceName].level > this.maxLevel) {
+				return false
+			}
+		}
+		if (!this.canSourcesInherit(targetSkills, fusion)) return false
+		return true
+	}
+
+	/**
 	 * Determines if the sources are capable of inheritting the specified
 	 * skills.
 	 *
@@ -107,10 +125,7 @@ export abstract class DemonBuilder {
 	 * @param fusion Fusion to check sources of
 	 * @returns True if all skills can be inheritted across all sources
 	 */
-	protected canSourcesInherit(
-		targetSkills: string[],
-		fusion: Fusion
-	): boolean {
+	private canSourcesInherit(targetSkills: string[], fusion: Fusion): boolean {
 		for (let sourceName of fusion.sources) {
 			let possibility = this.isPossible(targetSkills, sourceName)
 			if (possibility.possible) return true
