@@ -117,6 +117,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	startWebWorker(): void {
 		this.startTimer()
+		this.clearResults()
 		this.userError = ''
 		this.calculating = true
 
@@ -160,13 +161,19 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Clears out input from form fields and stops the webworker */
 	resetDemonBuilder() {
 		this.stopWebWorker()
+		this.clearResults()
 		this.recurDepth = 1
-		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.combo = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
 		this.userError = ''
+	}
+
+	/** Clears output from the results table */
+	clearResults() {
+		this.buildsSource = new MatTableDataSource<BuildRecipe>()
+		this.combo = 0
 	}
 
 	/**
