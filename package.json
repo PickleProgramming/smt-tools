@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production"
+    "build-prod": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -39,12 +41,14 @@
     "@angular-devkit/build-angular": "~17.3.6",
     "@angular/cli": "^17.3.6",
     "@angular/compiler-cli": "~17.3.7",
+    "@cypress/schematic": "^2.5.1",
     "@types/datatables.net": "^1.10.21",
     "@types/jasmine": "~3.6.0",
     "@types/jquery": "^3.5.9",
     "@types/lodash": "^4.14.184",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "cypress": "^13.9.0",
     "jasmine-core": "~3.8.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.4.0",
