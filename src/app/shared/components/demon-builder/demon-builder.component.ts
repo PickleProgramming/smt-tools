@@ -55,11 +55,12 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	protected columnsToDisplay = ['result', 'cost', 'level', 'fusions']
 	protected buildsSource = new MatTableDataSource<BuildRecipe>()
 
-	//Variables for demon-builder
+	//---Variables for demon-builder---
 	//keeps track of amount of fusions attempted by demon-builder
 	protected combo: number = 0
-	//configuration variable for demon-builder
-	protected deep: boolean = false
+	/* how much depth the builder will go to even if there are no 
+		immediate skills in sources */
+	protected recurDepth = 1
 	//when true, a progress spinner is rendered on the page
 	protected calculating: boolean = false
 	/* The web worker runs until the notifier subject emits any event,
@@ -158,7 +159,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Clears out input from form fields and stops the webworker */
 	resetDemonBuilder() {
 		this.stopWebWorker()
-		this.deep = false
+		this.recurDepth = 1
 		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.combo = 0
 		this.demonControl.setValue('')
@@ -184,7 +185,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			demonName: this.demonControl.value,
 			level: level,
 			inputSkills: inputSkills,
-			deep: this.deep,
+			recurDepth: this.recurDepth,
 		}
 		return data
 	}

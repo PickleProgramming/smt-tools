@@ -33,7 +33,7 @@ export class DemonBuilderWorker
 	}
 
 	private calculate(inputData: InputChainData): Observable<ResultsMessage> {
-		this.demonBuilder.deep = inputData.deep
+		this.demonBuilder.recurDepth = inputData.recurDepth
 		if (inputData.level) this.demonBuilder.maxLevel = inputData.level
 		if (inputData.demonName) {
 			return this.demonBuilder.getFusionChains(

@@ -13,12 +13,9 @@ export abstract class DemonBuilder {
 	resultMessageObservable = this.resultMessageSubject.asObservable()
 
 	maxLevel = 99
-	/* @setting deep: if true the functions will search fissions even if they
-	don't immediately have any desired skills. Vastly increases computational
-	time, but finds results with longer fusion chains */
-	deep: boolean = false
-	//@setting the amount of times getChain is allowed to call itself
-	recursiveDepth = 2
+	/* the depth the builder will go to checking for skills even if immediate 
+		sources don't have desired skills */
+	recurDepth = 1
 	//@setting the max size array getChains can return
 	maxChainLength = 20
 

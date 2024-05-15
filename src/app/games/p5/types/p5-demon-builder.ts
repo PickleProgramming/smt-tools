@@ -117,7 +117,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			//check if fissions have desirable skills
 			if (!this.validSources(skills, fission)) continue
 			let foundSkills = this.checkFusionSkills(skills, fission)
-			if (foundSkills.length > 0 || this.deep) {
+			if (foundSkills.length > 0) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(skills, foundSkills)
 					//finish chain if we have found all skills
@@ -236,7 +236,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				targetSkills,
 				Object.keys(demon.skills)
 			)
-			if (intersects.length > 0 || this.deep) {
+			if (intersects.length > 0) {
 				this.demon_getFusionChains(targetSkills, demonName)
 			}
 
@@ -296,7 +296,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		demonName: string
 	): BuildRecipe | null {
 		this.combo++
-		if (depth > this.recursiveDepth) return null
+		if (depth > this.recurDepth) return null
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) return null
 		let fissions = this.calculator.getFissions(demonName)
@@ -309,7 +309,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 				this.addStep(chain, fission, targetSkills)
 				return chain
 			}
-			if (foundSkills.length > 0 || this.deep) {
+			if (foundSkills.length > 0) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					let chain = this.getFusionChain(diff, depth + 1, sourceName)

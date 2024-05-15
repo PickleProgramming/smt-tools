@@ -112,5 +112,5 @@ export interface InputChainData {
 	demonName: string | null
 	level: number | null
 	inputSkills: string[]
-	deep: boolean
+	recurDepth: number
 }
