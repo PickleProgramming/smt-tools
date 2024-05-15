@@ -56,6 +56,15 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		targetSkills: string[],
 		demonName?: string
 	): { possible: boolean; reason: string } {
+		//check if any of the skills are too high level
+		for (let skillName of targetSkills) {
+			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
+				return {
+					possible: false,
+					reason: `You have specified a level that is lower than the minimum required level to learn ${skillName}.`,
+				}
+			}
+		}
 		if (demonName) {
 			return this.demon_isPossible(targetSkills, demonName)
 		}
@@ -161,12 +170,6 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (!this.compendium.isInheritable(demonName, skillName)) {
 				return { possible: false, reason: Errors.Inherit }
 			}
-			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
-				return {
-					possible: false,
-					reason: `You have specified a level that is lower than the minimum required level to learn ${skillName}.`,
-				}
-			}
 		}
 		return this.canInheritOrLearn(targetSkills, demonName)
 	}
@@ -251,12 +254,6 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		possible: boolean
 		reason: string
 	} {
-		//check if any of the skills are too high level
-		for (let skillName of targetSkills) {
-			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
-				return { possible: false, reason: Errors.LowLevel }
-			}
-		}
 		//check is the skill is unique, if it is, fuse for that demon
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
