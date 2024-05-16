@@ -58,7 +58,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 
 	//---Variables for demon-builder---
 	//keeps track of amount of fusions attempted by demon-builder
-	protected combo: number = 0
+	protected fusionCounter: number = 0
 	/* how much depth the builder will go to even if there are no 
 		immediate skills in sources */
 	protected recurDepth = 0
@@ -146,7 +146,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					}
 					return
 				}
-				if (data.fusionCounter) this.combo = data.fusionCounter
+				if (data.fusionCounter) this.fusionCounter = data.fusionCounter
 				if (data.results) this.buildsSource.data = data.results
 			})
 	}
@@ -163,7 +163,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.stopWebWorker()
 		this.clearResults()
 		this.recurDepth = 1
-		this.combo = 0
+		this.fusionCounter = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
@@ -173,7 +173,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Clears output from the results table */
 	clearResults() {
 		this.buildsSource = new MatTableDataSource<BuildRecipe>()
-		this.combo = 0
+		this.fusionCounter = 0
 	}
 
 	/**
@@ -213,5 +213,15 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	stopTimer(): void {
 		this.endTime = performance.now()
 		this.deltaTime = (this.endTime - this.startTime) / 1000
+	}
+
+	enterTestData(): void {
+		this.skillControls[0].setValue('Snap')
+		this.skillControls[1].setValue('Absorb Fire')
+		this.skillControls[2].setValue('Absorb Bless')
+		this.skillControls[3].setValue('Ailment Boost')
+		this.skillControls[4].setValue('Null Elec')
+		this.skillControls[5].setValue('Absorb Wind')
+		this.recurDepthControl.setValue('1')
 	}
 }
