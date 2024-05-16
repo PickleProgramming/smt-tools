@@ -16,7 +16,7 @@ export class DemonBuilderWorker
 	chains: BuildRecipe[] = []
 	demonBuilder = P5_DEMON_BUILDER
 
-	public workUnit(input: InputChainData): Observable<ResultsMessage> {
+	public work(input: InputChainData): Observable<ResultsMessage> {
 		const output$: Subject<ResultsMessage> = new ReplaySubject(Infinity)
 		const sub = this.demonBuilder.resultMessageObservable.subscribe(
 			(data) => {
