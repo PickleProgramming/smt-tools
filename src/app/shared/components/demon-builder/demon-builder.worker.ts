@@ -1,30 +1,27 @@
 import { P5_DEMON_BUILDER } from '@shared/constants'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
-import { DoWorkUnit, runWorker } from 'observable-webworker'
-import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
+import { DoWork, runWorker } from 'observable-webworker'
+import { Observable, ReplaySubject, Subject } from 'rxjs'
+import { map } from 'rxjs/operators'
 
 /* Class to run the fusion calculator in a web worker utilizes the 
     observable-worker library to make things much easier to deal with 
     https://github.com/cloudnc/observable-webworker*/
 export class DemonBuilderWorker
-	implements DoWorkUnit<InputChainData, BuildRecipe[]>
+	implements DoWork<InputChainData, BuildRecipe[]>
 {
 	chains: BuildRecipe[] = []
 	demonBuilder = P5_DEMON_BUILDER
 
-	public work(input: InputChainData): Observable<BuildRecipe[]> {
-		const output$: Subject<BuildRecipe[]> = new ReplaySubject(Infinity)
-		const sub = this.demonBuilder.resultMessageObservable.subscribe(
-			(data) => {
-				output$.next(data)
-			}
+	public work(input$: Observable<InputChainData>): Observable<BuildRecipe[]> {
+		return input$.pipe(
+			map((inputData) => {
+				return this.calculate(inputData)
+			})
 		)
-		this.calculate(input)
-		sub.unsubscribe()
-		return output$
 	}
 
-	private calculate(inputData: InputChainData): Observable<BuildRecipe[]> {
+	private calculate(inputData: InputChainData): BuildRecipe[] {
 		this.demonBuilder.recurDepth = inputData.recurDepth
 		if (inputData.level) this.demonBuilder.maxLevel = inputData.level
 		if (inputData.demonName) {

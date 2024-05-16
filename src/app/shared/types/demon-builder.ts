@@ -7,9 +7,7 @@ import { BuildRecipe, Fusion } from './smt-tools.types'
 export abstract class DemonBuilder {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
-	protected resultMessageSubject = new Subject<BuildRecipe[]>()
 	chains: BuildRecipe[] = []
-	resultMessageObservable = this.resultMessageSubject.asObservable()
 
 	maxLevel = 99
 	/* the depth the builder will go to checking for skills even if immediate 
@@ -37,7 +35,7 @@ export abstract class DemonBuilder {
 	abstract getFusionChains(
 		targetSkills: string[],
 		demonName?: string
-	): Observable<BuildRecipe[]>
+	): BuildRecipe[]
 
 	/**
 	 * Checks for any immediately obvious reasons that building the specified
@@ -216,16 +214,20 @@ export abstract class DemonBuilder {
 	}
 
 	/**
-	 * Builds the recipe steps for a given chain, and emits the necessary
-	 * information to the DemonBuilder subject
+	 * Builds the cost, level, and inherittedSkills array for the given chain
+	 * and adds the information to the given chain
 	 *
 	 * @param skills Target skills to be inherritted on the resultant demon
 	 * @param innates Target skills the resulatant demon will learn
 	 * @param chain FusionChain to emit and build the recipe steps around
 	 */
-	protected emitFusionChain(chain: BuildRecipe, innates: string[]): void {
+	protected addChainMetadata(
+		chain: BuildRecipe,
+		innates: string[]
+	): BuildRecipe {
 		chain.cost = this.getCost(chain)
 		chain.level = this.levelRequired(chain)
+		// create list that tells the user what skills should be inheritted at each step
 		chain.innates = innates
 		chain.result = chain.fusions[chain.fusions.length - 1].result
 		if (chain.fusions.length > 1) {
@@ -236,8 +238,7 @@ export abstract class DemonBuilder {
 			}
 		}
 		chain.directions = this.getDirections(chain)
-		this.chains.push(chain)
-		this.resultMessageSubject.next()
+		return chain
 	}
 
 	/**

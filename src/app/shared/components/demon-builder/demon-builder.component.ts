@@ -128,7 +128,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			.pipe(takeUntil(this.notifier))
 			.subscribe({
 				next: (data) => {
-					if (this.buildsSource.data.length == 0) {
+					if (data.length == 0) {
 						if (this.userError == '') {
 							this.userError =
 								"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
@@ -136,6 +136,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					} else {
 						this.userError = ''
 						this.buildsSource.data = data
+						this.stopWebWorker()
 					}
 				},
 				error: (error) => {},
