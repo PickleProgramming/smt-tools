@@ -20,14 +20,12 @@ describe('P5 Demon Builder Test', () => {
 					cy.pushButton('Calculate')
 					cy.checkNumberOfResults(33)
 				})
-				//TODO
-				/* it('works with a normal, no-name, no-level, 2+ depth, fusion', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-                }) */
-				//TODO
-				/* it('works with a normal, no-name, level, 2+ depth, fusion', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+				// it('works with a normal, no-name, no-level, 2+ depth, fusion', () => {
+				// 	cy.get('.skill-form-field').first().click().type('Dekaja')
+				// })
+				// it('works with a normal, no-name, level, 2+ depth, fusion', () => {
+				// 	cy.get('.skill-form-field').first().click().type('Dekaja')
+				// })
 			})
 			describe('Name', () => {
 				//TODO

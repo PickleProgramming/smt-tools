@@ -57,14 +57,9 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		targetSkills: string[],
 		demonName?: string
 	): { possible: boolean; reason: string } {
-		//check if any of the skills are too high level
-		for (let skillName of targetSkills) {
-			if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
-				return {
-					possible: false,
-					reason: `You have specified a level that is lower than the minimum required level to learn ${skillName}.`,
-				}
-			}
+		let possibility = this.checkSkillLevels(targetSkills)
+		if (!possibility.possible) {
+			return possibility
 		}
 		if (demonName) {
 			return this.demon_isPossible(targetSkills, demonName)
@@ -118,15 +113,15 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			if (!this.validSources(skills, fission)) continue
 			let foundSkills = this.checkFusionSkills(skills, fission)
 			if (foundSkills.length > 0 || this.recurDepth > 0) {
+				let diff = _.difference(skills, foundSkills)
+				//finish chain if we have found all skills
+				if (diff.length == 0) {
+					let chain = this.getEmptyFusionChain()
+					this.addStep(chain, fission, foundSkills)
+					this.emitFusionChain(chain, innates)
+					break
+				}
 				for (let sourceName of fission.sources) {
-					let diff = _.difference(skills, foundSkills)
-					//finish chain if we have found all skills
-					if (diff.length == 0) {
-						let chain = this.getEmptyFusionChain()
-						this.addStep(chain, fission, foundSkills)
-						this.emitFusionChain(chain, innates)
-						break
-					}
 					//check the fissions heritage for more skills
 					let chain = this.getFusionChain(diff, 0, sourceName)
 					if (chain != null) {
@@ -212,34 +207,19 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	protected noDemon_getFusionChains(targetSkills: string[]): void {
 		/* if there are any unique skills, we know we will be building to a 
 			specific demon. Switch to other method.*/
-		for (let skillName of targetSkills) {
-			let unique = this.compendium.skills[skillName].unique
-			if (unique) {
-				this.demon_getFusionChains(targetSkills, unique)
-			}
-		}
+		let unique = this.hasUniqueSkills(targetSkills)
+		if (unique) this.demon_getFusionChains(targetSkills, unique)
 
 		let chains: BuildRecipe[] = []
-
-		/* Loop through every demon in the compendium checking if they are 
-			possible fusions and if they have specified skills */
-		for (let demonName in this.compendium.demons) {
+		/* Loop through every demon with at least one skill and check if they are possible */
+		let demons = this.getDemonsWithSkills(targetSkills)
+		for (let demonName of demons) {
 			this.incCount()
 			if (chains.length >= this.maxChainLength) return
 			let possibility = this.isPossible(targetSkills, demonName)
 			if (!possibility.possible) continue
 			let newChains: BuildRecipe[] = []
-			let demon = this.compendium.demons[demonName]
-
-			//check if the demon has any skills we need
-			let intersects = _.intersection(
-				targetSkills,
-				Object.keys(demon.skills)
-			)
-			if (intersects.length > 0) {
-				this.demon_getFusionChains(targetSkills, demonName)
-			}
-
+			this.demon_getFusionChains(targetSkills, demonName)
 			if (newChains.length > 0) chains = chains.concat(newChains)
 		}
 	}
@@ -260,12 +240,9 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		reason: string
 	} {
 		//check is the skill is unique, if it is, fuse for that demon
-		for (let skillName of targetSkills) {
-			let skill = this.compendium.skills[skillName]
-			if (skill.unique) {
-				return this.demon_isPossible(targetSkills, skill.unique)
-			}
-		}
+		let unique = this.hasUniqueSkills(targetSkills)
+		if (unique) return this.demon_isPossible(targetSkills, unique)
+
 		if (targetSkills.length > 5) {
 			return this.canInheritOrLearn(targetSkills)
 		}
@@ -321,6 +298,66 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 			}
 		}
 		return null
+	}
+
+	/**
+	 * Makes sure all the skills passed are less than the max level
+	 *
+	 * @param targetSkills Skills to check
+	 * @returns {possible: boolean, reason: string} True if all skills are less
+	 *   than the max level. If not, returns false and gives a reason
+	 */
+	private checkSkillLevels(targetSkills: string[]): {
+		possible: boolean
+		reason: string
+	} {
+		if (this.maxLevel < 99) {
+			for (let skillName of targetSkills) {
+				if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
+					return {
+						possible: false,
+						reason: `You have specified a level that is lower than the minimum required level to learn ${skillName}.`,
+					}
+				}
+			}
+		}
+		return { possible: true, reason: '' }
+	}
+
+	/**
+	 * Gets a list of demons that have the skills specified
+	 *
+	 * @param targetSkills Skills to look for
+	 * @returns List of demon names with those skills
+	 */
+	private getDemonsWithSkills(targetSkills: string[]): string[] {
+		let result: string[] = []
+		for (let demonName in this.compendium.demons) {
+			let demon = this.compendium.demons[demonName]
+			let innates = _.intersection(
+				targetSkills,
+				Object.keys(demon.skills)
+			)
+			if (innates.length > 0) {
+				result.push(demonName)
+			}
+		}
+		return result
+	}
+
+	/**
+	 * Checks if there are any skills in the list are unique
+	 *
+	 * @param targetSkills Skills to check
+	 * @returns The name of the demon that learns the skill if it is unique, if
+	 *   it is not unique returns an empty string
+	 */
+	private hasUniqueSkills(targetSkills: string[]): string {
+		for (let skillName of targetSkills) {
+			let skill = this.compendium.skills[skillName]
+			if (skill.unique) return skill.unique
+		}
+		return ''
 	}
 }
 
