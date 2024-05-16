@@ -2,12 +2,14 @@ import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
-import { BuildRecipe, Fusion } from './smt-tools.types'
+import { BuildRecipe, Fusion, InputChainData } from './smt-tools.types'
+import { DoWork } from 'observable-webworker'
 
-export abstract class DemonBuilder {
+export abstract class DemonBuilder
+	implements DoWork<InputChainData, BuildRecipe>
+{
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
-	chains: BuildRecipe[] = []
 
 	maxLevel = 99
 	/* the depth the builder will go to checking for skills even if immediate 
@@ -20,6 +22,15 @@ export abstract class DemonBuilder {
 		this.compendium = compendium
 		this.calculator = calculator
 	}
+
+	/**
+	 * The code to be run on the web worker. Will emit a BuildRecipe whenever it
+	 * successfuly calculates one.
+	 *
+	 * @param input$ On obsvervable stream of InputChainData containing the user
+	 *   specified configations for the calculation
+	 */
+	abstract work(input$: Observable<InputChainData>): Observable<BuildRecipe>
 
 	/**
 	 * Attempts to create as many fusion chains as possible that match the given
