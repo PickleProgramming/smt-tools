@@ -351,10 +351,12 @@ export abstract class DemonBuilder {
 	 */
 	protected incCount(): void {
 		this.fusionCounter++
-		this.resultMessageSubject.next({
-			results: null,
-			fusionCounter: this.fusionCounter,
-			error: null,
-		})
+		if (this.fusionCounter % 1000 === 0) {
+			this.resultMessageSubject.next({
+				results: null,
+				fusionCounter: this.fusionCounter,
+				error: null,
+			})
+		}
 	}
 }
