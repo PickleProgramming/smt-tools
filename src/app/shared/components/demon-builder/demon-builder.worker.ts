@@ -1,9 +1,5 @@
 import { P5_DEMON_BUILDER } from '@shared/constants'
-import {
-	ResultsMessage,
-	BuildRecipe,
-	InputChainData,
-} from '@shared/types/smt-tools.types'
+import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
 import { DoWorkUnit, runWorker } from 'observable-webworker'
 import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
 
@@ -11,20 +7,16 @@ import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
     observable-worker library to make things much easier to deal with 
     https://github.com/cloudnc/observable-webworker*/
 export class DemonBuilderWorker
-	implements DoWorkUnit<InputChainData, ResultsMessage>
+	implements DoWorkUnit<InputChainData, BuildRecipe[]>
 {
 	chains: BuildRecipe[] = []
 	demonBuilder = P5_DEMON_BUILDER
 
-	public work(input: InputChainData): Observable<ResultsMessage> {
-		const output$: Subject<ResultsMessage> = new ReplaySubject(Infinity)
+	public work(input: InputChainData): Observable<BuildRecipe[]> {
+		const output$: Subject<BuildRecipe[]> = new ReplaySubject(Infinity)
 		const sub = this.demonBuilder.resultMessageObservable.subscribe(
 			(data) => {
-				output$.next({
-					results: data.results,
-					fusionCounter: data.fusionCounter,
-					error: data.error,
-				})
+				output$.next(data)
 			}
 		)
 		this.calculate(input)
@@ -32,7 +24,7 @@ export class DemonBuilderWorker
 		return output$
 	}
 
-	private calculate(inputData: InputChainData): Observable<ResultsMessage> {
+	private calculate(inputData: InputChainData): Observable<BuildRecipe[]> {
 		this.demonBuilder.recurDepth = inputData.recurDepth
 		if (inputData.level) this.demonBuilder.maxLevel = inputData.level
 		if (inputData.demonName) {

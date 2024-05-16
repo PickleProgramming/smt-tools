@@ -2,12 +2,12 @@ import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
-import { ResultsMessage, BuildRecipe, Fusion } from './smt-tools.types'
+import { BuildRecipe, Fusion } from './smt-tools.types'
 
 export abstract class DemonBuilder {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
-	protected resultMessageSubject = new Subject<ResultsMessage>()
+	protected resultMessageSubject = new Subject<BuildRecipe[]>()
 	chains: BuildRecipe[] = []
 	resultMessageObservable = this.resultMessageSubject.asObservable()
 
@@ -17,8 +17,6 @@ export abstract class DemonBuilder {
 	recurDepth = 1
 	// the max size array getChains can return
 	maxChainLength = 20
-	// keeps track of the amount of fusion attempted
-	private fusionCounter: number = 0
 
 	constructor(compendium: Compendium, calculator: FusionCalculator) {
 		this.compendium = compendium
@@ -39,7 +37,7 @@ export abstract class DemonBuilder {
 	abstract getFusionChains(
 		targetSkills: string[],
 		demonName?: string
-	): Observable<ResultsMessage>
+	): Observable<BuildRecipe[]>
 
 	/**
 	 * Checks for any immediately obvious reasons that building the specified
@@ -239,11 +237,7 @@ export abstract class DemonBuilder {
 		}
 		chain.directions = this.getDirections(chain)
 		this.chains.push(chain)
-		this.resultMessageSubject.next({
-			results: this.chains,
-			fusionCounter: this.fusionCounter,
-			error: null,
-		})
+		this.resultMessageSubject.next()
 	}
 
 	/**
@@ -343,20 +337,5 @@ export abstract class DemonBuilder {
 				level = this.compendium.demons[recipe.result].level
 		}
 		return level
-	}
-
-	/**
-	 * Increments the counter and emits a new message to the webworker updating
-	 * the counter
-	 */
-	protected incCount(): void {
-		this.fusionCounter++
-		if (this.fusionCounter % 1000 === 0) {
-			this.resultMessageSubject.next({
-				results: null,
-				fusionCounter: this.fusionCounter,
-				error: null,
-			})
-		}
 	}
 }

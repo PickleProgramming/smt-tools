@@ -13,11 +13,7 @@ import { Observable, of, Subject } from 'rxjs'
 import { map, startWith, takeUntil } from 'rxjs/operators'
 import { fromWorker } from 'observable-webworker'
 import _, { round } from 'lodash'
-import {
-	BuildRecipe,
-	ResultsMessage,
-	InputChainData,
-} from '@shared/types/smt-tools.types'
+import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
 
 @Component({
@@ -122,7 +118,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.calculating = true
 
 		let input$ = of(this.getConfiguration())
-		fromWorker<InputChainData, ResultsMessage>(
+		fromWorker<InputChainData, BuildRecipe[]>(
 			() =>
 				new Worker(new URL('./demon-builder.worker', import.meta.url), {
 					type: 'module',
@@ -132,27 +128,20 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			.pipe(takeUntil(this.notifier))
 			.subscribe({
 				next: (data) => {
-					if (data.error) {
-						this.userError = data.error
-					}
-					if (data.fusionCounter == null && data.results == null) {
-						this.stopWebWorker()
-						if (this.buildsSource.data.length == 0) {
-							if (this.userError == '') {
-								this.userError =
-									"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-							}
-						} else {
-							this.userError = ''
+					if (this.buildsSource.data.length == 0) {
+						if (this.userError == '') {
+							this.userError =
+								"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
 						}
-						return
+					} else {
+						this.userError = ''
+						this.buildsSource.data = data
 					}
-					if (data.fusionCounter)
-						this.fusionCounter = data.fusionCounter
-					if (data.results) this.buildsSource.data = data.results
 				},
 				error: (error) => {},
-				complete: () => {},
+				complete: () => {
+					this.stopWebWorker()
+				},
 			})
 	}
 
@@ -221,11 +210,18 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
+		this.nekoTestData()
+	}
+	private maraTestData(): void {
 		this.demonControl.setValue('Mara')
 		this.skillControls[0].setValue('Absorb Fire')
 		this.skillControls[1].setValue('Regenerate 1')
 		this.skillControls[2].setValue('Invigorate 1')
 		this.skillControls[3].setValue('Growth 1')
 		this.recurDepthControl.setValue('1')
+	}
+	private nekoTestData(): void {
+		this.demonControl.setValue('Neko Shogun')
+		this.skillControls[0].setValue('Dekaja')
 	}
 }

@@ -1,6 +1,6 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
-import { ResultsMessage, BuildRecipe } from '@shared/types/smt-tools.types'
+import { BuildRecipe } from '@shared/types/smt-tools.types'
 import { Observable } from 'rxjs'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
@@ -23,7 +23,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	getFusionChains(
 		targetSkills: string[],
 		demonName?: string | undefined
-	): Observable<ResultsMessage> {
+	): Observable<BuildRecipe[]> {
 		/* check for any immediate problems with user input then begin recursive
 			 calls, either with a specified demon or without.*/
 		if (demonName) {
@@ -37,11 +37,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		}
 		/* emitting null data tells listeners the messages are finished, and 
 			they can stop listening */
-		this.resultMessageSubject.next({
-			results: null,
-			fusionCounter: null,
-			error: null,
-		})
+		this.resultMessageSubject.next()
 		return this.resultMessageObservable
 	}
 	protected isValidInput(
@@ -107,7 +103,6 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		if (innates.length > 0) _.pullAll(skills, innates)
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.incCount()
 			if (chains.length >= this.maxChainLength) return
 			//check if fissions have desirable skills
 			if (!this.validSources(skills, fission)) continue
@@ -138,11 +133,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	): boolean {
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) {
-			this.resultMessageSubject.next({
-				results: null,
-				fusionCounter: null,
-				error: possibility.reason,
-			})
+			this.resultMessageSubject.next()
 			return false
 		}
 		return true
@@ -214,7 +205,6 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		/* Loop through every demon with at least one skill and check if they are possible */
 		let demons = this.getDemonsWithSkills(targetSkills)
 		for (let demonName of demons) {
-			this.incCount()
 			if (chains.length >= this.maxChainLength) return
 			let possibility = this.isPossible(targetSkills, demonName)
 			if (!possibility.possible) continue
@@ -226,11 +216,7 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	protected noDemon_isValidInput(targetSkills: string[]): boolean {
 		let possibility = this.isPossible(targetSkills)
 		if (!possibility.possible) {
-			this.resultMessageSubject.next({
-				results: null,
-				fusionCounter: null,
-				error: possibility.reason,
-			})
+			this.resultMessageSubject.next()
 			return false
 		}
 		return true
@@ -272,13 +258,11 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		depth: number,
 		demonName: string
 	): BuildRecipe | null {
-		this.incCount()
 		if (depth - 1 > this.recurDepth) return null
 		let possibility = this.isPossible(targetSkills, demonName)
 		if (!possibility.possible) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.incCount()
 			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
