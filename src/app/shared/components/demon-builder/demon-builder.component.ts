@@ -130,24 +130,29 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			input$
 		)
 			.pipe(takeUntil(this.notifier))
-			.subscribe((data) => {
-				if (data.error) {
-					this.userError = data.error
-				}
-				if (data.fusionCounter == null && data.results == null) {
-					this.stopWebWorker()
-					if (this.buildsSource.data.length == 0) {
-						if (this.userError == '') {
-							this.userError =
-								"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-						}
-					} else {
-						this.userError = ''
+			.subscribe({
+				next: (data) => {
+					if (data.error) {
+						this.userError = data.error
 					}
-					return
-				}
-				if (data.fusionCounter) this.fusionCounter = data.fusionCounter
-				if (data.results) this.buildsSource.data = data.results
+					if (data.fusionCounter == null && data.results == null) {
+						this.stopWebWorker()
+						if (this.buildsSource.data.length == 0) {
+							if (this.userError == '') {
+								this.userError =
+									"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+							}
+						} else {
+							this.userError = ''
+						}
+						return
+					}
+					if (data.fusionCounter)
+						this.fusionCounter = data.fusionCounter
+					if (data.results) this.buildsSource.data = data.results
+				},
+				error: (error) => {},
+				complete: () => {},
 			})
 	}
 
@@ -216,12 +221,11 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.skillControls[0].setValue('Snap')
-		this.skillControls[1].setValue('Absorb Fire')
-		this.skillControls[2].setValue('Absorb Bless')
-		this.skillControls[3].setValue('Ailment Boost')
-		this.skillControls[4].setValue('Null Elec')
-		this.skillControls[5].setValue('Absorb Wind')
+		this.demonControl.setValue('Mara')
+		this.skillControls[0].setValue('Absorb Fire')
+		this.skillControls[1].setValue('Regenerate 1')
+		this.skillControls[2].setValue('Invigorate 1')
+		this.skillControls[3].setValue('Growth 1')
 		this.recurDepthControl.setValue('1')
 	}
 }
