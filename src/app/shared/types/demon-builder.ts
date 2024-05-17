@@ -53,7 +53,9 @@ export abstract class DemonBuilder
 	 * @returns A stream of messages updated whenever a chain is added to
 	 *   this.chains configured by ChainCalculator's properties
 	 */
-	abstract getFusionChains(input: InputChainData): Observable<BuildRecipe>
+	protected abstract getFusionChains(
+		input: InputChainData
+	): Observable<BuildRecipe>
 
 	/**
 	 * Checks for any immediately obvious reasons that building the specified
