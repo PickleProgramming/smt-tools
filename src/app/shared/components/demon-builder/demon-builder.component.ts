@@ -128,16 +128,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			input$
 		).subscribe({
 			next: (data) => {
-				if (!data) {
-					if (this.userError == '') {
-						this.userError =
-							"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-					}
-				} else {
-					this.buildsSource.data.push(data)
-					//forces data to render new rows
-					this.buildsSource.data = this.buildsSource.data
-				}
+				this.buildsSource.data.push(data)
+				//forces data to render new rows
+				this.buildsSource.data = this.buildsSource.data
 			},
 			error: (error) => {
 				this.userError = error.message.replace('Uncaught Error: ', '')
@@ -145,6 +138,13 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			},
 			complete: () => {
 				this.stopWebWorker()
+				if (
+					this.buildsSource.data.length == 0 &&
+					this.userError == ''
+				) {
+					this.userError =
+						"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+				}
 			},
 		})
 	}

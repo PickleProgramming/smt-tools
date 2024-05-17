@@ -17,6 +17,11 @@
 // import './commands';
 import './commands'
 
+// Since I'm using Errors as a control structure in demon builder, I don't want cypress to fail on uncaught exceptions
+Cypress.on('uncaught:exception', (err, runnable) => {
+	return false
+})
+
 export {}
 declare global {
 	namespace Cypress {

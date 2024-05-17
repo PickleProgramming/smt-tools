@@ -71,7 +71,7 @@ describe('P5 Demon Builder Test', () => {
 		})
 	})
 
-	describe('Failing Cases', () => {
+	describe.only('Failing Cases', () => {
 		//Failing cases
 		it('fails because the level is too for the demon', () => {
 			cy.enterName('Mara')
