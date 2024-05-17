@@ -226,7 +226,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		possible: boolean
 		reason: string
 	} {
-		//check is the skill is unique, if it is, fuse for that demon
+		//check if the skill is unique, if it is, fuse for that demon
 		let unique = this.hasUniqueSkills(targetSkills)
 		if (unique) return this.demon_isPossible(targetSkills, unique)
 

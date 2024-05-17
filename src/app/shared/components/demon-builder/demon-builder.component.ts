@@ -98,10 +98,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		)
 	}
 
-	/**
-	 * Supposed to faciliate table sorting, but I haven't got it to work yet
-	 * with the expandable table
-	 */
+	//TODO: supposed to faciliate table sorting, but I haven't got it to work yet with the expandable table
 	ngAfterViewInit(): void {
 		this.buildsSource.sort = this.sort
 	}
@@ -122,10 +119,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		fromWorkerPool<InputChainData, BuildRecipe>(
 			() =>
 				new Worker(
-					//TODO wwwwhyyyyyyy do I need this
-					// if I use a variable, even if its the EXACT string
-					// it still won't be able to find it
-					// something to do with the second argument?
+					//TODO wwwwhyyyyyyy do I need this?! if I use a variable, even if its the EXACT string it still won't be able to find it something to do with the second argument?
 					new URL('./p5-demon-builder.worker', import.meta.url),
 					{
 						type: 'module',
@@ -142,6 +136,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 				} else {
 					this.userError = ''
 					this.buildsSource.data.push(data)
+					//forces data to render new rows
+					this.buildsSource.data = this.buildsSource.data
 				}
 			},
 			error: (error) => {},
