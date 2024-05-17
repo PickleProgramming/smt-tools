@@ -13,10 +13,17 @@ import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs'
 export class DemonBuilderWorker
 	implements DoWorkUnit<InputChainData, ResultsMessage>
 {
+	//TODO: TypeScript thinks I need this even though I don't
+	work(
+		input: InputChainData
+	): Observable<ResultsMessage> | PromiseLike<ResultsMessage> {
+		throw new Error('Method not implemented.')
+	}
+
 	chains: BuildRecipe[] = []
 	demonBuilder = P5_DEMON_BUILDER
 
-	public work(input: InputChainData): Observable<ResultsMessage> {
+	public workUnit(input: InputChainData): Observable<ResultsMessage> {
 		const output$: Subject<ResultsMessage> = new ReplaySubject(Infinity)
 		const sub = this.demonBuilder.resultMessageObservable.subscribe(
 			(data) => {
