@@ -41,13 +41,22 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		targetSkills: string[],
 		demonName?: string | null
 	): boolean {
+		if (this.maxLevel < 99) {
+			for (let skillName of targetSkills) {
+				if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
+					throw new Error(
+						`You have specified a level that is lower than the minimum required level to learn ${skillName}.`
+					)
+				}
+			}
+		}
 		if (demonName) {
 			return this.demon_isValidInput(targetSkills, demonName)
 		}
-		return this.isPossible(targetSkills)
+		return this.noDemon_isValidInput(targetSkills)
 	}
 	protected isPossible(targetSkills: string[], demonName?: string): boolean {
-		this.checkSkillLevels(targetSkills)
+		if (!this.checkSkillLevels(targetSkills)) return false
 		if (demonName) {
 			return this.demon_isPossible(targetSkills, demonName)
 		}
@@ -124,13 +133,6 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	}
 	protected demon_isValidInput(
 		targetSkills: string[],
-		demonName: string | undefined
-	): boolean {
-		if (!this.isPossible(targetSkills, demonName)) return false
-		return true
-	}
-	protected demon_isPossible(
-		targetSkills: string[],
 		demonName: string
 	): boolean {
 		if (this.compendium.demons[demonName].level > this.maxLevel) {
@@ -148,6 +150,26 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 			}
 			if (!this.compendium.isInheritable(demonName, skillName)) {
 				throw new Error(Errors.Inherit)
+			}
+		}
+		if (!this.canInheritOrLearn(targetSkills, demonName)) {
+			throw new Error(Errors.MaxSkills)
+		}
+		return true
+	}
+	protected demon_isPossible(
+		targetSkills: string[],
+		demonName: string
+	): boolean {
+		if (this.compendium.demons[demonName].level > this.maxLevel) {
+			return false
+		}
+		if (this.compendium.isElemental(demonName)) return false
+		for (let skillName of targetSkills) {
+			let skill = this.compendium.skills[skillName]
+			if (skill.unique && skill.unique !== demonName) return false
+			if (!this.compendium.isInheritable(demonName, skillName)) {
+				return false
 			}
 		}
 		return this.canInheritOrLearn(targetSkills, demonName)
@@ -176,7 +198,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				return true
 			}
 		}
-		throw new Error(Errors.MaxSkills)
+		return false
 	}
 	/**
 	 * ---NO-DEMON METHODS---
@@ -205,6 +227,12 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		}
 		return result
 	}
+	noDemon_isValidInput(targetSkills: string[]): boolean {
+		if (!this.canInheritOrLearn(targetSkills)) {
+			throw new Error(Errors.MaxSkills)
+		}
+		return true
+	}
 	protected noDemon_isPossible(targetSkills: string[]): boolean {
 		//check if the skill is unique, if it is, fuse for that demon
 		let unique = this.hasUniqueSkills(targetSkills)
@@ -223,7 +251,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				return true
 			}
 		}
-		throw new Error(Errors.MaxSkills)
+		return false
 	}
 	/**
 	 * ---AGNOSTIC METHODS---
@@ -272,9 +300,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		if (this.maxLevel < 99) {
 			for (let skillName of targetSkills) {
 				if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
-					throw new Error(
-						`You have specified a level that is lower than the minimum required level to learn ${skillName}.`
-					)
+					return false
 				}
 			}
 		}
