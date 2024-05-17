@@ -20,22 +20,14 @@ describe('P5 Demon Builder Test', () => {
 					cy.pushButton('Calculate')
 					cy.checkNumberOfResults(33)
 				})
-				// it('works with a normal, no-name, no-level, 2+ depth, fusion', () => {
-				// 	cy.get('.skill-form-field').first().click().type('Dekaja')
-				// })
-				// it('works with a normal, no-name, level, 2+ depth, fusion', () => {
-				// 	cy.get('.skill-form-field').first().click().type('Dekaja')
-				// })
 			})
 			describe('Name', () => {
-				//TODO
-				/* it('works with a normal, named, no-level, ', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+				it('works with a normal, named, no-level, ', () => {
+					cy.enterName('Mara')
+					cy.enterSkills(['Absorb Fire', 'Mapsio', 'Diarahan'])
+					cy.pushButton('Calculate')
+					cy.checkNumberOfResults(22)
+				})
 				it('works with a normal, named, level, fusion', () => {
 					cy.enterName('Sandman')
 					cy.enterLevel(26)
@@ -48,28 +40,13 @@ describe('P5 Demon Builder Test', () => {
 					cy.pushButton('Calculate')
 					cy.checkNumberOfResults(5)
 				})
-				//TODO
-				/* it('works with a normal, named, no-level, 2+ depth, ', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
-				//TODO
-				/* it('works with a normal, named, level, 2+ depth, ', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+				it.skip('works with a normal, named, no-level, 2+ depth, ', () => {})
+				it.skip('works with a normal, named, level, 2+ depth, ', () => {})
 			})
 		})
 		describe('Special Fusion', () => {
 			describe('No Name', () => {
-				//TODO
-				/* it('works with a special, no-name, no-level, 1-depth, fusion', () => {})
+				it('works with a special, no-name, no-level, 1-depth, fusion', () => {})
 				it('works with a special, no-name, level, 1-depth, fusion ', () => {
 					cy.get('.skill-form-field').first().click().type('Dekaja')
 				})
@@ -78,7 +55,7 @@ describe('P5 Demon Builder Test', () => {
 				})
 				it('works with a special, no-name, level, 2+ depth,  fusion', () => {
 					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+				})
 			})
 			describe('Name', () => {
 				it('works with a special, named, no-level, 1-depth fusion', () => {
@@ -88,27 +65,9 @@ describe('P5 Demon Builder Test', () => {
 					cy.checkNumberOfResults(1)
 				})
 			})
-			/* it('works with a special, named, level, 1-depth, fusion', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				})
-				it('works with a special, named, no-level, 2+ depth, fusion', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				})
-				it('works with a special, named, level, 2+ depth, fusion', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+			it.skip('works with a special, named, level, 1-depth, fusion', () => {})
+			it.skip('works with a special, named, no-level, 2+ depth, fusion', () => {})
+			it.skip('works with a special, named, level, 2+ depth, fusion', () => {})
 		})
 	})
 
@@ -128,7 +87,7 @@ describe('P5 Demon Builder Test', () => {
 			cy.checkError(Errors.LevelSkill)
 		})
 		//TODO bad output because its tries to build alice, so it switches to a named function
-		/* it('fails because the level is too low for one of the special skills', () => {
+		it.skip('fails because the level is too low for one of the special skills', () => {
 			cy.get('.demon-form-field').eq(1).click().type('17')
 			cy.get('.skill-form-field').first().click().type('Die For Me!')
 			cy.get('button').contains('Calculate').click()
@@ -136,7 +95,7 @@ describe('P5 Demon Builder Test', () => {
 				'contain',
 				'You have specified a level that is lower than the minimum required level to learn'
 			)
-		}) */
+		})
 		it("fails because the demon can't learn a unique skills", () => {
 			cy.enterName('Agathion')
 			cy.enterSkills(['Die For Me!'])
