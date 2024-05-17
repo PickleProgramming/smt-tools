@@ -6,7 +6,15 @@ import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
 import { runWorker } from 'observable-webworker'
-import { filter, map, mergeAll, mergeMap, toArray } from 'rxjs/operators'
+import {
+	delay,
+	delayWhen,
+	filter,
+	map,
+	mergeAll,
+	mergeMap,
+	toArray,
+} from 'rxjs/operators'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -228,6 +236,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		let result = new ReplaySubject<BuildRecipe>(Infinity)
 		from(demons)
 			.pipe(
+				//delay to make sure this function has finished before calling demon_getFusionChains
+				delay(100),
 				mergeMap((demonName) =>
 					this.demon_getFusionChains(targetSkills, demonName)
 				)
