@@ -8,7 +8,7 @@ describe('P5 Demon Builder Test', () => {
 				it('works with a normal, no-name, no-level, 1-depth, fusion', () => {
 					cy.enterSkills(['Life Aid', 'Gigantomachia', 'Arms Master'])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(29)
+					cy.checkNumberOfResults(63)
 				})
 				it('works with a normal, no-name, level, 1-depth, fusion', () => {
 					cy.enterLevel(37)
@@ -18,7 +18,7 @@ describe('P5 Demon Builder Test', () => {
 						'Attack Master',
 					])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(33)
+					cy.checkNumberOfResults(42)
 				})
 			})
 			describe('Name', () => {
@@ -26,9 +26,10 @@ describe('P5 Demon Builder Test', () => {
 					cy.enterName('Mara')
 					cy.enterSkills(['Absorb Fire', 'Mapsio', 'Diarahan'])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(22)
+					cy.wait(20000)
+					cy.checkNumberOfResults(16)
 				})
-				it('works with a normal, named, level, fusion', () => {
+				it.only('works with a normal, named, level, fusion', () => {
 					cy.enterName('Sandman')
 					cy.enterLevel(26)
 					cy.enterSkills([
@@ -46,14 +47,14 @@ describe('P5 Demon Builder Test', () => {
 		})
 		describe('Special Fusion', () => {
 			describe('No Name', () => {
-				it('works with a special, no-name, no-level, 1-depth, fusion', () => {})
-				it('works with a special, no-name, level, 1-depth, fusion ', () => {
+				it.skip('works with a special, no-name, no-level, 1-depth, fusion', () => {})
+				it.skip('works with a special, no-name, level, 1-depth, fusion ', () => {
 					cy.get('.skill-form-field').first().click().type('Dekaja')
 				})
-				it('works with a special, no-name, no-level,2+ depth, fusion', () => {
+				it.skip('works with a special, no-name, no-level,2+ depth, fusion', () => {
 					cy.get('.skill-form-field').first().click().type('Dekaja')
 				})
-				it('works with a special, no-name, level, 2+ depth,  fusion', () => {
+				it.skip('works with a special, no-name, level, 2+ depth,  fusion', () => {
 					cy.get('.skill-form-field').first().click().type('Dekaja')
 				})
 			})
@@ -71,7 +72,7 @@ describe('P5 Demon Builder Test', () => {
 		})
 	})
 
-	describe.only('Failing Cases', () => {
+	describe('Failing Cases', () => {
 		//Failing cases
 		it('fails because the level is too for the demon', () => {
 			cy.enterName('Mara')

@@ -6,15 +6,7 @@ import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
 import { runWorker } from 'observable-webworker'
-import {
-	delay,
-	delayWhen,
-	filter,
-	map,
-	mergeAll,
-	mergeMap,
-	toArray,
-} from 'rxjs/operators'
+import { delay, mergeMap } from 'rxjs/operators'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium

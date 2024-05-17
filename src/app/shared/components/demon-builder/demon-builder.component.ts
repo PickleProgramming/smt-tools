@@ -213,7 +213,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.test1Data()
+		this.sandManData()
 	}
 	private maraTestData(): void {
 		this.demonControl.setValue('Mara')
@@ -237,5 +237,12 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.skillControls[0].setValue('Absorb Fire')
 		this.skillControls[1].setValue('Mapsio')
 		this.skillControls[2].setValue('Diarahan')
+	}
+	private sandManData(): void {
+		this.demonControl.setValue('Sandman')
+		this.skillControls[0].setValue('Pulinpa')
+		this.skillControls[1].setValue('Confuse Boost')
+		this.skillControls[2].setValue('Dodge Phys')
+		this.skillControls[3].setValue('Sharp Student')
 	}
 }
