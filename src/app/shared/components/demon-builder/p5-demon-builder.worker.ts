@@ -1,7 +1,7 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
-import { Observable, Subject, of } from 'rxjs'
+import { Observable, ReplaySubject, Subject, of } from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
@@ -15,13 +15,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
 	}
 
-	work(input$: Observable<InputChainData>): Observable<BuildRecipe> {
-		let result = new Subject<BuildRecipe>()
-		input$.subscribe((input) => {
-			result = this.getFusionChains(input)
-		})
-
-		return result.asObservable()
+	workUnit(input: InputChainData): Observable<BuildRecipe> {
+		return this.getFusionChains(input)
 	}
 
 	/**
@@ -30,7 +25,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * These methods will call the corresponding methods in the DEMON-NAME or
 	 * NO-NAME methods depending on if the user supplied a demonName or not.
 	 */
-	getFusionChains(input: InputChainData): Subject<BuildRecipe> {
+	getFusionChains(input: InputChainData): Observable<BuildRecipe> {
 		if (input.maxLevel) this.maxLevel = input.maxLevel
 		if (input.recurDepth) this.recurDepth = input.recurDepth
 		/* check for any immediate problems with user input then begin recursive
@@ -100,7 +95,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	protected demon_getFusionChains(
 		targetSkills: string[],
 		demonName: string
-	): Subject<BuildRecipe> {
+	): Observable<BuildRecipe> {
 		let skills = _.cloneDeep(targetSkills)
 		let demon = this.compendium.demons[demonName]
 		//filter out skills the demon learns innately
@@ -108,8 +103,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		if (innates.length > 0) _.pullAll(skills, innates)
 		let fissions = this.calculator.getFissions(demonName)
 
-		let result = new Subject<BuildRecipe>()
-		let obs = new Observable<BuildRecipe>((subscriber) => {
+		return new Observable<BuildRecipe>((subscriber) => {
 			for (let fission of fissions) {
 				if (!this.validSources(skills, fission)) continue
 				//check if fissions have desirable skills
@@ -135,8 +129,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 					}
 				}
 			}
-		}).subscribe(result)
-		return result
+		})
 	}
 	protected demon_isValidInput(
 		targetSkills: string[],
@@ -205,7 +198,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 */
 	protected noDemon_getFusionChains(
 		targetSkills: string[]
-	): Subject<BuildRecipe> {
+	): Observable<BuildRecipe> {
 		let result = new Subject<BuildRecipe>()
 		/* if there are any unique skills, we know we will be building to a 
 			specific demon. Switch to other method.*/

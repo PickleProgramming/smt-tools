@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table'
 import { Compendium } from '@shared/types/compendium'
 import { Observable, of, Subject } from 'rxjs'
 import { map, startWith, takeUntil } from 'rxjs/operators'
-import { fromWorker } from 'observable-webworker'
+import { fromWorker, fromWorkerPool } from 'observable-webworker'
 import _, { round } from 'lodash'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
@@ -122,7 +122,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.calculating = true
 
 		let input$ = of(this.getConfiguration())
-		fromWorker<InputChainData, BuildRecipe[]>(
+		fromWorkerPool<InputChainData, BuildRecipe>(
 			() =>
 				new Worker(
 					//TODO wwwwhyyyyyyy do I need this
@@ -135,26 +135,27 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					}
 				),
 			input$
-		)
-			.pipe(takeUntil(this.notifier))
-			.subscribe({
-				next: (data) => {
-					if (data.length == 0) {
-						if (this.userError == '') {
-							this.userError =
-								"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-						}
-					} else {
-						this.userError = ''
-						this.buildsSource.data = data
-						this.stopWebWorker()
+		).subscribe({
+			next: (data) => {
+				if (!data) {
+					if (this.userError == '') {
+						this.userError =
+							"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
 					}
-				},
-				error: (error) => {},
-				complete: () => {
+				} else {
+					this.userError = ''
+					this.buildsSource.data.push(data)
+					console.log(this.buildsSource.data)
+					console.log(data)
 					this.stopWebWorker()
-				},
-			})
+				}
+			},
+			error: (error) => {},
+			complete: () => {
+				console.log('done')
+				this.stopWebWorker()
+			},
+		})
 	}
 
 	/** Tells the webworker to stop */

@@ -3,10 +3,10 @@ import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
 import { BuildRecipe, Fusion, InputChainData } from './smt-tools.types'
-import { DoWork } from 'observable-webworker'
+import { DoWorkUnit } from 'observable-webworker'
 
 export abstract class DemonBuilder
-	implements DoWork<InputChainData, BuildRecipe>
+	implements DoWorkUnit<InputChainData, BuildRecipe>
 {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
@@ -22,6 +22,15 @@ export abstract class DemonBuilder
 		this.compendium = compendium
 		this.calculator = calculator
 	}
+	/**
+	 * TypeScript will get mad if I don't keep this here, even though it is
+	 * completely unnecessary for my setup.
+	 */
+	work(
+		input: InputChainData
+	): Observable<BuildRecipe> | PromiseLike<BuildRecipe> {
+		throw new Error('Method not implemented.')
+	}
 
 	/**
 	 * The code to be run on the web worker. Will emit a BuildRecipe whenever it
@@ -31,7 +40,7 @@ export abstract class DemonBuilder
 	 *   specified configations for the calculation
 	 * @returns On observable stream of BuildRecipes
 	 */
-	abstract work(input$: Observable<InputChainData>): Observable<BuildRecipe>
+	abstract workUnit(input: InputChainData): Observable<BuildRecipe>
 
 	/**
 	 * Attempts to create as many fusion chains as possible that match the given
