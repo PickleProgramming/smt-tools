@@ -1,11 +1,12 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
-import { Observable, Subject } from 'rxjs'
+import { Observable, ReplaySubject, Subject, from, of } from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
 import { runWorker } from 'observable-webworker'
+import { filter, map, mergeAll, mergeMap, toArray } from 'rxjs/operators'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -210,21 +211,28 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	protected noDemon_getFusionChains(
 		targetSkills: string[]
 	): Observable<BuildRecipe> {
-		let result = new Subject<BuildRecipe>()
 		/* if there are any unique skills, we know we will be building to a 
 			specific demon. Switch to other method.*/
 		let unique = this.hasUniqueSkills(targetSkills)
 		if (unique) {
 			return this.demon_getFusionChains(targetSkills, unique)
 		}
-		/* Loop through every demon with at least one skill and check if they are possible */
+		//get a list of possible demons with desirable skills
 		let demons = this.getDemonsWithSkills(targetSkills)
 		for (let demonName of demons) {
-			if (!this.isPossible(targetSkills, demonName)) continue
-			this.demon_getFusionChains(targetSkills, demonName).subscribe(
-				result
-			)
+			if (!this.isPossible(targetSkills, demonName)) {
+				demons = demons.filter((demon) => demon != demonName)
+			}
 		}
+		//run all possible demons through getFusionChains and flatten the output into a single observable stream
+		let result = new ReplaySubject<BuildRecipe>(Infinity)
+		from(demons)
+			.pipe(
+				mergeMap((demonName) =>
+					this.demon_getFusionChains(targetSkills, demonName)
+				)
+			)
+			.subscribe(result)
 		return result
 	}
 	noDemon_isValidInput(targetSkills: string[]): boolean {

@@ -213,7 +213,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.test2Data()
+		this.test1Data()
 	}
 	private maraTestData(): void {
 		this.demonControl.setValue('Mara')
