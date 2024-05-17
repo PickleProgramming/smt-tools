@@ -124,9 +124,16 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		let input$ = of(this.getConfiguration())
 		fromWorker<InputChainData, BuildRecipe[]>(
 			() =>
-				new Worker(new URL(this.workerLocation, import.meta.url), {
-					type: 'module',
-				}),
+				new Worker(
+					//TODO wwwwhyyyyyyy do I need this
+					// if I use a variable, even if its the EXACT string
+					// it still won't be able to find it
+					// something to do with the second argument?
+					new URL('./p5-demon-builder.worker', import.meta.url),
+					{
+						type: 'module',
+					}
+				),
 			input$
 		)
 			.pipe(takeUntil(this.notifier))

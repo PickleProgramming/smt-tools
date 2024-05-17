@@ -5,8 +5,9 @@ import { Observable, Subject, of } from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
+import { runWorker } from 'observable-webworker'
 
-export class P5FusionChaainCalculator extends DemonBuilder {
+export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
 	declare calculator: P5FusionCalculator
 
@@ -359,3 +360,6 @@ enum Errors {
 	Inherit = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
 	MaxSkills = 'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.',
 }
+
+/* we need this line to tell the worker to actually start. See observable-worker docmuentaiton for more details */
+runWorker(P5DemonBuilderWorker)

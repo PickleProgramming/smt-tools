@@ -14,7 +14,7 @@ import { P5_COMPENDIUM } from '@shared/constants'
 })
 export class P5DemonBuilderComponent implements OnInit {
 	compendium: P5Compendium = P5_COMPENDIUM
-	workerLocation: string = './p5-demon-builder-worker'
+	workerLocation: string = './p5-demon-builder.worker'
 
 	constructor() {}
 
