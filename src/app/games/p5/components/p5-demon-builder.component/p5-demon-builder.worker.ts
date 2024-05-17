@@ -2,8 +2,8 @@ import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
 import { Observable, Subject, of } from 'rxjs'
-import { P5Compendium } from './p5-compendium'
-import { P5FusionCalculator } from './p5-fusion-calculator'
+import { P5Compendium } from '@p5/types/p5-compendium'
+import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
 
 export class P5FusionChaainCalculator extends DemonBuilder {

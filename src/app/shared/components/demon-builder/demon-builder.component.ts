@@ -33,6 +33,7 @@ import { MatSort } from '@angular/material/sort'
 })
 export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	@Input() declare compendium: Compendium
+	@Input() declare workerLocation: string
 	@ViewChild(MatSort) declare sort: MatSort
 
 	protected declare skills: string[]
@@ -73,6 +74,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 
 	constructor() {}
 	ngOnInit(): void {
+		if (!this.workerLocation) {
+			throw new Error('No worker location provided')
+		}
 		//Facilitates type-ahead in the left form
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
@@ -120,7 +124,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		let input$ = of(this.getConfiguration())
 		fromWorker<InputChainData, BuildRecipe[]>(
 			() =>
-				new Worker(new URL('./demon-builder.worker', import.meta.url), {
+				new Worker(new URL(this.workerLocation, import.meta.url), {
 					type: 'module',
 				}),
 			input$
