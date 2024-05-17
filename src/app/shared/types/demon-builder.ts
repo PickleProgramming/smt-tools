@@ -137,7 +137,7 @@ export abstract class DemonBuilder
 	 *
 	 * @param skills Skills to check for
 	 * @param fusion Fusion to check sources of
-	 * @returns True if all skills can be inheritted across all sources
+	 * @returns True if all skills can be inheritted from either source
 	 */
 	private canSourcesInherit(targetSkills: string[], fusion: Fusion): boolean {
 		for (let sourceName of fusion.sources) {
