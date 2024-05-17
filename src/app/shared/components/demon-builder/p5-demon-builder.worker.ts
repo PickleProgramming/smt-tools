@@ -6,6 +6,7 @@ import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
 import { runWorker } from 'observable-webworker'
+import { nextTick } from 'process'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -14,18 +15,16 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	constructor() {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
 	}
-
 	workUnit(input: InputChainData): Observable<BuildRecipe> {
 		return this.getFusionChains(input)
 	}
-
 	/**
 	 * ---WRAPPER METHODS---
 	 *
 	 * These methods will call the corresponding methods in the DEMON-NAME or
 	 * NO-NAME methods depending on if the user supplied a demonName or not.
 	 */
-	getFusionChains(input: InputChainData): Observable<BuildRecipe> {
+	protected getFusionChains(input: InputChainData): Observable<BuildRecipe> {
 		if (input.maxLevel) this.maxLevel = input.maxLevel
 		if (input.recurDepth) this.recurDepth = input.recurDepth
 		/* check for any immediate problems with user input then begin recursive
@@ -129,6 +128,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 					}
 				}
 			}
+			subscriber.complete()
 		})
 	}
 	protected demon_isValidInput(

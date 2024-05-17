@@ -9,10 +9,10 @@ import {
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
 import { Compendium } from '@shared/types/compendium'
-import { Observable, of, Subject } from 'rxjs'
-import { map, startWith, takeUntil } from 'rxjs/operators'
-import { fromWorker, fromWorkerPool } from 'observable-webworker'
-import _, { round } from 'lodash'
+import { Observable, of } from 'rxjs'
+import { map, startWith } from 'rxjs/operators'
+import { fromWorkerPool } from 'observable-webworker'
+import _ from 'lodash'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
 
@@ -61,9 +61,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	protected recurDepth = 0
 	//when true, a progress spinner is rendered on the page
 	protected calculating: boolean = false
-	/* The web worker runs until the notifier subject emits any event,
-	 letting us stop the web worker whenever with notifier.next() */
-	protected notifier = new Subject()
 	/*if the worker detects an error to display to the user, it will be in this 
 	variable*/
 	protected userError = ''
@@ -145,14 +142,10 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 				} else {
 					this.userError = ''
 					this.buildsSource.data.push(data)
-					console.log(this.buildsSource.data)
-					console.log(data)
-					this.stopWebWorker()
 				}
 			},
 			error: (error) => {},
 			complete: () => {
-				console.log('done')
 				this.stopWebWorker()
 			},
 		})
@@ -161,7 +154,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Tells the webworker to stop */
 	stopWebWorker() {
 		this.stopTimer()
-		this.notifier.next()
 		this.calculating = false
 	}
 
@@ -223,7 +215,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.nekoTestData()
+		this.test2Data()
 	}
 	private maraTestData(): void {
 		this.demonControl.setValue('Mara')
@@ -236,5 +228,16 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	private nekoTestData(): void {
 		this.demonControl.setValue('Neko Shogun')
 		this.skillControls[0].setValue('Dekaja')
+	}
+	private test1Data(): void {
+		this.skillControls[0].setValue('Arms Master')
+		this.skillControls[1].setValue('Life Aid')
+		this.skillControls[2].setValue('Gigantomachia')
+	}
+	private test2Data(): void {
+		this.demonControl.setValue('Mara')
+		this.skillControls[0].setValue('Absorb Fire')
+		this.skillControls[1].setValue('Mapsio')
+		this.skillControls[2].setValue('Diarahan')
 	}
 }
