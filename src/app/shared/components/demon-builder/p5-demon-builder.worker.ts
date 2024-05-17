@@ -28,9 +28,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		if (input.recurDepth) this.recurDepth = input.recurDepth
 		/* check for any immediate problems with user input then begin recursive
 			 calls, either with a specified demon or without.*/
-		if (!this.isValidInput(input.targetSkills, input.demonName)) {
-			throw new Error('Invalid Input')
-		}
+		this.isValidInput(input.targetSkills, input.demonName)
 		if (input.demonName) {
 			return this.demon_getFusionChains(
 				input.targetSkills,
@@ -49,7 +47,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		return this.isPossible(targetSkills)
 	}
 	protected isPossible(targetSkills: string[], demonName?: string): boolean {
-		if (!this.checkSkillLevels(targetSkills)) return false
+		this.checkSkillLevels(targetSkills)
 		if (demonName) {
 			return this.demon_isPossible(targetSkills, demonName)
 		}
@@ -136,23 +134,20 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		demonName: string
 	): boolean {
 		if (this.compendium.demons[demonName].level > this.maxLevel) {
-			//TODO: throw LowLevel error here
-			return false
+			throw new Error(Errors.LowLevel)
 		}
 		if (this.compendium.isElemental(demonName)) {
-			//TODO: throw Treasure error here
-			return false
+			throw new Error(Errors.Treasure)
 		}
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
 			if (skill.unique && skill.unique !== demonName) {
-				//TODO: throw Unique error here
-				//let error: string = `You entered a skill that is unique to ${skill.unique}. But you specified the demon name ${demonName}.`,
-				return false
+				throw new Error(
+					`You entered a skill that is unique to ${skill.unique}. But you specified the demon name ${demonName}.`
+				)
 			}
 			if (!this.compendium.isInheritable(demonName, skillName)) {
-				//TODO: Throw Inherit error here
-				return false
+				throw new Error(Errors.Inherit)
 			}
 		}
 		return this.canInheritOrLearn(targetSkills, demonName)
@@ -181,8 +176,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				return true
 			}
 		}
-		//TODO: Throw MaxSkills error here
-		return false
+		throw new Error(Errors.MaxSkills)
 	}
 	/**
 	 * ---NO-DEMON METHODS---
@@ -229,8 +223,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				return true
 			}
 		}
-		//TODO: throw MaxSkills error here
-		return false
+		throw new Error(Errors.MaxSkills)
 	}
 	/**
 	 * ---AGNOSTIC METHODS---
@@ -275,21 +268,17 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * @returns {possible: boolean, reason: string} True if all skills are less
 	 *   than the max level. If not, returns false and gives a reason
 	 */
-	private checkSkillLevels(targetSkills: string[]): {
-		possible: boolean
-		reason: string
-	} {
+	private checkSkillLevels(targetSkills: string[]): boolean {
 		if (this.maxLevel < 99) {
 			for (let skillName of targetSkills) {
 				if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
-					return {
-						possible: false,
-						reason: `You have specified a level that is lower than the minimum required level to learn ${skillName}.`,
-					}
+					throw new Error(
+						`You have specified a level that is lower than the minimum required level to learn ${skillName}.`
+					)
 				}
 			}
 		}
-		return { possible: true, reason: '' }
+		return true
 	}
 
 	/**
