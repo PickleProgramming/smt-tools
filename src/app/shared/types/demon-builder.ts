@@ -29,6 +29,7 @@ export abstract class DemonBuilder
 	 *
 	 * @param input$ On obsvervable stream of InputChainData containing the user
 	 *   specified configations for the calculation
+	 * @returns On observable stream of BuildRecipes
 	 */
 	abstract work(input$: Observable<InputChainData>): Observable<BuildRecipe>
 
@@ -43,10 +44,7 @@ export abstract class DemonBuilder
 	 * @returns A stream of messages updated whenever a chain is added to
 	 *   this.chains configured by ChainCalculator's properties
 	 */
-	abstract getFusionChains(
-		targetSkills: string[],
-		demonName?: string
-	): BuildRecipe[]
+	abstract getFusionChains(input: InputChainData): Observable<BuildRecipe>
 
 	/**
 	 * Checks for any immediately obvious reasons that building the specified

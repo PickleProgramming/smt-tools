@@ -1,10 +1,10 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
-import { BuildRecipe } from '@shared/types/smt-tools.types'
-import { Observable } from 'rxjs'
+import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
+import { Observable, Subject, of } from 'rxjs'
 import { P5Compendium } from './p5-compendium'
 import { P5FusionCalculator } from './p5-fusion-calculator'
-import _, { max, result } from 'lodash'
+import _ from 'lodash'
 
 export class P5FusionChaainCalculator extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -14,27 +14,40 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
 	}
 
+	work(input$: Observable<InputChainData>): Observable<BuildRecipe> {
+		let result = new Subject<BuildRecipe>()
+		input$.subscribe((input) => {
+			result = this.getFusionChains(input)
+		})
+
+		return result.asObservable()
+	}
+
 	/**
 	 * ---WRAPPER METHODS---
 	 *
 	 * These methods will call the corresponding methods in the DEMON-NAME or
 	 * NO-NAME methods depending on if the user supplied a demonName or not.
 	 */
-	getFusionChains(
-		targetSkills: string[],
-		demonName?: string | undefined
-	): BuildRecipe[] {
+	getFusionChains(input: InputChainData): Subject<BuildRecipe> {
+		if (input.maxLevel) this.maxLevel = input.maxLevel
+		if (input.recurDepth) this.recurDepth = input.recurDepth
 		/* check for any immediate problems with user input then begin recursive
 			 calls, either with a specified demon or without.*/
-		if (!this.isValidInput(targetSkills, demonName)) return []
-		if (demonName) {
-			return this.demon_getFusionChains(targetSkills, demonName)
+		if (!this.isValidInput(input.targetSkills, input.demonName)) {
+			throw new Error('Invalid Input')
 		}
-		return this.noDemon_getFusionChains(targetSkills)
+		if (input.demonName) {
+			return this.demon_getFusionChains(
+				input.targetSkills,
+				input.demonName
+			)
+		}
+		return this.noDemon_getFusionChains(input.targetSkills)
 	}
 	protected isValidInput(
 		targetSkills: string[],
-		demonName?: string | undefined
+		demonName?: string | null
 	): boolean {
 		if (demonName) {
 			return this.demon_isValidInput(targetSkills, demonName)
@@ -86,41 +99,43 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	protected demon_getFusionChains(
 		targetSkills: string[],
 		demonName: string
-	): BuildRecipe[] {
-		let results: BuildRecipe[] = []
+	): Subject<BuildRecipe> {
 		let skills = _.cloneDeep(targetSkills)
 		let demon = this.compendium.demons[demonName]
 		//filter out skills the demon learns innately
 		let innates = _.intersection(skills, Object.keys(demon.skills))
 		if (innates.length > 0) _.pullAll(skills, innates)
 		let fissions = this.calculator.getFissions(demonName)
-		for (let fission of fissions) {
-			if (results.length >= this.maxChainLength) return []
-			if (!this.validSources(skills, fission)) continue
-			//check if fissions have desirable skills
-			let foundSkills = this.checkFusionSkills(skills, fission)
-			if (foundSkills.length > 0 || this.recurDepth > 0) {
-				let diff = _.difference(skills, foundSkills)
-				//finish chain if we have found all skills
-				if (diff.length == 0) {
-					let chain = this.getEmptyFusionChain()
-					this.addStep(chain, fission, foundSkills)
-					this.addChainMetadata(chain, innates)
-					results.push(chain)
-					break
-				}
-				for (let sourceName of fission.sources) {
-					//check the fissions heritage for more skills
-					let chain = this.getFusionChain(diff, 0, sourceName)
-					if (chain != null) {
+
+		let result = new Subject<BuildRecipe>()
+		let obs = new Observable<BuildRecipe>((subscriber) => {
+			for (let fission of fissions) {
+				if (!this.validSources(skills, fission)) continue
+				//check if fissions have desirable skills
+				let foundSkills = this.checkFusionSkills(skills, fission)
+				if (foundSkills.length > 0 || this.recurDepth > 0) {
+					let diff = _.difference(skills, foundSkills)
+					//finish chain if we have found all skills
+					if (diff.length == 0) {
+						let chain = this.getEmptyFusionChain()
 						this.addStep(chain, fission, foundSkills)
 						this.addChainMetadata(chain, innates)
-						results.push(chain)
+						subscriber.next(chain)
+						break
+					}
+					for (let sourceName of fission.sources) {
+						//check the fissions heritage for more skills
+						let chain = this.getFusionChain(diff, 0, sourceName)
+						if (chain != null) {
+							this.addStep(chain, fission, foundSkills)
+							this.addChainMetadata(chain, innates)
+							subscriber.next(chain)
+						}
 					}
 				}
 			}
-		}
-		return results
+		}).subscribe(result)
+		return result
 	}
 	protected demon_isValidInput(
 		targetSkills: string[],
@@ -187,23 +202,26 @@ export class P5FusionChaainCalculator extends DemonBuilder {
 	 * All the methods do the same thing as stated in DemonBuilder, just with
 	 * different arguments.
 	 */
-	protected noDemon_getFusionChains(targetSkills: string[]): BuildRecipe[] {
+	protected noDemon_getFusionChains(
+		targetSkills: string[]
+	): Subject<BuildRecipe> {
+		let result = new Subject<BuildRecipe>()
 		/* if there are any unique skills, we know we will be building to a 
 			specific demon. Switch to other method.*/
 		let unique = this.hasUniqueSkills(targetSkills)
-		if (unique) this.demon_getFusionChains(targetSkills, unique)
-
-		let results: BuildRecipe[] = []
+		if (unique) {
+			return this.demon_getFusionChains(targetSkills, unique)
+		}
 		/* Loop through every demon with at least one skill and check if they are possible */
 		let demons = this.getDemonsWithSkills(targetSkills)
 		for (let demonName of demons) {
-			if (results.length >= this.maxChainLength) return []
 			let possibility = this.isPossible(targetSkills, demonName)
 			if (!possibility.possible) continue
-			let newChains = this.demon_getFusionChains(targetSkills, demonName)
-			if (newChains.length > 0) results = results.concat(newChains)
+			this.demon_getFusionChains(targetSkills, demonName).subscribe(
+				result
+			)
 		}
-		return results
+		return result
 	}
 	protected noDemon_isValidInput(targetSkills: string[]): boolean {
 		let possibility = this.isPossible(targetSkills)

@@ -191,8 +191,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		if (this.levelControl.value) level = +this.levelControl.value
 		let data: InputChainData = {
 			demonName: this.demonControl.value,
-			level: level,
-			inputSkills: inputSkills,
+			maxLevel: level,
+			targetSkills: inputSkills,
 			recurDepth: this.recurDepth,
 		}
 		return data

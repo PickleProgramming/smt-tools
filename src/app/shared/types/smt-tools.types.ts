@@ -98,7 +98,7 @@ export interface BuildRecipe {
 /** User input data taken from the demon form */
 export interface InputChainData {
 	demonName: string | null
-	level: number | null
-	inputSkills: string[]
+	maxLevel: number | null
+	targetSkills: string[]
 	recurDepth: number
 }
