@@ -111,7 +111,7 @@ export abstract class DemonBuilder
 		skills: string[],
 		demonName?: string,
 		fusion?: Fusion
-	): { possible: boolean; reason: string }
+	): boolean
 
 	/**
 	 * Determines if the sources in the given fusion are valid for a fusion
@@ -141,8 +141,7 @@ export abstract class DemonBuilder
 	 */
 	private canSourcesInherit(targetSkills: string[], fusion: Fusion): boolean {
 		for (let sourceName of fusion.sources) {
-			let possibility = this.isPossible(targetSkills, sourceName)
-			if (possibility.possible) return true
+			if (this.isPossible(targetSkills, sourceName)) return true
 		}
 		return false
 	}

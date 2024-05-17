@@ -1,12 +1,11 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
-import { Observable, ReplaySubject, Subject, of } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
 import { runWorker } from 'observable-webworker'
-import { nextTick } from 'process'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -47,16 +46,10 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		if (demonName) {
 			return this.demon_isValidInput(targetSkills, demonName)
 		}
-		return this.noDemon_isValidInput(targetSkills)
+		return this.isPossible(targetSkills)
 	}
-	protected isPossible(
-		targetSkills: string[],
-		demonName?: string
-	): { possible: boolean; reason: string } {
-		let possibility = this.checkSkillLevels(targetSkills)
-		if (!possibility.possible) {
-			return possibility
-		}
+	protected isPossible(targetSkills: string[], demonName?: string): boolean {
+		if (!this.checkSkillLevels(targetSkills)) return false
 		if (demonName) {
 			return this.demon_isPossible(targetSkills, demonName)
 		}
@@ -78,7 +71,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	private canInheritOrLearn(
 		targetSkills: string[],
 		demonName?: string
-	): { possible: boolean; reason: string } {
+	): boolean {
 		if (demonName) {
 			return this.demon_canInheritOrLearn(targetSkills, demonName)
 		}
@@ -135,30 +128,31 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		targetSkills: string[],
 		demonName: string | undefined
 	): boolean {
-		let possibility = this.isPossible(targetSkills, demonName)
-		if (!possibility.possible) return false
+		if (!this.isPossible(targetSkills, demonName)) return false
 		return true
 	}
 	protected demon_isPossible(
 		targetSkills: string[],
 		demonName: string
-	): { possible: boolean; reason: string } {
+	): boolean {
 		if (this.compendium.demons[demonName].level > this.maxLevel) {
-			return { possible: false, reason: Errors.LowLevel }
+			//TODO: throw LowLevel error here
+			return false
 		}
 		if (this.compendium.isElemental(demonName)) {
-			return { possible: false, reason: Errors.Treasure }
+			//TODO: throw Treasure error here
+			return false
 		}
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
 			if (skill.unique && skill.unique !== demonName) {
-				return {
-					possible: false,
-					reason: `You entered a skill that is unique to ${skill.unique}. But you specified the demon name ${demonName}.`,
-				}
+				//TODO: throw Unique error here
+				//let error: string = `You entered a skill that is unique to ${skill.unique}. But you specified the demon name ${demonName}.`,
+				return false
 			}
 			if (!this.compendium.isInheritable(demonName, skillName)) {
-				return { possible: false, reason: Errors.Inherit }
+				//TODO: Throw Inherit error here
+				return false
 			}
 		}
 		return this.canInheritOrLearn(targetSkills, demonName)
@@ -166,7 +160,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	private demon_canInheritOrLearn(
 		targetSkills: string[],
 		demonName: string
-	): { possible: boolean; reason: string } {
+	): boolean {
 		let maxInherit: number
 		if (this.compendium.isSpecial(demonName)) {
 			let specialRecipe = this.compendium.buildSpecialFusion(demonName)
@@ -174,7 +168,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		} else maxInherit = 4
 		//number of skills needed to be learned after inheritance
 		let numberNeeded: number = targetSkills.length - maxInherit
-		if (numberNeeded < 1) return { possible: true, reason: '' }
+		if (numberNeeded < 1) return true
 		//build every combination of skills with length numberNeeded
 		let innates = this.getSubArrays(targetSkills)
 		for (let i = 0; i < innates.length; i++) {
@@ -184,10 +178,11 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		let skills = Object.keys(this.compendium.demons[demonName].skills)
 		for (let innate of innates) {
 			if (_.intersection(innate, skills).length == numberNeeded) {
-				return { possible: true, reason: '' }
+				return true
 			}
 		}
-		return { possible: false, reason: Errors.MaxSkills }
+		//TODO: Throw MaxSkills error here
+		return false
 	}
 	/**
 	 * ---NO-DEMON METHODS---
@@ -209,23 +204,14 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		/* Loop through every demon with at least one skill and check if they are possible */
 		let demons = this.getDemonsWithSkills(targetSkills)
 		for (let demonName of demons) {
-			let possibility = this.isPossible(targetSkills, demonName)
-			if (!possibility.possible) continue
+			if (!this.isPossible(targetSkills, demonName)) continue
 			this.demon_getFusionChains(targetSkills, demonName).subscribe(
 				result
 			)
 		}
 		return result
 	}
-	protected noDemon_isValidInput(targetSkills: string[]): boolean {
-		let possibility = this.isPossible(targetSkills)
-		if (!possibility.possible) return false
-		return true
-	}
-	protected noDemon_isPossible(targetSkills: string[]): {
-		possible: boolean
-		reason: string
-	} {
+	protected noDemon_isPossible(targetSkills: string[]): boolean {
 		//check if the skill is unique, if it is, fuse for that demon
 		let unique = this.hasUniqueSkills(targetSkills)
 		if (unique) return this.demon_isPossible(targetSkills, unique)
@@ -233,20 +219,18 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		if (targetSkills.length > 5) {
 			return this.canInheritOrLearn(targetSkills)
 		}
-		return { possible: true, reason: '' }
+		return true
 	}
-	private noDemon_canInheritOrLearn(targetSkills: string[]): {
-		possible: boolean
-		reason: string
-	} {
+	private noDemon_canInheritOrLearn(targetSkills: string[]): boolean {
 		//see if there are any demons with innates skills as such
 		for (let name in this.compendium.demons) {
 			if (this.compendium.isElemental(name)) continue
-			if (this.demon_canInheritOrLearn(targetSkills, name).possible) {
-				return { possible: true, reason: '' }
+			if (this.demon_canInheritOrLearn(targetSkills, name)) {
+				return true
 			}
 		}
-		return { possible: false, reason: Errors.MaxSkills }
+		//TODO: throw MaxSkills error here
+		return false
 	}
 	/**
 	 * ---AGNOSTIC METHODS---
@@ -260,8 +244,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		demonName: string
 	): BuildRecipe | null {
 		if (depth - 1 > this.recurDepth) return null
-		let possibility = this.isPossible(targetSkills, demonName)
-		if (!possibility.possible) return null
+		if (this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
 			if (!this.validSources(targetSkills, fission)) continue
