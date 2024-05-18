@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
 import { Compendium } from '@shared/types/compendium'
 import { Observable, of } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { delay, map, repeat, startWith } from 'rxjs/operators'
 import { fromWorkerPool } from 'observable-webworker'
 import _ from 'lodash'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
@@ -116,7 +116,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.calculating = true
 
 		let input$ = of(this.getConfiguration())
-		fromWorkerPool<InputChainData, BuildRecipe>(
+		fromWorkerPool<InputChainData, BuildRecipe | number>(
 			() =>
 				new Worker(
 					//TODO wwwwhyyyyyyy do I need this?! if I use a variable, even if its the EXACT string it still won't be able to find it something to do with the second argument?
@@ -128,9 +128,14 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			input$
 		).subscribe({
 			next: (data) => {
-				this.buildsSource.data.push(data)
-				//forces data to render new rows
-				this.buildsSource.data = this.buildsSource.data
+				if (typeof data == 'number') {
+					this.fusionCounter = data
+					console.log(data)
+				} else {
+					this.buildsSource.data.push(data)
+					//forces table to rerender
+					this.buildsSource.data = this.buildsSource.data
+				}
 			},
 			error: (error) => {
 				this.userError = error.message.replace('Uncaught Error: ', '')

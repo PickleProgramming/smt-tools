@@ -6,7 +6,7 @@ import { BuildRecipe, Fusion, InputChainData } from './smt-tools.types'
 import { DoWorkUnit } from 'observable-webworker'
 
 export abstract class DemonBuilder
-	implements DoWorkUnit<InputChainData, BuildRecipe>
+	implements DoWorkUnit<InputChainData, BuildRecipe | number>
 {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
@@ -17,19 +17,12 @@ export abstract class DemonBuilder
 	recurDepth = 1
 	// the max size array getChains can return
 	maxChainLength = 20
+	//keeps track of how many fusions have been attempted
+	protected fusionCounter = 0
 
 	constructor(compendium: Compendium, calculator: FusionCalculator) {
 		this.compendium = compendium
 		this.calculator = calculator
-	}
-	/**
-	 * TypeScript will get mad if I don't keep this here, even though it is
-	 * completely unnecessary for my setup.
-	 */
-	work(
-		input: InputChainData
-	): Observable<BuildRecipe> | PromiseLike<BuildRecipe> {
-		throw new Error('Method not implemented.')
 	}
 
 	/**
@@ -40,7 +33,7 @@ export abstract class DemonBuilder
 	 *   specified configations for the calculation
 	 * @returns On observable stream of BuildRecipes
 	 */
-	abstract workUnit(input: InputChainData): Observable<BuildRecipe>
+	abstract workUnit(input: InputChainData): Observable<BuildRecipe | number>
 
 	/**
 	 * Attempts to create as many fusion chains as possible that match the given

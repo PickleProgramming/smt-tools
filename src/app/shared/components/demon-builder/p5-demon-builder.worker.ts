@@ -1,12 +1,20 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
 import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
-import { Observable, ReplaySubject, Subject, from, of } from 'rxjs'
+import { Observable, ReplaySubject, Subject, from, interval, of } from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
 import { runWorker } from 'observable-webworker'
-import { delay, mergeMap } from 'rxjs/operators'
+import {
+	delay,
+	merge,
+	mergeMap,
+	repeat,
+	switchMap,
+	take,
+	takeUntil,
+} from 'rxjs/operators'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -15,8 +23,11 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	constructor() {
 		super(P5_COMPENDIUM, P5_FUSION_CALCULATOR)
 	}
-	workUnit(input: InputChainData): Observable<BuildRecipe> {
-		return this.getFusionChains(input)
+	workUnit(input: InputChainData): Observable<BuildRecipe | number> {
+		let build$ = this.getFusionChains(input)
+		let counter$ = of(this.fusionCounter).pipe(delay(1000), repeat(100))
+
+		return counter$.pipe(merge(build$))
 	}
 	/**
 	 * ---WRAPPER METHODS---
@@ -67,14 +78,14 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * Checks if a demon can learn the number of skills in target skills. In P5,
 	 * normal demons can only inherit a maximum of 4 skills. Special demons can
 	 * inherit up to 5 under the right conditions. If the user specifies more
-	 * skills than a demon can inherit, the resultant demon will need to learn the
-	 * rest of the skills on their own.
+	 * skills than a demon can inherit, the resultant demon will need to learn
+	 * the rest of the skills on their own.
 	 *
 	 * @param targetSkills List of skills for the resultant to learn
 	 * @param demonName Name of the resultant demon
-	 * @returns {possible: boolean, reason: string} If possible, reason is always
-	 *   null, if not possible, reason contains feedback for user about max
-	 *   inheritance.
+	 * @returns {possible: boolean, reason: string} If possible, reason is
+	 *   always null, if not possible, reason contains feedback for user about
+	 *   max inheritance.
 	 */
 	private canInheritOrLearn(
 		targetSkills: string[],
@@ -105,6 +116,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 
 		return new Observable<BuildRecipe>((subscriber) => {
 			for (let fission of fissions) {
+				this.fusionCounter++
 				if (!this.validSources(skills, fission)) continue
 				//check if fissions have desirable skills
 				let foundSkills = this.checkFusionSkills(skills, fission)
@@ -278,6 +290,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
+			this.fusionCounter++
 			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
@@ -342,8 +355,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * Checks if there are any skills in the list are unique
 	 *
 	 * @param targetSkills Skills to check
-	 * @returns The name of the demon that learns the skill if it is unique, if it
-	 *   is not unique returns an empty string
+	 * @returns The name of the demon that learns the skill if it is unique, if
+	 *   it is not unique returns an empty string
 	 */
 	private hasUniqueSkills(targetSkills: string[]): string {
 		for (let skillName of targetSkills) {
