@@ -44,7 +44,7 @@ describe('P5 Demon Builder Test', () => {
 					cy.wait(35000)
 					cy.checkNumberOfResults(80)
 				})
-				it.skip('works with a normal, named, no-level, 2+ depth, ', () => {})
+				it.only('works with a normal, named, no-level, 2+ depth, ', () => {})
 				it.skip('works with a normal, named, level, 2+ depth, ', () => {})
 			})
 		})
