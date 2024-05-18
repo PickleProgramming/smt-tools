@@ -67,14 +67,14 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * Checks if a demon can learn the number of skills in target skills. In P5,
 	 * normal demons can only inherit a maximum of 4 skills. Special demons can
 	 * inherit up to 5 under the right conditions. If the user specifies more
-	 * skills than a demon can inherit, the resultant demon will need to learn
-	 * the rest of the skills on their own.
+	 * skills than a demon can inherit, the resultant demon will need to learn the
+	 * rest of the skills on their own.
 	 *
 	 * @param targetSkills List of skills for the resultant to learn
 	 * @param demonName Name of the resultant demon
-	 * @returns {possible: boolean, reason: string} If possible, reason is
-	 *   always null, if not possible, reason contains feedback for user about
-	 *   max inheritance.
+	 * @returns {possible: boolean, reason: string} If possible, reason is always
+	 *   null, if not possible, reason contains feedback for user about max
+	 *   inheritance.
 	 */
 	private canInheritOrLearn(
 		targetSkills: string[],
@@ -275,7 +275,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		demonName: string
 	): BuildRecipe | null {
 		if (depth - 1 > this.recurDepth) return null
-		if (this.isPossible(targetSkills, demonName)) return null
+		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
 			if (!this.validSources(targetSkills, fission)) continue
@@ -342,8 +342,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * Checks if there are any skills in the list are unique
 	 *
 	 * @param targetSkills Skills to check
-	 * @returns The name of the demon that learns the skill if it is unique, if
-	 *   it is not unique returns an empty string
+	 * @returns The name of the demon that learns the skill if it is unique, if it
+	 *   is not unique returns an empty string
 	 */
 	private hasUniqueSkills(targetSkills: string[]): string {
 		for (let skillName of targetSkills) {
