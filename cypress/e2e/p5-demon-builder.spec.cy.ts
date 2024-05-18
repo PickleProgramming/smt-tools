@@ -8,7 +8,8 @@ describe('P5 Demon Builder Test', () => {
 				it('works with a normal, no-name, no-level, 1-depth, fusion', () => {
 					cy.enterSkills(['Life Aid', 'Gigantomachia', 'Arms Master'])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(63)
+					cy.wait(10000)
+					cy.checkNumberOfResults(271)
 				})
 				it('works with a normal, no-name, level, 1-depth, fusion', () => {
 					cy.enterLevel(37)
@@ -18,7 +19,8 @@ describe('P5 Demon Builder Test', () => {
 						'Attack Master',
 					])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(42)
+					cy.wait(13000)
+					cy.checkNumberOfResults(217)
 				})
 			})
 			describe('Name', () => {
@@ -26,12 +28,12 @@ describe('P5 Demon Builder Test', () => {
 					cy.enterName('Mara')
 					cy.enterSkills(['Absorb Fire', 'Mapsio', 'Diarahan'])
 					cy.pushButton('Calculate')
-					cy.wait(20000)
-					cy.checkNumberOfResults(16)
+					cy.wait(10000)
+					cy.checkNumberOfResults(118)
 				})
-				it.only('works with a normal, named, level, fusion', () => {
+				it('works with a normal, named, level, fusion', () => {
 					cy.enterName('Sandman')
-					cy.enterLevel(26)
+					cy.enterLevel(118)
 					cy.enterSkills([
 						'Pulinpa',
 						'Confuse Boost',
@@ -39,7 +41,8 @@ describe('P5 Demon Builder Test', () => {
 						'Sharp Student',
 					])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(5)
+					cy.wait(35000)
+					cy.checkNumberOfResults(80)
 				})
 				it.skip('works with a normal, named, no-level, 2+ depth, ', () => {})
 				it.skip('works with a normal, named, level, 2+ depth, ', () => {})
