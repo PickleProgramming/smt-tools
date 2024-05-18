@@ -13,7 +13,11 @@ import { Observable, of } from 'rxjs'
 import { delay, map, repeat, startWith } from 'rxjs/operators'
 import { fromWorkerPool } from 'observable-webworker'
 import _ from 'lodash'
-import { BuildRecipe, InputChainData } from '@shared/types/smt-tools.types'
+import {
+	BuildMessage,
+	BuildRecipe,
+	InputChainData,
+} from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
 
 @Component({
@@ -116,7 +120,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.calculating = true
 
 		let input$ = of(this.getConfiguration())
-		fromWorkerPool<InputChainData, BuildRecipe | number>(
+		fromWorkerPool<InputChainData, BuildMessage>(
 			() =>
 				new Worker(
 					//TODO wwwwhyyyyyyy do I need this?! if I use a variable, even if its the EXACT string it still won't be able to find it something to do with the second argument?
@@ -128,11 +132,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			input$
 		).subscribe({
 			next: (data) => {
-				if (typeof data == 'number') {
-					this.fusionCounter = data
-					console.log(data)
-				} else {
-					this.buildsSource.data.push(data)
+				this.fusionCounter = data.fusionCounter
+				if (data.build) {
+					this.buildsSource.data.push(data.build)
 					//forces table to rerender
 					this.buildsSource.data = this.buildsSource.data
 				}
@@ -218,7 +220,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.maraTestData()
+		this.sandManData()
 	}
 	private maraTestData(): void {
 		this.demonControl.setValue('Mara')

@@ -102,3 +102,8 @@ export interface InputChainData {
 	targetSkills: string[]
 	recurDepth: number
 }
+
+export interface BuildMessage {
+	build: BuildRecipe
+	fusionCounter: number
+}

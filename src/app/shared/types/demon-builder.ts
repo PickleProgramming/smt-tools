@@ -2,11 +2,16 @@ import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subject } from 'rxjs'
-import { BuildRecipe, Fusion, InputChainData } from './smt-tools.types'
+import {
+	BuildMessage,
+	BuildRecipe,
+	Fusion,
+	InputChainData,
+} from './smt-tools.types'
 import { DoWorkUnit } from 'observable-webworker'
 
 export abstract class DemonBuilder
-	implements DoWorkUnit<InputChainData, BuildRecipe | number>
+	implements DoWorkUnit<InputChainData, BuildMessage>
 {
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
@@ -33,7 +38,7 @@ export abstract class DemonBuilder
 	 *   specified configations for the calculation
 	 * @returns On observable stream of BuildRecipes
 	 */
-	abstract workUnit(input: InputChainData): Observable<BuildRecipe | number>
+	abstract workUnit(input: InputChainData): Observable<BuildMessage>
 
 	/**
 	 * Attempts to create as many fusion chains as possible that match the given
@@ -48,7 +53,7 @@ export abstract class DemonBuilder
 	 */
 	protected abstract getFusionChains(
 		input: InputChainData
-	): Observable<BuildRecipe>
+	): Observable<BuildMessage>
 
 	/**
 	 * Checks for any immediately obvious reasons that building the specified
