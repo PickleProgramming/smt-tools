@@ -54,7 +54,7 @@ describe('P5 Demon Builder Test', () => {
 					])
 					cy.enterRecurDepth(2)
 					cy.pushButton('Calculate')
-					cy.wait(60000)
+					cy.wait(62000)
 					cy.checkNumberOfResults(30)
 				})
 				it('works with a normal, named, level, 2+ depth, ', () => {
@@ -91,12 +91,30 @@ describe('P5 Demon Builder Test', () => {
 						'Mudo',
 					])
 				})
-				//TODO - I don't think special fusions are using recursize depth
-				it.skip('works with a special, no-name, no-level,2+ depth, fusion', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
+				it('works with a special, no-name, no-level,2+ depth, fusion', () => {
+					cy.enterSkills([
+						'Demonic Decree',
+						'Mamudo',
+						'Invigorate 1',
+						'Regenerate 3',
+					])
+					cy.enterRecurDepth(4)
+					cy.pushButton('Calculate')
+					cy.wait(11000)
+					cy.checkNumberOfResults(124)
 				})
-				it.skip('works with a special, no-name, level, 2+ depth,  fusion', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
+				it('works with a special, no-name, level, 2+ depth,  fusion', () => {
+					cy.enterLevel(85)
+					cy.enterSkills([
+						'Demonic Decree',
+						'Mamudo',
+						'Invigorate 1',
+						'Regenerate 3',
+					])
+					cy.enterRecurDepth(4)
+					cy.pushButton('Calculate')
+					cy.wait(11000)
+					cy.checkNumberOfResults(93)
 				})
 			})
 			describe('Name', () => {
@@ -107,14 +125,41 @@ describe('P5 Demon Builder Test', () => {
 					cy.checkNumberOfResults(1)
 				})
 			})
-			it.skip('works with a special, named, level, 1-depth, fusion', () => {
-				cy.enterName('Alice')
-				cy.enterLevel(79)
-				cy.enterSkills(['Ambient Aid', 'Makajamaon', 'Mudo'])
+			it('works with a special, named, level, 1-depth, fusion', () => {
+				cy.enterName('Beelzebub')
+				cy.enterLevel(84)
+				cy.enterSkills(['Resist Fear', 'Mamudo', 'Regenerate 3'])
+				cy.pushButton('Calculate')
+				cy.wait(3)
+				cy.checkNumberOfResults(3)
 			})
-			//TODO - I don't think special fusions are using recursize depth
-			it.skip('works with a special, named, no-level, 2+ depth, fusion', () => {})
-			it.skip('works with a special, named, level, 2+ depth, fusion', () => {})
+			it('works with a special, named, no-level, 2+ depth, fusion', () => {
+				cy.enterName('Beelzebub')
+				cy.enterSkills([
+					'Resist Fear',
+					'Mamudo',
+					'Invigorate 1',
+					'Regenerate 3',
+				])
+				cy.enterRecurDepth(4)
+				cy.pushButton('Calculate')
+				cy.wait(5)
+				cy.checkNumberOfResults(71)
+			})
+			it('works with a special, named, level, 2+ depth, fusion', () => {
+				cy.enterName('Beelzebub')
+				cy.enterLevel(84)
+				cy.enterSkills([
+					'Resist Fear',
+					'Mamudo',
+					'Invigorate 1',
+					'Regenerate 3',
+				])
+				cy.enterRecurDepth(4)
+				cy.pushButton('Calculate')
+				cy.wait(3)
+				cy.checkNumberOfResults(44)
+			})
 		})
 	})
 

@@ -230,44 +230,4 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.endTime = performance.now()
 		this.deltaTime = (this.endTime - this.startTime) / 1000
 	}
-
-	enterTestData(): void {
-		this.deepMara()
-	}
-	private deepMara(): void {
-		this.demonControl.setValue('Mara')
-		this.skillControls[0].setValue('Absorb Fire')
-		this.skillControls[1].setValue('Regenerate 1')
-		this.skillControls[2].setValue('Invigorate 1')
-		this.skillControls[3].setValue('Growth 1')
-		this.recurDepthControl.setValue('1')
-	}
-	private neko(): void {
-		this.demonControl.setValue('Neko Shogun')
-		this.skillControls[0].setValue('Dekaja')
-	}
-	private noname(): void {
-		this.skillControls[0].setValue('Arms Master')
-		this.skillControls[1].setValue('Life Aid')
-		this.skillControls[2].setValue('Gigantomachia')
-	}
-	private nonameLeve(): void {
-		this.levelControl.setValue('37')
-		this.skillControls[0].setValue('Mabufula')
-		this.skillControls[1].setValue('Miracle Punch')
-		this.skillControls[2].setValue('Attack Master')
-	}
-	private mara(): void {
-		this.demonControl.setValue('Mara')
-		this.skillControls[0].setValue('Absorb Fire')
-		this.skillControls[1].setValue('Mapsio')
-		this.skillControls[2].setValue('Diarahan')
-	}
-	private sandman(): void {
-		this.demonControl.setValue('Sandman')
-		this.skillControls[0].setValue('Pulinpa')
-		this.skillControls[1].setValue('Confuse Boost')
-		this.skillControls[2].setValue('Dodge Phys')
-		this.skillControls[3].setValue('Sharp Student')
-	}
 }
