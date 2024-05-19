@@ -9,8 +9,8 @@ import {
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
 import { Compendium } from '@shared/types/compendium'
-import { Observable, of } from 'rxjs'
-import { delay, map, repeat, startWith } from 'rxjs/operators'
+import { Observable, Subject, of } from 'rxjs'
+import { delay, map, repeat, startWith, takeUntil } from 'rxjs/operators'
 import { fromWorkerPool } from 'observable-webworker'
 import _ from 'lodash'
 import {
@@ -58,6 +58,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	protected buildsSource = new MatTableDataSource<BuildRecipe>()
 
 	//---Variables for demon-builder---
+	//observable that will tell the webworker to stop by emitting anything
+	protected notify = new Subject<null>()
 	//keeps track of amount of fusions attempted by demon-builder
 	protected fusionCounter: number = 0
 	/* how much depth the builder will go to even if there are no 
@@ -130,48 +132,55 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					}
 				),
 			input$
-		).subscribe({
-			next: (data) => {
-				if (data.fusionCounter - this.fusionCounter >= 1000) {
-					this.fusionCounter = data.fusionCounter
-				}
-				if (data.build) {
-					this.buildsSource.data.push(data.build)
-					//forces table to rerender
-					this.buildsSource.data = this.buildsSource.data
-				}
-			},
-			error: (error) => {
-				this.userError = error.message.replace('Uncaught Error: ', '')
-				this.stopWebWorker()
-			},
-			complete: () => {
-				this.stopWebWorker()
-				if (
-					this.buildsSource.data.length == 0 &&
-					this.userError == ''
-				) {
-					this.userError =
-						"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-				}
-			},
-		})
+		)
+			.pipe(takeUntil(this.notify))
+			.subscribe({
+				next: (data) => {
+					if (data.fusionCounter - this.fusionCounter >= 1000) {
+						this.fusionCounter = data.fusionCounter
+					}
+					if (data.build) {
+						this.buildsSource.data.push(data.build)
+						//forces table to rerender
+						this.buildsSource.data = this.buildsSource.data
+					}
+				},
+				error: (error) => {
+					this.userError = error.message.replace(
+						'Uncaught Error: ',
+						''
+					)
+					this.stopWebWorker()
+				},
+				complete: () => {
+					this.stopWebWorker()
+					if (
+						this.buildsSource.data.length == 0 &&
+						this.userError == ''
+					) {
+						this.userError =
+							"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+					}
+				},
+			})
 	}
 
 	/** Tells the webworker to stop */
 	stopWebWorker() {
 		this.stopTimer()
 		this.calculating = false
+		this.notify.next()
 	}
 
 	/** Clears out input from form fields and stops the webworker */
 	resetDemonBuilder() {
 		this.stopWebWorker()
 		this.clearResults()
-		this.recurDepth = 1
+		this.recurDepth = 0
 		this.fusionCounter = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
+		this.recurDepthControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
 		this.userError = ''
 	}
@@ -180,6 +189,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	clearResults() {
 		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.fusionCounter = 0
+		this.recurDepth = 0
 	}
 
 	/**
