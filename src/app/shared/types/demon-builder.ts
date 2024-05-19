@@ -1,15 +1,20 @@
 import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
-import { Observable, Subject } from 'rxjs'
-import { ResultsMessage, BuildRecipe, Fusion } from './smt-tools.types'
+import { Observable, Subject, Subscriber, Subscription } from 'rxjs'
+import {
+	BuildMessage,
+	BuildRecipe,
+	Fusion,
+	InputChainData,
+} from './smt-tools.types'
+import { DoWorkUnit } from 'observable-webworker'
 
-export abstract class DemonBuilder {
+export abstract class DemonBuilder
+	implements DoWorkUnit<InputChainData, BuildMessage>
+{
 	protected compendium: Compendium
 	protected calculator: FusionCalculator
-	protected resultMessageSubject = new Subject<ResultsMessage>()
-	chains: BuildRecipe[] = []
-	resultMessageObservable = this.resultMessageSubject.asObservable()
 
 	maxLevel = 99
 	/* the depth the builder will go to checking for skills even if immediate 
@@ -17,13 +22,23 @@ export abstract class DemonBuilder {
 	recurDepth = 1
 	// the max size array getChains can return
 	maxChainLength = 20
-	// keeps track of the amount of fusion attempted
-	private fusionCounter: number = 0
+	//keeps track of how many fusions have been attempted
+	protected fusionCounter = 0
 
 	constructor(compendium: Compendium, calculator: FusionCalculator) {
 		this.compendium = compendium
 		this.calculator = calculator
 	}
+
+	/**
+	 * The code to be run on the web worker. Will emit a BuildRecipe whenever it
+	 * successfuly calculates one.
+	 *
+	 * @param input$ On obsvervable stream of InputChainData containing the user
+	 *   specified configations for the calculation
+	 * @returns On observable stream of BuildRecipes
+	 */
+	abstract workUnit(input: InputChainData): Observable<BuildMessage>
 
 	/**
 	 * Attempts to create as many fusion chains as possible that match the given
@@ -36,10 +51,9 @@ export abstract class DemonBuilder {
 	 * @returns A stream of messages updated whenever a chain is added to
 	 *   this.chains configured by ChainCalculator's properties
 	 */
-	abstract getFusionChains(
-		targetSkills: string[],
-		demonName?: string
-	): Observable<ResultsMessage>
+	protected abstract getFusionChains(
+		input: InputChainData
+	): Observable<BuildMessage>
 
 	/**
 	 * Checks for any immediately obvious reasons that building the specified
@@ -95,7 +109,7 @@ export abstract class DemonBuilder {
 		skills: string[],
 		demonName?: string,
 		fusion?: Fusion
-	): { possible: boolean; reason: string }
+	): boolean
 
 	/**
 	 * Determines if the sources in the given fusion are valid for a fusion
@@ -121,12 +135,11 @@ export abstract class DemonBuilder {
 	 *
 	 * @param skills Skills to check for
 	 * @param fusion Fusion to check sources of
-	 * @returns True if all skills can be inheritted across all sources
+	 * @returns True if all skills can be inheritted from either source
 	 */
 	private canSourcesInherit(targetSkills: string[], fusion: Fusion): boolean {
 		for (let sourceName of fusion.sources) {
-			let possibility = this.isPossible(targetSkills, sourceName)
-			if (possibility.possible) return true
+			if (this.isPossible(targetSkills, sourceName)) return true
 		}
 		return false
 	}
@@ -218,16 +231,20 @@ export abstract class DemonBuilder {
 	}
 
 	/**
-	 * Builds the recipe steps for a given chain, and emits the necessary
-	 * information to the DemonBuilder subject
+	 * Builds the cost, level, and inherittedSkills array for the given chain
+	 * and adds the information to the given chain
 	 *
 	 * @param skills Target skills to be inherritted on the resultant demon
 	 * @param innates Target skills the resulatant demon will learn
 	 * @param chain FusionChain to emit and build the recipe steps around
 	 */
-	protected emitFusionChain(chain: BuildRecipe, innates: string[]): void {
+	private addChainMetadata(
+		chain: BuildRecipe,
+		innates: string[]
+	): BuildRecipe {
 		chain.cost = this.getCost(chain)
 		chain.level = this.levelRequired(chain)
+		// create list that tells the user what skills should be inheritted at each step
 		chain.innates = innates
 		chain.result = chain.fusions[chain.fusions.length - 1].result
 		if (chain.fusions.length > 1) {
@@ -238,12 +255,7 @@ export abstract class DemonBuilder {
 			}
 		}
 		chain.directions = this.getDirections(chain)
-		this.chains.push(chain)
-		this.resultMessageSubject.next({
-			results: this.chains,
-			fusionCounter: this.fusionCounter,
-			error: null,
-		})
+		return chain
 	}
 
 	/**
@@ -269,7 +281,7 @@ export abstract class DemonBuilder {
 	 * @param chain: The fusion chain to estimate the cost for
 	 * @returns Number: the estimated cost
 	 */
-	protected getCost(chain: BuildRecipe): number {
+	private getCost(chain: BuildRecipe): number {
 		let cost: number = 0
 		for (let step of chain.fusions) cost += step.cost!
 		return cost
@@ -282,7 +294,7 @@ export abstract class DemonBuilder {
 	 * @param chain: The chain to get instructions for
 	 * @returns String[]: an array of lines to be displayed in the html
 	 */
-	protected getDirections(chain: BuildRecipe): string[] {
+	private getDirections(chain: BuildRecipe): string[] {
 		let directions: string[] = []
 		for (let i = 0; i < chain.fusions.length; i++) {
 			let step = chain.fusions[i]
@@ -333,7 +345,7 @@ export abstract class DemonBuilder {
 	 * @param chain FusionChain to be evaluated
 	 * @returns The largest level in the chain
 	 */
-	levelRequired(chain: BuildRecipe): number {
+	protected levelRequired(chain: BuildRecipe): number {
 		let level = 0
 		for (let recipe of chain.fusions) {
 			for (let demonName of recipe.sources)
@@ -345,18 +357,27 @@ export abstract class DemonBuilder {
 		return level
 	}
 
-	/**
-	 * Increments the counter and emits a new message to the webworker updating
-	 * the counter
-	 */
-	protected incCount(): void {
+	protected emitBuild(
+		fission: Fusion,
+		found: string[],
+		innate: string[],
+		sub: Subscriber<BuildMessage>,
+		build?: BuildRecipe
+	): void {
 		this.fusionCounter++
-		if (this.fusionCounter % 1000 === 0) {
-			this.resultMessageSubject.next({
-				results: null,
-				fusionCounter: this.fusionCounter,
-				error: null,
-			})
-		}
+		if (!build) build = this.getEmptyFusionChain()
+		this.addStep(build, fission, found)
+		this.addChainMetadata(build, innate)
+		sub.next({
+			build: build,
+			fusionCounter: this.fusionCounter,
+		})
+	}
+
+	protected incCount(sub: Subscriber<BuildMessage>): void {
+		sub.next({
+			build: null,
+			fusionCounter: this.fusionCounter++,
+		})
 	}
 }

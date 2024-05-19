@@ -95,22 +95,15 @@ export interface BuildRecipe {
 	directions: string[]
 }
 
-/**
- * Interface that contains a series of fusion chains that are found based on the
- * user input. Sent to the DOM as a message via rxjs. Also contains a series of
- * reasons that certain fusions were impossible. If the results are empty, but
- * the errors are not, the fusion the user asked for was impossible.
- */
-export interface ResultsMessage {
-	results: BuildRecipe[] | null
-	fusionCounter: number | null
-	error: string | null
-}
-
 /** User input data taken from the demon form */
 export interface InputChainData {
 	demonName: string | null
-	level: number | null
-	inputSkills: string[]
+	maxLevel: number | null
+	targetSkills: string[]
 	recurDepth: number
+}
+
+export interface BuildMessage {
+	build: BuildRecipe | null
+	fusionCounter: number
 }

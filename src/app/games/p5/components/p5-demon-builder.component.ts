@@ -6,11 +6,12 @@ import { P5_COMPENDIUM } from '@shared/constants'
 
 @Component({
 	selector: 'app-p5-demon-builder',
-	template: ` <app-demon-builder [compendium]="compendium">
+	template: `<app-demon-builder [compendium]="compendium" [worker]="worker">
 	</app-demon-builder>`,
 })
 export class P5DemonBuilderComponent implements OnInit {
 	compendium: P5Compendium = P5_COMPENDIUM
+	worker: string = 'p5'
 
 	constructor() {}
 

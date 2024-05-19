@@ -8,7 +8,8 @@ describe('P5 Demon Builder Test', () => {
 				it('works with a normal, no-name, no-level, 1-depth, fusion', () => {
 					cy.enterSkills(['Life Aid', 'Gigantomachia', 'Arms Master'])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(29)
+					cy.wait(5000)
+					cy.checkNumberOfResults(190)
 				})
 				it('works with a normal, no-name, level, 1-depth, fusion', () => {
 					cy.enterLevel(37)
@@ -18,27 +19,21 @@ describe('P5 Demon Builder Test', () => {
 						'Attack Master',
 					])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(33)
+					cy.wait(5000)
+					cy.checkNumberOfResults(139)
 				})
-				// it('works with a normal, no-name, no-level, 2+ depth, fusion', () => {
-				// 	cy.get('.skill-form-field').first().click().type('Dekaja')
-				// })
-				// it('works with a normal, no-name, level, 2+ depth, fusion', () => {
-				// 	cy.get('.skill-form-field').first().click().type('Dekaja')
-				// })
 			})
 			describe('Name', () => {
-				//TODO
-				/* it('works with a normal, named, no-level, ', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+				it('works with a normal, named, no-level, ', () => {
+					cy.enterName('Mara')
+					cy.enterSkills(['Absorb Fire', 'Mapsio', 'Diarahan'])
+					cy.pushButton('Calculate')
+					cy.wait(6000)
+					cy.checkNumberOfResults(70)
+				})
 				it('works with a normal, named, level, fusion', () => {
 					cy.enterName('Sandman')
-					cy.enterLevel(26)
+					cy.enterLevel(27)
 					cy.enterSkills([
 						'Pulinpa',
 						'Confuse Boost',
@@ -46,39 +41,81 @@ describe('P5 Demon Builder Test', () => {
 						'Sharp Student',
 					])
 					cy.pushButton('Calculate')
+					cy.wait(4000)
+					cy.checkNumberOfResults(14)
+				})
+				it('works with a normal, named, no-level, 2+ depth, ', () => {
+					cy.enterName('Mara')
+					cy.enterSkills([
+						'Absorb Fire',
+						'Regenerate 1',
+						'Invigorate 1',
+						'Growth 1',
+					])
+					cy.enterRecurDepth(2)
+					cy.pushButton('Calculate')
+					cy.wait(62000)
+					cy.checkNumberOfResults(30)
+				})
+				it('works with a normal, named, level, 2+ depth, ', () => {
+					cy.enterName('Jack Frost')
+					cy.enterLevel(43)
+					cy.enterSkills([
+						'Mazio',
+						'Regenerate 1',
+						'Invigorate 1',
+						'Growth 1',
+					])
+					cy.enterRecurDepth(3)
+					cy.pushButton('Calculate')
 					cy.checkNumberOfResults(5)
 				})
-				//TODO
-				/* it('works with a normal, named, no-level, 2+ depth, ', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
-				//TODO
-				/* it('works with a normal, named, level, 2+ depth, ', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
 			})
 		})
 		describe('Special Fusion', () => {
 			describe('No Name', () => {
-				//TODO
-				/* it('works with a special, no-name, no-level, 1-depth, fusion', () => {})
+				it('works with a special, no-name, no-level, 1-depth, fusion', () => {
+					cy.enterSkills([
+						'Die For Me!',
+						'Invigorate 3',
+						'Regenerate 3',
+						'Growth 3',
+					])
+				})
 				it('works with a special, no-name, level, 1-depth, fusion ', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
+					cy.enterLevel(79)
+					cy.enterSkills([
+						'Die For Me!',
+						'Ambient Aid',
+						'Makajamaon',
+						'Mudo',
+					])
 				})
 				it('works with a special, no-name, no-level,2+ depth, fusion', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
+					cy.enterSkills([
+						'Demonic Decree',
+						'Mamudo',
+						'Invigorate 1',
+						'Regenerate 3',
+					])
+					cy.enterRecurDepth(4)
+					cy.pushButton('Calculate')
+					cy.wait(11000)
+					cy.checkNumberOfResults(124)
 				})
 				it('works with a special, no-name, level, 2+ depth,  fusion', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+					cy.enterLevel(85)
+					cy.enterSkills([
+						'Demonic Decree',
+						'Mamudo',
+						'Invigorate 1',
+						'Regenerate 3',
+					])
+					cy.enterRecurDepth(4)
+					cy.pushButton('Calculate')
+					cy.wait(11000)
+					cy.checkNumberOfResults(93)
+				})
 			})
 			describe('Name', () => {
 				it('works with a special, named, no-level, 1-depth fusion', () => {
@@ -88,27 +125,41 @@ describe('P5 Demon Builder Test', () => {
 					cy.checkNumberOfResults(1)
 				})
 			})
-			/* it('works with a special, named, level, 1-depth, fusion', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				})
-				it('works with a special, named, no-level, 2+ depth, fusion', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				})
-				it('works with a special, named, level, 2+ depth, fusion', () => {
-					cy.get('.demon-form-field')
-						.first()
-						.click()
-						.type('Neko Shogun')
-					cy.get('.skill-form-field').first().click().type('Dekaja')
-				}) */
+			it('works with a special, named, level, 1-depth, fusion', () => {
+				cy.enterName('Beelzebub')
+				cy.enterLevel(84)
+				cy.enterSkills(['Resist Fear', 'Mamudo', 'Regenerate 3'])
+				cy.pushButton('Calculate')
+				cy.wait(3)
+				cy.checkNumberOfResults(3)
+			})
+			it('works with a special, named, no-level, 2+ depth, fusion', () => {
+				cy.enterName('Beelzebub')
+				cy.enterSkills([
+					'Resist Fear',
+					'Mamudo',
+					'Invigorate 1',
+					'Regenerate 3',
+				])
+				cy.enterRecurDepth(4)
+				cy.pushButton('Calculate')
+				cy.wait(5)
+				cy.checkNumberOfResults(71)
+			})
+			it('works with a special, named, level, 2+ depth, fusion', () => {
+				cy.enterName('Beelzebub')
+				cy.enterLevel(84)
+				cy.enterSkills([
+					'Resist Fear',
+					'Mamudo',
+					'Invigorate 1',
+					'Regenerate 3',
+				])
+				cy.enterRecurDepth(4)
+				cy.pushButton('Calculate')
+				cy.wait(3)
+				cy.checkNumberOfResults(44)
+			})
 		})
 	})
 
@@ -128,7 +179,7 @@ describe('P5 Demon Builder Test', () => {
 			cy.checkError(Errors.LevelSkill)
 		})
 		//TODO bad output because its tries to build alice, so it switches to a named function
-		/* it('fails because the level is too low for one of the special skills', () => {
+		it.skip('fails because the level is too low for one of the special skills', () => {
 			cy.get('.demon-form-field').eq(1).click().type('17')
 			cy.get('.skill-form-field').first().click().type('Die For Me!')
 			cy.get('button').contains('Calculate').click()
@@ -136,7 +187,7 @@ describe('P5 Demon Builder Test', () => {
 				'contain',
 				'You have specified a level that is lower than the minimum required level to learn'
 			)
-		}) */
+		})
 		it("fails because the demon can't learn a unique skills", () => {
 			cy.enterName('Agathion')
 			cy.enterSkills(['Die For Me!'])

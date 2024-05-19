@@ -9,16 +9,17 @@ import {
 import { FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table'
 import { Compendium } from '@shared/types/compendium'
-import { Observable, of, Subject } from 'rxjs'
-import { map, startWith, takeUntil } from 'rxjs/operators'
-import { fromWorker } from 'observable-webworker'
-import _, { round } from 'lodash'
+import { Observable, Subject, of } from 'rxjs'
+import { delay, map, repeat, startWith, takeUntil } from 'rxjs/operators'
+import { fromWorkerPool } from 'observable-webworker'
+import _ from 'lodash'
 import {
+	BuildMessage,
 	BuildRecipe,
-	ResultsMessage,
 	InputChainData,
 } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
+import { p5StartWebWorker } from './demon-builder.constansts'
 
 @Component({
 	selector: 'app-demon-builder',
@@ -37,6 +38,7 @@ import { MatSort } from '@angular/material/sort'
 })
 export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	@Input() declare compendium: Compendium
+	@Input() declare worker: string
 	@ViewChild(MatSort) declare sort: MatSort
 
 	protected declare skills: string[]
@@ -57,16 +59,14 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	protected buildsSource = new MatTableDataSource<BuildRecipe>()
 
 	//---Variables for demon-builder---
+	//observable that will tell the webworker to stop by emitting anything
+	protected notify = new Subject<null>()
 	//keeps track of amount of fusions attempted by demon-builder
 	protected fusionCounter: number = 0
-	/* how much depth the builder will go to even if there are no 
-		immediate skills in sources */
+	//how much depth the builder will go to even if there are no immediate skills in sources
 	protected recurDepth = 0
 	//when true, a progress spinner is rendered on the page
 	protected calculating: boolean = false
-	/* The web worker runs until the notifier subject emits any event,
-	 letting us stop the web worker whenever with notifier.next() */
-	protected notifier = new Subject()
 	/*if the worker detects an error to display to the user, it will be in this 
 	variable*/
 	protected userError = ''
@@ -101,10 +101,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		)
 	}
 
-	/**
-	 * Supposed to faciliate table sorting, but I haven't got it to work yet
-	 * with the expandable table
-	 */
+	//TODO: supposed to faciliate table sorting, but I haven't got it to work yet with the expandable table
 	ngAfterViewInit(): void {
 		this.buildsSource.sort = this.sort
 	}
@@ -120,52 +117,74 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.clearResults()
 		this.userError = ''
 		this.calculating = true
-
 		let input$ = of(this.getConfiguration())
-		fromWorker<InputChainData, ResultsMessage>(
-			() =>
-				new Worker(new URL('./demon-builder.worker', import.meta.url), {
-					type: 'module',
-				}),
-			input$
-		)
-			.pipe(takeUntil(this.notifier))
-			.subscribe((data) => {
-				if (data.error) {
-					this.userError = data.error
-				}
-				if (data.fusionCounter == null && data.results == null) {
-					this.stopWebWorker()
-					if (this.buildsSource.data.length == 0) {
-						if (this.userError == '') {
-							this.userError =
-								"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-						}
-					} else {
-						this.userError = ''
-					}
-					return
-				}
-				if (data.fusionCounter) this.fusionCounter = data.fusionCounter
-				if (data.results) this.buildsSource.data = data.results
+		this.getWebWorkerFunc(this.worker, input$)
+			.pipe(takeUntil(this.notify))
+			.subscribe({
+				next: (data) => {
+					this.subNext(data)
+				},
+				error: (error) => {
+					this.subError(error)
+				},
+				complete: () => {
+					this.subComplete()
+				},
 			})
+	}
+
+	subNext(data: BuildMessage) {
+		if (data.fusionCounter - this.fusionCounter >= 1000) {
+			this.fusionCounter = data.fusionCounter
+		}
+		if (data.build) {
+			this.buildsSource.data.push(data.build)
+			//forces table to rerender
+			this.buildsSource.data = this.buildsSource.data
+		}
+	}
+
+	subError(error: Error) {
+		this.userError = error.message.replace('Uncaught Error: ', '')
+		this.stopWebWorker()
+	}
+
+	subComplete() {
+		this.stopWebWorker()
+		if (this.buildsSource.data.length == 0 && this.userError == '') {
+			this.userError =
+				"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+		}
+	}
+
+	getWebWorkerFunc(
+		game: string,
+		input$: Observable<InputChainData>
+	): Observable<BuildMessage> {
+		switch (game) {
+			case 'p5':
+				return p5StartWebWorker(input$)
+			default:
+				throw new Error('Game ${game} not implemented')
+		}
 	}
 
 	/** Tells the webworker to stop */
 	stopWebWorker() {
 		this.stopTimer()
-		this.notifier.next()
 		this.calculating = false
+		this.notify.next()
 	}
 
 	/** Clears out input from form fields and stops the webworker */
 	resetDemonBuilder() {
 		this.stopWebWorker()
 		this.clearResults()
-		this.recurDepth = 1
+		this.recurDepth = 0
 		this.fusionCounter = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
+		this.recurDepthControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
 		this.userError = ''
 	}
@@ -174,6 +193,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	clearResults() {
 		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.fusionCounter = 0
+		this.recurDepth = 0
 	}
 
 	/**
@@ -196,8 +216,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		if (this.levelControl.value) level = +this.levelControl.value
 		let data: InputChainData = {
 			demonName: this.demonControl.value,
-			level: level,
-			inputSkills: inputSkills,
+			maxLevel: level,
+			targetSkills: inputSkills,
 			recurDepth: this.recurDepth,
 		}
 		return data
@@ -213,15 +233,5 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	stopTimer(): void {
 		this.endTime = performance.now()
 		this.deltaTime = (this.endTime - this.startTime) / 1000
-	}
-
-	enterTestData(): void {
-		this.skillControls[0].setValue('Snap')
-		this.skillControls[1].setValue('Absorb Fire')
-		this.skillControls[2].setValue('Absorb Bless')
-		this.skillControls[3].setValue('Ailment Boost')
-		this.skillControls[4].setValue('Null Elec')
-		this.skillControls[5].setValue('Absorb Wind')
-		this.recurDepthControl.setValue('1')
 	}
 }
