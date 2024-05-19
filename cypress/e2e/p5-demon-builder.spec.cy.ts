@@ -19,8 +19,8 @@ describe('P5 Demon Builder Test', () => {
 						'Attack Master',
 					])
 					cy.pushButton('Calculate')
-					cy.wait(13000)
-					cy.checkNumberOfResults(217)
+					cy.wait(5)
+					cy.checkNumberOfResults(139)
 				})
 			})
 			describe('Name', () => {

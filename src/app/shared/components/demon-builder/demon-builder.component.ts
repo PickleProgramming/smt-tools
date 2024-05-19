@@ -232,7 +232,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.deepMara()
+		this.nonameLeve()
 	}
 	private deepMara(): void {
 		this.demonControl.setValue('Mara')
@@ -252,6 +252,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.skillControls[2].setValue('Gigantomachia')
 	}
 	private nonameLeve(): void {
+		this.levelControl.setValue('37')
 		this.skillControls[0].setValue('Mabufula')
 		this.skillControls[1].setValue('Miracle Punch')
 		this.skillControls[2].setValue('Attack Master')

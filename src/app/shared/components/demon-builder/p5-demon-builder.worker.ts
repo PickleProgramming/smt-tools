@@ -297,7 +297,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		demonName: string
 	): BuildRecipe | null {
 		this.fusionCounter++
-		if (depth - 1 > this.recurDepth) return null
+		if (depth > this.recurDepth) return null
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
@@ -309,7 +309,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				this.addStep(chain, fission, targetSkills)
 				return chain
 			}
-			if (foundSkills.length > 0 || depth < this.recurDepth) {
+			if (foundSkills.length > 0 && depth < this.recurDepth) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
 					let chain = this.getFusionChain(diff, depth + 1, sourceName)
