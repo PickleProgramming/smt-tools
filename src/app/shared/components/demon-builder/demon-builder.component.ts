@@ -38,6 +38,7 @@ import { p5StartWebWorker } from './demon-builder.constansts'
 })
 export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	@Input() declare compendium: Compendium
+	@Input() declare worker: string
 	@ViewChild(MatSort) declare sort: MatSort
 
 	protected declare skills: string[]
@@ -117,7 +118,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.userError = ''
 		this.calculating = true
 		let input$ = of(this.getConfiguration())
-		p5StartWebWorker(input$)
+		this.getWebWorkerFunc(this.worker, input$)
 			.pipe(takeUntil(this.notify))
 			.subscribe({
 				next: (data) => {
@@ -153,6 +154,18 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		if (this.buildsSource.data.length == 0 && this.userError == '') {
 			this.userError =
 				"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+		}
+	}
+
+	getWebWorkerFunc(
+		game: string,
+		input$: Observable<InputChainData>
+	): Observable<BuildMessage> {
+		switch (game) {
+			case 'p5':
+				return p5StartWebWorker(input$)
+			default:
+				throw new Error('Game ${game} not implemented')
 		}
 	}
 
