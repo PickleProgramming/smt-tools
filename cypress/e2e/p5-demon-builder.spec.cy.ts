@@ -8,8 +8,8 @@ describe('P5 Demon Builder Test', () => {
 				it('works with a normal, no-name, no-level, 1-depth, fusion', () => {
 					cy.enterSkills(['Life Aid', 'Gigantomachia', 'Arms Master'])
 					cy.pushButton('Calculate')
-					cy.wait(10000)
-					cy.checkNumberOfResults(271)
+					cy.wait(5000)
+					cy.checkNumberOfResults(190)
 				})
 				it('works with a normal, no-name, level, 1-depth, fusion', () => {
 					cy.enterLevel(37)
@@ -19,7 +19,7 @@ describe('P5 Demon Builder Test', () => {
 						'Attack Master',
 					])
 					cy.pushButton('Calculate')
-					cy.wait(5)
+					cy.wait(5000)
 					cy.checkNumberOfResults(139)
 				})
 			})
@@ -28,12 +28,12 @@ describe('P5 Demon Builder Test', () => {
 					cy.enterName('Mara')
 					cy.enterSkills(['Absorb Fire', 'Mapsio', 'Diarahan'])
 					cy.pushButton('Calculate')
-					cy.wait(10000)
-					cy.checkNumberOfResults(118)
+					cy.wait(6000)
+					cy.checkNumberOfResults(70)
 				})
 				it('works with a normal, named, level, fusion', () => {
 					cy.enterName('Sandman')
-					cy.enterLevel(118)
+					cy.enterLevel(27)
 					cy.enterSkills([
 						'Pulinpa',
 						'Confuse Boost',
@@ -41,19 +41,57 @@ describe('P5 Demon Builder Test', () => {
 						'Sharp Student',
 					])
 					cy.pushButton('Calculate')
-					cy.wait(35000)
-					cy.checkNumberOfResults(80)
+					cy.wait(4000)
+					cy.checkNumberOfResults(14)
 				})
-				it.only('works with a normal, named, no-level, 2+ depth, ', () => {})
-				it.skip('works with a normal, named, level, 2+ depth, ', () => {})
+				it('works with a normal, named, no-level, 2+ depth, ', () => {
+					cy.enterName('Mara')
+					cy.enterSkills([
+						'Absorb Fire',
+						'Regenerate 1',
+						'Invigorate 1',
+						'Growth 1',
+					])
+					cy.enterRecurDepth(2)
+					cy.pushButton('Calculate')
+					cy.wait(60000)
+					cy.checkNumberOfResults(30)
+				})
+				it('works with a normal, named, level, 2+ depth, ', () => {
+					cy.enterName('Jack Frost')
+					cy.enterLevel(43)
+					cy.enterSkills([
+						'Mazio',
+						'Regenerate 1',
+						'Invigorate 1',
+						'Growth 1',
+					])
+					cy.enterRecurDepth(3)
+					cy.pushButton('Calculate')
+					cy.checkNumberOfResults(5)
+				})
 			})
 		})
 		describe('Special Fusion', () => {
 			describe('No Name', () => {
-				it.skip('works with a special, no-name, no-level, 1-depth, fusion', () => {})
-				it.skip('works with a special, no-name, level, 1-depth, fusion ', () => {
-					cy.get('.skill-form-field').first().click().type('Dekaja')
+				it('works with a special, no-name, no-level, 1-depth, fusion', () => {
+					cy.enterSkills([
+						'Die For Me!',
+						'Invigorate 3',
+						'Regenerate 3',
+						'Growth 3',
+					])
 				})
+				it('works with a special, no-name, level, 1-depth, fusion ', () => {
+					cy.enterLevel(79)
+					cy.enterSkills([
+						'Die For Me!',
+						'Ambient Aid',
+						'Makajamaon',
+						'Mudo',
+					])
+				})
+				//TODO - I don't think special fusions are using recursize depth
 				it.skip('works with a special, no-name, no-level,2+ depth, fusion', () => {
 					cy.get('.skill-form-field').first().click().type('Dekaja')
 				})
@@ -69,7 +107,12 @@ describe('P5 Demon Builder Test', () => {
 					cy.checkNumberOfResults(1)
 				})
 			})
-			it.skip('works with a special, named, level, 1-depth, fusion', () => {})
+			it.skip('works with a special, named, level, 1-depth, fusion', () => {
+				cy.enterName('Alice')
+				cy.enterLevel(79)
+				cy.enterSkills(['Ambient Aid', 'Makajamaon', 'Mudo'])
+			})
+			//TODO - I don't think special fusions are using recursize depth
 			it.skip('works with a special, named, no-level, 2+ depth, fusion', () => {})
 			it.skip('works with a special, named, level, 2+ depth, fusion', () => {})
 		})

@@ -232,7 +232,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.nonameLeve()
+		this.deepMara()
 	}
 	private deepMara(): void {
 		this.demonControl.setValue('Mara')
