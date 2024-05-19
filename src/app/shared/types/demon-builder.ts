@@ -1,7 +1,7 @@
 import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
-import { Observable, Subject } from 'rxjs'
+import { Observable, Subject, Subscriber, Subscription } from 'rxjs'
 import {
 	BuildMessage,
 	BuildRecipe,
@@ -85,7 +85,8 @@ export abstract class DemonBuilder
 	protected abstract getFusionChain(
 		targetSkills: string[],
 		recursiveDepth: number,
-		demonName: string
+		demonName: string,
+		sub: Subscriber<BuildMessage>
 	): BuildRecipe | null
 
 	/**
@@ -238,7 +239,7 @@ export abstract class DemonBuilder
 	 * @param innates Target skills the resulatant demon will learn
 	 * @param chain FusionChain to emit and build the recipe steps around
 	 */
-	protected addChainMetadata(
+	private addChainMetadata(
 		chain: BuildRecipe,
 		innates: string[]
 	): BuildRecipe {
@@ -281,7 +282,7 @@ export abstract class DemonBuilder
 	 * @param chain: The fusion chain to estimate the cost for
 	 * @returns Number: the estimated cost
 	 */
-	protected getCost(chain: BuildRecipe): number {
+	private getCost(chain: BuildRecipe): number {
 		let cost: number = 0
 		for (let step of chain.fusions) cost += step.cost!
 		return cost
@@ -294,7 +295,7 @@ export abstract class DemonBuilder
 	 * @param chain: The chain to get instructions for
 	 * @returns String[]: an array of lines to be displayed in the html
 	 */
-	protected getDirections(chain: BuildRecipe): string[] {
+	private getDirections(chain: BuildRecipe): string[] {
 		let directions: string[] = []
 		for (let i = 0; i < chain.fusions.length; i++) {
 			let step = chain.fusions[i]
@@ -345,7 +346,7 @@ export abstract class DemonBuilder
 	 * @param chain FusionChain to be evaluated
 	 * @returns The largest level in the chain
 	 */
-	levelRequired(chain: BuildRecipe): number {
+	protected levelRequired(chain: BuildRecipe): number {
 		let level = 0
 		for (let recipe of chain.fusions) {
 			for (let demonName of recipe.sources)
@@ -355,5 +356,29 @@ export abstract class DemonBuilder
 				level = this.compendium.demons[recipe.result].level
 		}
 		return level
+	}
+
+	protected emitBuild(
+		fission: Fusion,
+		skills: string[],
+		innates: string[],
+		subscriber: Subscriber<BuildMessage>,
+		build?: BuildRecipe
+	): void {
+		this.fusionCounter++
+		if (!build) build = this.getEmptyFusionChain()
+		this.addStep(build, fission, skills)
+		this.addChainMetadata(build, innates)
+		subscriber.next({
+			build: build,
+			fusionCounter: this.fusionCounter,
+		})
+	}
+
+	protected incCount(sub: Subscriber<BuildMessage>): void {
+		sub.next({
+			build: null,
+			fusionCounter: this.fusionCounter++,
+		})
 	}
 }

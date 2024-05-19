@@ -5,7 +5,15 @@ import {
 	BuildRecipe,
 	InputChainData,
 } from '@shared/types/smt-tools.types'
-import { Observable, ReplaySubject, Subject, from, interval, of } from 'rxjs'
+import {
+	Observable,
+	ReplaySubject,
+	Subject,
+	Subscriber,
+	from,
+	interval,
+	of,
+} from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
@@ -19,6 +27,7 @@ import {
 	take,
 	takeUntil,
 } from 'rxjs/operators'
+import { ComplexOuterSubscriber } from 'rxjs/internal/innerSubscribe'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -115,9 +124,12 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		if (innates.length > 0) _.pullAll(skills, innates)
 		let fissions = this.calculator.getFissions(demonName)
 
-		return new Observable<BuildMessage>((subscriber) => {
+		return new Observable<BuildMessage>((sub) => {
 			for (let fission of fissions) {
-				this.fusionCounter++
+				sub.next({
+					build: null,
+					fusionCounter: this.fusionCounter++,
+				})
 				if (!this.validSources(skills, fission)) continue
 				//check if fissions have desirable skills
 				let foundSkills = this.checkFusionSkills(skills, fission)
@@ -125,30 +137,30 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 					let diff = _.difference(skills, foundSkills)
 					//finish chain if we have found all skills
 					if (diff.length == 0) {
-						let chain = this.getEmptyFusionChain()
-						this.addStep(chain, fission, foundSkills)
-						this.addChainMetadata(chain, innates)
-						subscriber.next({
-							build: chain,
-							fusionCounter: this.fusionCounter,
-						})
+						this.emitBuild(fission, foundSkills, innates, sub)
 						break
 					}
+					//check sources if we have more skills to find
 					for (let sourceName of fission.sources) {
-						//check the fissions heritage for more skills
-						let chain = this.getFusionChain(diff, 0, sourceName)
-						if (chain != null) {
-							this.addStep(chain, fission, foundSkills)
-							this.addChainMetadata(chain, innates)
-							subscriber.next({
-								build: chain,
-								fusionCounter: this.fusionCounter,
-							})
+						let build = this.getFusionChain(
+							diff,
+							0,
+							sourceName,
+							sub
+						)
+						if (build != null) {
+							this.emitBuild(
+								fission,
+								foundSkills,
+								innates,
+								sub,
+								build
+							)
 						}
 					}
 				}
 			}
-			subscriber.complete()
+			sub.complete()
 		})
 	}
 	protected demon_isValidInput(
@@ -247,7 +259,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		let result = new ReplaySubject<BuildMessage>(Infinity)
 		from(demons)
 			.pipe(
-				//delay to make sure this function has finished before calling demon_getFusionChains
+				//delay to make sure this function has finished before callingdemon_getFusionChains
 				delay(100),
 				mergeMap((demonName) =>
 					this.demon_getFusionChains(targetSkills, demonName)
@@ -291,13 +303,15 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	protected getFusionChain(
 		targetSkills: string[],
 		depth: number,
-		demonName: string
+		demonName: string,
+		sub: Subscriber<BuildMessage>
 	): BuildRecipe | null {
+		this.incCount(sub)
 		if (depth - 1 > this.recurDepth) return null
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.fusionCounter++
+			this.incCount(sub)
 			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
@@ -308,7 +322,12 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 			if (foundSkills.length > 0 || depth < this.recurDepth) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
-					let chain = this.getFusionChain(diff, depth + 1, sourceName)
+					let chain = this.getFusionChain(
+						diff,
+						depth + 1,
+						sourceName,
+						sub
+					)
 					if (chain != null) {
 						this.addStep(chain, fission, foundSkills)
 						return chain

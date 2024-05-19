@@ -104,6 +104,6 @@ export interface InputChainData {
 }
 
 export interface BuildMessage {
-	build: BuildRecipe
+	build: BuildRecipe | null
 	fusionCounter: number
 }

@@ -220,9 +220,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.sandManData()
+		this.noname()
 	}
-	private maraTestData(): void {
+	private mara(): void {
 		this.demonControl.setValue('Mara')
 		this.skillControls[0].setValue('Absorb Fire')
 		this.skillControls[1].setValue('Regenerate 1')
@@ -230,22 +230,22 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.skillControls[3].setValue('Growth 1')
 		this.recurDepthControl.setValue('1')
 	}
-	private nekoTestData(): void {
+	private neko(): void {
 		this.demonControl.setValue('Neko Shogun')
 		this.skillControls[0].setValue('Dekaja')
 	}
-	private test1Data(): void {
+	private noname(): void {
 		this.skillControls[0].setValue('Arms Master')
 		this.skillControls[1].setValue('Life Aid')
 		this.skillControls[2].setValue('Gigantomachia')
 	}
-	private test2Data(): void {
+	private deepMara(): void {
 		this.demonControl.setValue('Mara')
 		this.skillControls[0].setValue('Absorb Fire')
 		this.skillControls[1].setValue('Mapsio')
 		this.skillControls[2].setValue('Diarahan')
 	}
-	private sandManData(): void {
+	private sandman(): void {
 		this.demonControl.setValue('Sandman')
 		this.skillControls[0].setValue('Pulinpa')
 		this.skillControls[1].setValue('Confuse Boost')
