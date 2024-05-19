@@ -19,6 +19,7 @@ import {
 	InputChainData,
 } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
+import { p5StartWebWorker } from './demon-builder.constansts'
 
 @Component({
 	selector: 'app-demon-builder',
@@ -37,7 +38,6 @@ import { MatSort } from '@angular/material/sort'
 })
 export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	@Input() declare compendium: Compendium
-	@Input() declare workerLocation: string
 	@ViewChild(MatSort) declare sort: MatSort
 
 	protected declare skills: string[]
@@ -62,8 +62,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	protected notify = new Subject<null>()
 	//keeps track of amount of fusions attempted by demon-builder
 	protected fusionCounter: number = 0
-	/* how much depth the builder will go to even if there are no 
-		immediate skills in sources */
+	//how much depth the builder will go to even if there are no immediate skills in sources
 	protected recurDepth = 0
 	//when true, a progress spinner is rendered on the page
 	protected calculating: boolean = false
@@ -77,9 +76,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 
 	constructor() {}
 	ngOnInit(): void {
-		if (!this.workerLocation) {
-			throw new Error('No worker location provided')
-		}
 		//Facilitates type-ahead in the left form
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
@@ -120,49 +116,44 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.clearResults()
 		this.userError = ''
 		this.calculating = true
-
 		let input$ = of(this.getConfiguration())
-		fromWorkerPool<InputChainData, BuildMessage>(
-			() =>
-				new Worker(
-					//TODO wwwwhyyyyyyy do I need this?! if I use a variable, even if its the EXACT string it still won't be able to find it something to do with the second argument?
-					new URL('./p5-demon-builder.worker', import.meta.url),
-					{
-						type: 'module',
-					}
-				),
-			input$
-		)
+		p5StartWebWorker(input$)
 			.pipe(takeUntil(this.notify))
 			.subscribe({
 				next: (data) => {
-					if (data.fusionCounter - this.fusionCounter >= 1000) {
-						this.fusionCounter = data.fusionCounter
-					}
-					if (data.build) {
-						this.buildsSource.data.push(data.build)
-						//forces table to rerender
-						this.buildsSource.data = this.buildsSource.data
-					}
+					this.subNext(data)
 				},
 				error: (error) => {
-					this.userError = error.message.replace(
-						'Uncaught Error: ',
-						''
-					)
-					this.stopWebWorker()
+					this.subError(error)
 				},
 				complete: () => {
-					this.stopWebWorker()
-					if (
-						this.buildsSource.data.length == 0 &&
-						this.userError == ''
-					) {
-						this.userError =
-							"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
-					}
+					this.subComplete()
 				},
 			})
+	}
+
+	subNext(data: BuildMessage) {
+		if (data.fusionCounter - this.fusionCounter >= 1000) {
+			this.fusionCounter = data.fusionCounter
+		}
+		if (data.build) {
+			this.buildsSource.data.push(data.build)
+			//forces table to rerender
+			this.buildsSource.data = this.buildsSource.data
+		}
+	}
+
+	subError(error: Error) {
+		this.userError = error.message.replace('Uncaught Error: ', '')
+		this.stopWebWorker()
+	}
+
+	subComplete() {
+		this.stopWebWorker()
+		if (this.buildsSource.data.length == 0 && this.userError == '') {
+			this.userError =
+				"There doesn't appear to be any simple recipes to create this persona, but it doesn't seem immediately impossible either. Try increasing the recursive depth and see if you find any results."
+		}
 	}
 
 	/** Tells the webworker to stop */
