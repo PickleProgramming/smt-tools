@@ -132,7 +132,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			input$
 		).subscribe({
 			next: (data) => {
-				this.fusionCounter = data.fusionCounter
+				if (data.fusionCounter - this.fusionCounter >= 1000) {
+					this.fusionCounter = data.fusionCounter
+				}
 				if (data.build) {
 					this.buildsSource.data.push(data.build)
 					//forces table to rerender
@@ -220,9 +222,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	enterTestData(): void {
-		this.noname()
+		this.deepMara()
 	}
-	private mara(): void {
+	private deepMara(): void {
 		this.demonControl.setValue('Mara')
 		this.skillControls[0].setValue('Absorb Fire')
 		this.skillControls[1].setValue('Regenerate 1')
@@ -239,7 +241,12 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.skillControls[1].setValue('Life Aid')
 		this.skillControls[2].setValue('Gigantomachia')
 	}
-	private deepMara(): void {
+	private nonameLeve(): void {
+		this.skillControls[0].setValue('Mabufula')
+		this.skillControls[1].setValue('Miracle Punch')
+		this.skillControls[2].setValue('Attack Master')
+	}
+	private mara(): void {
 		this.demonControl.setValue('Mara')
 		this.skillControls[0].setValue('Absorb Fire')
 		this.skillControls[1].setValue('Mapsio')

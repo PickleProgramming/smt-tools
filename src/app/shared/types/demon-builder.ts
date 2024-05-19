@@ -85,8 +85,7 @@ export abstract class DemonBuilder
 	protected abstract getFusionChain(
 		targetSkills: string[],
 		recursiveDepth: number,
-		demonName: string,
-		sub: Subscriber<BuildMessage>
+		demonName: string
 	): BuildRecipe | null
 
 	/**
@@ -360,16 +359,16 @@ export abstract class DemonBuilder
 
 	protected emitBuild(
 		fission: Fusion,
-		skills: string[],
-		innates: string[],
-		subscriber: Subscriber<BuildMessage>,
+		found: string[],
+		innate: string[],
+		sub: Subscriber<BuildMessage>,
 		build?: BuildRecipe
 	): void {
 		this.fusionCounter++
 		if (!build) build = this.getEmptyFusionChain()
-		this.addStep(build, fission, skills)
-		this.addChainMetadata(build, innates)
-		subscriber.next({
+		this.addStep(build, fission, found)
+		this.addChainMetadata(build, innate)
+		sub.next({
 			build: build,
 			fusionCounter: this.fusionCounter,
 		})

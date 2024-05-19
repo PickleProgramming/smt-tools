@@ -120,46 +120,37 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		let skills = _.cloneDeep(targetSkills)
 		let demon = this.compendium.demons[demonName]
 		//filter out skills the demon learns innately
-		let innates = _.intersection(skills, Object.keys(demon.skills))
-		if (innates.length > 0) _.pullAll(skills, innates)
+		let innate = _.intersection(skills, Object.keys(demon.skills))
+		if (innate.length > 0) _.pullAll(skills, innate)
 		let fissions = this.calculator.getFissions(demonName)
 
 		return new Observable<BuildMessage>((sub) => {
 			for (let fission of fissions) {
-				sub.next({
-					build: null,
-					fusionCounter: this.fusionCounter++,
-				})
+				this.incCount(sub)
 				if (!this.validSources(skills, fission)) continue
 				//check if fissions have desirable skills
-				let foundSkills = this.checkFusionSkills(skills, fission)
-				if (foundSkills.length > 0 || this.recurDepth > 0) {
-					let diff = _.difference(skills, foundSkills)
+				let found = this.checkFusionSkills(skills, fission)
+				if (found.length > 0 || this.recurDepth > 0) {
+					let diff = _.difference(skills, found)
 					//finish chain if we have found all skills
 					if (diff.length == 0) {
-						this.emitBuild(fission, foundSkills, innates, sub)
+						this.emitBuild(fission, found, innate, sub)
 						break
 					}
 					//check sources if we have more skills to find
 					for (let sourceName of fission.sources) {
-						let build = this.getFusionChain(
-							diff,
-							0,
-							sourceName,
-							sub
-						)
+						let build = this.getFusionChain(diff, 0, sourceName)
+						this.incCount(sub)
 						if (build != null) {
-							this.emitBuild(
-								fission,
-								foundSkills,
-								innates,
-								sub,
-								build
-							)
+							this.emitBuild(fission, found, innate, sub, build)
 						}
 					}
 				}
 			}
+			sub.next({
+				build: null,
+				fusionCounter: this.fusionCounter++,
+			})
 			sub.complete()
 		})
 	}
@@ -303,15 +294,14 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	protected getFusionChain(
 		targetSkills: string[],
 		depth: number,
-		demonName: string,
-		sub: Subscriber<BuildMessage>
+		demonName: string
 	): BuildRecipe | null {
-		this.incCount(sub)
+		this.fusionCounter++
 		if (depth - 1 > this.recurDepth) return null
 		if (!this.isPossible(targetSkills, demonName)) return null
 		let fissions = this.calculator.getFissions(demonName)
 		for (let fission of fissions) {
-			this.incCount(sub)
+			this.fusionCounter++
 			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
@@ -322,12 +312,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 			if (foundSkills.length > 0 || depth < this.recurDepth) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
-					let chain = this.getFusionChain(
-						diff,
-						depth + 1,
-						sourceName,
-						sub
-					)
+					let chain = this.getFusionChain(diff, depth + 1, sourceName)
 					if (chain != null) {
 						this.addStep(chain, fission, foundSkills)
 						return chain
