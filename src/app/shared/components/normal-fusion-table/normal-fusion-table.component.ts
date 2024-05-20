@@ -1,7 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core'
+
 import { MatTableDataSource } from '@angular/material/table'
+
 import { TableConfig } from '@shared/types/smt-tools.types'
 
+/**
+ * Component to display the fusion table for a game
+ *
+ * @class NormalFusionTableComponent
+ * @typedef {NormalFusionTableComponent}
+ * @export
+ * @implements {OnInit}
+ */
 @Component({
 	selector: 'app-normal-fusion-table',
 	templateUrl: './normal-fusion-table.component.html',

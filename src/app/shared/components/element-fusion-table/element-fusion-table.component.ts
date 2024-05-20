@@ -1,7 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core'
+
 import { MatTableDataSource } from '@angular/material/table'
+
 import { TableConfig } from '@shared/types/smt-tools.types'
 
+/**
+ * Componenet to display the element fusion table for a game
+ *
+ * @class ElementFusionTableComponent
+ * @typedef {ElementFusionTableComponent}
+ * @export
+ * @implements {OnInit}
+ */
 @Component({
 	selector: 'app-element-fusion-table',
 	templateUrl: './element-fusion-table.component.html',
