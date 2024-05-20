@@ -13,13 +13,10 @@ import { Observable, Subject, of } from 'rxjs'
 import { delay, map, repeat, startWith, takeUntil } from 'rxjs/operators'
 import { fromWorkerPool } from 'observable-webworker'
 import _ from 'lodash'
-import {
-	BuildMessage,
-	BuildRecipe,
-	InputChainData,
-} from '@shared/types/smt-tools.types'
+import { BuildMessage, InputChainData } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
 import { p5StartWebWorker } from './demon-builder.constansts'
+import { BuildRecipe } from '@shared/types/build-recipe'
 
 @Component({
 	selector: 'app-demon-builder',
@@ -96,9 +93,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 	private _filter(value: string, list: string[]): string[] {
 		let filterValue = value.toLocaleLowerCase()
-		return list.filter((option) =>
-			option.toLowerCase().includes(filterValue)
-		)
+		return list.filter((option) => option.toLowerCase().includes(filterValue))
 	}
 
 	//TODO: supposed to faciliate table sorting, but I haven't got it to work yet with the expandable table

@@ -4,11 +4,11 @@ import _ from 'lodash'
 import { Observable, Subscriber } from 'rxjs'
 import {
 	BuildMessage,
-	BuildRecipe,
 	Fusion,
 	InputChainData as UserInput,
 } from './smt-tools.types'
 import { DoWorkUnit } from 'observable-webworker'
+import { BuildRecipe } from './build-recipe'
 
 /**
  * Parent class for each game's demon builder implementation. The demon builder
@@ -286,131 +286,6 @@ export abstract class DemonBuilder
 	}
 
 	/**
-	 * Returns a BuildRecipe with default initialized values
-	 *
-	 * @returns {BuildRecipe}
-	 * @protected
-	 */
-	protected getEmptyBuildRecipe(): BuildRecipe {
-		return {
-			fusions: [],
-			cost: 0,
-			inherittedSkills: [],
-			innates: [],
-			level: 0,
-			result: '',
-			directions: [],
-		}
-	}
-
-	/**
-	 * Description placeholder
-	 *
-	 * @private
-	 * @param {BuildRecipe} chain
-	 * @param {string[]} innates
-	 * @returns {BuildRecipe}
-	 */
-	private addChainMetadata(chain: BuildRecipe, innates: string[]): BuildRecipe {
-		chain.cost = this.getCost(chain)
-		chain.level = this.levelRequired(chain)
-		// create list that tells the user what skills should be inheritted at each step
-		chain.innates = innates
-		chain.result = chain.fusions[chain.fusions.length - 1].result
-		if (chain.fusions.length > 1) {
-			for (let i = 1; i < chain.fusions.length; i++) {
-				chain.inherittedSkills[i] = chain.inherittedSkills[i].concat(
-					chain.inherittedSkills[i - 1]
-				)
-			}
-		}
-		chain.directions = this.getDirections(chain)
-		return chain
-	}
-
-	/**
-	 * Description placeholder
-	 *
-	 * @param {BuildRecipe} chain
-	 * @param {Fusion} recipe
-	 * @param {string[]} inherittedSkills
-	 * @protected
-	 */
-	protected addStep(
-		chain: BuildRecipe,
-		recipe: Fusion,
-		inherittedSkills: string[]
-	) {
-		chain.fusions.push(recipe)
-		chain.inherittedSkills.push(inherittedSkills)
-	}
-
-	/**
-	 * Description placeholder
-	 *
-	 * @private
-	 * @param {BuildRecipe} chain
-	 * @returns {number}
-	 */
-	private getCost(chain: BuildRecipe): number {
-		let cost: number = 0
-		for (let step of chain.fusions) cost += step.cost!
-		return cost
-	}
-
-	/**
-	 * Description placeholder
-	 *
-	 * @private
-	 * @param {BuildRecipe} chain
-	 * @returns {string[]}
-	 */
-	private getDirections(chain: BuildRecipe): string[] {
-		let directions: string[] = []
-		for (let i = 0; i < chain.fusions.length; i++) {
-			let step = chain.fusions[i]
-			let direction = `Step ${i + 1}: `
-			if (step.sources.length > 2) {
-				direction += `Use the Special Recipe to fuse ${step.result}.`
-				direction += ` Have ${step.result} inherit `
-			} else {
-				direction +=
-					`Fuse ${step.sources[0]} with ${step.sources[1]} to make ` +
-					`${step.result}. Have ${step.result} inherit `
-			}
-			let skills = chain.inherittedSkills[i]
-			for (let j = 0; j <= skills.length; j++) {
-				if (skills.length === 1) {
-					direction += `${skills[j]}.`
-					break
-				}
-				if (j === skills.length - 1) {
-					direction += `and ${skills[j]}.`
-					break
-				}
-				direction += `${skills[j]}, `
-			}
-			directions.push(direction)
-		}
-		if (chain.innates.length < 1) return directions
-		let direction = ` ${chain.result} will learn `
-		for (let j = 0; j <= chain.innates.length; j++) {
-			if (chain.innates.length === 1) {
-				direction += `${chain.innates[j]}`
-				break
-			}
-			if (j === chain.innates.length - 1) {
-				direction += ` and ${chain.innates[j]}`
-				break
-			}
-			direction += `${chain.innates[j]}, `
-		}
-		direction += ` on their own.`
-		directions.push(direction)
-		return directions
-	}
-
-	/**
 	 * Description placeholder
 	 *
 	 * @param {BuildRecipe} chain
@@ -447,9 +322,9 @@ export abstract class DemonBuilder
 		build?: BuildRecipe
 	): void {
 		this.fuseCount++
-		if (!build) build = this.getEmptyBuildRecipe()
-		this.addStep(build, fission, found)
-		this.addChainMetadata(build, innate)
+		if (!build) build = new BuildRecipe()
+		build.addStep(fission, found)
+		build.finishBuild(innate, this.levelRequired(build))
 		sub.next({
 			build: build,
 			fusionCounter: this.fuseCount,

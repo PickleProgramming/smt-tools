@@ -1,3 +1,5 @@
+import { BuildRecipe } from './build-recipe'
+
 /**
  * Interface that stores the information necessary to populate Demon List tables
  * and calculate fusions
@@ -85,15 +87,6 @@ export interface Fusion {
  *   fusion chain in plain english. This is what is meant to be displayed on the
  *   webpage
  */
-export interface BuildRecipe {
-	fusions: Fusion[]
-	cost: number
-	inherittedSkills: string[][]
-	innates: string[]
-	level: number
-	result: string
-	directions: string[]
-}
 
 /** User input data taken from the demon form */
 export interface InputChainData {

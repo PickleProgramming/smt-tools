@@ -1,10 +1,6 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
-import {
-	BuildMessage,
-	BuildRecipe,
-	InputChainData,
-} from '@shared/types/smt-tools.types'
+import { BuildMessage, InputChainData } from '@shared/types/smt-tools.types'
 import {
 	Observable,
 	ReplaySubject,
@@ -28,6 +24,7 @@ import {
 	takeUntil,
 } from 'rxjs/operators'
 import { ComplexOuterSubscriber } from 'rxjs/internal/innerSubscribe'
+import { BuildRecipe } from '@shared/types/build-recipe'
 
 export class P5DemonBuilderWorker extends DemonBuilder {
 	declare compendium: P5Compendium
@@ -302,8 +299,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
-				let chain = this.getEmptyBuildRecipe()
-				this.addStep(chain, fission, targetSkills)
+				let chain = new BuildRecipe()
+				chain.addStep(fission, targetSkills)
 				return chain
 			}
 			if (foundSkills.length > 0 && depth < this.recurDepth) {
@@ -311,7 +308,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 					let diff = _.difference(targetSkills, foundSkills)
 					let chain = this.getFusionChain(diff, depth + 1, sourceName)
 					if (chain != null) {
-						this.addStep(chain, fission, foundSkills)
+						chain.addStep(fission, foundSkills)
 						return chain
 					}
 				}
