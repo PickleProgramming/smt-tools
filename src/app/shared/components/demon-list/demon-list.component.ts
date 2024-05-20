@@ -19,11 +19,24 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 	@Input() declare demons: { [name: string]: Demon }
 	@Input() declare tableConfig: TableConfig
 	@ViewChild(MatSort) declare sort: MatSort
+
 	declare demonSource: MatTableDataSource<DemonElem>
+	declare displayCols: string[]
 
 	constructor() {}
 
 	ngOnInit(): void {
+		this.displayCols = this.tableConfig.demonCols
+		if (this.tableConfig.statCols) {
+			this.displayCols = this.displayCols.concat(
+				this.tableConfig.statCols
+			)
+		}
+		if (this.tableConfig.resistanceCols) {
+			this.displayCols = this.displayCols.concat(
+				this.tableConfig.resistanceCols
+			)
+		}
 		let demonArr: DemonElem[] = []
 		for (let demonName in this.demons) {
 			let demon = this.demons[demonName]
@@ -60,11 +73,12 @@ export class DemonListComponent implements OnInit, AfterViewInit {
 	}
 }
 
-/* Class used to facilitate angular material table sorting/filter
-	MatTable requires an array to perform its sorting/filtering functions,
-	since the demons list is a key/value pair, we need to convert it to
-	a data model that can hold all the necessary info and still be used in
-	MatTable*/
+/**
+ * Class used to facilitate angular material table sorting/filter MatTable
+ * requires an array to perform its sorting/filtering functions, since the
+ * demons list is a key/value pair, we need to convert it to a data model that
+ * can hold all the necessary info and still be used in MatTable
+ */
 class DemonElem {
 	constructor(demonName: string, demon: Demon) {
 		this.name = demonName

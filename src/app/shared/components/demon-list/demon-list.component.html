@@ -153,10 +153,7 @@
 		}
 
 		<!-- Angular Table Initializations -->
-		<tr
-			mat-header-row
-			*matHeaderRowDef="tableConfig.demonCols; sticky: true"
-		></tr>
-		<tr mat-row *matRowDef="let row; columns: tableConfig.demonCols"></tr>
+		<tr mat-header-row *matHeaderRowDef="displayCols; sticky: true"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayCols"></tr>
 	</table>
 </div>
