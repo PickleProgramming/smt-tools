@@ -22,7 +22,7 @@ export abstract class Compendium {
 	 *
 	 * @type {{ [name: string]: Demon }}
 	 */
-	declare demons: { [name: string]: Demon }
+	demons: { [name: string]: Demon } = {}
 	/**
 	 * A key/value pair relating a skill's name to it's object
 	 *
