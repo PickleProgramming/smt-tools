@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core'
 
 import _ from 'lodash'
 
-import { P5TableConfig } from '@p5/types/p5-table-config'
-import { Demon } from '@shared/types/smt-tools.types'
+import { Demon, TableConfig } from '@shared/types/smt-tools.types'
 
 import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 
@@ -15,7 +14,7 @@ import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 	styleUrl: './p5-demon-list.component.scss',
 })
 export class P5PersonaListComponent implements OnInit {
-	tableConfig: P5TableConfig = P5_TABLE_CONFIG
+	tableConfig: TableConfig = P5_TABLE_CONFIG
 	demons: { [name: string]: Demon } = this.shortenRacesDemons(
 		P5_COMPENDIUM.demons
 	)

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 
-import { Skill } from '@shared/types/smt-tools.types'
+import { Skill, TableConfig } from '@shared/types/smt-tools.types'
 
 import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 
@@ -12,7 +12,7 @@ import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 })
 export class P5SkillListComponent implements OnInit {
 	skills: { [name: string]: Skill } = P5_COMPENDIUM.skills
-	tableConfig = P5_TABLE_CONFIG
+	tableConfig: TableConfig = P5_TABLE_CONFIG
 
 	constructor() {}
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatTableDataSource } from '@angular/material/table'
-import { TableConfig } from '@shared/types/table-config'
+import { TableConfig } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-normal-fusion-table',

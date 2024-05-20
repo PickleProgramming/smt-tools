@@ -8,8 +8,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSort } from '@angular/material/sort'
 import _ from 'lodash'
-import { Demon } from '@shared/types/smt-tools.types'
-import { TableConfig } from '@shared/types/table-config'
+import { Demon, TableConfig } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-demon-list',

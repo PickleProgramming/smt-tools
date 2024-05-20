@@ -3,8 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatSort } from '@angular/material/sort'
 import _ from 'lodash'
-import { Skill } from '@shared/types/smt-tools.types'
-import { TableConfig } from '@shared/types/table-config'
+import { Skill, TableConfig } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-skill-list',
