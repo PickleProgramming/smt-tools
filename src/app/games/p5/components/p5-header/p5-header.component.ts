@@ -25,7 +25,7 @@ export class P5HeaderComponent {
 		},
 		{
 			title: 'Chain Calculator',
-			url: 'fusion-chain',
+			url: 'demon-builder',
 			img: this.ASSETS + 'p5-builder-link.svg',
 		},
 		{

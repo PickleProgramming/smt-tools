@@ -1,6 +1,6 @@
 describe('P5 Demon Builder Test', () => {
 	beforeEach(() => {
-		cy.visit('/p5/fusion-chain')
+		cy.visit('/p5/demon-builder')
 	})
 	describe('Successful Cases', () => {
 		describe('Normal Fusions', () => {

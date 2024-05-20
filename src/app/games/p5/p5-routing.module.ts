@@ -18,7 +18,7 @@ const routes: Routes = [
 			{ path: 'personas/:demonName', component: P5DemonEntryComponent },
 			{ path: 'skills', component: P5SkillListComponent },
 			{ path: 'fusion-table', component: P5TablesComponent },
-			{ path: 'fusion-chain', component: P5DemonBuilderComponent },
+			{ path: 'demon-builder', component: P5DemonBuilderComponent },
 			{ path: 'settings', component: P5SettingsComponent },
 		],
 	},
