@@ -35,10 +35,10 @@ export abstract class DemonBuilder
 	 */
 	protected compendium: Compendium
 	/**
-	 * The fusion calculator used by the demon builder. When extending this class,
-	 * the fusion calculator is usually from the same game the demon builder is
-	 * for. But there may be exceptions for games like P4 and P4G and other such
-	 * rereleases
+	 * The fusion calculator used by the demon builder. When extending this
+	 * class, the fusion calculator is usually from the same game the demon
+	 * builder is for. But there may be exceptions for games like P4 and P4G and
+	 * other such rereleases
 	 *
 	 * @type {FusionCalculator}
 	 * @protected
@@ -88,15 +88,15 @@ export abstract class DemonBuilder
 
 	/**
 	 * The code to be run on the web worker. Emits a BuildMessage whenever it
-	 * either calculates a succesful fusion, or attempts a fusion it determines is
-	 * invalid.
+	 * either calculates a succesful fusion, or attempts a fusion it determines
+	 * is invalid.
 	 *
 	 * @abstract
 	 * @param {UserInput} input User input specifying desired demon
 	 * @returns {Observable<BuildMessage>} A stream of BuildMessages. If a
-	 *   successful fusion was found the build message will have a new BuildRecipe
-	 *   and a current fuseCount, other wise it will only have the current
-	 *   fuseCount
+	 *   successful fusion was found the build message will have a new
+	 *   BuildRecipe and a current fuseCount, other wise it will only have the
+	 *   current fuseCount
 	 * @throws {Error} If the user input is invalid
 	 * @public
 	 */
@@ -108,18 +108,21 @@ export abstract class DemonBuilder
 	 * observable as it calculates them
 	 *
 	 * @remarks
-	 *   This is more of a wrapper method that validates user input, and determines
-	 *   which function is best used for calculation based on user input
+	 *   This is more of a wrapper method that validates user input, and
+	 *   determines which function is best used for calculation based on user
+	 *   input
 	 * @abstract
 	 * @param {UserInput} input User input specifying desired demon
 	 * @returns {Observable<BuildMessage>} A stream of BuildMessages. If a
-	 *   successful fusion was found the build message will have a new BuildRecipe
-	 *   and a current fuseCount, other wise it will only have the current
-	 *   fuseCount
+	 *   successful fusion was found the build message will have a new
+	 *   BuildRecipe and a current fuseCount, other wise it will only have the
+	 *   current fuseCount
 	 * @throws {Error} If the user input is invalid
 	 * @protected
 	 */
-	protected abstract getFusionChains(input: UserInput): Observable<BuildMessage>
+	protected abstract getFusionChains(
+		input: UserInput
+	): Observable<BuildMessage>
 
 	/**
 	 * Checks for any immediately obvious reasons that building the specified
@@ -131,7 +134,8 @@ export abstract class DemonBuilder
 	 *   false if a check is failed, isValid will throw an error
 	 * @abstract
 	 * @param {string[]} targetSkills Skills specified by the user
-	 * @param {string | null} [demonName] Name of the demon specified by the user
+	 * @param {string | null} [demonName] Name of the demon specified by the
+	 *   user
 	 * @throws {Error} If the user input is invalid
 	 * @protected
 	 */
@@ -163,8 +167,8 @@ export abstract class DemonBuilder
 	 * obvious reason as to why it may be impossible.
 	 *
 	 * @remarks
-	 *   Performs the same checks as isValid, but where isValid will throw an error
-	 *   is any check is failed, isPossible will return false
+	 *   Performs the same checks as isValid, but where isValid will throw an
+	 *   error is any check is failed, isPossible will return false
 	 * @abstract
 	 * @param {string[]} skills List of skills to check
 	 * @param {string | null} [demonName] Name of demon to check
@@ -177,12 +181,13 @@ export abstract class DemonBuilder
 	): boolean
 
 	/**
-	 * Determins if either of the given sources in the given fusion are capable of
-	 * inheritting all of the target skills.
+	 * Determins if either of the given sources in the given fusion are capable
+	 * of inheritting all of the target skills.
 	 *
 	 * @param {string[]} targetSkills Skills to check for
 	 * @param {Fusion} fusion Fusion to check
-	 * @returns {boolean} True if ANY of the sources can inherit all of the skills
+	 * @returns {boolean} True if ANY of the sources can inherit all of the
+	 *   skills
 	 * @protected
 	 */
 	protected validSources(targetSkills: string[], fusion: Fusion): boolean {
@@ -213,7 +218,8 @@ export abstract class DemonBuilder
 	}
 
 	/**
-	 * Gets the maximum number of a skills a demon can inherit in a given recipe.
+	 * Gets the maximum number of a skills a demon can inherit in a given
+	 * recipe.
 	 *
 	 * @param {Fusion} recipe Recipe to check
 	 * @returns {number} The number of skills that can be inherited
@@ -255,7 +261,8 @@ export abstract class DemonBuilder
 	 */
 	protected exceedsMaxLevel(recipe: Fusion): boolean {
 		for (let sourceName of recipe.sources)
-			if (this.compendium.demons[sourceName].level > this.maxLevel) return true
+			if (this.compendium.demons[sourceName].level > this.maxLevel)
+				return true
 		return false
 	}
 
@@ -286,44 +293,47 @@ export abstract class DemonBuilder
 	}
 
 	/**
-	 * Description placeholder
+	 * Gets the level of the highest level demon in the specified recipe
 	 *
-	 * @param {BuildRecipe} chain
-	 * @returns {number}
+	 * @param {BuildRecipe} recipe Recipe to check
+	 * @returns {number} Level of the highest level demon
 	 * @protected
 	 */
-	protected levelRequired(chain: BuildRecipe): number {
+	protected levelRequired(recipe: BuildRecipe): number {
 		let level = 0
-		for (let recipe of chain.fusions) {
-			for (let demonName of recipe.sources)
+		for (let fusion of recipe.fusions) {
+			for (let demonName of fusion.sources)
 				if (this.compendium.demons[demonName].level > level)
 					level = this.compendium.demons[demonName].level
-			if (this.compendium.demons[recipe.result].level > level)
-				level = this.compendium.demons[recipe.result].level
+			if (this.compendium.demons[fusion.result].level > level)
+				level = this.compendium.demons[fusion.result].level
 		}
 		return level
 	}
 
 	/**
-	 * Description placeholder
+	 * Calculates final properties for the recipe and emits it to the observable
 	 *
-	 * @param {Fusion} fission
-	 * @param {string[]} found
-	 * @param {string[]} innate
-	 * @param {Subscriber<BuildMessage>} sub
-	 * @param {BuildRecipe | null} [build]
+	 * @param {Fusion} fission The sources for the final step
+	 * @param {string[]} skills The skills found in the final step
+	 * @param {string[]} innate The skills learned by the final demon naturally
+	 * @param {Subscriber<BuildMessage>} sub The subscription to emit the chain
+	 *   to
+	 * @param {BuildRecipe | null} [build] The build recipe to add the step to.
+	 *   If there is only one step, don't pass a build, this function will
+	 *   create an empty one
 	 * @protected
 	 */
 	protected emitBuild(
 		fission: Fusion,
-		found: string[],
+		skills: string[],
 		innate: string[],
 		sub: Subscriber<BuildMessage>,
 		build?: BuildRecipe
 	): void {
 		this.fuseCount++
 		if (!build) build = new BuildRecipe()
-		build.addStep(fission, found)
+		build.addStep(fission, skills)
 		build.finishBuild(innate, this.levelRequired(build))
 		sub.next({
 			build: build,
@@ -332,9 +342,10 @@ export abstract class DemonBuilder
 	}
 
 	/**
-	 * Description placeholder
+	 * Increase the fusion counter and emit an update to the observable
 	 *
-	 * @param {Subscriber<BuildMessage>} sub
+	 * @param {Subscriber<BuildMessage>} sub The subscription to emit the
+	 *   counter to
 	 * @protected
 	 */
 	protected incCount(sub: Subscriber<BuildMessage>): void {
