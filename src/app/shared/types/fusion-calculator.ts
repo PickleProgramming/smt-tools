@@ -1,9 +1,33 @@
 import { Compendium } from './compendium'
 import { Fusion, Demon } from './smt-tools.types'
 
+/**
+ * Class to facilitate calculation of fusions and fissions
+ *
+ * @remarks
+ *   In the scenario Demon A x Demon B = Demon C, where A and B are factors, and C
+ *   is the product, Fusions calculate the factors and products of Demon A, and
+ *   fissions calculate the factors of Demon C
+ * @abstract
+ * @class FusionCalculator
+ * @typedef {FusionCalculator}
+ * @export
+ */
 export abstract class FusionCalculator {
+	/**
+	 * The compundium this class uses to calculate fusions. usually the
+	 * compendium from the same game the calculator is for
+	 *
+	 * @type {Compendium}
+	 */
 	compendium: Compendium
 
+	/**
+	 * Creates an instance of FusionCalculator.
+	 *
+	 * @class
+	 * @param {Compendium} compendium
+	 */
 	constructor(compendium: Compendium) {
 		this.compendium = compendium
 	}
@@ -11,28 +35,25 @@ export abstract class FusionCalculator {
 	/**
 	 * Get list of different fusions that result in the passed demon
 	 *
-	 * @param demon: Name of the resultant demon
-	 * @param targetName
+	 * @param {string} demonName: Name of the resultant demon
 	 * @returns {Recipe[]} A list of recipes where the passed demon is the
 	 *   resultant demon
 	 */
-	abstract getFissions(targetName: string): Fusion[]
+	abstract getFissions(demonName: string): Fusion[]
 
 	/**
-	 * Returns a list of fusions that the specified demon is a factor
+	 * Returns a list of fusions that the specified demon is a factor of
 	 *
-	 * @param targetName Get list of different fusions that the passed demon can
-	 *   participate in
-	 * @param demon: Name of factor demon
+	 * @param {string} demonName: Name of factor demon
 	 * @returns {Recipe[]} A list of recipes where the passed demon is a factor
 	 */
-	abstract getFusions(targetName: string): Fusion[]
+	abstract getFusions(demonName: string): Fusion[]
 
 	/**
 	 * Determine the recipe object given the 2 sources
 	 *
-	 * @param nameA: Name of first demon to fuse
-	 * @param nameB: Name of second demon to fuse
+	 * @param {string} nameA: Name of first demon to fuse
+	 * @param {string} nameB: Name of second demon to fuse
 	 * @returns {Recipe | null} : returns Recipe object if fusion was possible
 	 *   or null otherwise
 	 */
@@ -41,8 +62,9 @@ export abstract class FusionCalculator {
 	/**
 	 * Returns all the demons in the compendium with the corresponding race
 	 *
-	 * @param race: The target race
-	 * @return: a key-value pair of all the demons with the desired race
+	 * @param {string} race: The target race
+	 * @returns @returns {{ [name: string]: Demon }} a key-value pair of all the
+	 *   demons with the desired race
 	 */
 	protected getDemonsByRace(race: string): { [name: string]: Demon } {
 		let demons: { [name: string]: Demon } = {}
@@ -57,8 +79,8 @@ export abstract class FusionCalculator {
 	 * Determines the race that a resultant demon will be. Some races cannot
 	 * fuse, and this will return null in those cases
 	 *
-	 * @param nameA: First demon to fuse
-	 * @param nameB: Second demon to fuse
+	 * @param {string} nameA: First demon to fuse
+	 * @param {string} nameB: Second demon to fuse
 	 * @returns {string} : the race that the resultant demon will be, null if
 	 *   the two demons cannot fuse
 	 */
@@ -77,8 +99,8 @@ export abstract class FusionCalculator {
 	 * Determines if the demon given by name is in the result of one of the
 	 * compendiums special fusions
 	 *
-	 * @param name Name of demon to check
-	 * @returns True if specified demon is result of special fusion
+	 * @param {string} name Name of demon to check
+	 * @returns {boolean} True if specified demon is result of special fusion
 	 */
 	protected isSpecial(name: string): boolean {
 		if (this.compendium.specialRecipes === undefined)
@@ -94,8 +116,8 @@ export abstract class FusionCalculator {
 	 * Determines if the demon given by name is in the compendiums elemental
 	 * list
 	 *
-	 * @param name Name of demon to check
-	 * @returns True if specified demon is an elemental.
+	 * @param {string} name Name of demon to check
+	 * @returns {boolean} True if specified demon is an elemental.
 	 */
 	protected isElemental(name: string): boolean {
 		if (this.compendium.elementTable === undefined)
