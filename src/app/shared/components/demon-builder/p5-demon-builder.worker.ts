@@ -170,7 +170,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 			}
 			sub.next({
 				build: null,
-				fusionCounter: this.fuseCount++,
+				fuseCount: this.fuseCount++,
 			})
 			sub.complete()
 		})

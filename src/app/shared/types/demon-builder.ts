@@ -333,7 +333,7 @@ export abstract class DemonBuilder
 		build.finishBuild(innate, this.levelRequired(build))
 		sub.next({
 			build: build,
-			fusionCounter: this.fuseCount,
+			fuseCount: this.fuseCount,
 		})
 	}
 
@@ -347,7 +347,7 @@ export abstract class DemonBuilder
 	protected incCount(sub: Subscriber<BuildMessage>): void {
 		sub.next({
 			build: null,
-			fusionCounter: this.fuseCount++,
+			fuseCount: this.fuseCount++,
 		})
 	}
 }

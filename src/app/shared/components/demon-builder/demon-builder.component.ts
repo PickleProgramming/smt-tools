@@ -131,8 +131,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	subNext(data: BuildMessage) {
-		if (data.fusionCounter - this.fusionCounter >= 1000) {
-			this.fusionCounter = data.fusionCounter
+		if (data.fuseCount - this.fusionCounter >= 1000) {
+			this.fusionCounter = data.fuseCount
 		}
 		if (data.build) {
 			this.buildsSource.data.push(data.build)
