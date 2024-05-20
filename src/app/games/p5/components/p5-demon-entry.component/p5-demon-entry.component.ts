@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 
 import { P5Compendium } from '@p5/types/p5-compendium'
@@ -15,12 +15,10 @@ import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 	</app-demon-entry>`,
 	styleUrl: './p5-demon-entry.component.scss',
 })
-export class P5DemonEntryComponent implements OnInit {
+export class P5DemonEntryComponent {
 	declare name: string
 	compendium: P5Compendium = P5_COMPENDIUM
 	calculator: P5FusionCalculator = P5_FUSION_CALCULATOR
 
 	constructor(private router: Router) {}
-
-	ngOnInit(): void {}
 }

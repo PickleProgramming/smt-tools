@@ -5,7 +5,7 @@ import { Demon, TableConfig } from '@shared/types/smt-tools.types'
 import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 
 /**
- * Description placeholder
+ * Demon list component for P5
  *
  * @class P5PersonaListComponent
  * @typedef {P5PersonaListComponent}
