@@ -153,7 +153,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				let found = this.checkFusionSkills(skills, fission)
 				if (found.length > 0 || this.recurDepth > 0) {
 					let diff = _.difference(skills, found)
-					//finish chain if we have found all skills
+					//finish recipe if we have found all skills
 					if (diff.length == 0) {
 						this.emitBuild(fission, found, innate, sub)
 						break
@@ -373,17 +373,21 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 			if (!this.validSources(targetSkills, fission)) continue
 			let foundSkills = this.checkFusionSkills(targetSkills, fission)
 			if (foundSkills.length == targetSkills.length) {
-				let chain = new BuildRecipe()
-				chain.addStep(fission, targetSkills)
-				return chain
+				let recipe = new BuildRecipe()
+				recipe.addStep(fission, targetSkills)
+				return recipe
 			}
 			if (foundSkills.length > 0 && depth < this.recurDepth) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
-					let chain = this.getBuildRecipe(diff, depth + 1, sourceName)
-					if (chain != null) {
-						chain.addStep(fission, foundSkills)
-						return chain
+					let recipe = this.getBuildRecipe(
+						diff,
+						depth + 1,
+						sourceName
+					)
+					if (recipe != null) {
+						recipe.addStep(fission, foundSkills)
+						return recipe
 					}
 				}
 			}

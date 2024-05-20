@@ -68,7 +68,7 @@
 	justify-content: center;
 }
 
-tr.chain-detail-row {
+tr.recipe-detail-row {
 	height: 0;
 }
 
@@ -92,16 +92,16 @@ tr.chain-detail-row {
 	margin: auto;
 }
 
-.chain-row td {
+.recipe-row td {
 	border-bottom-width: 0;
 }
 
-.chain-detail {
+.recipe-detail {
 	overflow: hidden;
 	display: flex;
 }
 
-.chain-diagram {
+.recipe-diagram {
 	min-width: 80px;
 	border: 2px solid black;
 	padding: 8px;
@@ -110,17 +110,17 @@ tr.chain-detail-row {
 	height: 104px;
 }
 
-.chain-symbol {
+.recipe-symbol {
 	font-weight: bold;
 	font-size: 40px;
 	line-height: normal;
 }
 
-.chain-description {
+.recipe-description {
 	padding: 16px;
 }
 
-.chain-description-attribution {
+.recipe-description-attribution {
 	opacity: 0.5;
 }
 

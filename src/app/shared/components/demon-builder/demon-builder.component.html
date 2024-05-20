@@ -127,7 +127,7 @@
 				</p>
 			}
 		}
-		<!-- Chain Display -->
+		<!-- Recipe Display -->
 		@if (buildsSource.data.length > 0) {
 			@if (!calculating) {
 				<p>Ran for {{ deltaTime }} seconds</p>
@@ -176,9 +176,9 @@
 						[attr.colspan]="columnsToDisplay.length"
 					>
 						<div
-							class="chain-detail"
+							class="recipe-detail"
 							[@detailExpand]="
-								build == expandedChain
+								build == expandedRecipe
 									? 'expanded'
 									: 'collapsed'
 							"
@@ -198,16 +198,16 @@
 				<tr
 					mat-row
 					*matRowDef="let build; columns: columnsToDisplay"
-					class="chain-row"
-					[class.chain-row]="expandedChain === build"
+					class="recipe-row"
+					[class.recipe-row]="expandedRecipe === build"
 					(click)="
-						expandedChain = expandedChain === build ? null : build
+						expandedRecipe = expandedRecipe === build ? null : build
 					"
 				></tr>
 				<tr
 					mat-row
 					*matRowDef="let row; columns: ['expandedDetail']"
-					class="chain-detail-row"
+					class="recipe-detail-row"
 				></tr>
 			</table>
 		}

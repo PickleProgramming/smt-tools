@@ -94,7 +94,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @type {BuildRecipe}
 	 * @protected
 	 */
-	protected declare expandedChain: BuildRecipe
+	protected declare expandedRecipe: BuildRecipe
 	/**
 	 * TODO: What?
 	 *

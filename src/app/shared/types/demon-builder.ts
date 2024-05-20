@@ -313,7 +313,7 @@ export abstract class DemonBuilder
 	 * @param {Fusion} fission The sources for the final step
 	 * @param {string[]} skills The skills found in the final step
 	 * @param {string[]} innate The skills learned by the final demon naturally
-	 * @param {Subscriber<BuildMessage>} sub The subscription to emit the chain
+	 * @param {Subscriber<BuildMessage>} sub The subscription to emit the recipe
 	 *   to
 	 * @param {BuildRecipe | null} [build] The build recipe to add the step to.
 	 *   If there is only one step, don't pass a build, this function will

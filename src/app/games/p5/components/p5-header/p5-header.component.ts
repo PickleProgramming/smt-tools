@@ -24,7 +24,7 @@ export class P5HeaderComponent {
 			img: this.ASSETS + 'p5-table-link.svg',
 		},
 		{
-			title: 'Chain Calculator',
+			title: 'Demon Builder',
 			url: 'demon-builder',
 			img: this.ASSETS + 'p5-builder-link.svg',
 		},
