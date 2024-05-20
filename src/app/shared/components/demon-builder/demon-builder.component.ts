@@ -13,7 +13,7 @@ import { Observable, Subject, of } from 'rxjs'
 import { delay, map, repeat, startWith, takeUntil } from 'rxjs/operators'
 import { fromWorkerPool } from 'observable-webworker'
 import _ from 'lodash'
-import { BuildMessage, InputChainData } from '@shared/types/smt-tools.types'
+import { BuildMessage, UserInput } from '@shared/types/smt-tools.types'
 import { MatSort } from '@angular/material/sort'
 import { p5StartWebWorker } from './demon-builder.constansts'
 import { BuildRecipe } from '@shared/types/build-recipe'
@@ -93,7 +93,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 	private _filter(value: string, list: string[]): string[] {
 		let filterValue = value.toLocaleLowerCase()
-		return list.filter((option) => option.toLowerCase().includes(filterValue))
+		return list.filter((option) =>
+			option.toLowerCase().includes(filterValue)
+		)
 	}
 
 	//TODO: supposed to faciliate table sorting, but I haven't got it to work yet with the expandable table
@@ -154,7 +156,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 
 	getWebWorkerFunc(
 		game: string,
-		input$: Observable<InputChainData>
+		input$: Observable<UserInput>
 	): Observable<BuildMessage> {
 		switch (game) {
 			case 'p5':
@@ -196,7 +198,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 *
 	 * @returns InputChainData built based on form to pass to webworker
 	 */
-	getConfiguration(): InputChainData {
+	getConfiguration(): UserInput {
 		let inputSkills: string[] = []
 		for (let skillControl of this.skillControls) {
 			if (skillControl.value) inputSkills.push(skillControl.value)
@@ -209,7 +211,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		_.reject('inputSkills', _.isEmpty)
 		let level: number | null = null
 		if (this.levelControl.value) level = +this.levelControl.value
-		let data: InputChainData = {
+		let data: UserInput = {
 			demonName: this.demonControl.value,
 			maxLevel: level,
 			targetSkills: inputSkills,

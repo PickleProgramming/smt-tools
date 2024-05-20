@@ -1,6 +1,6 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
-import { BuildMessage, InputChainData } from '@shared/types/smt-tools.types'
+import { BuildMessage, UserInput } from '@shared/types/smt-tools.types'
 import { Observable, ReplaySubject, from } from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
@@ -43,8 +43,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * @inheritdoc {DemonBuilder.workUnit}
 	 * @see DemonBuilder.workUnit
 	 */
-	workUnit(input: InputChainData): Observable<BuildMessage> {
-		return this.getFusionChains(input)
+	workUnit(input: UserInput): Observable<BuildMessage> {
+		return this.getBuildRecipes(input)
 	}
 	/**
 	 * ---WRAPPER METHODS---
@@ -54,22 +54,22 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 */
 
 	/**
-	 * @{inheritdoc DemonBuilder.getFusionChains}
-	 * @see DemonBuilder.getFusionChains
+	 * @{inheritdoc DemonBuilder.getBuildRecipes}
+	 * @see DemonBuilder.getBuildRecipes
 	 */
-	protected getFusionChains(input: InputChainData): Observable<BuildMessage> {
+	protected getBuildRecipes(input: UserInput): Observable<BuildMessage> {
 		if (input.maxLevel) this.maxLevel = input.maxLevel
 		if (input.recurDepth) this.recurDepth = input.recurDepth
 		/* check for any immediate problems with user input then begin recursive
 			 calls, either with a specified demon or without.*/
 		this.isValid(input.targetSkills, input.demonName)
 		if (input.demonName) {
-			return this.demon_getFusionChains(
+			return this.demon_getBuildRecipes(
 				input.targetSkills,
 				input.demonName
 			)
 		}
-		return this.noDemon_getFusionChains(input.targetSkills)
+		return this.noDemon_getBuildRecipes(input.targetSkills)
 	}
 	/**
 	 * @{inheritdoc DemonBuilder.isValid}
@@ -129,12 +129,12 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 */
 
 	/**
-	 * Overload of {@see DemonBuilder.getFusionChains} handling the operation
+	 * Overload of {@see DemonBuilder.getBuildRecipes} handling the operation
 	 * when a demon name is specified
 	 *
 	 * @overload
 	 */
-	protected demon_getFusionChains(
+	protected demon_getBuildRecipes(
 		targetSkills: string[],
 		demonName: string
 	): Observable<BuildMessage> {
@@ -160,7 +160,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 					}
 					//check sources if we have more skills to find
 					for (let sourceName of fission.sources) {
-						let build = this.getFusionChain(diff, 0, sourceName)
+						let build = this.getBuildRecipe(diff, 0, sourceName)
 						this.incCount(sub)
 						if (build != null) {
 							this.emitBuild(fission, found, innate, sub, build)
@@ -271,19 +271,19 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 */
 
 	/**
-	 * Overload of {@see DemonBuilder.getFusionChains} handling the operation
+	 * Overload of {@see DemonBuilder.getBuildRecipes} handling the operation
 	 * when NO demon name is specified
 	 *
 	 * @overload
 	 */
-	protected noDemon_getFusionChains(
+	protected noDemon_getBuildRecipes(
 		targetSkills: string[]
 	): Observable<BuildMessage> {
 		/* if there are any unique skills, we know we will be building to a 
 			specific demon. Switch to other method.*/
 		let unique = this.hasUniqueSkills(targetSkills)
 		if (unique) {
-			return this.demon_getFusionChains(targetSkills, unique)
+			return this.demon_getBuildRecipes(targetSkills, unique)
 		}
 		//get a list of possible demons with desirable skills
 		let demons = this.getDemonsWithSkills(targetSkills)
@@ -292,14 +292,14 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				demons = demons.filter((demon) => demon != demonName)
 			}
 		}
-		//run all possible demons through getFusionChains and flatten the output into a single observable stream
+		//run all possible demons through getBuildRecipes and flatten the output into a single observable stream
 		let result = new ReplaySubject<BuildMessage>(Infinity)
 		from(demons)
 			.pipe(
-				//delay to make sure this function has finished before callingdemon_getFusionChains
+				//delay to make sure this function has finished before callingdemon_getBuildRecipes
 				delay(100),
 				mergeMap((demonName) =>
-					this.demon_getFusionChains(targetSkills, demonName)
+					this.demon_getBuildRecipes(targetSkills, demonName)
 				)
 			)
 			.subscribe(result)
@@ -356,10 +356,10 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * name was provided or not.
 	 */
 	/**
-	 * @{inheritdoc DemonBuilder.getFusionChain}
-	 * @see DemonBuilder.getFusionChain
+	 * @{inheritdoc DemonBuilder.getBuildRecipe}
+	 * @see DemonBuilder.getBuildRecipe
 	 */
-	protected getFusionChain(
+	protected getBuildRecipe(
 		targetSkills: string[],
 		depth: number,
 		demonName: string
@@ -380,7 +380,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 			if (foundSkills.length > 0 && depth < this.recurDepth) {
 				for (let sourceName of fission.sources) {
 					let diff = _.difference(targetSkills, foundSkills)
-					let chain = this.getFusionChain(diff, depth + 1, sourceName)
+					let chain = this.getBuildRecipe(diff, depth + 1, sourceName)
 					if (chain != null) {
 						chain.addStep(fission, foundSkills)
 						return chain

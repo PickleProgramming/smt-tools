@@ -89,7 +89,7 @@ export interface Fusion {
  */
 
 /** User input data taken from the demon form */
-export interface InputChainData {
+export interface UserInput {
 	demonName: string | null
 	maxLevel: number | null
 	targetSkills: string[]

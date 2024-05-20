@@ -2,11 +2,7 @@ import { Compendium } from './compendium'
 import { FusionCalculator } from './fusion-calculator'
 import _ from 'lodash'
 import { Observable, Subscriber } from 'rxjs'
-import {
-	BuildMessage,
-	Fusion,
-	InputChainData as UserInput,
-} from './smt-tools.types'
+import { BuildMessage, Fusion, UserInput as UserInput } from './smt-tools.types'
 import { DoWorkUnit } from 'observable-webworker'
 import { BuildRecipe } from './build-recipe'
 
@@ -120,7 +116,7 @@ export abstract class DemonBuilder
 	 * @throws {Error} If the user input is invalid
 	 * @protected
 	 */
-	protected abstract getFusionChains(
+	protected abstract getBuildRecipes(
 		input: UserInput
 	): Observable<BuildMessage>
 
@@ -142,7 +138,7 @@ export abstract class DemonBuilder
 	protected abstract isValid(targetSkills: string[], demonName?: string): void
 
 	/**
-	 * A recursive ttempts to create a single fusion chain that results in the
+	 * A recursive ttempts to create a single build recipe that results in the
 	 * specified demon with the specified skills. If it is unable to create a
 	 * buildRecipe it will return null.
 	 *
@@ -156,7 +152,7 @@ export abstract class DemonBuilder
 	 * @returns {BuildRecipe | null}
 	 * @protected
 	 */
-	protected abstract getFusionChain(
+	protected abstract getBuildRecipe(
 		targetSkills: string[],
 		recursiveDepth: number,
 		demonName: string
