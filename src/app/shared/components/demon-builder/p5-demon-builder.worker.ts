@@ -81,9 +81,10 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	): boolean {
 		if (this.maxLevel < 99) {
 			for (let skillName of targetSkills) {
-				if (this.compendium.getSkillLevel(skillName) > this.maxLevel) {
+				let skillLevel = this.compendium.getSkillLevel(skillName)
+				if (skillLevel > this.maxLevel) {
 					throw new Error(
-						`You have specified a level that is lower than the minimum required level to learn ${skillName}.`
+						this.getSkillLevelError(skillName, skillLevel)
 					)
 				}
 			}
@@ -186,7 +187,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		demonName: string
 	): boolean {
 		if (this.compendium.demons[demonName].level > this.maxLevel) {
-			throw new Error(Errors.LowLevel)
+			throw new Error(this.getLowLevelError(demonName))
 		}
 		if (this.compendium.isElemental(demonName)) {
 			throw new Error(Errors.Treasure)
@@ -194,12 +195,10 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		for (let skillName of targetSkills) {
 			let skill = this.compendium.skills[skillName]
 			if (skill.unique && skill.unique !== demonName) {
-				throw new Error(
-					`You entered a skill that is unique to ${skill.unique}. But you specified the demon name ${demonName}.`
-				)
+				throw new Error(this.getUniqueError(skill.unique, demonName))
 			}
 			if (!this.compendium.isInheritable(demonName, skillName)) {
-				throw new Error(Errors.Inherit)
+				throw new Error(this.getInheritTypeError(demonName, skillName))
 			}
 		}
 		if (!this.canInheritOrLearn(targetSkills, demonName)) {
@@ -451,6 +450,19 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		}
 		return ''
 	}
+
+	private getUniqueError(uniqueDemon: string, inputDemon: string): string {
+		return `You entered a skill that is unique to ${uniqueDemon}. But you specified the demon name ${inputDemon}.`
+	}
+	private getInheritTypeError(skill: string, demon: string): string {
+		return `Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. In this case ${demon} cannot inherit ${skill}.`
+	}
+	private getLowLevelError(demon: string): string {
+		return `The name of the demon you entered has a minimum level greater than the level you specified. The minimum level for ${demon} is ${this.compendium.demons[demon].level}.`
+	}
+	private getSkillLevelError(skill: string, level: number): string {
+		return `You have specified a level that is lower than ${level}, which is the minimum required level to fuse a persona that can learn ${skill}.`
+	}
 }
 
 /**
@@ -459,9 +471,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
  * @enum {number}
  */
 enum Errors {
-	LowLevel = 'The name of the demon you entered has a minimum level greater than the level you specified.',
 	Treasure = 'The name of the demon you entered is a treasure demon, and cannot be fused.',
-	Inherit = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
 	MaxSkills = 'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.',
 }
 

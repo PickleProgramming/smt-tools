@@ -178,15 +178,11 @@ describe('P5 Demon Builder Test', () => {
 			cy.pushButton('Calculate')
 			cy.checkError(Errors.LevelSkill)
 		})
-		//TODO bad output because its tries to build alice, so it switches to a named function
-		it.skip('fails because the level is too low for one of the special skills', () => {
-			cy.get('.demon-form-field').eq(1).click().type('17')
-			cy.get('.skill-form-field').first().click().type('Die For Me!')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'You have specified a level that is lower than the minimum required level to learn'
-			)
+		it('fails because the level is too low for one of the special skills', () => {
+			cy.enterLevel(17)
+			cy.enterSkills(['Die For Me!'])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.LevelSkill)
 		})
 		it("fails because the demon can't learn a unique skills", () => {
 			cy.enterName('Agathion')
@@ -238,9 +234,9 @@ describe('P5 Demon Builder Test', () => {
 	})
 })
 enum Errors {
-	LevelSkill = 'You have specified a level that is lower than the minimum required level to learn',
-	LevelDemon = 'The name of the demon you entered has a minimum level greater than the level you specified.',
-	InheritType = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
+	LevelSkill = 'You have specified a level that is lower than',
+	LevelDemon = 'The name of the demon you entered has a minimum level greater than the level you specified. The minimum level for',
+	InheritType = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. In this case',
 	InheritLimit = 'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.',
 	Unique = 'You entered a skill that is unique to',
 	Treasure = 'The name of the demon you entered is a treasure demon, and cannot be fused.',

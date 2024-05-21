@@ -43,7 +43,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('enterName', (demonName: string) => {
-	cy.get('.demon-form-field').click().type(demonName)
+	cy.get('.name-form-field').click().type(demonName)
 })
 Cypress.Commands.add('enterLevel', (level: number) => {
 	cy.get('.level-form-field')
@@ -64,11 +64,11 @@ Cypress.Commands.add('pushButton', (text: string) => {
 	cy.get('button').contains(text).click()
 })
 Cypress.Commands.add('checkNumberOfResults', (amount: number) => {
-	cy.get('.build-results').should(
+	cy.get('.results-div').should(
 		'contain',
 		amount + ' successful recipes found.'
 	)
 })
 Cypress.Commands.add('checkError', (error: string) => {
-	cy.get('.build-results').should('contain', error)
+	cy.get('.results-div').should('contain', error)
 })
