@@ -3,8 +3,10 @@
 // --General Styling
 @mixin paragraph {
 	:host ::ng-deep p {
-		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		font-family: 'p5-hatty';
 		font-size: 16pt;
+		padding: 0;
+		margin: 0;
 	}
 }
 @mixin expansion-panel {
@@ -24,8 +26,8 @@
 @mixin label {
 	:host ::ng-deep .label {
 		color: white;
-		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-		font-size: 16pt;
+		font-family: 'p5-hatty';
+		font-size: 24pt;
 	}
 	:host ::ng-deep .mat-mdc-text-field-wrapper {
 		--mdc-filled-text-field-container-color: black;
@@ -46,6 +48,8 @@
 		margin-left: 0px;
 		font-size: 18pt;
 		p {
+			font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial,
+				sans-serif;
 			color: black;
 			letter-spacing: -1px;
 			font-weight: 900;
@@ -78,8 +82,8 @@
 }
 @mixin header-cell {
 	:host ::ng-deep .header-cell {
-		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-		font-size: 16pt;
+		font-family: 'p5-hatty';
+		font-size: 20pt;
 		font-weight: 900;
 		font-style: italic;
 	}
@@ -87,6 +91,7 @@
 
 //global mixin that can be called for every p5 component
 @mixin style {
+	@include paragraph;
 	@include expansion-panel;
 	@include form-field;
 	@include label;

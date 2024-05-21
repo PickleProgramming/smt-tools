@@ -411,4 +411,14 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.endTime = performance.now()
 		this.deltaTime = (this.endTime - this.startTime) / 1000
 	}
+
+	test(): void {
+		this.demonControl.setValue('Jack Frost')
+		this.levelControl.setValue('43')
+		this.skillControls[0].setValue('Mazio')
+		this.skillControls[1].setValue('Regenerate 1')
+		this.skillControls[2].setValue('Invigorate 1')
+		this.skillControls[3].setValue('Growth 1')
+		this.recurDepthControl.setValue('3')
+	}
 }
