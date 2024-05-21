@@ -17,7 +17,7 @@ import { map, startWith, takeUntil } from 'rxjs/operators'
 import _ from 'lodash'
 
 import { BuildMessage, UserInput } from '@shared/types/smt-tools.types'
-import { p5StartWebWorker } from './demon-builder.constansts'
+import { p5StartWebWorker } from './demon-builder.constants'
 import { BuildRecipe } from '@shared/types/build-recipe'
 
 /**
