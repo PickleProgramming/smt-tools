@@ -269,6 +269,10 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @see {@link https://github.com/cloudnc/observable-webworker}
 	 */
 	startWebWorker(): void {
+		if (!this.minimumInput()) {
+			this.userError = 'Please enter at least one skill.'
+			return
+		}
 		this.startTimer()
 		this.clearResults()
 		this.userError = ''
@@ -287,6 +291,13 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 					this.subComplete()
 				},
 			})
+	}
+
+	minimumInput(): boolean {
+		for (let skill of this.skillControls) {
+			if (skill.value) return true
+		}
+		return false
 	}
 
 	/**
