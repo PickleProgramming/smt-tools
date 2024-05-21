@@ -8,6 +8,7 @@ import { P5_COMPENDIUM } from '@shared/constants'
 	selector: 'app-p5-demon-builder',
 	template: `<app-demon-builder [compendium]="compendium" [worker]="worker">
 	</app-demon-builder>`,
+	styleUrl: './p5-demon-builder.component.scss',
 })
 export class P5DemonBuilderComponent {
 	compendium: P5Compendium = P5_COMPENDIUM

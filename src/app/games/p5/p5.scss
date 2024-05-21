@@ -16,15 +16,11 @@
 		border: 3px solid white;
 	}
 }
-@mixin form-field {
+@mixin filter {
 	:host ::ng-deep .filter {
 		color: black;
 		border: 3px solid white;
 		background: black;
-	}
-}
-@mixin filter {
-	:host ::ng-deep .filter {
 		mat-label {
 			color: white;
 			font-family: 'p5-hatty';
@@ -33,6 +29,7 @@
 	}
 	:host ::ng-deep .mat-mdc-text-field-wrapper {
 		--mdc-filled-text-field-container-color: black;
+		--mat-form-field-container-text-font: 'p5-hatty';
 	}
 }
 // --Table Styling--
@@ -92,24 +89,55 @@
 }
 
 // --Demon Builder Styling--
+// --User Entry--
 @mixin demon-form {
-}
-@mixin name-level-form-field {
-}
-@mixin skill-form-field {
+	:host ::ng-deep .form-div {
+		border: 3px solid white;
+		background: black;
+	}
+	:host ::ng-deep .name-form-field,
+	:host ::ng-deep .level-form-field,
+	:host ::ng-deep .skill-form-field,
+	:host ::ng-deep .recur-form-field {
+		background: black;
+		mat-label {
+			color: white;
+			font-family: 'p5-hatty';
+			font-size: 24pt;
+		}
+	}
+	:host ::ng-deep .mat-mdc-text-field-wrapper {
+		--mdc-filled-text-field-container-color: black;
+	}
 }
 @mixin builder-buttons {
+	:host ::ng-deep .builder-button {
+		border: 3px solid white;
+		background: black;
+	}
+}
+// --Results Table--
+@mixin build-results {
+	:host ::ng-deep .results-div {
+		border: 3px solid white;
+		background: black;
+	}
 }
 
-//global mixin that can be called for every p5 component
+//global mixin that can be called for every p5 component, should call all the mixins defined above
 @mixin style {
+	// --General Styling--
 	@include paragraph;
+	// --Table Styling--
 	@include expansion-panel;
-	@include form-field;
 	@include filter;
 	@include table;
 	@include race-cell;
 	@include level-cell;
 	@include name-cell;
 	@include header-cell;
+	// --Demon Builder Styling--
+	@include demon-form;
+	@include builder-buttons;
+	@include build-results;
 }

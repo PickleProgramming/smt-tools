@@ -1,114 +1,107 @@
 <div class="builder-div">
-	<div class="form-wrapper">
-		<mat-card class="demon-form">
-			<!-- Demon and Level -->
+	<!-- User Entry Form -->
+	<div class="form-div">
+		<!-- Demon and Level -->
+		<mat-form-field class="name-form-field" appearance="fill">
+			<mat-label>Demon</mat-label>
+			<input
+				type="text"
+				placeholder="Mara"
+				aria-label="Demon Name"
+				matInput
+				[formControl]="demonControl"
+				[matAutocomplete]="auto"
+			/>
+			<mat-autocomplete #auto="matAutocomplete">
+				@for (demon of filteredDemons | async; track $index) {
+					<mat-option [value]="demon">
+						{{ demon }}
+					</mat-option>
+				}
+			</mat-autocomplete>
+		</mat-form-field>
+		<mat-form-field class="level-form-field" appearance="fill">
+			<mat-label>Max Level</mat-label>
+			<input type="number" matInput [formControl]="levelControl" />
+		</mat-form-field>
+		<!-- Skills -->
+		<div class="skills-div" layout="column">
+			@for (skillControl of skillControls; track $index) {
+				<form>
+					<mat-form-field class="skill-form-field" appearance="fill">
+						<mat-label>Skill {{ $index + 1 }}</mat-label>
+						<input
+							type="text"
+							placeholder="Maragi"
+							aria-label="Skill"
+							matInput
+							[formControl]="skillControl"
+							[matAutocomplete]="auto"
+						/>
+						<mat-autocomplete #auto="matAutocomplete">
+							@for (
+								skill of filteredSkills[$index] | async;
+								track $index
+							) {
+								<mat-option [value]="skill">
+									{{ skill }}
+								</mat-option>
+							}
+						</mat-autocomplete>
+					</mat-form-field>
+				</form>
+			}
+		</div>
+		<!-- Settings -->
+		<div class="settings-div">
 			<form>
-				<mat-form-field class="demon-form-field" appearance="fill">
-					<mat-label>Demon</mat-label>
+				<mat-form-field class="recur-form-field" appearance="fill">
+					<mat-label>Recursive Depth</mat-label>
 					<input
 						type="text"
-						placeholder="Mara"
-						aria-label="Demon Name"
+						placeholder="0"
+						aria-label="0"
 						matInput
-						[formControl]="demonControl"
-						[matAutocomplete]="auto"
-					/>
-					<mat-autocomplete #auto="matAutocomplete">
-						@for (demon of filteredDemons | async; track $index) {
-							<mat-option [value]="demon">
-								{{ demon }}
-							</mat-option>
-						}
-					</mat-autocomplete>
-				</mat-form-field>
-				<mat-form-field class="level-form-field" appearance="fill">
-					<mat-label>Max Level</mat-label>
-					<input
-						type="number"
-						matInput
-						[formControl]="levelControl"
+						[formControl]="recurDepthControl"
 					/>
 				</mat-form-field>
 			</form>
-			<!-- Skills -->
-			<div class="skills-div" layout="column">
-				@for (skillControl of skillControls; track $index) {
-					<form>
-						<mat-form-field
-							class="skill-form-field"
-							appearance="fill"
-						>
-							<mat-label>Skill {{ $index + 1 }}</mat-label>
-							<input
-								type="text"
-								placeholder="Maragi"
-								aria-label="Skill"
-								matInput
-								[formControl]="skillControl"
-								[matAutocomplete]="auto"
-							/>
-							<mat-autocomplete #auto="matAutocomplete">
-								@for (
-									skill of filteredSkills[$index] | async;
-									track $index
-								) {
-									<mat-option [value]="skill">
-										{{ skill }}
-									</mat-option>
-								}
-							</mat-autocomplete>
-						</mat-form-field>
-					</form>
-				}
-			</div>
-			<!-- Settings -->
-			<div class="settings-div">
-				<form>
-					<mat-form-field class="recur-form-field" appearance="fill">
-						<mat-label>Recursive Depth</mat-label>
-						<input
-							type="text"
-							placeholder="0"
-							aria-label="0"
-							matInput
-							[formControl]="recurDepthControl"
-						/>
-					</mat-form-field>
-				</form>
-			</div>
-			<!-- Buttons -->
-			<div class="buttons-div">
-				<button
-					(click)="startWebWorker()"
-					color="primary"
-					mat-raised-button
-				>
-					Calculate
-				</button>
-				<button
-					(click)="stopWebWorker()"
-					color="primary"
-					mat-raised-button
-				>
-					Stop
-				</button>
-				<button
-					(click)="resetDemonBuilder()"
-					color="primary"
-					mat-raised-button
-				>
-					Clear
-				</button>
-			</div>
-			<div class="test">
-				<button (click)="test()" color="primary" mat-raised-button>
-					Test
-				</button>
-			</div>
-		</mat-card>
+		</div>
+		<!-- Buttons -->
+		<div class="buttons-div">
+			<button
+				(click)="startWebWorker()"
+				class="builder-button"
+				color="primary"
+				mat-raised-button
+			>
+				<p>Calculate</p>
+			</button>
+			<button
+				(click)="stopWebWorker()"
+				class="builder-button"
+				color="primary"
+				mat-raised-button
+			>
+				<p>Stop</p>
+			</button>
+			<button
+				(click)="resetDemonBuilder()"
+				class="builder-button"
+				color="primary"
+				mat-raised-button
+			>
+				<p>Clear</p>
+			</button>
+		</div>
+		<div class="test">
+			<button (click)="test()" color="primary" mat-raised-button>
+				Test
+			</button>
+		</div>
 	</div>
-
-	<mat-card class="build-results">
+	<!-- Results Table -->
+	<div class="results-div">
 		<!-- Loading -->
 		@if (calculating) {
 			<mat-spinner></mat-spinner>
@@ -117,7 +110,7 @@
 				<p>{{ userError }}</p>
 			} @else {
 				@if (buildsSource.data.length == 0) {
-					Create a demon with your desired skills on the left.
+					<p>Create a demon with your desired skills on the left.</p>
 				}
 			}
 		}
@@ -145,33 +138,60 @@
 				matSort
 			>
 				<ng-container matColumnDef="result">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					<th
+						mat-header-cell
+						class="header-cell"
+						clas="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Result
 					</th>
 					<td mat-cell *matCellDef="let build">
-						{{ build.result }}
+						<p>{{ build.result }}</p>
 					</td>
 				</ng-container>
 				<ng-container matColumnDef="cost">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					<th
+						mat-header-cell
+						class="header-cell"
+						clas="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Cost
 					</th>
-					<td mat-cell *matCellDef="let build">{{ build.cost }}</td>
+
+					<td mat-cell *matCellDef="let build">
+						<p>{{ build.cost }}</p>
+					</td>
 				</ng-container>
 				<ng-container matColumnDef="level">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					<th
+						mat-header-cell
+						class="header-cell"
+						clas="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Level Required
 					</th>
 					<td mat-cell *matCellDef="let build">
-						{{ build.level }}
+						<p>{{ build.level }}</p>
 					</td>
 				</ng-container>
 				<ng-container matColumnDef="fusions">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					<th
+						mat-header-cell
+						class="header-cell"
+						clas="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Steps
 					</th>
 					<td mat-cell *matCellDef="let build">
-						{{ build.fusions.length }}
+						<p>{{ build.fusions.length }}</p>
 					</td>
 				</ng-container>
 				<ng-container matColumnDef="expandedDetail">
@@ -216,5 +236,5 @@
 				></tr>
 			</table>
 		}
-	</mat-card>
+	</div>
 </div>
