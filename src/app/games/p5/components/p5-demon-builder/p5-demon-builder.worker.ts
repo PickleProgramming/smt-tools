@@ -1,7 +1,7 @@
 import { P5_COMPENDIUM, P5_FUSION_CALCULATOR } from '@shared/constants'
 import { DemonBuilder } from '@shared/types/demon-builder'
 import { BuildMessage, UserInput } from '@shared/types/smt-tools.types'
-import { Observable, ReplaySubject, from } from 'rxjs'
+import { Observable, ReplaySubject, Subscriber, from } from 'rxjs'
 import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5FusionCalculator } from '@p5/types/p5-fusion-calculator'
 import _ from 'lodash'
@@ -30,7 +30,15 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * @see DemonBuilder.calculator
 	 */
 	declare calculator: P5FusionCalculator
-
+	/**
+	 * Description placeholder
+	 *
+	 * @type {number}
+	 * @inheritdoc {DemonBuilder.targetLength}
+	 * @override
+	 * @see DemonBuilder.targetLength
+	 */
+	declare targetLength: number
 	/**
 	 * Creates an instance of P5DemonBuilderWorker.
 	 *
@@ -59,7 +67,6 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 */
 	protected getBuildRecipes(input: UserInput): Observable<BuildMessage> {
 		if (input.maxLevel) this.maxLevel = input.maxLevel
-		if (input.recurDepth) this.recurDepth = input.recurDepth
 		/* check for any immediate problems with user input then begin recursive
 			 calls, either with a specified demon or without.*/
 		this.isValid(input.targetSkills, input.demonName)
@@ -139,14 +146,88 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		targetSkills: string[],
 		demonName: string
 	): Observable<BuildMessage> {
+		return new Observable<BuildMessage>((sub) => {
+			this.demon_getBuildRecipesShallow(targetSkills, demonName, sub)
+			while (this.buildCount < this.targetLength) {
+				this.demon_getBuildRecipesDeep(targetSkills, demonName, sub)
+			}
+			sub.complete()
+		})
+	}
+
+	/**
+	 * Attempts to generate a recipe to bulid the specified demon while never
+	 * exceeding a recursive depth of 1. This will mean only the easy
+	 * calculations are attempted
+	 *
+	 * @param {string[]} targetSkills Skills to build to
+	 * @param {string} demonName Name of the demon to build
+	 * @param {Subscriber<BuildMessage>} sub
+	 * @protected
+	 */
+	protected demon_getBuildRecipesShallow(
+		targetSkills: string[],
+		demonName: string,
+		sub: Subscriber<BuildMessage>
+	): void {
 		let skills = _.cloneDeep(targetSkills)
 		let demon = this.compendium.demons[demonName]
 		//filter out skills the demon learns innately
 		let innate = _.intersection(skills, Object.keys(demon.skills))
 		if (innate.length > 0) _.pullAll(skills, innate)
 		let fissions = this.calculator.getFissions(demonName)
+		for (let fission of fissions) {
+			this.incCount(sub)
+			if (!this.validSources(skills, fission)) continue
+			//check if fissions have desirable skills
+			let found = this.checkFusionSkills(skills, fission)
+			if (found.length > 0 || this.recurDepth > 0) {
+				let diff = _.difference(skills, found)
+				//finish recipe if we have found all skills
+				if (diff.length == 0) {
+					this.emitBuild(fission, found, innate, sub)
+					break
+				}
+				//check sources if we have more skills to find
+				for (let sourceName of fission.sources) {
+					let build = this.getBuildRecipe(diff, 0, sourceName)
+					this.incCount(sub)
+					if (build != null) {
+						//prettier-ignore
+						this.emitBuild(fission, found, innate, sub, build)
+					}
+				}
+			}
+		}
+		sub.next({
+			build: null,
+			fuseCount: this.fuseCount++,
+		})
+	}
 
-		return new Observable<BuildMessage>((sub) => {
+	/**
+	 * Attempts to generate a recipe to bulid the specified demon. There is no
+	 * limit on the recursive depth this algorithm will go, it will only stop
+	 * once it has fount enough build recipes to equal this.targetLength
+	 *
+	 * @param {string[]} targetSkills Skills to build to
+	 * @param {string} demonName Name of the demon to build
+	 * @param {Subscriber<BuildMessage>} sub
+	 * @protected
+	 */
+	protected demon_getBuildRecipesDeep(
+		targetSkills: string[],
+		demonName: string,
+		sub: Subscriber<BuildMessage>
+	): void {
+		//each loop will increment recurDepth, keep going until we have the configured amount of build recipes
+		while (this.buildCount < this.targetLength) {
+			let skills = _.cloneDeep(targetSkills)
+			let demon = this.compendium.demons[demonName]
+			//filter out skills the demon learns innately
+			let innate = _.intersection(skills, Object.keys(demon.skills))
+			if (innate.length > 0) _.pullAll(skills, innate)
+			let fissions = this.calculator.getFissions(demonName)
 			for (let fission of fissions) {
 				this.incCount(sub)
 				if (!this.validSources(skills, fission)) continue
@@ -164,6 +245,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 						let build = this.getBuildRecipe(diff, 0, sourceName)
 						this.incCount(sub)
 						if (build != null) {
+							//prettier-ignore
 							this.emitBuild(fission, found, innate, sub, build)
 						}
 					}
@@ -173,8 +255,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				build: null,
 				fuseCount: this.fuseCount++,
 			})
-			sub.complete()
-		})
+			this.recurDepth++
+		}
 	}
 	/**
 	 * Overload of {@see DemonBuilder.isValid} handling the operation when a
@@ -291,18 +373,18 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				demons = demons.filter((demon) => demon != demonName)
 			}
 		}
-		//run all possible demons through getBuildRecipes and flatten the output into a single observable stream
-		let result = new ReplaySubject<BuildMessage>(Infinity)
-		from(demons)
-			.pipe(
-				//delay to make sure this function has finished before callingdemon_getBuildRecipes
-				delay(100),
-				mergeMap((demonName) =>
-					this.demon_getBuildRecipes(targetSkills, demonName)
-				)
-			)
-			.subscribe(result)
-		return result
+		return new Observable((sub) => {
+			while (this.buildCount < this.targetLength) {
+				for (let demonName of demons) {
+					this.demon_getBuildRecipesShallow(
+						targetSkills,
+						demonName,
+						sub
+					)
+				}
+			}
+			sub.complete()
+		})
 	}
 	/**
 	 * Overload of {@see DemonBuilder.isValid} handling the operation when NO

@@ -133,13 +133,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected skillControls: FormControl[] = []
 	/**
-	 * Recursive depth form entry
-	 *
-	 * @type {any}
-	 * @protected
-	 */
-	protected recurDepthControl = new FormControl('')
-	/**
 	 * Used for type ahead. observable that emits a list of filtered skills
 	 * based on what the user has already typed.
 	 *
@@ -180,14 +173,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @protected
 	 */
 	protected fuseCount: number = 0
-	/**
-	 * Specifies the depth the builder will go to even if there are no immediate
-	 * skills in sources
-	 *
-	 * @type {number}
-	 * @protected
-	 */
-	protected recurDepth = 0
 	/**
 	 * When true, a progress spinner is rendered on the page
 	 *
@@ -376,11 +361,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	resetDemonBuilder(): void {
 		this.stopWebWorker()
 		this.clearResults()
-		this.recurDepth = 0
 		this.fuseCount = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
-		this.recurDepthControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
 		this.userError = ''
 	}
@@ -389,7 +372,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	clearResults(): void {
 		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.fuseCount = 0
-		this.recurDepth = 0
 	}
 
 	/**
@@ -402,11 +384,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		for (let skillControl of this.skillControls) {
 			if (skillControl.value) inputSkills.push(skillControl.value)
 		}
-		if (!this.recurDepthControl.value) {
-			this.recurDepth = 0
-		} else {
-			this.recurDepth = parseInt(this.recurDepthControl.value)
-		}
 		_.reject('inputSkills', _.isEmpty)
 		let level: number | null = null
 		if (this.levelControl.value) level = +this.levelControl.value
@@ -414,7 +391,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			demonName: this.demonControl.value,
 			maxLevel: level,
 			targetSkills: inputSkills,
-			recurDepth: this.recurDepth,
 		}
 		return data
 	}
@@ -438,6 +414,5 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.skillControls[1].setValue('Regenerate 1')
 		this.skillControls[2].setValue('Invigorate 1')
 		this.skillControls[3].setValue('Growth 1')
-		this.recurDepthControl.setValue('3')
 	}
 }

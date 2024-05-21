@@ -41,8 +41,8 @@ describe('P5 Demon Builder Test', () => {
 						'Sharp Student',
 					])
 					cy.pushButton('Calculate')
-					cy.wait(4000)
-					cy.checkNumberOfResults(14)
+					cy.wait(12000)
+					cy.checkNumberOfResults(56)
 				})
 				it('works with a normal, named, no-level, 2+ depth, ', () => {
 					cy.enterName('Mara')
@@ -52,9 +52,8 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Growth 1',
 					])
-					cy.enterRecurDepth(2)
 					cy.pushButton('Calculate')
-					cy.wait(62000)
+					cy.wait(77000)
 					cy.checkNumberOfResults(30)
 				})
 				it('works with a normal, named, level, 2+ depth, ', () => {
@@ -66,7 +65,6 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Growth 1',
 					])
-					cy.enterRecurDepth(3)
 					cy.pushButton('Calculate')
 					cy.checkNumberOfResults(5)
 				})
@@ -98,10 +96,9 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Regenerate 3',
 					])
-					cy.enterRecurDepth(4)
 					cy.pushButton('Calculate')
-					cy.wait(11000)
-					cy.checkNumberOfResults(124)
+					cy.wait(38000)
+					cy.checkNumberOfResults(42)
 				})
 				it('works with a special, no-name, level, 2+ depth,  fusion', () => {
 					cy.enterLevel(85)
@@ -111,10 +108,9 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Regenerate 3',
 					])
-					cy.enterRecurDepth(4)
 					cy.pushButton('Calculate')
-					cy.wait(11000)
-					cy.checkNumberOfResults(93)
+					cy.wait(97000)
+					cy.checkNumberOfResults(30)
 				})
 			})
 			describe('Name', () => {
@@ -122,7 +118,7 @@ describe('P5 Demon Builder Test', () => {
 					cy.enterName('Neko Shogun')
 					cy.enterSkills(['Dekaja'])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(1)
+					cy.checkNumberOfResults(30)
 				})
 			})
 			it('works with a special, named, level, 1-depth, fusion', () => {
@@ -141,10 +137,9 @@ describe('P5 Demon Builder Test', () => {
 					'Invigorate 1',
 					'Regenerate 3',
 				])
-				cy.enterRecurDepth(4)
 				cy.pushButton('Calculate')
-				cy.wait(5)
-				cy.checkNumberOfResults(71)
+				cy.wait(26000)
+				cy.checkNumberOfResults(56)
 			})
 			it('works with a special, named, level, 2+ depth, fusion', () => {
 				cy.enterName('Beelzebub')
@@ -155,10 +150,9 @@ describe('P5 Demon Builder Test', () => {
 					'Invigorate 1',
 					'Regenerate 3',
 				])
-				cy.enterRecurDepth(4)
 				cy.pushButton('Calculate')
-				cy.wait(3)
-				cy.checkNumberOfResults(44)
+				cy.wait(13000)
+				cy.checkNumberOfResults(68)
 			})
 		})
 	})

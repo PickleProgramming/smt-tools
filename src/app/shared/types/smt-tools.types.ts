@@ -366,12 +366,6 @@ export interface UserInput {
 	 * @type {string[]}
 	 */
 	targetSkills: string[]
-	/**
-	 * The amount of recursive depths for the demon builer to go
-	 *
-	 * @type {number}
-	 */
-	recurDepth: number
 }
 
 /**
