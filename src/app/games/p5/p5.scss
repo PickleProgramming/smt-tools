@@ -23,11 +23,13 @@
 		background: black;
 	}
 }
-@mixin label {
-	:host ::ng-deep .label {
-		color: white;
-		font-family: 'p5-hatty';
-		font-size: 24pt;
+@mixin filter {
+	:host ::ng-deep .filter {
+		mat-label {
+			color: white;
+			font-family: 'p5-hatty';
+			font-size: 24pt;
+		}
 	}
 	:host ::ng-deep .mat-mdc-text-field-wrapper {
 		--mdc-filled-text-field-container-color: black;
@@ -89,12 +91,22 @@
 	}
 }
 
+// --Demon Builder Styling--
+@mixin demon-form {
+}
+@mixin name-level-form-field {
+}
+@mixin skill-form-field {
+}
+@mixin builder-buttons {
+}
+
 //global mixin that can be called for every p5 component
 @mixin style {
 	@include paragraph;
 	@include expansion-panel;
 	@include form-field;
-	@include label;
+	@include filter;
 	@include table;
 	@include race-cell;
 	@include level-cell;
