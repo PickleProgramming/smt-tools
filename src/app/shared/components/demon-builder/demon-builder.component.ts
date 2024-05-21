@@ -60,6 +60,13 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @type {string}
 	 */
 	@Input() declare worker: string
+
+	/**
+	 * Path to the loading icon that should be used for the component
+	 *
+	 * @type {string}
+	 */
+	@Input() declare loadingIcon: string
 	/**
 	 * Angular material table sorting/filter
 	 *
@@ -214,6 +221,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	constructor() {}
 	/** Description placeholder */
 	ngOnInit(): void {
+		if (!this.loadingIcon) this.loadingIcon = 'default'
 		//Facilitates type-ahead in the left form
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)

@@ -104,7 +104,11 @@
 	<div class="results-div">
 		<!-- Loading -->
 		@if (calculating) {
-			<mat-spinner></mat-spinner>
+			@if (loadingIcon === "default") {
+				<mat-spinner></mat-spinner>
+			} @else {
+				<img src="{{ loadingIcon }}" />
+			}
 		} @else {
 			@if (userError) {
 				<p>{{ userError }}</p>
