@@ -107,7 +107,7 @@
 			<p>{{ buildsSource.data.length }} successful recipes found.</p>
 		}
 		@if (fuseCount > 0) {
-			<p>{{ fuseCount }} fusion attempted...</p>
+			<p>{{ fuseCount | comma }} fusion attempted...</p>
 			@if (calculating) {
 				<p>
 					You can stop whenever you want and view the current results.
@@ -152,7 +152,7 @@
 					</th>
 
 					<td mat-cell *matCellDef="let build">
-						<p>{{ build.cost }}</p>
+						<p>{{ build.cost | comma }}</p>
 					</td>
 				</ng-container>
 				<ng-container matColumnDef="level">

@@ -23,6 +23,7 @@ import { SettingsComponent } from './components/settings/settings.component'
 import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
 import { DemonBuilderComponent } from './components/demon-builder/demon-builder.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
+import { CommaPipe } from './pipes/comma.pipe'
 
 @NgModule({
 	declarations: [
@@ -32,8 +33,9 @@ import { ShortenPipe } from './pipes/shorten.pipe'
 		ElementFusionTableComponent,
 		SettingsComponent,
 		DemonEntryComponent,
-		ShortenPipe,
 		DemonBuilderComponent,
+		ShortenPipe,
+		CommaPipe,
 	],
 	imports: [
 		CommonModule,
@@ -61,6 +63,7 @@ import { ShortenPipe } from './pipes/shorten.pipe'
 		DemonEntryComponent,
 		DemonBuilderComponent,
 		ShortenPipe,
+		CommaPipe,
 	],
 })
 export class SharedModule {}
