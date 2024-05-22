@@ -264,17 +264,23 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 *
 	 * @overload
 	 */
-	protected demon_isValid(
-		targetSkills: string[],
-		demonName: string
-	): boolean {
-		if (this.compendium.demons[demonName].level > this.maxLevel) {
+	protected demon_isValid(skills: string[], demonName: string): boolean {
+		let demon = this.compendium.demons[demonName]
+		if (demon.level > this.maxLevel) {
 			throw new Error(this.getLowLevelError(demonName))
+		}
+		let innates = Object.keys(demon.skills)
+		if (_.intersection(skills, innates).length === skills.length) {
+			let level = 0
+			for (let skill of skills) {
+				if (demon.skills[skill] > level) level = demon.skills[skill]
+			}
+			throw new Error(this.getAlreadyLearnsError(demonName, level))
 		}
 		if (this.compendium.isElemental(demonName)) {
 			throw new Error(Errors.Treasure)
 		}
-		for (let skillName of targetSkills) {
+		for (let skillName of skills) {
 			let skill = this.compendium.skills[skillName]
 			if (skill.unique && skill.unique !== demonName) {
 				throw new Error(this.getUniqueError(skill.unique, demonName))
@@ -283,7 +289,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				throw new Error(this.getInheritTypeError(demonName, skillName))
 			}
 		}
-		if (!this.canInheritOrLearn(targetSkills, demonName)) {
+		if (!this.canInheritOrLearn(skills, demonName)) {
 			throw new Error(Errors.MaxSkills)
 		}
 		return true
@@ -392,8 +398,23 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 *
 	 * @overload
 	 */
-	noDemon_isValid(targetSkills: string[]): boolean {
-		if (!this.canInheritOrLearn(targetSkills)) {
+	noDemon_isValid(skills: string[]): boolean {
+		let demons = this.getDemonsWithSkills(skills)
+		for (let demon of demons) {
+			let inter = _.intersection(
+				skills,
+				Object.keys(this.compendium.demons[demon].skills)
+			)
+			if (inter.length === skills.length) {
+				let level = 0
+				for (let skill of skills) {
+					let demonSkill = this.compendium.demons[demon].skills[skill]
+					if (demonSkill > level) level = demonSkill
+				}
+				throw new Error(this.getAlreadyLearnsError(demon, level))
+			}
+		}
+		if (!this.canInheritOrLearn(skills)) {
 			throw new Error(Errors.MaxSkills)
 		}
 		return true
@@ -544,6 +565,9 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	}
 	private getSkillLevelError(skill: string, level: number): string {
 		return `You have specified a level that is lower than ${level}, which is the minimum required level to fuse a persona that can learn ${skill}.`
+	}
+	private getAlreadyLearnsError(demon: string, level: number): string {
+		return `${demon} already learns all the skills you specified by level ${level}.`
 	}
 }
 

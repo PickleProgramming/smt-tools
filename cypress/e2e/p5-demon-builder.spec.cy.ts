@@ -158,20 +158,19 @@ describe('P5 Demon Builder Test', () => {
 		describe('Other Fusions', () => {
 			it('tells the user all specified skills are inheritted by a single demon', () => {
 				cy.enterSkills([
-					'Divine Judgemnet',
-					"Martyr's Gift",
+					'Divine Judgement',
+					'Sword Dance',
 					'Mahamaon',
 					'Hama Boost',
 				])
 				cy.pushButton('Calculate')
 				cy.checkError(Errors.AlreadyLearns)
 			})
-			cy.pushButton('Calculate')
 			it('tells the user all specified skills are inheritted by the demon they entered', () => {
 				cy.enterName('Metatron')
 				cy.enterSkills([
-					'Divine Judgemnet',
-					"Martyr's Gift",
+					'Divine Judgement',
+					'Sword Dance',
 					'Mahamaon',
 					'Hama Boost',
 				])
