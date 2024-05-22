@@ -155,6 +155,30 @@ describe('P5 Demon Builder Test', () => {
 				cy.checkNumberOfResults(68)
 			})
 		})
+		describe('Other Fusions', () => {
+			it('tells the user all specified skills are inheritted by a single demon', () => {
+				cy.enterSkills([
+					'Divine Judgemnet',
+					"Martyr's Gift",
+					'Mahamaon',
+					'Hama Boost',
+				])
+				cy.pushButton('Calculate')
+				cy.checkError(Errors.AlreadyLearns)
+			})
+			cy.pushButton('Calculate')
+			it('tells the user all specified skills are inheritted by the demon they entered', () => {
+				cy.enterName('Metatron')
+				cy.enterSkills([
+					'Divine Judgemnet',
+					"Martyr's Gift",
+					'Mahamaon',
+					'Hama Boost',
+				])
+				cy.pushButton('Calculate')
+				cy.checkError(Errors.AlreadyLearns)
+			})
+		})
 	})
 
 	describe('Failing Cases', () => {
@@ -234,4 +258,5 @@ enum Errors {
 	InheritLimit = 'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.',
 	Unique = 'You entered a skill that is unique to',
 	Treasure = 'The name of the demon you entered is a treasure demon, and cannot be fused.',
+	AlreadyLearns = 'already learns all the skills you specified by level',
 }
