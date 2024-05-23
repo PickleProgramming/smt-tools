@@ -122,6 +122,16 @@
 		border: 3px solid white;
 		background: black;
 	}
+	:host ::ng-deep .directions {
+		p {
+			font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial,
+				sans-serif;
+			color: white;
+			padding-bottom: 1vh;
+			font-weight: 300;
+			font-size: 16px;
+		}
+	}
 }
 
 //global mixin that can be called for every p5 component, should call all the mixins defined above
