@@ -24,6 +24,7 @@ import { DemonEntryComponent } from './components/demon-entry/demon-entry.compon
 import { DemonBuilderComponent } from './components/demon-builder/demon-builder.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
 import { CommaPipe } from './pipes/comma.pipe'
+import { TimePipe } from './pipes/time.pipe'
 
 @NgModule({
 	declarations: [
@@ -36,6 +37,7 @@ import { CommaPipe } from './pipes/comma.pipe'
 		DemonBuilderComponent,
 		ShortenPipe,
 		CommaPipe,
+		TimePipe,
 	],
 	imports: [
 		CommonModule,
@@ -64,6 +66,7 @@ import { CommaPipe } from './pipes/comma.pipe'
 		DemonBuilderComponent,
 		ShortenPipe,
 		CommaPipe,
+		TimePipe,
 	],
 })
 export class SharedModule {}

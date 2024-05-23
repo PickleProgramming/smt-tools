@@ -404,15 +404,14 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Stops the performance time and updates variables with recorded time */
 	stopTimer(): void {
 		this.endTime = performance.now()
-		this.deltaTime = (this.endTime - this.startTime) / 1000
+		this.deltaTime = Math.round(this.endTime - this.startTime)
 	}
 
 	test(): void {
-		this.demonControl.setValue('Jack Frost')
-		this.levelControl.setValue('43')
-		this.skillControls[0].setValue('Mazio')
-		this.skillControls[1].setValue('Regenerate 1')
-		this.skillControls[2].setValue('Invigorate 1')
-		this.skillControls[3].setValue('Growth 1')
+		this.demonControl.setValue('Alice')
+		this.skillControls[0].setValue('Die For Me!')
+		this.skillControls[1].setValue('Invigorate 3')
+		this.skillControls[2].setValue('Regenerate 3')
+		this.skillControls[3].setValue('Growth 3')
 	}
 }

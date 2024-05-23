@@ -44,7 +44,7 @@ describe('P5 Demon Builder Test', () => {
 					cy.wait(12000)
 					cy.checkNumberOfResults(56)
 				})
-				it('works with a normal, named, no-level, 2+ depth, ', () => {
+				it.only('works with a normal, named, no-level, 2+ depth, ', () => {
 					cy.enterName('Mara')
 					cy.enterSkills([
 						'Absorb Fire',

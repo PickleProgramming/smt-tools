@@ -17,7 +17,7 @@ import SHORTEN from '@shared/pipes/shorten.json'
 export class ShortenPipe implements PipeTransform {
 	/**
 	 * Used to get the specific three letter code that will represent a word in
-	 * a table pulled from a JSON that I wrote. EX. Judgement -> Jud Priestess
+	 * a table pulled from a JSON that I wrote. EX. Judgement -> Jud, Priestess
 	 * -> Prs
 	 *
 	 * @param {string} toShorten

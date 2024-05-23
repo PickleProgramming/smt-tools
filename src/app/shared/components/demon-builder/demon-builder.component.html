@@ -117,7 +117,7 @@
 		<!-- Recipe Display -->
 		@if (buildsSource.data.length > 0) {
 			@if (!calculating) {
-				<p>Ran for {{ deltaTime }} seconds</p>
+				<p>Ran for {{ deltaTime | time }}</p>
 			}
 			<table
 				mat-table
