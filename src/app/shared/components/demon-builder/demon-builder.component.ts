@@ -38,10 +38,14 @@ import { Router } from '@angular/router'
 	styleUrls: ['./demon-builder.component.scss'],
 	animations: [
 		trigger('detailExpand', [
-			state('collapsed', style({ height: '0px', minHeight: '0' })),
+			state('collapsed, void', style({ height: '0px', minHeight: '0' })),
 			state('expanded', style({ height: '*' })),
 			transition(
 				'expanded <=> collapsed',
+				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+			),
+			transition(
+				'expanded <=> void',
 				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
 			),
 		]),
@@ -254,21 +258,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Description placeholder */
 	ngAfterViewInit(): void {
 		this.buildsSource.sort = this.sort
-
-		this.buildsSource.sortingDataAccessor = (data, sortHeadId) => {
-			switch (sortHeadId) {
-				case 'result':
-					return data.result
-				case 'cost':
-					return data.cost
-				case 'level':
-					return data.level
-				case 'steps':
-					return data.steps
-				default:
-					return 0
-			}
-		}
 	}
 
 	/**
@@ -322,9 +311,10 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		}
 		if (data.build) {
 			this.buildsSource.data.push(data.build)
+			//update sorting with new data
+			this.buildsSource.sort = this.sort
 			//forces table to rerender
 			this.buildsSource.data = this.buildsSource.data
-			this.buildsSource.sort = this.sort
 		}
 	}
 
