@@ -224,72 +224,81 @@
 										<!-- loop through sources in step -->
 										@for (
 											source of step.sources;
-											track $index
+											track $index;
+											let last = $last
 										) {
-											@if (
-												$index ==
-												step.sources.length - 1
-											) {
+											@if (last) {
 												<span class="direction"
-													>and
-												</span>
+													>and</span
+												>
 												&ngsp;
 												<a
 													routerLink="{{
 														demonEntryPrexif
 													}}{{ source }}"
-													class="source"
+													class="demon-link"
 												>
-													{{ source }}
-												</a>
-												&ngsp;
+													{{ source }}</a
+												>
 											} @else {
 												<a
 													routerLink="{{
 														demonEntryPrexif
 													}}{{ source }}"
-													class="source"
+													class="demon-link"
 												>
-													{{ source }}
-												</a>
+													{{ source }}</a
+												>
 												&ngsp;
 											}
 										}
+										&ngsp;
 										<span class="direction">to make</span>
 										&ngsp;
 										<a
 											routerLink="{{ demonEntryPrexif }}{{
 												step.result
 											}}"
-											class="source"
+											class="demon-link"
 										>
-											{{ step.result }}
-										</a>
-										&ngsp;
-										<span class="source">
+											{{ step.result }}</a
+										>. &ngsp;
+										<span class="direction">
 											Have {{ step.result }} inherit
 										</span>
 										&ngsp;
 										<!-- loop through inheritted skills in step -->
-										@for (
-											skill of build.inherittedSkills[
-												$index
-											];
-											track $index
+										@if (
+											build.inherittedSkills[$index]
+												.length == 1
 										) {
-											@if (
-												$index ==
-												step.sources.length - 1
+											<span class="direction">
+												{{
+													build.inherittedSkills[
+														$index
+													][0]
+												}}.
+											</span>
+											&ngsp;
+										} @else {
+											@for (
+												skill of build.inherittedSkills[
+													$index
+												];
+												track $index;
+												let last = $last
 											) {
-												<span class="direction">
-													and {{ skill }}.
-												</span>
-												&ngsp;
-											} @else {
-												<span class="direction">
-													{{ skill }},
-												</span>
-												&ngsp;
+												@if (last) {
+													<span class="direction">
+														and {{ skill }}.
+													</span>
+													&ngsp;
+												} @else {
+													<span class="direction">
+														{{ skill }},
+													</span>
+													&ngsp;
+												}
 											}
 										}
 									</div>
