@@ -210,13 +210,15 @@
 										</span>
 										&ngsp;
 										<!-- Fusion Direction -->
-										@if (step.sources.length <= 2) {
-											<span class="direction">Fuse</span>
-											&ngsp;
-										} @else {
+										@if (
+											compendium.isSpecial(step.result)
+										) {
 											<span class="direction">
 												Use special fusion with
 											</span>
+											&ngsp;
+										} @else {
+											<span class="direction">Fuse</span>
 											&ngsp;
 										}
 										<!-- loop through sources in step -->
@@ -233,24 +235,36 @@
 												</span>
 												&ngsp;
 												<a
-													routerLink="{{ source }}"
+													routerLink="{{
+														demonEntryPrexif
+													}}{{ source }}"
 													class="source"
 												>
 													{{ source }}
 												</a>
 												&ngsp;
 											} @else {
-												<span class="source">
-													{{ source }},
-												</span>
+												<a
+													routerLink="{{
+														demonEntryPrexif
+													}}{{ source }}"
+													class="source"
+												>
+													{{ source }}
+												</a>
 												&ngsp;
 											}
 										}
 										<span class="direction">to make</span>
 										&ngsp;
-										<span class="source">
-											{{ step.result }}.
-										</span>
+										<a
+											routerLink="{{ demonEntryPrexif }}{{
+												step.result
+											}}"
+											class="source"
+										>
+											{{ step.result }}
+										</a>
 										&ngsp;
 										<span class="source">
 											Have {{ step.result }} inherit

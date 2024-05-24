@@ -62,6 +62,15 @@ export abstract class Compendium {
 	declare elementTable?: ElementTable
 
 	/**
+	 * In SMT you recruit demons, in Persona you recruit persona. This property
+	 * specifies what your followers are called in a given game. Must be plural,
+	 * I use 'personas' as the plural of persona
+	 *
+	 * @type {string}
+	 */
+	declare followerName: string
+
+	/**
 	 * Creates an instance of Compendium.
 	 *
 	 * @class
@@ -78,6 +87,7 @@ export abstract class Compendium {
 		skillData: Object,
 		fusionTable: FusionTable,
 		specialData: Object,
+		followerName: string,
 		dlcData?: Object,
 		elementTable?: ElementTable
 	) {
@@ -86,6 +96,7 @@ export abstract class Compendium {
 		this.fusionTable = fusionTable
 
 		if (specialData) this.specialRecipes = this.parseSpecial!(specialData)
+		this.followerName = followerName
 		if (dlcData) {
 			this.dlcDemons = {}
 			this.parseDemons(dlcData, this.dlcDemons)
@@ -176,8 +187,9 @@ export abstract class Compendium {
 	 *
 	 * @abstract
 	 * @param {string} element The element to check the inheritance types of
-	 * @returns {boolean[]} An array of boolean parallel to the inheritance-types
-	 *   array that should be specified in each games data directory
+	 * @returns {boolean[]} An array of boolean parallel to the
+	 *   inheritance-types array that should be specified in each games data
+	 *   directory
 	 */
 	abstract getInherits(element: string): boolean[]
 
@@ -191,7 +203,9 @@ export abstract class Compendium {
 	 */
 	public isSpecial(demonName: string): boolean {
 		if (this.specialRecipes == undefined)
-			throw new Error('called isSpecial on a compendium with no specialRecipes')
+			throw new Error(
+				'called isSpecial on a compendium with no specialRecipes'
+			)
 		let specialNames = Object.keys(this.specialRecipes)
 		if (_.intersection(specialNames, [demonName]).length > 0) return true
 		return false
@@ -221,11 +235,12 @@ export abstract class Compendium {
 	}
 
 	/**
-	 * Gets the level of the lowest level demon that can learn the specified skill
+	 * Gets the level of the lowest level demon that can learn the specified
+	 * skill
 	 *
 	 * @param {string} skillName Name of skill to find
-	 * @returns {number} The level of the lowest level demon that learns the given
-	 *   skill
+	 * @returns {number} The level of the lowest level demon that learns the
+	 *   given skill
 	 * @public
 	 * @sealed
 	 */
@@ -249,7 +264,9 @@ export abstract class Compendium {
 	 */
 	public isElemental(demonName: string): boolean {
 		if (this.elementTable == undefined)
-			throw new Error('isElemental called on a comp that has no elementals')
+			throw new Error(
+				'isElemental called on a comp that has no elementals'
+			)
 		let intersect = _.intersection(this.elementTable.elems, [demonName])
 		if (intersect.length > 0) return true
 		return false

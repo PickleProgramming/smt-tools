@@ -25,6 +25,7 @@ export class P5Compendium extends Compendium {
 			skillData,
 			fusionTable,
 			specialRecipes,
+			'personas',
 			dlcData,
 			elementTable
 		)

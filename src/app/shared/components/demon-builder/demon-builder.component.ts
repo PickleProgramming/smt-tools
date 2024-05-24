@@ -19,6 +19,7 @@ import _ from 'lodash'
 import { BuildMessage, UserInput } from '@shared/types/smt-tools.types'
 import { p5StartWebWorker } from './demon-builder.constants'
 import { BuildRecipe } from '@shared/types/build-recipe'
+import { Router } from '@angular/router'
 
 /**
  * Component that will display the user form for the demon-builder as well as
@@ -157,6 +158,17 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected buildsSource = new MatTableDataSource<BuildRecipe>()
 
+	/**
+	 * The beginning of the path leading a demon entry
+	 *
+	 * @example
+	 * 	for persona 5, the path to the entry for mara is /p5/personas/mara, the demonEntryPrefix is /p5/personas/
+	 *
+	 * @type {string}
+	 * @protected
+	 */
+	protected declare demonEntryPrexif: string
+
 	//--Variables for demon-builder--
 	/**
 	 * Subject that will tell the webworker to stop when it emits anything
@@ -202,9 +214,11 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 *
 	 * @class
 	 */
-	constructor() {}
+	constructor(private router: Router) {}
 	ngOnInit(): void {
 		if (!this.loadingIcon) this.loadingIcon = 'default'
+		let game = this.router.url.split('/')[1]
+		this.demonEntryPrexif = `/${game}/${this.compendium.followerName}/`
 		//Facilitates type-ahead in the left form
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
