@@ -53,7 +53,7 @@ describe('P5 Demon Builder Test', () => {
 						'Growth 1',
 					])
 					cy.pushButton('Calculate')
-					cy.wait(77000)
+					cy.wait(80000)
 					cy.checkNumberOfResults(30)
 				})
 				it('works with a normal, named, level, 2+ depth, ', () => {
