@@ -71,6 +71,22 @@ export abstract class DemonBuilder
 	protected fuseCount = 0
 
 	/**
+	 * Keeps track of how many builds have been successfully emitted
+	 *
+	 * @type {number}
+	 * @protected
+	 */
+	protected buildCount = 0
+	/**
+	 * The maximum number of recipes to be emitted when recursion is necessary
+	 * to find recipes
+	 *
+	 * @type {number}
+	 * @protected
+	 */
+	protected targetLength = 30
+
+	/**
 	 * Creates an instance of DemonBuilder.
 	 *
 	 * @class
@@ -335,6 +351,7 @@ export abstract class DemonBuilder
 			build: build,
 			fuseCount: this.fuseCount,
 		})
+		this.buildCount++
 	}
 
 	/**

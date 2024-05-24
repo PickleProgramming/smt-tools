@@ -41,8 +41,8 @@ describe('P5 Demon Builder Test', () => {
 						'Sharp Student',
 					])
 					cy.pushButton('Calculate')
-					cy.wait(4000)
-					cy.checkNumberOfResults(14)
+					cy.wait(12000)
+					cy.checkNumberOfResults(56)
 				})
 				it('works with a normal, named, no-level, 2+ depth, ', () => {
 					cy.enterName('Mara')
@@ -52,9 +52,8 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Growth 1',
 					])
-					cy.enterRecurDepth(2)
 					cy.pushButton('Calculate')
-					cy.wait(62000)
+					cy.wait(77000)
 					cy.checkNumberOfResults(30)
 				})
 				it('works with a normal, named, level, 2+ depth, ', () => {
@@ -66,7 +65,6 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Growth 1',
 					])
-					cy.enterRecurDepth(3)
 					cy.pushButton('Calculate')
 					cy.checkNumberOfResults(5)
 				})
@@ -98,10 +96,9 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Regenerate 3',
 					])
-					cy.enterRecurDepth(4)
 					cy.pushButton('Calculate')
-					cy.wait(11000)
-					cy.checkNumberOfResults(124)
+					cy.wait(38000)
+					cy.checkNumberOfResults(42)
 				})
 				it('works with a special, no-name, level, 2+ depth,  fusion', () => {
 					cy.enterLevel(85)
@@ -111,10 +108,9 @@ describe('P5 Demon Builder Test', () => {
 						'Invigorate 1',
 						'Regenerate 3',
 					])
-					cy.enterRecurDepth(4)
 					cy.pushButton('Calculate')
-					cy.wait(11000)
-					cy.checkNumberOfResults(93)
+					cy.wait(97000)
+					cy.checkNumberOfResults(30)
 				})
 			})
 			describe('Name', () => {
@@ -122,7 +118,7 @@ describe('P5 Demon Builder Test', () => {
 					cy.enterName('Neko Shogun')
 					cy.enterSkills(['Dekaja'])
 					cy.pushButton('Calculate')
-					cy.checkNumberOfResults(1)
+					cy.checkNumberOfResults(30)
 				})
 			})
 			it('works with a special, named, level, 1-depth, fusion', () => {
@@ -141,10 +137,9 @@ describe('P5 Demon Builder Test', () => {
 					'Invigorate 1',
 					'Regenerate 3',
 				])
-				cy.enterRecurDepth(4)
 				cy.pushButton('Calculate')
-				cy.wait(5)
-				cy.checkNumberOfResults(71)
+				cy.wait(26000)
+				cy.checkNumberOfResults(56)
 			})
 			it('works with a special, named, level, 2+ depth, fusion', () => {
 				cy.enterName('Beelzebub')
@@ -155,10 +150,32 @@ describe('P5 Demon Builder Test', () => {
 					'Invigorate 1',
 					'Regenerate 3',
 				])
-				cy.enterRecurDepth(4)
 				cy.pushButton('Calculate')
-				cy.wait(3)
-				cy.checkNumberOfResults(44)
+				cy.wait(13000)
+				cy.checkNumberOfResults(68)
+			})
+		})
+		describe('Other Fusions', () => {
+			it('tells the user all specified skills are inheritted by a single demon', () => {
+				cy.enterSkills([
+					'Divine Judgement',
+					'Sword Dance',
+					'Mahamaon',
+					'Hama Boost',
+				])
+				cy.pushButton('Calculate')
+				cy.checkError(Errors.AlreadyLearns)
+			})
+			it('tells the user all specified skills are inheritted by the demon they entered', () => {
+				cy.enterName('Metatron')
+				cy.enterSkills([
+					'Divine Judgement',
+					'Sword Dance',
+					'Mahamaon',
+					'Hama Boost',
+				])
+				cy.pushButton('Calculate')
+				cy.checkError(Errors.AlreadyLearns)
 			})
 		})
 	})
@@ -178,15 +195,11 @@ describe('P5 Demon Builder Test', () => {
 			cy.pushButton('Calculate')
 			cy.checkError(Errors.LevelSkill)
 		})
-		//TODO bad output because its tries to build alice, so it switches to a named function
-		it.skip('fails because the level is too low for one of the special skills', () => {
-			cy.get('.demon-form-field').eq(1).click().type('17')
-			cy.get('.skill-form-field').first().click().type('Die For Me!')
-			cy.get('button').contains('Calculate').click()
-			cy.get('.build-results').should(
-				'contain',
-				'You have specified a level that is lower than the minimum required level to learn'
-			)
+		it('fails because the level is too low for one of the special skills', () => {
+			cy.enterLevel(17)
+			cy.enterSkills(['Die For Me!'])
+			cy.pushButton('Calculate')
+			cy.checkError(Errors.LevelSkill)
 		})
 		it("fails because the demon can't learn a unique skills", () => {
 			cy.enterName('Agathion')
@@ -238,10 +251,11 @@ describe('P5 Demon Builder Test', () => {
 	})
 })
 enum Errors {
-	LevelSkill = 'You have specified a level that is lower than the minimum required level to learn',
-	LevelDemon = 'The name of the demon you entered has a minimum level greater than the level you specified.',
-	InheritType = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. You have specified a Persona with an inheritance type that forbids them from learning a skill you have specified.',
+	LevelSkill = 'You have specified a level that is lower than',
+	LevelDemon = 'The name of the demon you entered has a minimum level greater than the level you specified. The minimum level for',
+	InheritType = 'Every Persona has an inheritance type that bars them from learning certain skills. For example persona with inheritance type of Fire cannot inherit Ice skills. In this case',
 	InheritLimit = 'In Persona 5, a normal demon can only inherit a maximum of 4 skills (special demons can inherit 5). Since you specificed more than that, your specified demon must be able to learn at least one of the other specificed skills on their own. Unfortunately, they cannot.',
 	Unique = 'You entered a skill that is unique to',
 	Treasure = 'The name of the demon you entered is a treasure demon, and cannot be fused.',
+	AlreadyLearns = 'already learns all the skills you specified by level',
 }

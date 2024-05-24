@@ -17,9 +17,15 @@ export function p5StartWebWorker(
 ): Observable<BuildMessage> {
 	return fromWorkerPool<UserInput, BuildMessage>(
 		() =>
-			new Worker(new URL('./p5-demon-builder.worker', import.meta.url), {
-				type: 'module',
-			}),
+			new Worker(
+				new URL(
+					'../../../games/p5/components/p5-demon-builder/p5-demon-builder.worker',
+					import.meta.url
+				),
+				{
+					type: 'module',
+				}
+			),
 		input$
 	)
 }

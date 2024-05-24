@@ -1,7 +1,7 @@
 <!-- Filter for Table -->
 <div class="filter-div">
 	<mat-form-field class="filter">
-		<mat-label class="label">Filter</mat-label>
+		<mat-label>Filter</mat-label>
 		<input
 			matInput
 			(keyup)="applyFilter($event)"
@@ -132,19 +132,19 @@
 					<td mat-cell *matCellDef="let demon">
 						@switch (demon.resistances.split("")[$index]) {
 							@case ("d") {
-								ab
+								<p>ab</p>
 							}
 							@case ("w") {
-								wk
+								<p>wk</p>
 							}
 							@case ("n") {
-								nl
+								<p>nl</p>
 							}
 							@case ("s") {
-								rs
+								<p>rs</p>
 							}
 							@case ("r") {
-								rp
+								<p>rp</p>
 							}
 						}
 					</td>

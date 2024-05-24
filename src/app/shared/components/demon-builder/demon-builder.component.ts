@@ -17,8 +17,9 @@ import { map, startWith, takeUntil } from 'rxjs/operators'
 import _ from 'lodash'
 
 import { BuildMessage, UserInput } from '@shared/types/smt-tools.types'
-import { p5StartWebWorker } from './demon-builder.constansts'
+import { p5StartWebWorker } from './demon-builder.constants'
 import { BuildRecipe } from '@shared/types/build-recipe'
+import { Router } from '@angular/router'
 
 /**
  * Component that will display the user form for the demon-builder as well as
@@ -37,10 +38,14 @@ import { BuildRecipe } from '@shared/types/build-recipe'
 	styleUrls: ['./demon-builder.component.scss'],
 	animations: [
 		trigger('detailExpand', [
-			state('collapsed', style({ height: '0px', minHeight: '0' })),
+			state('collapsed, void', style({ height: '0px', minHeight: '0' })),
 			state('expanded', style({ height: '*' })),
 			transition(
 				'expanded <=> collapsed',
+				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+			),
+			transition(
+				'expanded <=> void',
 				animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
 			),
 		]),
@@ -60,6 +65,13 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @type {string}
 	 */
 	@Input() declare worker: string
+
+	/**
+	 * Path to the loading icon that should be used for the component
+	 *
+	 * @type {string}
+	 */
+	@Input() declare loadingIcon: string
 	/**
 	 * Angular material table sorting/filter
 	 *
@@ -103,7 +115,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected declare directions: string[][]
 
-	//Variables for user form and typeahead
+	//--Variables for user form and typeahead--
 	/**
 	 * Demon name form entry
 	 *
@@ -126,13 +138,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected skillControls: FormControl[] = []
 	/**
-	 * Recursive depth form entry
-	 *
-	 * @type {any}
-	 * @protected
-	 */
-	protected recurDepthControl = new FormControl('')
-	/**
 	 * Used for type ahead. observable that emits a list of filtered skills
 	 * based on what the user has already typed.
 	 *
@@ -141,14 +146,14 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected filteredSkills: Observable<string[]>[] = []
 
-	//Variables for results table display
+	//--Variables for results table display--
 	/**
 	 * List of the columns that are displayed in a results entry
 	 *
 	 * @type {{}}
 	 * @protected
 	 */
-	protected columnsToDisplay = ['result', 'cost', 'level', 'fusions']
+	protected columnsToDisplay = ['result', 'cost', 'level', 'steps']
 	/**
 	 * Angular material data source for the results table
 	 *
@@ -157,7 +162,18 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected buildsSource = new MatTableDataSource<BuildRecipe>()
 
-	//---Variables for demon-builder---
+	/**
+	 * The beginning of the path leading a demon entry
+	 *
+	 * @example
+	 * 	for persona 5, the path to the entry for mara is /p5/personas/mara, the demonEntryPrefix is /p5/personas/
+	 *
+	 * @type {string}
+	 * @protected
+	 */
+	protected declare demonEntryPrexif: string
+
+	//--Variables for demon-builder--
 	/**
 	 * Subject that will tell the webworker to stop when it emits anything
 	 *
@@ -165,7 +181,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @protected
 	 */
 	protected notify = new Subject<null>()
-	//keeps track of amount of fusions attempted by demon-builder
 	/**
 	 * The number of fusions that have been attempted by the web worker
 	 *
@@ -173,14 +188,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @protected
 	 */
 	protected fuseCount: number = 0
-	/**
-	 * Specifies the depth the builder will go to even if there are no immediate
-	 * skills in sources
-	 *
-	 * @type {number}
-	 * @protected
-	 */
-	protected recurDepth = 0
 	/**
 	 * When true, a progress spinner is rendered on the page
 	 *
@@ -211,9 +218,11 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 *
 	 * @class
 	 */
-	constructor() {}
-	/** Description placeholder */
+	constructor(private router: Router) {}
 	ngOnInit(): void {
+		if (!this.loadingIcon) this.loadingIcon = 'default'
+		let game = this.router.url.split('/')[1]
+		this.demonEntryPrexif = `/${game}/${this.compendium.followerName}/`
 		//Facilitates type-ahead in the left form
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
@@ -246,7 +255,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		)
 	}
 
-	//TODO: supposed to faciliate table sorting, but I haven't got it to work yet with the expandable table
 	/** Description placeholder */
 	ngAfterViewInit(): void {
 		this.buildsSource.sort = this.sort
@@ -261,6 +269,10 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @see {@link https://github.com/cloudnc/observable-webworker}
 	 */
 	startWebWorker(): void {
+		if (!this.minimumInput()) {
+			this.userError = 'Please enter at least one skill.'
+			return
+		}
 		this.startTimer()
 		this.clearResults()
 		this.userError = ''
@@ -281,6 +293,13 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			})
 	}
 
+	minimumInput(): boolean {
+		for (let skill of this.skillControls) {
+			if (skill.value) return true
+		}
+		return false
+	}
+
 	/**
 	 * Called when the webworker uses next()
 	 *
@@ -292,6 +311,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		}
 		if (data.build) {
 			this.buildsSource.data.push(data.build)
+			//update sorting with new data
+			this.buildsSource.sort = this.sort
 			//forces table to rerender
 			this.buildsSource.data = this.buildsSource.data
 		}
@@ -357,11 +378,9 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	resetDemonBuilder(): void {
 		this.stopWebWorker()
 		this.clearResults()
-		this.recurDepth = 0
 		this.fuseCount = 0
 		this.demonControl.setValue('')
 		this.levelControl.setValue('')
-		this.recurDepthControl.setValue('')
 		for (let i of this.skillControls) i.setValue('')
 		this.userError = ''
 	}
@@ -370,7 +389,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	clearResults(): void {
 		this.buildsSource = new MatTableDataSource<BuildRecipe>()
 		this.fuseCount = 0
-		this.recurDepth = 0
 	}
 
 	/**
@@ -383,11 +401,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		for (let skillControl of this.skillControls) {
 			if (skillControl.value) inputSkills.push(skillControl.value)
 		}
-		if (!this.recurDepthControl.value) {
-			this.recurDepth = 0
-		} else {
-			this.recurDepth = parseInt(this.recurDepthControl.value)
-		}
 		_.reject('inputSkills', _.isEmpty)
 		let level: number | null = null
 		if (this.levelControl.value) level = +this.levelControl.value
@@ -395,7 +408,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			demonName: this.demonControl.value,
 			maxLevel: level,
 			targetSkills: inputSkills,
-			recurDepth: this.recurDepth,
 		}
 		return data
 	}
@@ -409,6 +421,14 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	/** Stops the performance time and updates variables with recorded time */
 	stopTimer(): void {
 		this.endTime = performance.now()
-		this.deltaTime = (this.endTime - this.startTime) / 1000
+		this.deltaTime = Math.round(this.endTime - this.startTime)
+	}
+
+	test(): void {
+		this.demonControl.setValue('Alice')
+		this.skillControls[0].setValue('Die For Me!')
+		this.skillControls[1].setValue('Invigorate 3')
+		this.skillControls[2].setValue('Regenerate 3')
+		this.skillControls[3].setValue('Growth 3')
 	}
 }

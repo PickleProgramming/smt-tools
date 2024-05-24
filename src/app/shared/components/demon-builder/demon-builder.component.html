@@ -1,118 +1,105 @@
 <div class="builder-div">
-	<div class="form-wrapper">
-		<mat-card class="demon-form">
-			<!-- Demon and Level -->
-			<form>
-				<mat-form-field class="demon-form-field" appearance="fill">
-					<mat-label>Demon</mat-label>
-					<input
-						type="text"
-						placeholder="Mara"
-						aria-label="Demon Name"
-						matInput
-						[formControl]="demonControl"
-						[matAutocomplete]="auto"
-					/>
-					<mat-autocomplete #auto="matAutocomplete">
-						@for (demon of filteredDemons | async; track $index) {
-							<mat-option [value]="demon">
-								{{ demon }}
-							</mat-option>
-						}
-					</mat-autocomplete>
-				</mat-form-field>
-				<mat-form-field class="level-form-field" appearance="fill">
-					<mat-label>Max Level</mat-label>
-					<input
-						type="number"
-						matInput
-						[formControl]="levelControl"
-					/>
-				</mat-form-field>
-			</form>
-			<!-- Skills -->
-			<div class="skills-div" layout="column">
-				@for (skillControl of skillControls; track $index) {
-					<form>
-						<mat-form-field
-							class="skill-form-field"
-							appearance="fill"
-						>
-							<mat-label>Skill {{ $index + 1 }}</mat-label>
-							<input
-								type="text"
-								placeholder="Maragi"
-								aria-label="Skill"
-								matInput
-								[formControl]="skillControl"
-								[matAutocomplete]="auto"
-							/>
-							<mat-autocomplete #auto="matAutocomplete">
-								@for (
-									skill of filteredSkills[$index] | async;
-									track $index
-								) {
-									<mat-option [value]="skill">
-										{{ skill }}
-									</mat-option>
-								}
-							</mat-autocomplete>
-						</mat-form-field>
-					</form>
+	<!-- User Entry Form -->
+	<div class="form-div">
+		<!-- Demon and Level -->
+		<mat-form-field class="name-form-field" appearance="fill">
+			<mat-label>Demon</mat-label>
+			<input
+				type="text"
+				placeholder="Mara"
+				aria-label="Demon Name"
+				matInput
+				[formControl]="demonControl"
+				[matAutocomplete]="auto"
+			/>
+			<mat-autocomplete #auto="matAutocomplete">
+				@for (demon of filteredDemons | async; track $index) {
+					<mat-option [value]="demon">
+						{{ demon }}
+					</mat-option>
 				}
-			</div>
-			<!-- Settings -->
-			<div class="settings-div">
+			</mat-autocomplete>
+		</mat-form-field>
+		<mat-form-field class="level-form-field" appearance="fill">
+			<mat-label>Max Level</mat-label>
+			<input type="number" matInput [formControl]="levelControl" />
+		</mat-form-field>
+		<!-- Skills -->
+		<div class="skills-div" layout="column">
+			@for (skillControl of skillControls; track $index) {
 				<form>
-					<mat-form-field class="recur-form-field" appearance="fill">
-						<mat-label>Recursive Depth</mat-label>
+					<mat-form-field class="skill-form-field" appearance="fill">
+						<mat-label>Skill {{ $index + 1 }}</mat-label>
 						<input
 							type="text"
-							placeholder="0"
-							aria-label="0"
+							placeholder="Maragi"
+							aria-label="Skill"
 							matInput
-							[formControl]="recurDepthControl"
+							[formControl]="skillControl"
+							[matAutocomplete]="auto"
 						/>
+						<mat-autocomplete #auto="matAutocomplete">
+							@for (
+								skill of filteredSkills[$index] | async;
+								track $index
+							) {
+								<mat-option [value]="skill">
+									{{ skill }}
+								</mat-option>
+							}
+						</mat-autocomplete>
 					</mat-form-field>
 				</form>
-			</div>
-			<!-- Buttons -->
-			<div class="buttons-div">
-				<button
-					(click)="startWebWorker()"
-					color="primary"
-					mat-raised-button
-				>
-					Calculate
-				</button>
-				<button
-					(click)="stopWebWorker()"
-					color="primary"
-					mat-raised-button
-				>
-					Stop
-				</button>
-				<button
-					(click)="resetDemonBuilder()"
-					color="primary"
-					mat-raised-button
-				>
-					Clear
-				</button>
-			</div>
-		</mat-card>
+			}
+		</div>
+		<!-- Buttons -->
+		<div class="buttons-div">
+			<button
+				(click)="startWebWorker()"
+				class="builder-button"
+				color="primary"
+				mat-raised-button
+			>
+				<p>Calculate</p>
+			</button>
+			<button
+				(click)="stopWebWorker()"
+				class="builder-button"
+				color="primary"
+				mat-raised-button
+			>
+				<p>Stop</p>
+			</button>
+			<button
+				(click)="resetDemonBuilder()"
+				class="builder-button"
+				color="primary"
+				mat-raised-button
+			>
+				<p>Clear</p>
+			</button>
+		</div>
+		<div class="test">
+			<button (click)="test()" color="primary" mat-raised-button>
+				Test
+			</button>
+		</div>
 	</div>
-
-	<mat-card class="build-results">
+	<!-- Results Table -->
+	<div class="results-div">
 		<!-- Loading -->
 		@if (calculating) {
-			<mat-spinner></mat-spinner>
+			@if (loadingIcon === "default") {
+				<mat-spinner></mat-spinner>
+			} @else {
+				<img src="{{ loadingIcon }}" />
+			}
 		} @else {
 			@if (userError) {
 				<p>{{ userError }}</p>
 			} @else {
 				@if (buildsSource.data.length == 0) {
-					Create a demon with your desired skills on the left.
+					<p>Create a demon with your desired skills on the left.</p>
 				}
 			}
 		}
@@ -120,7 +107,7 @@
 			<p>{{ buildsSource.data.length }} successful recipes found.</p>
 		}
 		@if (fuseCount > 0) {
-			<p>{{ fuseCount }} fusion attempted...</p>
+			<p>{{ fuseCount | comma }} fusion attempted...</p>
 			@if (calculating) {
 				<p>
 					You can stop whenever you want and view the current results.
@@ -130,7 +117,7 @@
 		<!-- Recipe Display -->
 		@if (buildsSource.data.length > 0) {
 			@if (!calculating) {
-				<p>Ran for {{ deltaTime }} seconds</p>
+				<p>Ran for {{ deltaTime | time }}</p>
 			}
 			<table
 				mat-table
@@ -139,36 +126,61 @@
 				class="mat-elevation-z12"
 				matSort
 			>
+				<!-- Header Rows -->
 				<ng-container matColumnDef="result">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					<th
+						mat-header-cell
+						class="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Result
 					</th>
 					<td mat-cell *matCellDef="let build">
-						{{ build.result }}
+						<p>{{ build.result }}</p>
 					</td>
 				</ng-container>
 				<ng-container matColumnDef="cost">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					<th
+						mat-header-cell
+						class="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Cost
 					</th>
-					<td mat-cell *matCellDef="let build">{{ build.cost }}</td>
+
+					<td mat-cell *matCellDef="let build">
+						<p>{{ build.cost | comma }}</p>
+					</td>
 				</ng-container>
 				<ng-container matColumnDef="level">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					<th
+						mat-header-cell
+						class="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Level Required
 					</th>
 					<td mat-cell *matCellDef="let build">
-						{{ build.level }}
+						<p>{{ build.level }}</p>
 					</td>
 				</ng-container>
-				<ng-container matColumnDef="fusions">
-					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+				<ng-container matColumnDef="steps">
+					<th
+						mat-header-cell
+						class="header-cell"
+						*matHeaderCellDef
+						mat-sort-header
+					>
 						Steps
 					</th>
 					<td mat-cell *matCellDef="let build">
-						{{ build.fusions.length }}
+						<p>{{ build.fusions.length }}</p>
 					</td>
 				</ng-container>
+				<!-- Expanded Recipe -->
 				<ng-container matColumnDef="expandedDetail">
 					<td
 						mat-cell
@@ -183,17 +195,136 @@
 									: 'collapsed'
 							"
 						>
-							<div class="directions">
-								@for (
-									direction of build.directions;
-									track $index
-								) {
-									<p>{{ direction }} <br /></p>
+							<!-- Directions Display -->
+							<div class="directions-div">
+								<!-- Loop through steps -->
+								@for (step of build.fusions; track $index) {
+									<div ngPreserveWhitespaces>
+										<!-- Step Number -->
+										<span class="step-number">
+											Step {{ $index + 1 }}:
+										</span>
+										&ngsp;
+										<!-- Fusion Direction -->
+										@if (
+											compendium.isSpecial(step.result)
+										) {
+											Use special fusion with
+										} @else {
+											Fuse
+										}
+										<!-- loop through sources in step -->
+										@for (
+											source of step.sources;
+											track $index;
+											let last = $last
+										) {
+											@if (last) {
+												and
+												<a
+													routerLink="{{
+														demonEntryPrexif
+													}}{{ source }}"
+													class="demon-link"
+												>
+													{{ source }}</a
+												>
+											} @else {
+												<a
+													routerLink="{{
+														demonEntryPrexif
+													}}{{ source }}"
+													class="demon-link"
+												>
+													{{ source }}</a
+												>
+											}
+										}
+										to make
+										<a
+											routerLink="{{ demonEntryPrexif }}{{
+												step.result
+											}}"
+											class="demon-link"
+										>
+											{{ step.result }}</a
+										>. Have {{ step.result }} inherit
+										<!-- loop through inheritted skills in step -->
+										@if (
+											build.inherittedSkills[$index]
+												.length == 1
+										) {
+											<span class="result-emphasis">
+												{{
+													build.inherittedSkills[
+														$index
+													][0]
+												}} </span
+											>.
+										} @else {
+											@for (
+												skill of build.inherittedSkills[
+													$index
+												];
+												track $index;
+												let last = $last
+											) {
+												@if (last) {
+													and,
+													<span
+														class="result-emphasis"
+													>
+														{{ skill }} </span
+													>.
+												} @else {
+													<span
+														class="result-emphasis"
+													>
+														{{ skill }}
+													</span>
+													,
+												}
+											}
+										}
+									</div>
 								}
+								<div class="final-step-div">
+									<a
+										routerLink="{{ demonEntryPrexif }}{{
+											build.result
+										}}}"
+										class="demon-link"
+										>{{ build.result }}</a
+									>
+									will learn &ngsp;
+									@if (build.innates.length == 1) {
+										<span class="direction">{{
+											build.innates[0]
+										}}</span>
+										&ngsp;
+									} @else {
+										@for (
+											skill of build.innates;
+											track $index
+										) {
+											@if (
+												$index ==
+												build.innates.length - 1
+											) {
+												<span> and {{ skill }} </span>
+												&ngsp;
+											} @else {
+												<span>{{ skill }},</span>&ngsp;
+											}
+										}
+									}
+									<span class="direction">on their own.</span>
+								</div>
 							</div>
 						</div>
 					</td>
 				</ng-container>
+				<!-- Angular Table Initializations -->
 				<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
 				<tr
 					mat-row
@@ -211,5 +342,5 @@
 				></tr>
 			</table>
 		}
-	</mat-card>
+	</div>
 </div>

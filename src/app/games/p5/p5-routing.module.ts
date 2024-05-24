@@ -6,7 +6,7 @@ import { P5PersonaListComponent } from './components/p5-demon-list/p5-demon-list
 import { P5DemonEntryComponent } from './components/p5-demon-entry.component/p5-demon-entry.component'
 import { P5SkillListComponent } from './components/p5-skill-list/p5-skill-list.component'
 import { P5TablesComponent } from './components/p5-tables/p5-tables.component'
-import { P5DemonBuilderComponent } from './components/p5-demon-builder.component'
+import { P5DemonBuilderComponent } from './components/p5-demon-builder/p5-demon-builder.component'
 import { P5SettingsComponent } from './components/p5-settings.component'
 
 const routes: Routes = [
@@ -14,12 +14,36 @@ const routes: Routes = [
 		path: '',
 		component: P5WrapperComponent,
 		children: [
-			{ path: 'personas', component: P5PersonaListComponent },
-			{ path: 'personas/:demonName', component: P5DemonEntryComponent },
-			{ path: 'skills', component: P5SkillListComponent },
-			{ path: 'fusion-table', component: P5TablesComponent },
-			{ path: 'demon-builder', component: P5DemonBuilderComponent },
-			{ path: 'settings', component: P5SettingsComponent },
+			{
+				path: 'personas',
+				component: P5PersonaListComponent,
+				title: 'P5 Persona List',
+			},
+			{
+				path: 'personas/:demonName',
+				component: P5DemonEntryComponent,
+				title: 'P5 :demonName',
+			},
+			{
+				path: 'skills',
+				component: P5SkillListComponent,
+				title: 'P5 Skill List',
+			},
+			{
+				path: 'fusion-table',
+				component: P5TablesComponent,
+				title: 'P5 Fusion Table',
+			},
+			{
+				path: 'demon-builder',
+				component: P5DemonBuilderComponent,
+				title: 'P5 Demon Builder',
+			},
+			{
+				path: 'settings',
+				component: P5SettingsComponent,
+				title: 'P5 DLC Settings',
+			},
 		],
 	},
 ]
