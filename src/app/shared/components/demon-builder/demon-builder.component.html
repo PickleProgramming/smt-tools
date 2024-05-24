@@ -258,11 +258,13 @@
 											build.inherittedSkills[$index]
 												.length == 1
 										) {
-											{{
-												build.inherittedSkills[
-													$index
-												][0]
-											}}.
+											<span class="result-emphasis">
+												{{
+													build.inherittedSkills[
+														$index
+													][0]
+												}} </span
+											>.
 										} @else {
 											@for (
 												skill of build.inherittedSkills[
@@ -272,12 +274,16 @@
 												let last = $last
 											) {
 												@if (last) {
-													and
-													<span class="skill">
+													and,
+													<span
+														class="result-emphasis"
+													>
 														{{ skill }} </span
 													>.
 												} @else {
-													<span class="skill">
+													<span
+														class="result-emphasis"
+													>
 														{{ skill }}
 													</span>
 													,

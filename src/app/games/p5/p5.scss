@@ -131,12 +131,17 @@
 		font-style: italic;
 		.demon-link {
 			font-style: normal;
+			color: white;
+			text-decoration: underline;
+		}
+		.result-emphasis {
+			font-style: normal;
+			font-weight: 700;
 		}
 		.step-number {
 			font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial,
 				sans-serif;
 			font-style: normal;
-			color: white;
 			font-weight: 700;
 			font-size: 16px;
 		}
