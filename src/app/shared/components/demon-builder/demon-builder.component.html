@@ -213,13 +213,9 @@
 										@if (
 											compendium.isSpecial(step.result)
 										) {
-											<span class="direction">
-												Use special fusion with
-											</span>
-											&ngsp;
+											Use special fusion with
 										} @else {
-											<span class="direction">Fuse</span>
-											&ngsp;
+											Fuse
 										}
 										<!-- loop through sources in step -->
 										@for (
@@ -228,10 +224,7 @@
 											let last = $last
 										) {
 											@if (last) {
-												<span class="direction"
-													>and</span
-												>
-												&ngsp;
+												and
 												<a
 													routerLink="{{
 														demonEntryPrexif
@@ -249,12 +242,9 @@
 												>
 													{{ source }}</a
 												>
-												&ngsp;
 											}
 										}
-										&ngsp;
-										<span class="direction">to make</span>
-										&ngsp;
+										to make
 										<a
 											routerLink="{{ demonEntryPrexif }}{{
 												step.result
@@ -262,24 +252,17 @@
 											class="demon-link"
 										>
 											{{ step.result }}</a
-										>. &ngsp;
-										<span class="direction">
-											Have {{ step.result }} inherit
-										</span>
-										&ngsp;
+										>. Have {{ step.result }} inherit
 										<!-- loop through inheritted skills in step -->
 										@if (
 											build.inherittedSkills[$index]
 												.length == 1
 										) {
-											<span class="direction">
-												{{
-													build.inherittedSkills[
-														$index
-													][0]
-												}}.
-											</span>
-											&ngsp;
+											{{
+												build.inherittedSkills[
+													$index
+												][0]
+											}}.
 										} @else {
 											@for (
 												skill of build.inherittedSkills[
@@ -289,38 +272,47 @@
 												let last = $last
 											) {
 												@if (last) {
-													<span class="direction">
-														and {{ skill }}.
-													</span>
-													&ngsp;
+													and
+													<span class="skill">
+														{{ skill }} </span
+													>.
 												} @else {
-													<span class="direction">
-														{{ skill }},
+													<span class="skill">
+														{{ skill }}
 													</span>
-													&ngsp;
+													,
 												}
 											}
 										}
 									</div>
 								}
 								<div class="final-step-div">
-									<span>{{ build.result }} will learn</span>
+									<span class="direction"
+										>{{ build.result }} will learn</span
+									>
 									&ngsp;
-									@for (
-										skill of build.innates;
-										track $index
-									) {
-										@if (
-											$index == build.innates.length - 1
+									@if (build.innates.length == 1) {
+										<span class="direction">{{
+											build.innates[0]
+										}}</span>
+										&ngsp;
+									} @else {
+										@for (
+											skill of build.innates;
+											track $index
 										) {
-											<span>
-												and {{ skill }} on their own.
-											</span>
-											&ngsp;
-										} @else {
-											<span>{{ skill }},</span>&ngsp;
+											@if (
+												$index ==
+												build.innates.length - 1
+											) {
+												<span> and {{ skill }} </span>
+												&ngsp;
+											} @else {
+												<span>{{ skill }},</span>&ngsp;
+											}
 										}
 									}
+									<span class="direction">on their own.</span>
 								</div>
 							</div>
 						</div>
