@@ -149,7 +149,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @type {{}}
 	 * @protected
 	 */
-	protected columnsToDisplay = ['result', 'cost', 'level', 'fusions']
+	protected columnsToDisplay = ['result', 'cost', 'level', 'steps']
 	/**
 	 * Angular material data source for the results table
 	 *
@@ -251,10 +251,24 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		)
 	}
 
-	//TODO: supposed to faciliate table sorting, but I haven't got it to work yet with the expandable table
 	/** Description placeholder */
 	ngAfterViewInit(): void {
 		this.buildsSource.sort = this.sort
+
+		this.buildsSource.sortingDataAccessor = (data, sortHeadId) => {
+			switch (sortHeadId) {
+				case 'result':
+					return data.result
+				case 'cost':
+					return data.cost
+				case 'level':
+					return data.level
+				case 'steps':
+					return data.steps
+				default:
+					return 0
+			}
+		}
 	}
 
 	/**
@@ -310,6 +324,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 			this.buildsSource.data.push(data.build)
 			//forces table to rerender
 			this.buildsSource.data = this.buildsSource.data
+			this.buildsSource.sort = this.sort
 		}
 	}
 

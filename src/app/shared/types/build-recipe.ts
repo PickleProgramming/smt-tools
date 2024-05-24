@@ -46,6 +46,15 @@ export class BuildRecipe {
 	result: string = ''
 
 	/**
+	 * The number of steps in the recipe. Equal to the length of the fusions
+	 * property. Used to facilitate sorting recipes by number of steps in the
+	 * demon-builer results view
+	 *
+	 * @type {number}
+	 */
+	steps: number = 0
+
+	/**
 	 * Creates an instance of BuildRecipe.
 	 *
 	 * @class
@@ -88,6 +97,7 @@ export class BuildRecipe {
 				)
 			}
 		}
+		this.steps = this.fusions.length
 	}
 
 	/**
