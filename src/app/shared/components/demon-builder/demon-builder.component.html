@@ -293,10 +293,14 @@
 									</div>
 								}
 								<div class="final-step-div">
-									<span class="direction"
-										>{{ build.result }} will learn</span
+									<a
+										routerLink="{{ demonEntryPrexif }}{{
+											build.result
+										}}}"
+										class="demon-link"
+										>{{ build.result }}</a
 									>
-									&ngsp;
+									will learn &ngsp;
 									@if (build.innates.length == 1) {
 										<span class="direction">{{
 											build.innates[0]
