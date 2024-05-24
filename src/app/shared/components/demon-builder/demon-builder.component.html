@@ -199,13 +199,106 @@
 									: 'collapsed'
 							"
 						>
-							<div class="directions">
-								@for (
-									direction of build.directions;
-									track $index
-								) {
-									<p>{{ direction }} <br /></p>
+							<!-- Directions Display -->
+							<div class="directions-div">
+								<!-- Loop through steps -->
+								@for (step of build.fusions; track $index) {
+									<div ngPreserveWhitespaces>
+										<!-- Step Number -->
+										<span class="step-number">
+											Step {{ $index + 1 }}:
+										</span>
+										&ngsp;
+										<!-- Fusion Direction -->
+										@if (step.sources.length <= 2) {
+											<span class="direction">Fuse</span>
+											&ngsp;
+										} @else {
+											<span class="direction">
+												Use special fusion with
+											</span>
+											&ngsp;
+										}
+										<!-- loop through sources in step -->
+										@for (
+											source of step.sources;
+											track $index
+										) {
+											@if (
+												$index ==
+												step.sources.length - 1
+											) {
+												<span class="direction"
+													>and
+												</span>
+												&ngsp;
+												<a
+													routerLink="{{ source }}"
+													class="source"
+												>
+													{{ source }}
+												</a>
+												&ngsp;
+											} @else {
+												<span class="source">
+													{{ source }},
+												</span>
+												&ngsp;
+											}
+										}
+										<span class="direction">to make</span>
+										&ngsp;
+										<span class="source">
+											{{ step.result }}.
+										</span>
+										&ngsp;
+										<span class="source">
+											Have {{ step.result }} inherit
+										</span>
+										&ngsp;
+										<!-- loop through inheritted skills in step -->
+										@for (
+											skill of build.inherittedSkills[
+												$index
+											];
+											track $index
+										) {
+											@if (
+												$index ==
+												step.sources.length - 1
+											) {
+												<span class="direction">
+													and {{ skill }}.
+												</span>
+												&ngsp;
+											} @else {
+												<span class="direction">
+													{{ skill }},
+												</span>
+												&ngsp;
+											}
+										}
+									</div>
 								}
+								<div class="final-step-div">
+									<span>{{ build.result }} will learn</span>
+									&ngsp;
+									@for (
+										skill of build.innates;
+										track $index
+									) {
+										@if (
+											$index == build.innates.length - 1
+										) {
+											<span>
+												and {{ skill }} on their own.
+											</span>
+											&ngsp;
+										} @else {
+											<span>{{ skill }},</span>&ngsp;
+										}
+									}
+								</div>
 							</div>
 						</div>
 					</td>

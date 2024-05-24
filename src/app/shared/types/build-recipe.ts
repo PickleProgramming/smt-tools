@@ -44,12 +44,6 @@ export class BuildRecipe {
 	 * @type {string}
 	 */
 	result: string = ''
-	/**
-	 * A series of plain enghish steps to display to the user
-	 *
-	 * @type {string[]}
-	 */
-	directions: string[] = []
 
 	/**
 	 * Creates an instance of BuildRecipe.
@@ -94,61 +88,6 @@ export class BuildRecipe {
 				)
 			}
 		}
-		this.addDirections()
-	}
-
-	/**
-	 * Creates a series of steps in plain english to display to the user and
-	 * adds it as a property to this object
-	 *
-	 * @private
-	 */
-	private addDirections(): void {
-		let directions: string[] = []
-		for (let i = 0; i < this.fusions.length; i++) {
-			let step = this.fusions[i]
-			let direction = `Step ${i + 1}: `
-			if (step.sources.length > 2) {
-				direction += `Use the Special Recipe to fuse ${step.result}.`
-				direction += ` Have ${step.result} inherit `
-			} else {
-				direction +=
-					`Fuse ${step.sources[0]} with ${step.sources[1]} to make ` +
-					`${step.result}. Have ${step.result} inherit `
-			}
-			let skills = this.inherittedSkills[i]
-			for (let j = 0; j <= skills.length; j++) {
-				if (skills.length === 1) {
-					direction += `${skills[j]}.`
-					break
-				}
-				if (j === skills.length - 1) {
-					direction += `and ${skills[j]}.`
-					break
-				}
-				direction += `${skills[j]}, `
-			}
-			directions.push(direction)
-		}
-		if (this.innates.length < 1) {
-			this.directions = directions
-			return
-		}
-		let direction = ` ${this.result} will learn `
-		for (let j = 0; j <= this.innates.length; j++) {
-			if (this.innates.length === 1) {
-				direction += `${this.innates[j]}`
-				break
-			}
-			if (j === this.innates.length - 1) {
-				direction += ` and ${this.innates[j]}`
-				break
-			}
-			direction += `${this.innates[j]}, `
-		}
-		direction += ` on their own.`
-		directions.push(direction)
-		this.directions = directions
 	}
 
 	/**

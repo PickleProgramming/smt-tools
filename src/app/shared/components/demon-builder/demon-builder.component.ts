@@ -110,7 +110,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected declare directions: string[][]
 
-	//Variables for user form and typeahead
+	//--Variables for user form and typeahead--
 	/**
 	 * Demon name form entry
 	 *
@@ -141,7 +141,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected filteredSkills: Observable<string[]>[] = []
 
-	//Variables for results table display
+	//--Variables for results table display--
 	/**
 	 * List of the columns that are displayed in a results entry
 	 *
@@ -157,7 +157,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 */
 	protected buildsSource = new MatTableDataSource<BuildRecipe>()
 
-	//---Variables for demon-builder---
+	//--Variables for demon-builder--
 	/**
 	 * Subject that will tell the webworker to stop when it emits anything
 	 *
@@ -165,7 +165,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @protected
 	 */
 	protected notify = new Subject<null>()
-	//keeps track of amount of fusions attempted by demon-builder
 	/**
 	 * The number of fusions that have been attempted by the web worker
 	 *
@@ -204,7 +203,6 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @class
 	 */
 	constructor() {}
-	/** Description placeholder */
 	ngOnInit(): void {
 		if (!this.loadingIcon) this.loadingIcon = 'default'
 		//Facilitates type-ahead in the left form

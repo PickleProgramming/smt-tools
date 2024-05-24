@@ -86,10 +86,16 @@ tr.recipe-detail-row {
 	margin: auto;
 }
 
-.directions {
+.directions-div {
 	text-align: left;
 	margin: auto;
 	color: #c2c2c2;
+}
+
+.step-div {
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
 }
 
 .recipe-row td {
