@@ -6,7 +6,7 @@ import { Router } from '@angular/router'
 
 import { Compendium } from '@shared/types/compendium'
 import { FusionCalculator } from '@shared/types/fusion-calculator'
-import { Demon, Fusion } from '@shared/types/smt-tools.types'
+import { Demon, Fusion, TableConfig } from '@shared/types/smt-tools.types'
 
 /**
  * The component that will display when a user clicks the name of a demon in the
@@ -35,6 +35,12 @@ export class DemonEntryComponent implements OnInit {
 	 * @type {FusionCalculator}
 	 */
 	@Input() declare calculator: FusionCalculator
+	/**
+	 * The tableConfig interface from the approriate game
+	 *
+	 * @type {TableConfig}
+	 */
+	@Input() declare tableConfig: TableConfig
 	/**
 	 * Angular Material object to facilitate sorting
 	 *

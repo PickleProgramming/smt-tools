@@ -19,3 +19,22 @@
 	width: 100%;
 	justify-content: center;
 }
+
+.info-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	padding-bottom: 1vh;
+}
+
+.stats-div {
+	text-align: center;
+}
+
+.resist-div {
+	text-align: center;
+}
+
+.affinities-div {
+	text-align: center;
+}
