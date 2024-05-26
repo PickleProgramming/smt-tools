@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 
 import { P5Compendium } from '@p5/types/p5-compendium'
@@ -9,23 +9,44 @@ import {
 	P5_FUSION_CALCULATOR,
 	P5_TABLE_CONFIG,
 } from '@shared/constants'
-import { TableConfig } from '@shared/types/smt-tools.types'
+import { Demon, TableConfig } from '@shared/types/smt-tools.types'
 
 @Component({
 	selector: 'app-p5-demon-entry',
-	template: ` <app-demon-entry
-		[compendium]="compendium"
-		[calculator]="calculator"
-		[tableConfig]="tableConfig"
-	>
-	</app-demon-entry>`,
+	templateUrl: './p5-demon-entry.component.html',
 	styleUrl: './p5-demon-entry.component.scss',
 })
-export class P5DemonEntryComponent {
-	declare name: string
+export class P5DemonEntryComponent implements OnInit {
 	compendium: P5Compendium = P5_COMPENDIUM
 	calculator: P5FusionCalculator = P5_FUSION_CALCULATOR
 	tableConfig: TableConfig = P5_TABLE_CONFIG
 
+	/**
+	 * The name of the demon the entry is about
+	 *
+	 * @type {string}
+	 */
+	declare demonName: string
+	/**
+	 * The object of the demon the entry is about
+	 *
+	 * @type {Demon}
+	 */
+	declare demon: Demon
+	/**
+	 * TODO: this isn't represented anywhere on the table, maybe I thought I
+	 * would need this later?
+	 *
+	 * @type {boolean[]}
+	 */
+	declare inheritTypes: boolean[]
+
 	constructor(private router: Router) {}
+
+	ngOnInit(): void {
+		this.demonName = this.router.url.split('/')[3]
+		if (this.demonName.includes('%20'))
+			this.demonName = this.demonName.replace('%20', ' ')
+		this.demon = this.compendium.demons[this.demonName]
+	}
 }

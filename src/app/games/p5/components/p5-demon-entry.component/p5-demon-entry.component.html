@@ -1,0 +1,108 @@
+<div class="info-wrapper">
+	<!-- Stats -->
+	<div class="stats-div">
+		Stats
+		<table>
+			<tr>
+				@for (stat of tableConfig.statCols; track $index) {
+					<th>{{ stat }}</th>
+				}
+			</tr>
+			<tr>
+				@for (stat of demon.stats; track $index) {
+					<td>{{ stat }}</td>
+				}
+			</tr>
+		</table>
+	</div>
+	<!-- Resistances -->
+	<div class="resist-div">
+		Reisistances
+		<table>
+			<tr>
+				@for (resistance of tableConfig.resistanceCols; track $index) {
+					<th>
+						<img
+							class="icon"
+							src="assets/img/icons/persona/{{
+								resistance.toLowerCase()
+							}}.png"
+							title="{{ resistance }}"
+						/>
+					</th>
+				}
+			</tr>
+			<tr>
+				@for (resistance of demon.resistances; track $index) {
+					<td>
+						@switch (demon.resistances.split("")[$index]) {
+							@case ("d") {
+								<p>Dr</p>
+							}
+							@case ("w") {
+								<p>Wk</p>
+							}
+							@case ("n") {
+								<p>Nul</p>
+							}
+							@case ("s") {
+								<p>Str</p>
+							}
+							@case ("r") {
+								<p>Rpl</p>
+							}
+							@default {
+								<p>-</p>
+							}
+						}
+					</td>
+				}
+			</tr>
+		</table>
+	</div>
+	<!-- Affinities -->
+	<div class="affinities-div">
+		Affinities <br />These are the types the skills the demon can inherit.
+		<table>
+			<tr>
+				@for (inherit of tableConfig.inheritCols; track $index) {
+					<th>
+						<img
+							class="icon"
+							src="assets/img/icons/persona/{{
+								inherit.toLowerCase()
+							}}.png"
+							title="{{ inherit }}"
+						/>
+					</th>
+				}
+			</tr>
+			<tr>
+				@if (demon.inherits) {
+					@for (
+						inherit of compendium.getInherits(demon.inherits);
+						track $index
+					) {
+						<td>
+							@if (inherit) {
+								O
+							} @else {
+								X
+							}
+						</td>
+					}
+				}
+			</tr>
+		</table>
+	</div>
+	<!-- Skills -->
+</div>
+
+<!-- Fission/Fusion Tables -->
+<app-entry-fusion-tables
+	[compendium]="compendium"
+	[calculator]="calculator"
+	[tableConfig]="tableConfig"
+	[demonName]="demonName"
+>
+</app-entry-fusion-tables>

@@ -20,7 +20,7 @@ import { SkillListComponent } from './components/skill-list/skill-list.component
 import { NormalFusionTableComponent } from './components/normal-fusion-table/normal-fusion-table.component'
 import { ElementFusionTableComponent } from './components/element-fusion-table/element-fusion-table.component'
 import { SettingsComponent } from './components/settings/settings.component'
-import { DemonEntryComponent } from './components/demon-entry/demon-entry.component'
+import { DemonEntryComponent } from './components/entry-fusion-tables/entry-fusion-tables.component'
 import { DemonBuilderComponent } from './components/demon-builder/demon-builder.component'
 import { ShortenPipe } from './pipes/shorten.pipe'
 import { CommaPipe } from './pipes/comma.pipe'
