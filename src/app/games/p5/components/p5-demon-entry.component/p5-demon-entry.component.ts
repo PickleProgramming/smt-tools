@@ -14,7 +14,7 @@ import { Demon, TableConfig } from '@shared/types/smt-tools.types'
 @Component({
 	selector: 'app-p5-demon-entry',
 	templateUrl: './p5-demon-entry.component.html',
-	styleUrl: './p5-demon-entry.component.scss',
+	styleUrl: '../../p5.scss',
 })
 export class P5DemonEntryComponent implements OnInit {
 	compendium: P5Compendium = P5_COMPENDIUM
