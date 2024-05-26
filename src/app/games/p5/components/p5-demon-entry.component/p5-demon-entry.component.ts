@@ -33,13 +33,6 @@ export class P5DemonEntryComponent implements OnInit {
 	 * @type {Demon}
 	 */
 	declare demon: Demon
-	/**
-	 * TODO: this isn't represented anywhere on the table, maybe I thought I
-	 * would need this later?
-	 *
-	 * @type {boolean[]}
-	 */
-	declare inheritTypes: boolean[]
 
 	constructor(private router: Router) {}
 
