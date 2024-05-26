@@ -4,8 +4,10 @@
 :host ::ng-deep p {
 	font-family: 'p5-hatty';
 	font-size: 16pt;
-	padding: 0;
-	margin: 0;
+}
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+	--mdc-filled-text-field-container-color: black;
+	--mat-form-field-container-text-font: 'p5-hatty';
 }
 :host ::ng-deep .expansion-panel {
 	background-color: black;
@@ -21,10 +23,6 @@
 		font-family: 'p5-hatty';
 		font-size: 24pt;
 	}
-}
-:host ::ng-deep .mat-mdc-text-field-wrapper {
-	--mdc-filled-text-field-container-color: black;
-	--mat-form-field-container-text-font: 'p5-hatty';
 }
 // --Table Styling--
 :host ::ng-deep table {
@@ -121,10 +119,62 @@
 		font-size: 16px;
 	}
 }
-
 // --Demon Entry Styling--
 .demon-entry-div {
 	background-image: url('/assets/img/games/p5/demon-entry-frame.svg');
 	width: 100vw;
 	height: 82vh;
+}
+.race-div {
+	position: relative;
+	top: 10vh;
+	right: 10vw;
+
+	p {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		color: black;
+		letter-spacing: -1px;
+		font-weight: 900;
+		font-size: 7vh;
+
+		transform: scale(0.7, 1.5);
+		padding: 2px;
+		margin: 0;
+	}
+}
+.name-div {
+	position: relative;
+	top: 6vh;
+	left: 20vw;
+	P {
+		font-size: 4vh;
+	}
+}
+.level-div {
+	position: relative;
+	top: 8vh;
+	left: 20vw;
+	P {
+		font-size: 5vh;
+	}
+}
+.resist-div {
+	position: relative;
+	top: 7vh;
+	left: 20vw;
+}
+.affinities-div {
+	position: relative;
+	top: 70vh;
+}
+.skills-div {
+}
+.stats-div {
+	position: relative;
+	top: 50vh;
+	left: 50vw;
+}
+.inherits-div {
+}
+.inherit-div {
 }
