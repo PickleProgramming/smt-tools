@@ -123,7 +123,10 @@
 .demon-entry-div {
 	background-image: url('/assets/img/games/p5/demon-entry-frame.svg');
 	width: 100vw;
-	height: 82vh;
+	height: 80vh;
+	P {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	}
 }
 .race-div {
 	position: relative;
@@ -131,7 +134,6 @@
 	right: 10vw;
 
 	p {
-		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 		color: black;
 		letter-spacing: -1px;
 		font-weight: 900;
@@ -165,13 +167,23 @@
 }
 .affinities-div {
 	position: relative;
-	top: 70vh;
+	top: -15vh;
+	left: 60vw;
 }
 .skills-div {
+	position: relative;
+	top: 18vh;
+	left: 5vw;
+	max-width: 40%;
+	table {
+		text-align: center;
+	}
 }
 .stats-div {
 	position: relative;
-	top: 50vh;
+	display: flex;
+	flex-direction: column;
+	top: -10vh;
 	left: 50vw;
 }
 .inherits-div {

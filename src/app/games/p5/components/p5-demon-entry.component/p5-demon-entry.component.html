@@ -62,21 +62,67 @@
 		</table>
 	</div>
 	<!-- Skills -->
+	<div class="skills-div">
+		<table mat-table [dataSource]="skillSource" class="mat-elevation-z12">
+			<!-- Element Column -->
+			<ng-container matColumnDef="Element">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Element
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<img
+						src="assets/img/icons/persona/{{ skill.element }}.png"
+						title="{{ skill.element }}"
+					/>
+				</td>
+			</ng-container>
+			<!-- Name Column -->
+			<ng-container matColumnDef="Name">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Name
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.name }}</p>
+				</td>
+			</ng-container>
+			<!-- Cost Column -->
+			<ng-container matColumnDef="Cost">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Cost
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.cost }}</p>
+				</td>
+			</ng-container>
+			<!-- Effect Column -->
+			<ng-container matColumnDef="Effect">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Effect
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.effect }}</p>
+				</td>
+			</ng-container>
+			<!-- Level Column -->
+			<ng-container matColumnDef="level">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Level
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.level }}</p>
+				</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="skillCols; sticky: true"></tr>
+			<tr mat-row *matRowDef="let row; columns: skillCols"></tr>
+		</table>
+	</div>
 	<!-- Stats -->
 	<div class="stats-div">
-		Stats
-		<table>
-			<tr>
-				@for (stat of tableConfig.statCols; track $index) {
-					<th>{{ stat }}</th>
-				}
-			</tr>
-			<tr>
-				@for (stat of demon.stats; track $index) {
-					<td>{{ stat }}</td>
-				}
-			</tr>
-		</table>
+		@for (stat of tableConfig.statCols; track $index) {
+			<div class="stat">
+				<p>{{ stat }} {{ demon.stats[$index] }}</p>
+			</div>
+		}
 	</div>
 	<!-- Affinities -->
 	<div class="affinities-div">

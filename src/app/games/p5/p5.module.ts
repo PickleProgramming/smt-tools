@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router'
 import { SharedModule } from '@shared/shared.module'
 
 import { MatCard } from '@angular/material/card'
+import { MatTableModule } from '@angular/material/table'
 
 import { P5RoutingModule } from './p5-routing.module'
 import { P5WrapperComponent } from './components/p5-wrapper.component'
@@ -31,6 +32,7 @@ import { P5SettingsComponent } from './components/p5-settings.component'
 		SharedModule,
 		RouterModule,
 		MatCard,
+		MatTableModule,
 		P5RoutingModule,
 	],
 })
