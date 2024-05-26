@@ -148,6 +148,15 @@
 	}
 }
 
+// --Demon Entry Styling--
+@mixin demon-entry-frame {
+	.demon-entry-div {
+		background-image: url('/assets/img/games/p5/demon-entry-frame.svg');
+		width: 100vw;
+		height: 82vh;
+	}
+}
+
 //global mixin that can be called for every p5 component, should call all the mixins defined above
 @mixin style {
 	// --General Styling--
@@ -165,4 +174,6 @@
 	@include builder-buttons;
 	@include build-results;
 	@include directions;
+	// --Demon Entry Styling--
+	@include demon-entry-frame;
 }

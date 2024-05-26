@@ -1,26 +1,15 @@
-<div class="test-grid">
-	<img
-		src="assets/img/games/p5/demon-entry-frame.svg"
-		class="demon-entry-frame"
-	/>
-</div>
-
-<div class="info-wrapper">
-	<!-- Stats -->
-	<div class="stats-div">
-		Stats
-		<table>
-			<tr>
-				@for (stat of tableConfig.statCols; track $index) {
-					<th>{{ stat }}</th>
-				}
-			</tr>
-			<tr>
-				@for (stat of demon.stats; track $index) {
-					<td>{{ stat }}</td>
-				}
-			</tr>
-		</table>
+<div class="demon-entry-div">
+	<!-- Race -->
+	<div class="race-div">
+		{{ demon.race }}
+	</div>
+	<!-- Name   -->
+	<div class="name-div">
+		{{ demonName }}
+	</div>
+	<!-- Level  -->
+	<div class="level-div">
+		{{ demon.level }}
 	</div>
 	<!-- Resistances -->
 	<div class="resist-div">
@@ -67,6 +56,23 @@
 			</tr>
 		</table>
 	</div>
+	<!-- Skills -->
+	<!-- Stats -->
+	<div class="stats-div">
+		Stats
+		<table>
+			<tr>
+				@for (stat of tableConfig.statCols; track $index) {
+					<th>{{ stat }}</th>
+				}
+			</tr>
+			<tr>
+				@for (stat of demon.stats; track $index) {
+					<td>{{ stat }}</td>
+				}
+			</tr>
+		</table>
+	</div>
 	<!-- Affinities -->
 	<div class="affinities-div">
 		Affinities <br />These are the types the skills the demon can inherit.
@@ -102,9 +108,7 @@
 			</tr>
 		</table>
 	</div>
-	<!-- Skills -->
 </div>
-
 <!-- Fission/Fusion Tables -->
 <app-entry-fusion-tables
 	[compendium]="compendium"
