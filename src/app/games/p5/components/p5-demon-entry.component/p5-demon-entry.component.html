@@ -12,13 +12,12 @@
 	<!-- Level  -->
 	<div class="level-div">
 		<p>
-			<span class="level-header"> Lv </span>
+			<span class="level-header"> LV </span>
 			{{ demon.level }}
 		</p>
 	</div>
 	<!-- Resistances -->
 	<div class="resist-div">
-		Reisistances
 		<table>
 			<tr>
 				@for (resistance of tableConfig.resistanceCols; track $index) {
@@ -118,11 +117,25 @@
 	</div>
 	<!-- Stats -->
 	<div class="stats-div">
-		@for (stat of tableConfig.statCols; track $index) {
-			<div class="stat">
-				<p>{{ stat }} {{ demon.stats[$index] }}</p>
-			</div>
-		}
+		<div class="stat-label">
+			<p id="st-label">St</p>
+			<p id="ma-label">Ma</p>
+			<p id="en-label">En</p>
+			<p id="ag-label">Ag</p>
+			<p id="lu-label">Lu</p>
+		</div>
+		<div class="stat">
+			@for (stat of tableConfig.statCols; track $index) {
+				@if (demon.stats[$index] < 10) {
+					<p>
+						<span class="leading-zero">0</span
+						>{{ demon.stats[$index] }}
+					</p>
+				} @else {
+					<p>{{ demon.stats[$index] }}</p>
+				}
+			}
+		</div>
 	</div>
 	<!-- Affinities -->
 	<div class="affinities-div">

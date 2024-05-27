@@ -124,46 +124,72 @@
 	background-image: url('/assets/img/games/p5/demon-entry-frame.svg');
 	width: 100vw;
 	height: 80vh;
-	P {
+	p {
 		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 	}
 }
 .race-div {
-	position: relative;
-	top: 10vh;
-	right: 10vw;
-
 	p {
+		font-family: 'helvetica-now-display';
+		font-style: italic;
 		color: black;
 		letter-spacing: -1px;
-		font-weight: 900;
-		font-size: 7vh;
+		font-weight: 1000;
+		font-size: 5em;
 
-		transform: scale(0.7, 1.5);
+		-webkit-text-stroke: 10px #008ce5;
+		paint-order: stroke fill;
+
+		transform-origin: left top;
+		transform: rotate(-8deg) scale(0.6, 1.4);
 		padding: 2px;
 		margin: 0;
 	}
+	display: inline;
+	position: relative;
+	top: 19%;
+	left: 8%;
 }
 .name-div {
-	position: relative;
-	top: 6vh;
-	left: 20vw;
-	P {
-		font-size: 4vh;
+	p {
+		font-family: 'optima-nova-black';
+		font-size: 4em;
+		transform-origin: left top;
+		transform: rotate(-8deg);
 	}
+	display: inline;
+	position: relative;
+	top: 11%;
+	left: 22%;
 }
 .level-div {
-	position: relative;
-	top: 8vh;
-	left: 20vw;
-	P {
-		font-size: 5vh;
+	p {
+		font-size: 3em;
+		font-family: 'optima-nova-black';
+		transform-origin: left top;
+		transform: rotate(-8deg);
 	}
+	.level-header {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		transform: scale(0.7, 1.5);
+		font-weight: 900;
+		letter-spacing: -1px;
+		color: #808080;
+	}
+	display: inline;
+	position: relative;
+	top: 15.5%;
+	left: 20%;
 }
 .resist-div {
 	position: relative;
-	top: 7vh;
-	left: 20vw;
+	top: 20%;
+	left: 20%;
+	p {
+		font-family: 'helvetica-now-display';
+		font-weight: 900;
+		font-style: italic;
+	}
 }
 .affinities-div {
 	position: relative;
@@ -172,19 +198,53 @@
 }
 .skills-div {
 	position: relative;
-	top: 18vh;
-	left: 5vw;
-	max-width: 40%;
+	display: flex;
+	flex-direction: row;
+	top: 18%;
+	left: 1%;
+	max-width: 48%;
 	table {
 		text-align: center;
+	}
+	p {
+		font-family: 'optima-nova-black';
+		font-weight: 900;
+		letter-spacing: -1px;
 	}
 }
 .stats-div {
 	position: relative;
 	display: flex;
-	flex-direction: column;
-	top: -10vh;
-	left: 50vw;
+	flex-direction: row;
+	top: -12%;
+	left: 50%;
+	transform-origin: left top;
+	transform: rotate(-5deg);
+	p {
+		font-family: 'helvetica-now-display';
+		font-weight: 900;
+		font-size: 5vh;
+		font-style: italic;
+		padding-bottom: 2vh;
+		color: black;
+	}
+	.stat-label {
+		p {
+			transform: scale(0.7, 1.3);
+		}
+		#ma-label {
+			padding-left: 1vw;
+		}
+		#ag-label {
+			padding-left: 1vw;
+		}
+	}
+	.stat {
+		text-align: right;
+		.leading-zero {
+			color: #e6e6e6;
+		}
+	}
 }
 .inherits-div {
 }
