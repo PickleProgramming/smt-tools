@@ -1,20 +1,24 @@
 <div class="demon-entry-div">
-	<!-- Race -->
-	<div class="race-div">
-		<p>{{ demon.race }}</p>
-	</div>
-	<!-- Name   -->
-	<div class="name-div">
-		<p>
-			{{ demonName }}
-		</p>
-	</div>
-	<!-- Level  -->
-	<div class="level-div">
-		<p>
-			<span class="level-header"> LV </span>
-			{{ demon.level }}
-		</p>
+	<div class="race-name-level-wrapper">
+		<!-- Race -->
+		<div class="race-div">
+			<p>{{ demon.race }}</p>
+		</div>
+		<div class="name-level-wrapper">
+			<!-- Name   -->
+			<div class="name-div">
+				<p>
+					{{ demonName }}
+				</p>
+			</div>
+			<!-- Level  -->
+			<div class="level-div">
+				<p>
+					<span class="level-header"> LV </span>
+					{{ demon.level }}
+				</p>
+			</div>
+		</div>
 	</div>
 	<!-- Resistances -->
 	<div class="resist-div">
