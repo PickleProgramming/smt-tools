@@ -222,39 +222,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	): void {
 		//each loop will increment recurDepth, keep going until we have the configured amount of build recipes
 		while (this.buildCount < this.targetLength) {
-			let skills = _.cloneDeep(targetSkills)
-			let demon = this.compendium.demons[demonName]
-			//filter out skills the demon learns innately
-			let innate = _.intersection(skills, Object.keys(demon.skills))
-			if (innate.length > 0) _.pullAll(skills, innate)
-			let fissions = this.calculator.getFissions(demonName)
-			for (let fission of fissions) {
-				this.incCount(sub)
-				if (!this.validSources(skills, fission)) continue
-				//check if fissions have desirable skills
-				let found = this.checkFusionSkills(skills, fission)
-				if (found.length > 0 || this.recurDepth > 0) {
-					let diff = _.difference(skills, found)
-					//finish recipe if we have found all skills
-					if (diff.length == 0) {
-						this.emitBuild(fission, found, innate, sub)
-						break
-					}
-					//check sources if we have more skills to find
-					for (let sourceName of fission.sources) {
-						let build = this.getBuildRecipe(diff, 0, sourceName)
-						this.incCount(sub)
-						if (build != null) {
-							//prettier-ignore
-							this.emitBuild(fission, found, innate, sub, build)
-						}
-					}
-				}
-			}
-			sub.next({
-				build: null,
-				fuseCount: this.fuseCount++,
-			})
+			this.demon_getBuildRecipesShallow(targetSkills, demonName, sub)
 			this.recurDepth++
 		}
 	}
