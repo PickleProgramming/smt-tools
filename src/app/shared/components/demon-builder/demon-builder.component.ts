@@ -425,10 +425,11 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	}
 
 	test(): void {
-		this.demonControl.setValue('Alice')
-		this.skillControls[0].setValue('Die For Me!')
-		this.skillControls[1].setValue('Invigorate 3')
-		this.skillControls[2].setValue('Regenerate 3')
-		this.skillControls[3].setValue('Growth 3')
+		this.demonControl.setValue('Satanael')
+		this.skillControls[0].setValue('Evil Smile')
+		this.skillControls[1].setValue('Ghastly Wail')
+		this.skillControls[2].setValue('Ailment Boost')
+		this.skillControls[3].setValue('Miracle Punch')
+		this.skillControls[4].setValue('Apt Pupil')
 	}
 }

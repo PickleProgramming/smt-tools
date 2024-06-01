@@ -14,6 +14,15 @@ export class BuildRecipe {
 	 * @type {Fusion[]}
 	 */
 	fusions: Fusion[] = []
+
+	/**
+	 * A second chain to lead to an ingredient. Only used when the user wants a
+	 * resultant demon to inherit more than 4 skills, which is only possible
+	 * with certain special fusions
+	 *
+	 * @type {Fusion[]}
+	 */
+	specialFusions: Fusion[] = []
 	/**
 	 * The estimated cost of all the fusions in the recipe
 	 *
@@ -26,6 +35,14 @@ export class BuildRecipe {
 	 * @type {string[][]}
 	 */
 	inherittedSkills: string[][] = []
+	/**
+	 * A second list of skills to lead to an ingredient. Only used when the user
+	 * wants a resultant demon to inherit more than 4 skills, which is only
+	 * possible with certain special fusions
+	 *
+	 * @type {string[]}
+	 */
+	specialSkills: string[][] = []
 	/**
 	 * The skills that will be learned by the final demon by leveling up
 	 *
@@ -110,5 +127,25 @@ export class BuildRecipe {
 		let cost: number = 0
 		for (let step of this.fusions) cost += step.cost!
 		this.cost = cost
+	}
+
+	public appendBuild(build: BuildRecipe): void {
+		for (let i = 0; i < build.fusions.length; i++) {
+			this.fusions.push(build.fusions[i])
+			this.inherittedSkills.push(build.inherittedSkills[i])
+		}
+	}
+
+	/**
+	 * Takes a build recipe and adds it as another set of fusions that lead to
+	 * the resultant demon. This is only used in cases when the user wants their
+	 * result to inherit more than 5 skills. The result of this build recipe
+	 * must be part of the direct fission of this recipe.
+	 *
+	 * @param recipe The second recipe to add to the fusion
+	 */
+	public addSpecialFusion(recipe: BuildRecipe): void {
+		this.specialFusions = recipe.fusions
+		this.specialSkills = recipe.inherittedSkills
 	}
 }
