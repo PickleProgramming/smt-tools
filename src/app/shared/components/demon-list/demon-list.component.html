@@ -132,19 +132,22 @@
 					<td mat-cell *matCellDef="let demon">
 						@switch (demon.resistances.split("")[$index]) {
 							@case ("d") {
-								<p>ab</p>
+								<p>Dr</p>
 							}
 							@case ("w") {
-								<p>wk</p>
+								<p>Wk</p>
 							}
 							@case ("n") {
-								<p>nl</p>
+								<p>Nul</p>
 							}
 							@case ("s") {
-								<p>rs</p>
+								<p>Str</p>
 							}
 							@case ("r") {
-								<p>rp</p>
+								<p>Rpl</p>
+							}
+							@default {
+								<p>-</p>
 							}
 						}
 					</td>

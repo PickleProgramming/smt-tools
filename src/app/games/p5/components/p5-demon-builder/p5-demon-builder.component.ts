@@ -12,7 +12,7 @@ import { P5_COMPENDIUM } from '@shared/constants'
 		[loadingIcon]="loadingIcon"
 	>
 	</app-demon-builder>`,
-	styleUrl: './p5-demon-builder.component.scss',
+	styleUrl: '../../p5.scss',
 })
 export class P5DemonBuilderComponent {
 	compendium: P5Compendium = P5_COMPENDIUM
