@@ -8,6 +8,7 @@ import { Compendium } from '@shared/types/compendium'
 			<input
 				type="checkbox"
 				id="{{ pack.key }}"
+				[attr.data-cy]="pack.key.split(' ')[0]"
 				(change)="togglePack($event)"
 				[checked]="pack.value.enabled"
 			/>
