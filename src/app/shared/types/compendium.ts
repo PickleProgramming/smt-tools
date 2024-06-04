@@ -108,11 +108,7 @@ export abstract class Compendium {
 		this.followerName = followerName
 		if (dlcData) {
 			this.dlcDemons = {}
-			this.dlcPacks = this.parseDlcPacks(
-				dlcData,
-				this.dlcDemons,
-				this.skills
-			)
+			this.dlcPacks = this.parseDlcPacks(dlcData, this.dlcDemons)
 			this.dlcSkills = {}
 			//move dlc demon skills to another list
 			for (let skillName in this.skills) {
@@ -208,8 +204,7 @@ export abstract class Compendium {
 	 */
 	private parseDlcPacks(
 		dlcData: Object,
-		demonList: { [name: string]: Demon },
-		skillList: { [name: string]: Skill }
+		demonList: { [name: string]: Demon }
 	): { [name: string]: DLCPack } {
 		let dlcPacks: { [name: string]: DLCPack } = {}
 		Object.entries(dlcData).forEach(([packName, data]) => {
