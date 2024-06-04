@@ -7,6 +7,7 @@ import { MatCard } from '@angular/material/card'
 import { SharedModule } from '@shared/shared.module'
 import { P5RPersonaListComponent } from './components/p5r-demon-list.component'
 import { P5RSettingsComponent } from './components/p5r-settings.component'
+import { P5RSkillListComponent } from './components/p5r-skill-list.component'
 
 @NgModule({
 	declarations: [
@@ -14,6 +15,7 @@ import { P5RSettingsComponent } from './components/p5r-settings.component'
 		P5RHeaderComponent,
 		P5RPersonaListComponent,
 		P5RSettingsComponent,
+		P5RSkillListComponent,
 	],
 	imports: [CommonModule, SharedModule, MatCard, P5RRoutingModule],
 })
