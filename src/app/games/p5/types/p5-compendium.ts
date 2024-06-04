@@ -6,11 +6,25 @@ import {
 	Fusion,
 	ElementTable,
 	FusionTable,
+	Demon,
 } from '@shared/types/smt-tools.types'
 import { P5InheritanceType } from './p5-inheritance-types'
 
 export class P5Compendium extends Compendium {
 	inheritance: P5InheritanceType
+	/**
+	 * A key/value similar to demons, but only for dlc demons
+	 *
+	 * @type {?{ [name: string]: Demon }}
+	 */
+	declare dlcDemons: { [name: string]: Demon }
+	/**
+	 * A key/value similar to skills, but only for skills that are unique to dlc
+	 * demons
+	 *
+	 * @type {?{ [name: string]: Skill }}
+	 */
+	declare dlcSkills: { [name: string]: Skill }
 	constructor(
 		personaData: Object,
 		skillData: Object,
@@ -29,24 +43,7 @@ export class P5Compendium extends Compendium {
 			dlcData,
 			elementTable
 		)
-
 		this.inheritance = inheritData
-
-		//move dlc demon skills to another list
-		this.dlcSkills = {}
-		for (let skillName in this.skills) {
-			if (Object.keys(this.skills[skillName].learnedBy).length == 0) {
-				for (let demonName in this.dlcDemons) {
-					let demonSkills: string[] = Object.keys(
-						this.dlcDemons[demonName].skills
-					)
-					if (_.indexOf(demonSkills, skillName) != -1) {
-						this.dlcSkills[skillName] = this.skills[skillName]
-					}
-				}
-				delete this.skills[skillName]
-			}
-		}
 
 		console.log('P5 Compendium Created')
 
@@ -86,13 +83,15 @@ export class P5Compendium extends Compendium {
 		return specialRecipes
 	}
 
-	/*  Determines if the demon with the given name can inherit the skill
-        with the given name
-        @param demonName: name of demon to check
-        @param skillName: name of skill to check
-        @returns {boolean}: returns true if the demon can inherit this skill
-        false othewise 
-    */
+	/**
+	 * Determines if the demon with the given name can inherit the skill with
+	 * the given name
+	 *
+	 * @param demonName: Name of demon to check
+	 * @param skillName: Name of skill to check
+	 * @returns {boolean} : returns true if the demon can inherit this skill
+	 *   false othewise
+	 */
 	isInheritable(demonName: string, skillName: string): boolean {
 		let skillElem = this.skills[skillName].element
 		if (
@@ -111,7 +110,12 @@ export class P5Compendium extends Compendium {
 		return false
 	}
 
-	/* returns the approximate cost of the supplied recipe */
+	/**
+	 * Returns the approximate cost of the supplied recipe
+	 *
+	 * @param recipe
+	 * @returns
+	 */
 	getCost(recipe: Fusion): number {
 		let cost = 0
 		for (let source of recipe.sources) {
@@ -121,9 +125,13 @@ export class P5Compendium extends Compendium {
 		return cost
 	}
 
-	/*  @param: the element to check the inheritance capabilites of
-        returns: an array of the inheritance capabilites of the demon
-            see https://megamitensei.fandom.com/wiki/Skill_Inheritance */
+	/**
+	 * Returns the inheritance capabilites of the given element
+	 *
+	 * @param: the element to check the inheritance capabilites of
+	 * @returns: an array of the inheritance capabilites of the demon
+	 * @see {https://megamitensei.fandom.com/wiki/Skill_Inheritance}
+	 */
 	getInherits(element: string): boolean[] {
 		let ret: boolean[] = []
 		let inherits =
