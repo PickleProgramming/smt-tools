@@ -23,7 +23,7 @@ export class P5SettingsComponent implements OnInit {
 	//array relating the DLC pack names, to the names of the demons they add
 	packDemons: { [pack: string]: string[] } = {
 		Izanagi: ['Izanagi', 'Izanagi Picaro'],
-		Orpheus: ['Orpheus', 'Orpherus Picaro'],
+		Orpheus: ['Orpheus', 'Orpheus Picaro'],
 		Ariadne: ['Ariadne', 'Ariadne Picaro'],
 		Asterius: ['Asterius', 'Asterius Picaro'],
 		Thanatos: ['Thanatos', 'Thanatos Picaro'],
