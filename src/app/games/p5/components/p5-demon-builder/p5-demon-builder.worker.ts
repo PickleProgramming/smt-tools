@@ -199,7 +199,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		sub: Subscriber<BuildMessage>,
 		innate: string[]
 	): void {
-		if (targetSkills.length > 5) {
+		if (targetSkills.length < 5) {
 			throw Error(
 				'Called special_getBuildRecipe with less than 5 skills, use the normal function for these cases.'
 			)
