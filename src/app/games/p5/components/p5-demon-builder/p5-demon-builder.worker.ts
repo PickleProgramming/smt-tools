@@ -175,20 +175,10 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		let innate = _.intersection(skills, Object.keys(demon.skills))
 		if (innate.length > 0) _.pullAll(skills, innate)
 
-		if (targetSkills.length > 4) {
-			this.special_demon_getBuildRecipes(
-				targetSkills,
-				demonName,
-				sub,
-				innate
-			)
+		if (skills.length > 4) {
+			this.special_demon_getBuildRecipes(skills, demonName, sub, innate)
 		} else {
-			this.normal_demon_getBuildRecipes(
-				targetSkills,
-				demonName,
-				sub,
-				innate
-			)
+			this.normal_demon_getBuildRecipes(skills, demonName, sub, innate)
 		}
 	}
 
