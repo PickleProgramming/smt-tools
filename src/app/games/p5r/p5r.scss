@@ -1,0 +1,242 @@
+// --Styles for P5 Module--
+
+// --General Styling
+:host ::ng-deep p {
+	font-family: 'p5-hatty';
+	font-size: 16pt;
+}
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+	--mdc-filled-text-field-container-color: black;
+	--mat-form-field-container-text-font: 'p5-hatty';
+}
+:host ::ng-deep .expansion-panel {
+	background-color: black;
+	border-radius: 3px;
+	border: 3px solid white;
+}
+:host ::ng-deep .filter {
+	color: black;
+	border: 3px solid white;
+	background: black;
+	mat-label {
+		color: white;
+		font-family: 'p5-hatty';
+		font-size: 24pt;
+	}
+}
+// --Table Styling--
+:host ::ng-deep table {
+	background-color: black;
+	border-radius: 3px;
+	border: 3px solid white;
+}
+:host ::ng-deep .race-cell {
+	text-align: center;
+	padding-left: 0px;
+	margin-left: 0px;
+	font-size: 18pt;
+	p {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		color: black;
+		letter-spacing: -1px;
+		font-weight: 900;
+
+		transform: scale(0.7, 1.5);
+		border-radius: 3px;
+		background: white;
+		padding: 2px;
+		margin: 0;
+	}
+}
+:host ::ng-deep .level-cell {
+	padding-top: 1%;
+	p {
+		font-weight: 900;
+		color: white;
+	}
+}
+:host ::ng-deep .name-cell {
+	text-align: left;
+	p {
+		font-weight: 500;
+		color: white;
+	}
+}
+:host ::ng-deep .header-cell {
+	font-family: 'p5-hatty';
+	font-size: 20pt;
+	font-weight: 900;
+	font-style: italic;
+}
+
+// --Demon Builder Styling--
+// --User Entry--
+:host ::ng-deep .form-div {
+	border: 3px solid white;
+	background: black;
+}
+:host ::ng-deep .name-form-field,
+:host ::ng-deep .level-form-field,
+:host ::ng-deep .skill-form-field,
+:host ::ng-deep .recur-form-field {
+	background: black;
+	mat-label {
+		color: white;
+		font-family: 'p5-hatty';
+		font-size: 24pt;
+	}
+}
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+	--mdc-filled-text-field-container-color: black;
+}
+:host ::ng-deep .builder-button {
+	border: 3px solid white;
+	background: black;
+}
+// --Results Table--
+:host ::ng-deep .results-div {
+	border: 3px solid white;
+	background: black;
+}
+:host ::ng-deep .directions-div {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-style: italic;
+	.demon-link {
+		font-style: normal;
+		color: white;
+		text-decoration: underline;
+	}
+	.result-emphasis {
+		font-style: normal;
+		font-weight: 700;
+	}
+	.step-number {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+		font-style: normal;
+		font-weight: 700;
+		font-size: 16px;
+	}
+}
+// --Demon Entry Styling--
+.demon-entry-div {
+	width: 100vw;
+	height: 80vh;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
+	gap: 3vh;
+	background-image: url('/assets/img/games/p5/demon-entry-frame.svg');
+	p {
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	}
+	.race-name-level-wrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		.race-div {
+			display: flex;
+			align-items: flex-start;
+			padding: 4vh;
+			p {
+				font-family: 'helvetica-now-display';
+				font-style: italic;
+				color: black;
+				letter-spacing: -1px;
+				font-weight: 1000;
+				font-size: 5em;
+
+				-webkit-text-stroke: 10px #008ce5;
+				paint-order: stroke fill;
+
+				transform: scale(0.6, 1.4);
+			}
+		}
+		.name-level-wrapper {
+			.name-div {
+				margin-top: 3vh;
+				margin-bottom: 3vh;
+				p {
+					font-family: 'optima-nova-black';
+					font-size: 4em;
+				}
+			}
+			.level-div {
+				p {
+					font-size: 3em;
+					font-family: 'optima-nova-black';
+				}
+				.level-header {
+					font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial,
+						sans-serif;
+					font-weight: 900;
+					letter-spacing: -1px;
+					color: #808080;
+				}
+			}
+		}
+	}
+	.resist-div {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		p {
+			font-family: 'helvetica-now-display';
+			font-weight: 900;
+			font-style: italic;
+		}
+	}
+	.skills-div {
+		grid-row-start: 4;
+		background: blue;
+		table {
+			text-align: center;
+		}
+		p {
+			font-size: 1.5em;
+			font-family: 'optima-nova-black';
+			font-weight: 900;
+			letter-spacing: -1px;
+		}
+	}
+	.stats-div {
+		// transform: rotate(-5deg);
+		grid-row-start: 4;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		p {
+			font-family: 'helvetica-now-display';
+			font-weight: 900;
+			font-size: 4em;
+			font-style: italic;
+			padding-bottom: 2vh;
+			color: black;
+		}
+		.stat-label {
+			p {
+				transform: scale(0.7, 1.3);
+			}
+			#ma-label {
+				padding-left: 1vw;
+			}
+			#ag-label {
+				padding-left: 1vw;
+			}
+		}
+		.stat {
+			text-align: left;
+			.leading-zero {
+				color: #e6e6e6;
+			}
+		}
+	}
+	.affinities-div {
+	}
+}
+
+.inherits-div {
+}
+.inherit-div {
+}
