@@ -41,12 +41,12 @@ export class P5SettingsComponent implements OnInit {
 			Izanagi: this.compendium.demons['Izanagi'] !== undefined,
 			Orpheus: this.compendium.demons['Orpheus'] !== undefined,
 			Ariadne: this.compendium.demons['Ariadne'] !== undefined,
-			Asterius: this.compendium.demons['Aterius'] !== undefined,
+			Asterius: this.compendium.demons['Asterius'] !== undefined,
 			Thanatos: this.compendium.demons['Thanatos'] !== undefined,
 			Kaguya: this.compendium.demons['Kaguya'] !== undefined,
 			'Magatsu-Izanagi':
 				this.compendium.demons['Magatsu-Izanagi'] !== undefined,
-			Tsukiyomi: this.compendium.demons['Tuskiyomi'] !== undefined,
+			Tsukiyomi: this.compendium.demons['Tsukiyomi'] !== undefined,
 			Messiah: this.compendium.demons['Messiah'] !== undefined,
 		}
 	}
