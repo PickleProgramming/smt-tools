@@ -442,6 +442,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 * @overload
 	 */
 	noDemon_isValid(skills: string[]): boolean {
+		let unique = this.hasUniqueSkills(skills)
+		if (unique) return this.demon_isValid(skills, unique)
 		let demons = this.getDemonsWithSkills(skills)
 		for (let demon of demons) {
 			let inter = _.intersection(
