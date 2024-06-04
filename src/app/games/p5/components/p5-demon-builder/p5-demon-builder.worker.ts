@@ -265,13 +265,10 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 				}
 				//check sources if we have more skills to find
 				for (let sourceName of fission.sources) {
-					let build: BuildRecipe | null
-					build = this.getBuildRecipe(diff, 0, sourceName)
+					let build = this.getBuildRecipe(diff, 0, sourceName)
 					this.incCount(sub)
-					if (build) {
-						//prettier-ignore
-						this.emitBuild(fission, found, innate, sub, build)
-					}
+					if (!build) continue
+					this.emitBuild(fission, found, innate, sub, build)
 				}
 			}
 		}
