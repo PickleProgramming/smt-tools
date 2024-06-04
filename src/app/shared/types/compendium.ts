@@ -5,7 +5,9 @@ import {
 	FusionTable,
 	Fusion,
 	ElementTable,
+	DLCPack,
 } from './smt-tools.types'
+import { ThisReceiver } from '@angular/compiler'
 
 /**
  * Root object used by a game view. Each game should have their own compendium
@@ -42,6 +44,26 @@ export abstract class Compendium {
 	 */
 	declare specialRecipes?: { [name: string]: string[] }
 	/**
+	 * A key/value similar to demons, but only for dlc demons
+	 *
+	 * @type {?{ [name: string]: Demon }}
+	 */
+	declare dlcDemons?: { [name: string]: Demon }
+	/**
+	 * A key/value similar to skills, but only for skills that are unique to dlc
+	 * demons
+	 *
+	 * @type {?{ [name: string]: Skill }}
+	 */
+	declare dlcSkills?: { [name: string]: Skill }
+	/**
+	 * Key/value pair of DLC Packs to keep track of what DLC the user has
+	 * enabled. Relates the name of the pack to its object
+	 *
+	 * @type {?{ [name: string]: DLCPack }}
+	 */
+	declare dlcPacks?: { [name: string]: DLCPack }
+	/**
 	 * The table detailing fusions with elemental demons for the specific game
 	 *
 	 * @type {ElementTable | null}
@@ -65,6 +87,7 @@ export abstract class Compendium {
 	 * @param {Object} skillData JSON object to read skill data from
 	 * @param {FusionTable} fusionTable Fusion table to assign to member
 	 * @param {Object} specialData JSON object to read special recipes from
+	 * @param {Object | null} [dlcData] JSON object to read dlc demons from
 	 * @param {ElementTable | null} [elementTable] Element table to assign to
 	 *   member
 	 */
@@ -74,6 +97,7 @@ export abstract class Compendium {
 		fusionTable: FusionTable,
 		specialData: Object,
 		followerName: string,
+		dlcData?: Object,
 		elementTable?: ElementTable
 	) {
 		this.skills = this.parseSkills(skillData)
@@ -82,6 +106,30 @@ export abstract class Compendium {
 
 		if (specialData) this.specialRecipes = this.parseSpecial!(specialData)
 		this.followerName = followerName
+		if (dlcData) {
+			this.dlcDemons = {}
+			this.dlcPacks = this.parseDlcPacks(
+				dlcData,
+				this.dlcDemons,
+				this.skills
+			)
+			this.dlcSkills = {}
+			//move dlc demon skills to another list
+			for (let skillName in this.skills) {
+				if (Object.keys(this.skills[skillName].learnedBy).length == 0) {
+					for (let demonName in this.dlcDemons) {
+						let demonSkills: string[] = Object.keys(
+							this.dlcDemons[demonName].skills
+						)
+						if (_.indexOf(demonSkills, skillName) != -1) {
+							this.dlcSkills[skillName] = this.skills[skillName]
+						}
+					}
+					delete this.skills[skillName]
+				}
+			}
+		}
+
 		if (elementTable) this.elementTable = elementTable
 	}
 
@@ -147,6 +195,36 @@ export abstract class Compendium {
 	 */
 	protected abstract parseSpecial?(specialData: Object): {
 		[name: string]: string[]
+	}
+
+	/**
+	 * Reads the dlcPacks from the JSON files into respective objects
+	 *
+	 * @private
+	 * @param {Object} dlcData
+	 * @param {{ [name: string]: Demon }} demonList List to parse demons into
+	 * @param {{ [name: string]: Skill }} skillList List to parse skills into
+	 * @returns {{ [name: string]: DLCPack }}
+	 */
+	private parseDlcPacks(
+		dlcData: Object,
+		demonList: { [name: string]: Demon },
+		skillList: { [name: string]: Skill }
+	): { [name: string]: DLCPack } {
+		let dlcPacks: { [name: string]: DLCPack } = {}
+		Object.entries(dlcData).forEach(([packName, data]) => {
+			this.parseDemons(data, demonList)
+			let demonNames: string[] = []
+			Object.entries(data).forEach(([demonName, demon]) => {
+				demonNames.push(demonName)
+			})
+			dlcPacks[packName] = {
+				packName: packName,
+				demonNames: demonNames,
+				enabled: false,
+			}
+		})
+		return dlcPacks
 	}
 
 	/**
@@ -251,5 +329,50 @@ export abstract class Compendium {
 		let intersect = _.intersection(this.elementTable.elems, [demonName])
 		if (intersect.length > 0) return true
 		return false
+	}
+
+	public enablePack(packName: string) {
+		if (
+			this.dlcPacks === undefined ||
+			this.dlcDemons === undefined ||
+			this.dlcSkills === undefined
+		) {
+			throw new Error(`Compendium does not contain DLC Packs`)
+		}
+		let pack = this.dlcPacks[packName]
+		for (let demonName of pack.demonNames) {
+			let demon = this.dlcDemons[demonName]
+			this.demons[demonName] = demon
+			for (let skillName in demon.skills) {
+				let skill = this.dlcSkills[skillName]
+				// skip the skill if it is not a dlc skill
+				if (!skill) continue
+				if (!this.skills[skillName]) {
+					this.skills[skillName] = skill
+				}
+				this.skills[skillName].learnedBy[demonName] =
+					demon.skills[skillName]
+			}
+		}
+	}
+
+	public disablePack(packName: string) {
+		if (
+			this.dlcPacks === undefined ||
+			this.dlcDemons === undefined ||
+			this.dlcSkills === undefined
+		) {
+			throw new Error(`Compendium does not contain DLC Packs`)
+		}
+		let pack = this.dlcPacks[packName]
+		for (let demonName of pack.demonNames) {
+			for (let skillName in this.dlcSkills) {
+				let skill = this.dlcSkills[skillName]
+				if (skill.unique === demonName) {
+					delete this.skills[skillName]
+				}
+			}
+			delete this.demons[demonName]
+		}
 	}
 }

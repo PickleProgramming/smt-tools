@@ -1,29 +1,40 @@
-import { Input, Component, OnInit } from '@angular/core'
-import { Demon } from '@shared/types/smt-tools.types'
+import { Input, Component } from '@angular/core'
+import { Compendium } from '@shared/types/compendium'
 
 @Component({
 	selector: 'app-settings',
-	template: ` <div
-		class="dlcSettings"
-		*ngFor="let pack of packsEnabled | keyvalue"
-	>
-		<input
-			type="checkbox"
-			id="{{ pack.key }}"
-			(change)="togglePack($event)"
-			[checked]="pack.value"
-		/>
-		{{ pack.key }}
-		<br />
+	template: ` <div class="dlcSettings">
+		@for (pack of compendium.dlcPacks | keyvalue; track $index) {
+			<input
+				type="checkbox"
+				id="{{ pack.key }}"
+				(change)="togglePack($event)"
+				[checked]="pack.value.enabled"
+			/>
+			{{ pack.key }}
+			<br />
+		}
 	</div>`,
 	styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit {
-	@Input() declare dlcDemons: { [name: string]: Demon }
-	@Input() declare packsEnabled: { [name: string]: boolean }
-	@Input() declare togglePack: (event: any) => void
+export class SettingsComponent {
+	@Input() declare compendium: Compendium
 
 	constructor() {}
 
-	ngOnInit(): void {}
+	/**
+	 * Runs when the user toggles a checkbox. If the box is checked, adds the
+	 * demons in the pack to the compendium along with their skills. If the box
+	 * is unchecked, removes the demons and their skills from the compendium
+	 *
+	 * @param event
+	 */
+	togglePack = (event: any): void => {
+		let pack: string = event.currentTarget.id
+		let checked: boolean = event.srcElement.checked
+		if (checked) this.compendium.enablePack(pack)
+		else this.compendium.disablePack(pack)
+		this.compendium.dlcPacks![pack].enabled =
+			!this.compendium.dlcPacks![pack].enabled
+	}
 }

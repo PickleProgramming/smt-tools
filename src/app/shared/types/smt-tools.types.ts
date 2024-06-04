@@ -392,3 +392,33 @@ export interface BuildMessage {
 	 */
 	fuseCount: number
 }
+
+/**
+ * Type containing information about a single pack of DLC
+ *
+ * @typedef {DLCPack}
+ * @export
+ * @interface DLCPack
+ */
+export interface DLCPack {
+	/**
+	 * The name of the DLC pack to be displayed to the user
+	 *
+	 * @type {string}
+	 */
+	packName: string
+
+	/**
+	 * The names of demons added with the pack
+	 *
+	 * @type {string[]}
+	 */
+	demonNames: string[]
+
+	/**
+	 * Specifies if the pack is enabled for the current compendium
+	 *
+	 * @type {boolean}
+	 */
+	enabled: boolean
+}
