@@ -42,19 +42,6 @@ export abstract class Compendium {
 	 */
 	declare specialRecipes?: { [name: string]: string[] }
 	/**
-	 * A key/value similar to demons, but only for dlc demons
-	 *
-	 * @type {?{ [name: string]: Demon }}
-	 */
-	declare dlcDemons?: { [name: string]: Demon }
-	/**
-	 * A key/value similar to skills, but only for skills that are unique to dlc
-	 * demons
-	 *
-	 * @type {?{ [name: string]: Skill }}
-	 */
-	declare dlcSkills?: { [name: string]: Skill }
-	/**
 	 * The table detailing fusions with elemental demons for the specific game
 	 *
 	 * @type {ElementTable | null}
@@ -78,7 +65,6 @@ export abstract class Compendium {
 	 * @param {Object} skillData JSON object to read skill data from
 	 * @param {FusionTable} fusionTable Fusion table to assign to member
 	 * @param {Object} specialData JSON object to read special recipes from
-	 * @param {Object | null} [dlcData] JSON object to read dlc demons from
 	 * @param {ElementTable | null} [elementTable] Element table to assign to
 	 *   member
 	 */
@@ -88,7 +74,6 @@ export abstract class Compendium {
 		fusionTable: FusionTable,
 		specialData: Object,
 		followerName: string,
-		dlcData?: Object,
 		elementTable?: ElementTable
 	) {
 		this.skills = this.parseSkills(skillData)
@@ -97,10 +82,6 @@ export abstract class Compendium {
 
 		if (specialData) this.specialRecipes = this.parseSpecial!(specialData)
 		this.followerName = followerName
-		if (dlcData) {
-			this.dlcDemons = {}
-			this.parseDemons(dlcData, this.dlcDemons)
-		}
 		if (elementTable) this.elementTable = elementTable
 	}
 

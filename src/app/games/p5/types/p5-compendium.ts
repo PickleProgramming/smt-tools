@@ -6,11 +6,25 @@ import {
 	Fusion,
 	ElementTable,
 	FusionTable,
+	Demon,
 } from '@shared/types/smt-tools.types'
 import { P5InheritanceType } from './p5-inheritance-types'
 
 export class P5Compendium extends Compendium {
 	inheritance: P5InheritanceType
+	/**
+	 * A key/value similar to demons, but only for dlc demons
+	 *
+	 * @type {?{ [name: string]: Demon }}
+	 */
+	declare dlcDemons: { [name: string]: Demon }
+	/**
+	 * A key/value similar to skills, but only for skills that are unique to dlc
+	 * demons
+	 *
+	 * @type {?{ [name: string]: Skill }}
+	 */
+	declare dlcSkills: { [name: string]: Skill }
 	constructor(
 		personaData: Object,
 		skillData: Object,
@@ -26,12 +40,11 @@ export class P5Compendium extends Compendium {
 			fusionTable,
 			specialRecipes,
 			'personas',
-			dlcData,
 			elementTable
 		)
-
 		this.inheritance = inheritData
-
+		this.dlcDemons = {}
+		this.parseDemons(dlcData, this.dlcDemons)
 		//move dlc demon skills to another list
 		this.dlcSkills = {}
 		for (let skillName in this.skills) {

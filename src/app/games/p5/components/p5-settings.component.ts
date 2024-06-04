@@ -8,7 +8,7 @@ import { P5_COMPENDIUM } from '@shared/constants'
 @Component({
 	selector: 'app-p5-fusion-settings',
 	template: ` <app-settings
-		[dlcDemons]="dlcDemons!"
+		[dlcDemons]="dlcDemons"
 		[packsEnabled]="packsEnabled"
 		[togglePack]="togglePack"
 	>
@@ -16,7 +16,7 @@ import { P5_COMPENDIUM } from '@shared/constants'
 })
 export class P5SettingsComponent implements OnInit {
 	compendium: P5Compendium = P5_COMPENDIUM
-	dlcDemons?: { [name: string]: Demon } = this.compendium.dlcDemons
+	dlcDemons: { [name: string]: Demon } = this.compendium.dlcDemons
 
 	//keeps track of which DLC packs have been enabled in the compendium
 	packsEnabled: { [name: string]: boolean } = {}
@@ -73,10 +73,12 @@ export class P5SettingsComponent implements OnInit {
 	 */
 	addPack(pack: string): void {
 		for (let demonName of this.packDemons[pack]) {
-			let demon = this.compendium.dlcDemons![demonName]
+			let demon = this.compendium.dlcDemons[demonName]
 			this.compendium.demons[demonName] = demon
 			for (let skillName in demon.skills) {
-				let skill = this.compendium.dlcSkills![skillName]
+				let skill = this.compendium.dlcSkills[skillName]
+				// skip the skill if it is not a dlc skill
+				if (!skill) continue
 				if (!this.compendium.skills[skillName]) {
 					this.compendium.skills[skillName] = skill
 				}
