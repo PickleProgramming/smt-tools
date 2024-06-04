@@ -36,8 +36,7 @@ export class P5SettingsComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit(): void {
-		/* enables/disables the packs in the view by checking if they are in 
-		the demonlist */
+		// enables/disables the packs in the view by checking if they are in the demonlist
 		this.packsEnabled = {
 			Izanagi: this.compendium.demons['Izanagi'] !== undefined,
 			Orpheus: this.compendium.demons['Orpheus'] !== undefined,
@@ -52,37 +51,54 @@ export class P5SettingsComponent implements OnInit {
 		}
 	}
 
-	/* takes the name of the demon taken from the check event, adds it to the
-		compendiums demon list, then adds all of the dlcSkills to the 
-		compendiums skills, and populates their learned by list, or removes all
-		this data if the pack was toggled off */
+	/**
+	 * Runs when the user toggles a checkbox. If the box is checked, adds the
+	 * demons in the pack to the compendium along with their skills. If the box
+	 * is unchecked, removes the demons and their skills from the compendium
+	 *
+	 * @param event
+	 */
 	togglePack = (event: any): void => {
-		let pack: string = event.path[0].id
+		let pack: string = event.currentTarget.id
 		let checked: boolean = event.srcElement.checked
-		if (checked) {
-			for (let demonName of this.packDemons[pack]) {
-				let demon = this.compendium.dlcDemons![demonName]
-				this.compendium.demons[demonName] = demon
-				for (let skillName in demon.skills) {
-					let skill = this.compendium.dlcSkills![skillName]
-					if (!this.compendium.skills[skillName]) {
-						this.compendium.skills[skillName] = skill
-					}
-					this.compendium.skills[skillName].learnedBy[demonName] =
-						demon.skills[skillName]
+		if (checked) this.addPack(pack)
+		else this.removePack(pack)
+		this.packsEnabled[pack] = !this.packsEnabled[pack]
+	}
+
+	/**
+	 * Adds the specified demon and his skills to this components compendium
+	 *
+	 * @param name
+	 */
+	addPack(pack: string): void {
+		for (let demonName of this.packDemons[pack]) {
+			let demon = this.compendium.dlcDemons![demonName]
+			this.compendium.demons[demonName] = demon
+			for (let skillName in demon.skills) {
+				let skill = this.compendium.dlcSkills![skillName]
+				if (!this.compendium.skills[skillName]) {
+					this.compendium.skills[skillName] = skill
 				}
-			}
-		} else {
-			for (let demonName of this.packDemons[pack]) {
-				for (let skillName in this.compendium.dlcSkills) {
-					let skill = this.compendium.dlcSkills[skillName]
-					if (skill.unique === demonName) {
-						delete this.compendium.skills[skillName]
-					}
-				}
-				delete this.compendium.demons[demonName]
+				this.compendium.skills[skillName].learnedBy[demonName] =
+					demon.skills[skillName]
 			}
 		}
-		this.packsEnabled[pack] = !this.packsEnabled[pack]
+	}
+	/**
+	 * Removes the specified demon and his skills to this components compendium
+	 *
+	 * @param name
+	 */
+	removePack(pack: string): void {
+		for (let demonName of this.packDemons[pack]) {
+			for (let skillName in this.compendium.dlcSkills) {
+				let skill = this.compendium.dlcSkills[skillName]
+				if (skill.unique === demonName) {
+					delete this.compendium.skills[skillName]
+				}
+			}
+			delete this.compendium.demons[demonName]
+		}
 	}
 }
