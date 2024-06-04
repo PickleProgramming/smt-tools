@@ -67,8 +67,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	 */
 	protected getBuildRecipes(input: UserInput): Observable<BuildMessage> {
 		if (input.maxLevel) this.maxLevel = input.maxLevel
-		/* check for any immediate problems with user input then begin recursive
-			 calls, either with a specified demon or without.*/
+		//check for any immediate problems with user input then begin recursive calls, either with a specified demon or without.
 		this.isValid(input.targetSkills, input.demonName)
 		if (input.demonName) {
 			return this.demon_getBuildRecipes(
@@ -155,88 +154,6 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 		})
 	}
 
-	protected special_demon_getBuildRecipes(
-		targetSkills: string[],
-		demonName: string,
-		sub: Subscriber<BuildMessage>,
-		innate: string[]
-	): void {
-		if (targetSkills.length > 5) {
-			throw Error(
-				'Called special_getBuildRecipe with less than 5 skills, use the normal function for these cases.'
-			)
-		}
-		//because only special fusions can inherit more than 4 skills, we know there is only one recipe for the demon specified in the arguments
-		let fission = this.calculator.getFissions(demonName)[0]
-		//check if fission have any desirable skills
-		let found = this.checkFusionSkills(targetSkills, fission)
-		//build a list of every combination of 4 of the skills
-		let subArrays = this.getSubArrays(targetSkills)
-		let combos: string[][] = []
-		for (let subArray of subArrays) {
-			if (subArray.length == 4) combos.push(subArray)
-		}
-
-		//build a recipe where a parent inherits 4 of the skills
-		for (let combo of combos) {
-			let lastSkill = _.difference(targetSkills, combo)
-			for (let sourceA of fission.sources) {
-				let result = this.getBuildRecipe(combo, 0, sourceA)
-				//found a parent that can inheir 4 skills
-				if (result != null) {
-					let diff = fission.sources.filter(
-						(value) => value != sourceA
-					)
-					for (let sourceB of diff) {
-						let recipe = this.getBuildRecipe(lastSkill, 0, sourceB)
-						//found another parent that can inherit the last skill
-						if (recipe != null) {
-							result.addSpecialFusion(recipe)
-							this.emitBuild(fission, found, innate, sub, result)
-						}
-					}
-				}
-			}
-		}
-	}
-
-	protected normal_demon_getBuildRecipes(
-		targetSkills: string[],
-		demonName: string,
-		sub: Subscriber<BuildMessage>,
-		innate: string[]
-	): void {
-		let fissions = this.calculator.getFissions(demonName)
-		for (let fission of fissions) {
-			this.incCount(sub)
-			if (!this.validSources(targetSkills, fission)) continue
-			//check if fissions have desirable skills
-			let found = this.checkFusionSkills(targetSkills, fission)
-			if (found.length > 0 || this.recurDepth > 0) {
-				let diff = _.difference(targetSkills, found)
-				//finish recipe if we have found all skills
-				if (diff.length == 0) {
-					this.emitBuild(fission, found, innate, sub)
-					break
-				}
-				//check sources if we have more skills to find
-				for (let sourceName of fission.sources) {
-					let build: BuildRecipe | null
-					build = this.getBuildRecipe(diff, 0, sourceName)
-					this.incCount(sub)
-					if (build) {
-						//prettier-ignore
-						this.emitBuild(fission, found, innate, sub, build)
-					}
-				}
-			}
-		}
-		sub.next({
-			build: null,
-			fuseCount: this.fuseCount++,
-		})
-	}
-
 	/**
 	 * Attempts to generate a recipe to bulid the specified demon while never
 	 * exceeding a recursive depth of 1. This will mean only the easy
@@ -276,6 +193,105 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	}
 
 	/**
+	 * Method to get recipes for a special fusion where a specified demon should
+	 * inherit a number of skills that is greater than 4. Should be called after
+	 * determining is the demon learns any skills innately, and after removing
+	 * those skills from the targetSkills list.
+	 *
+	 * @param targetSkills List of the skills to be inheritted
+	 * @param demonName The name of the demon to fuse to
+	 * @param sub The subscriber object that sends messages to the component
+	 * @param innate The skills found that the demon learns innately
+	 */
+	protected special_demon_getBuildRecipes(
+		targetSkills: string[],
+		demonName: string,
+		sub: Subscriber<BuildMessage>,
+		innate: string[]
+	): void {
+		if (targetSkills.length > 5) {
+			throw Error(
+				'Called special_getBuildRecipe with less than 5 skills, use the normal function for these cases.'
+			)
+		}
+		//because only special fusions can inherit more than 4 skills, and special fusions only have one recipe, we know there is only one recipe for the demon specified in the arguments
+		let fission = this.calculator.getFissions(demonName)[0]
+		//check if fission have any desirable skills
+		let found = this.checkFusionSkills(targetSkills, fission)
+		//build a list of every combination of 4 of the skills
+		let subArrays = this.getSubArrays(targetSkills)
+		let combos: string[][] = []
+		for (let subArray of subArrays) {
+			if (subArray.length == 4) combos.push(subArray)
+		}
+		//build a recipe where a parent inherits 4 of the skills
+		for (let combo of combos) {
+			let lastSkill = _.difference(targetSkills, combo)
+			for (let sourceA of fission.sources) {
+				let result = this.getBuildRecipe(combo, 0, sourceA)
+				//found a parent that can inherit 4 skills
+				if (!result) continue
+				let diff = fission.sources.filter((value) => value != sourceA)
+				for (let sourceB of diff) {
+					let recipe = this.getBuildRecipe(lastSkill, 0, sourceB)
+					if (!recipe) continue
+					//found another parent that can inherit the last skill
+					result.addSpecialFusion(recipe)
+					this.emitBuild(fission, found, innate, sub, result)
+				}
+			}
+		}
+	}
+
+	/**
+	 * Method to get recipes for a normal or special fusion where a specified
+	 * demon should inherit a number of skills that is less than or equal to 4.
+	 * Should be called after determining is the demon learns any skills
+	 * innately, and after removing those skills from the targetSkills list.
+	 *
+	 * @param targetSkills List of the skills to be inheritted
+	 * @param demonName The name of the demon to fuse to
+	 * @param sub The subscriber object that sends messages to the component
+	 * @param innate The skills found that the demon learns innately
+	 */
+	protected normal_demon_getBuildRecipes(
+		targetSkills: string[],
+		demonName: string,
+		sub: Subscriber<BuildMessage>,
+		innate: string[]
+	): void {
+		let fissions = this.calculator.getFissions(demonName)
+		for (let fission of fissions) {
+			this.incCount(sub)
+			if (!this.validSources(targetSkills, fission)) continue
+			//check if fissions have desirable skills
+			let found = this.checkFusionSkills(targetSkills, fission)
+			if (found.length > 0 || this.recurDepth > 0) {
+				let diff = _.difference(targetSkills, found)
+				//finish recipe if we have found all skills
+				if (diff.length == 0) {
+					this.emitBuild(fission, found, innate, sub)
+					break
+				}
+				//check sources if we have more skills to find
+				for (let sourceName of fission.sources) {
+					let build: BuildRecipe | null
+					build = this.getBuildRecipe(diff, 0, sourceName)
+					this.incCount(sub)
+					if (build) {
+						//prettier-ignore
+						this.emitBuild(fission, found, innate, sub, build)
+					}
+				}
+			}
+		}
+		sub.next({
+			build: null,
+			fuseCount: this.fuseCount++,
+		})
+	}
+
+	/**
 	 * Attempts to generate a recipe to bulid the specified demon. There is no
 	 * limit on the recursive depth this algorithm will go, it will only stop
 	 * once it has fount enough build recipes to equal this.targetLength
@@ -292,8 +308,8 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	): void {
 		//each loop will increment recurDepth, keep going until we have the configured amount of build recipes
 		while (this.buildCount < this.targetLength) {
-			this.demon_getBuildRecipesShallow(targetSkills, demonName, sub)
 			this.recurDepth++
+			this.demon_getBuildRecipesShallow(targetSkills, demonName, sub)
 		}
 	}
 	/**
@@ -404,8 +420,7 @@ export class P5DemonBuilderWorker extends DemonBuilder {
 	protected noDemon_getBuildRecipes(
 		targetSkills: string[]
 	): Observable<BuildMessage> {
-		/* if there are any unique skills, we know we will be building to a 
-			specific demon. Switch to other method.*/
+		// if there are any unique skills, we know we will be building to a specific demon. Switch to other method.
 		let unique = this.hasUniqueSkills(targetSkills)
 		if (unique) {
 			return this.demon_getBuildRecipes(targetSkills, unique)
