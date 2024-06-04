@@ -6,7 +6,7 @@ import { Router } from '@angular/router'
 
 import { Compendium } from '@shared/types/compendium'
 import { FusionCalculator } from '@shared/types/fusion-calculator'
-import { Demon, Fusion } from '@shared/types/smt-tools.types'
+import { Demon, Fusion, TableConfig } from '@shared/types/smt-tools.types'
 
 /**
  * The component that will display when a user clicks the name of a demon in the
@@ -18,9 +18,9 @@ import { Demon, Fusion } from '@shared/types/smt-tools.types'
  * @implements {OnInit}
  */
 @Component({
-	selector: 'app-demon-entry',
-	templateUrl: './demon-entry.component.html',
-	styleUrls: ['./demon-entry.component.scss'],
+	selector: 'app-entry-fusion-tables',
+	templateUrl: './entry-fusion-tables.component.html',
+	styleUrls: ['./entry-fusion-tables.component.scss'],
 })
 export class DemonEntryComponent implements OnInit {
 	/**
@@ -36,31 +36,29 @@ export class DemonEntryComponent implements OnInit {
 	 */
 	@Input() declare calculator: FusionCalculator
 	/**
-	 * Angular Material object to facilitate sorting
+	 * The tableConfig interface from the approriate game
 	 *
-	 * @type {MatSort}
+	 * @type {TableConfig}
 	 */
-	@ViewChild(MatSort) declare sort: MatSort
-
+	@Input() declare tableConfig: TableConfig
 	/**
 	 * The name of the demon the entry is about
 	 *
 	 * @type {string}
 	 */
-	declare name: string
+	@Input() declare demonName: string
+	/**
+	 * Angular Material object to facilitate sorting
+	 *
+	 * @type {MatSort}
+	 */
+	@ViewChild(MatSort) declare sort: MatSort
 	/**
 	 * The object of the demon the entry is about
 	 *
 	 * @type {Demon}
 	 */
 	declare demon: Demon
-	/**
-	 * TODO: this isn't represented anywhere on the table, maybe I thought I
-	 * would need this later?
-	 *
-	 * @type {boolean[]}
-	 */
-	declare inheritTypes: boolean[]
 	/**
 	 * A list of all the fissions from this demon
 	 *
@@ -119,15 +117,15 @@ export class DemonEntryComponent implements OnInit {
 
 	ngOnInit(): void {
 		//get the demon name from the URL
-		this.name = this.router.url.split('/')[3]
-		if (this.name.includes('%20')) this.name = this.name.replace('%20', ' ')
+		this.demonName = this.router.url.split('/')[3]
+		if (this.demonName.includes('%20'))
+			this.demonName = this.demonName.replace('%20', ' ')
 
 		//retrieve the necessary data from the game's compendium and store it in the data sources
-		this.demon = this.compendium.demons[this.name]
-		this.inheritTypes = this.compendium.getInherits(this.demon.inherits!)
-		this.fissions = this.calculator.getFissions(this.name)
+		this.demon = this.compendium.demons[this.demonName]
+		this.fissions = this.calculator.getFissions(this.demonName)
 		this.fissionSource = new MatTableDataSource(this.fissions)
-		this.fusions = this.calculator.getFusions(this.name)
+		this.fusions = this.calculator.getFusions(this.demonName)
 		this.fusionSource = new MatTableDataSource(this.fusions)
 	}
 
