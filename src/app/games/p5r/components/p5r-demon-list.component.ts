@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 
 import { Demon, TableConfig } from '@shared/types/smt-tools.types'
 
-import { P5_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
+import { P5R_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
 
 /**
  * Demon list component for P5
@@ -27,7 +27,7 @@ export class P5RPersonaListComponent {
 	 * @type {{ [name: string]: Demon }}
 	 */
 	demons: { [name: string]: Demon } = this.shortenRacesDemons(
-		P5_COMPENDIUM.demons
+		P5R_COMPENDIUM.demons
 	)
 
 	constructor() {}

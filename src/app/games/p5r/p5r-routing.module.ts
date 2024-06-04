@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { P5RWrapperComponent } from './components/p5r-wrapper.component'
 import { P5RPersonaListComponent } from './components/p5r-demon-list.component'
+import { P5RSettingsComponent } from './components/p5r-settings.component'
 
 const routes: Routes = [
 	{
@@ -12,6 +13,11 @@ const routes: Routes = [
 				path: 'personas',
 				component: P5RPersonaListComponent,
 				title: 'P5R Persona List',
+			},
+			{
+				path: 'settings',
+				component: P5RSettingsComponent,
+				title: 'P5R Settings',
 			},
 		],
 	},
