@@ -6,7 +6,8 @@ import { P5RCompendium } from '@p5r/types/p5r-compendium'
 import { DemonBuilderComponent } from '@shared/components/demon-builder/demon-builder.component'
 
 import { P5R_COMPENDIUM } from '@shared/constants'
-import { Skill } from '@shared/types/smt-tools.types'
+import { Skill, UserInput } from '@shared/types/smt-tools.types'
+import _ from 'lodash'
 import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 
@@ -41,5 +42,29 @@ export class P5RDemonBuilderComponent extends DemonBuilderComponent {
 			startWith(''),
 			map((value) => this._filter(value || '', this.traits))
 		)
+	}
+	/**
+	 * Overrirde to add user specified trait as another skill in the UserInput
+	 * object
+	 *
+	 * @inheritdoc {DemonBuilderComponent.getConfiguration}
+	 * @see DemonBuilderComponent.getConfiguration
+	 */
+	getConfiguration(): UserInput {
+		let inputSkills: string[] = []
+		for (let skillControl of this.skillControls) {
+			if (skillControl.value) inputSkills.push(skillControl.value)
+		}
+		// add trait as another skill
+		if (this.traitControl.value) inputSkills.push(this.traitControl.value)
+		_.reject('inputSkills', _.isEmpty)
+		let level: number | null = null
+		if (this.levelControl.value) level = +this.levelControl.value
+		let data: UserInput = {
+			demonName: this.demonControl.value,
+			maxLevel: level,
+			targetSkills: inputSkills,
+		}
+		return data
 	}
 }

@@ -17,7 +17,7 @@ import { map, startWith, takeUntil } from 'rxjs/operators'
 import _ from 'lodash'
 
 import { BuildMessage, UserInput } from '@shared/types/smt-tools.types'
-import { p5StartWebWorker } from './demon-builder.constants'
+import { p5StartWebWorker, p5rStartWebWorker } from './demon-builder.constants'
 import { BuildRecipe } from '@shared/types/build-recipe'
 import { Router } from '@angular/router'
 
@@ -359,6 +359,8 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		switch (game) {
 			case 'p5':
 				return p5StartWebWorker(input$)
+			case 'p5r':
+				return p5rStartWebWorker(input$)
 			default:
 				throw new Error(
 					'Game ${game} does not have a webworker function implemented in demon-builder.constants.ts'

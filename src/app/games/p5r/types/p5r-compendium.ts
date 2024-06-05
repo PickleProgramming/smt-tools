@@ -45,7 +45,6 @@ export class P5RCompendium extends P5Compendium {
 			let skill = this.skills[skillName]
 			if (skill.element == 'trait') this.traits[skillName] = skill
 		}
-		console.log(Object.keys(this.traits).length)
 	}
 	/**
 	 * Override to account for traits feature added in P5R

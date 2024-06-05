@@ -29,3 +29,20 @@ export function p5StartWebWorker(
 		input$
 	)
 }
+export function p5rStartWebWorker(
+	input$: Observable<UserInput>
+): Observable<BuildMessage> {
+	return fromWorkerPool<UserInput, BuildMessage>(
+		() =>
+			new Worker(
+				new URL(
+					'../../../games/p5r/components/p5r-demon-builder/p5r-demon-builder.worker',
+					import.meta.url
+				),
+				{
+					type: 'module',
+				}
+			),
+		input$
+	)
+}
