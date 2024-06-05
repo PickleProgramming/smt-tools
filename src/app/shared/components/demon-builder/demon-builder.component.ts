@@ -218,7 +218,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 *
 	 * @class
 	 */
-	constructor(private router: Router) {}
+	constructor(protected router: Router) {}
 	ngOnInit(): void {
 		if (!this.loadingIcon) this.loadingIcon = 'default'
 		let game = this.router.url.split('/')[1]

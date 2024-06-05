@@ -1,3 +1,5 @@
+<!-- Copy of @shared/components/demon-builder/demon-builder.component.html with a few changes to make it work with P5R -->
+
 <div class="builder-div">
 	<!-- User Entry Form -->
 	<div class="form-div">
@@ -18,6 +20,9 @@
 						{{ demon }}
 					</mat-option>
 				}
+			</mat-autocomplete>
+			<mat-autocomplete #auto="matAutocomplete">
+				<!-- inheritance input goes here -->
 			</mat-autocomplete>
 		</mat-form-field>
 		<mat-form-field class="level-form-field" appearance="fill">
@@ -84,11 +89,7 @@
 	<div class="results-div">
 		<!-- Loading -->
 		@if (calculating) {
-			@if (loadingIcon === "default") {
-				<mat-spinner></mat-spinner>
-			} @else {
-				<img src="{{ loadingIcon }}" />
-			}
+			<img src="{{ loadingIcon }}" />
 		} @else {
 			@if (userError) {
 				<p>{{ userError }}</p>
