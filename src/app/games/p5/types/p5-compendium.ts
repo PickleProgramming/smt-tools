@@ -45,8 +45,6 @@ export class P5Compendium extends Compendium {
 		)
 		this.inheritance = inheritData
 
-		console.log('P5 Compendium Created')
-
 		//remove any skills that are only used by party members
 		for (let skill in this.skills) {
 		}

@@ -248,14 +248,13 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @param {string[]} list
 	 * @returns {string[]}
 	 */
-	private _filter(value: string, list: string[]): string[] {
+	protected _filter(value: string, list: string[]): string[] {
 		let filterValue = value.toLocaleLowerCase()
 		return list.filter((option) =>
 			option.toLowerCase().includes(filterValue)
 		)
 	}
 
-	/** Description placeholder */
 	ngAfterViewInit(): void {
 		this.buildsSource.sort = this.sort
 	}

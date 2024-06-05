@@ -3,7 +3,7 @@
 <div class="builder-div">
 	<!-- User Entry Form -->
 	<div class="form-div">
-		<!-- Demon and Level -->
+		<!-- Demon Name -->
 		<mat-form-field class="name-form-field" appearance="fill">
 			<mat-label>Demon</mat-label>
 			<input
@@ -21,13 +21,30 @@
 					</mat-option>
 				}
 			</mat-autocomplete>
-			<mat-autocomplete #auto="matAutocomplete">
-				<!-- inheritance input goes here -->
-			</mat-autocomplete>
 		</mat-form-field>
+		<!-- Level -->
 		<mat-form-field class="level-form-field" appearance="fill">
 			<mat-label>Max Level</mat-label>
 			<input type="number" matInput [formControl]="levelControl" />
+		</mat-form-field>
+		<!-- Trait -->
+		<mat-form-field class="trait-form-field" appearance="fill">
+			<mat-label>Trait</mat-label>
+			<input
+				type="text"
+				placeholder="Nuclear Bloodline"
+				aria-label="Trait"
+				matInput
+				[formControl]="traitControl"
+				[matAutocomplete]="auto"
+			/>
+			<mat-autocomplete #auto="matAutocomplete">
+				@for (trait of filteredTraits | async; track $index) {
+					<mat-option [value]="trait">
+						{{ trait }}
+					</mat-option>
+				}
+			</mat-autocomplete>
 		</mat-form-field>
 		<!-- Skills -->
 		<div class="skills-div" layout="column">
