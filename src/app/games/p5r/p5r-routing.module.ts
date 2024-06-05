@@ -6,6 +6,7 @@ import { P5RSettingsComponent } from './components/p5r-settings.component'
 import { P5RSkillListComponent } from './components/p5r-skill-list.component'
 import { P5RTablesComponent } from './components/p5r-tables.component'
 import { P5RDemonEntryComponent } from './components/p5r-demon-entry.component/p5r-demon-entry.component'
+import { P5RDemonBuilderComponent } from './components/p5r-demon-builder/p5r-demon-builder.component'
 
 const routes: Routes = [
 	{
@@ -36,6 +37,11 @@ const routes: Routes = [
 				path: 'personas/:demonName',
 				component: P5RDemonEntryComponent,
 				title: 'P5R :demonName',
+			},
+			{
+				path: 'demon-builder',
+				component: P5RDemonBuilderComponent,
+				title: 'P5R Demon Builder',
 			},
 		],
 	},

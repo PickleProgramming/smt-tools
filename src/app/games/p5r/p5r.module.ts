@@ -12,6 +12,7 @@ import { P5RTablesComponent } from './components/p5r-tables.component'
 import { MatTable, MatTableModule } from '@angular/material/table'
 import { P5RDemonEntryComponent } from './components/p5r-demon-entry.component/p5r-demon-entry.component'
 import { RouterModule } from '@angular/router'
+import { P5RDemonBuilderComponent } from './components/p5r-demon-builder/p5r-demon-builder.component'
 
 @NgModule({
 	declarations: [
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router'
 		P5RSkillListComponent,
 		P5RTablesComponent,
 		P5RDemonEntryComponent,
+		P5RDemonBuilderComponent,
 	],
 	imports: [
 		CommonModule,
