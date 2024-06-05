@@ -4,8 +4,8 @@ import { Fusion, Demon } from '@shared/types/smt-tools.types'
 import { P5_COMPENDIUM } from '@shared/constants'
 
 export class P5FusionCalculator extends FusionCalculator {
-	constructor() {
-		super(P5_COMPENDIUM)
+	constructor(compendium = P5_COMPENDIUM) {
+		super(compendium)
 	}
 
 	getFissions(targetName: string): Fusion[] {

@@ -19,6 +19,7 @@ import P5R_SPECIAL_RECIPES from '@p5r/data/special-recipes.json'
 import P5R_DLC_DATA from '@p5r/data/dlc-data.json'
 import P5R_FUSION_TABLE from '@p5r/data/fusion-table.json'
 import P5R_ELEMENT_TABLE from '@p5r/data/element-table.json'
+import { P5RFusionCalculator } from '@p5r/types/p5r-fusion-calculator'
 
 // -- Persona 5 --
 export const P5_COMPENDIUM: P5Compendium = new P5Compendium(
@@ -82,3 +83,5 @@ export const P5R_TABLE_CONFIG: TableConfig = {
 	],
 	inheritCols: P5_INHERIT_DATA.elems,
 }
+export const P5R_FUSION_CALCULATOR: P5RFusionCalculator =
+	new P5RFusionCalculator()
