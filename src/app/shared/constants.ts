@@ -66,8 +66,8 @@ export const P5R_TABLE_CONFIG: TableConfig = {
 	demonCols: ['race', 'level', 'name', 'inherits'],
 	statCols: ['St', 'Ma', 'En', 'Ag', 'Lu'],
 	skillCols: ['Element', 'Name', 'Cost', 'Effect', 'learnedBy', 'skillCard'],
-	fusionTable: P5_FUSION_TABLE,
-	elementTable: P5_ELEMENT_TABLE,
+	fusionTable: P5R_FUSION_TABLE,
+	elementTable: P5R_ELEMENT_TABLE,
 	resistanceCols: [
 		'Phys',
 		'Gun',
