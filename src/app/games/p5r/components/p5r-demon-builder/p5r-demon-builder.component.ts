@@ -67,4 +67,14 @@ export class P5RDemonBuilderComponent extends DemonBuilderComponent {
 		}
 		return data
 	}
+
+	// TODO: Testing
+	test(): void {
+		this.demonControl.setValue('Cerberus')
+		this.traitControl.setValue('Striking Weight')
+		this.skillControls[0].setValue('Apt Pupil')
+		this.skillControls[1].setValue('Sharp Student')
+		this.skillControls[2].setValue('Invigorate 3')
+		this.skillControls[4].setValue('Miracle Punch')
+	}
 }
