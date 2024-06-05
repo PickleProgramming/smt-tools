@@ -110,20 +110,7 @@ export abstract class Compendium {
 			this.dlcDemons = {}
 			this.dlcPacks = this.parseDlcPacks(dlcData, this.dlcDemons)
 			this.dlcSkills = {}
-			//move dlc demon skills to another list
-			for (let skillName in this.skills) {
-				if (Object.keys(this.skills[skillName].learnedBy).length == 0) {
-					for (let demonName in this.dlcDemons) {
-						let demonSkills: string[] = Object.keys(
-							this.dlcDemons[demonName].skills
-						)
-						if (_.indexOf(demonSkills, skillName) != -1) {
-							this.dlcSkills[skillName] = this.skills[skillName]
-						}
-					}
-					delete this.skills[skillName]
-				}
-			}
+			this.parseDlcSkills(this.dlcSkills)
 		}
 
 		if (elementTable) this.elementTable = elementTable
@@ -151,7 +138,6 @@ export abstract class Compendium {
 	 * @param {{ [name: string]: Demon }} demonList Demon list to be updated
 	 * @param {?{ [name: string]: Skill }} [skillList] Skill list to be updated
 	 * @protected
-	 * @sealed
 	 */
 	protected parseDemons(
 		demonData: Object,
@@ -220,6 +206,33 @@ export abstract class Compendium {
 			}
 		})
 		return dlcPacks
+	}
+
+	/**
+	 * Removes any skills that are only learned by DLC demons so they aren't
+	 * displayed until the user configures them
+	 *
+	 * @remarks
+	 *   Should only be run after parseDlcPacks has populated dlcDemons
+	 * @param {{ [name: string]: Skill }} dlcSkills This objects list of skills
+	 *   that are only learned by DLC demons
+	 * @protected
+	 */
+	protected parseDlcSkills(dlcSkills: { [name: string]: Skill }): void {
+		for (let skillName in this.skills) {
+			let learnedBy = Object.keys(this.skills[skillName].learnedBy)
+			if (learnedBy.length == 0) {
+				for (let demonName in this.dlcDemons) {
+					let demonSkills: string[] = Object.keys(
+						this.dlcDemons[demonName].skills
+					)
+					if (_.indexOf(demonSkills, skillName) != -1) {
+						dlcSkills[skillName] = this.skills[skillName]
+					}
+				}
+				delete this.skills[skillName]
+			}
+		}
 	}
 
 	/**
