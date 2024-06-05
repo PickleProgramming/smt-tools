@@ -4,47 +4,53 @@
 	<!-- User Entry Form -->
 	<div class="form-div">
 		<!-- Demon Name -->
-		<mat-form-field class="name-form-field" appearance="fill">
-			<mat-label>Demon</mat-label>
-			<input
-				type="text"
-				placeholder="Mara"
-				aria-label="Demon Name"
-				matInput
-				[formControl]="demonControl"
-				[matAutocomplete]="auto"
-			/>
-			<mat-autocomplete #auto="matAutocomplete">
-				@for (demon of filteredDemons | async; track $index) {
-					<mat-option [value]="demon">
-						{{ demon }}
-					</mat-option>
-				}
-			</mat-autocomplete>
-		</mat-form-field>
+		<form>
+			<mat-form-field class="name-form-field" appearance="fill">
+				<mat-label>Demon</mat-label>
+				<input
+					type="text"
+					placeholder="Mara"
+					aria-label="Demon Name"
+					matInput
+					[formControl]="demonControl"
+					[matAutocomplete]="demon"
+				/>
+				<mat-autocomplete #demon="matAutocomplete">
+					@for (demon of filteredDemons | async; track $index) {
+						<mat-option [value]="demon">
+							{{ demon }}
+						</mat-option>
+					}
+				</mat-autocomplete>
+			</mat-form-field>
+		</form>
+		<!-- Trait -->
+		<div>
+			<form>
+				<mat-form-field class="trait-form-field" appearance="fill">
+					<mat-label>Trait</mat-label>
+					<input
+						type="text"
+						placeholder="Nuclear Bloodline"
+						aria-label="Trait"
+						matInput
+						[formControl]="traitControl"
+						[matAutocomplete]="trait"
+					/>
+					<mat-autocomplete #trait="matAutocomplete">
+						@for (trait of filteredTraits | async; track $index) {
+							<mat-option [value]="trait">
+								{{ trait }}
+							</mat-option>
+						}
+					</mat-autocomplete>
+				</mat-form-field>
+			</form>
+		</div>
 		<!-- Level -->
 		<mat-form-field class="level-form-field" appearance="fill">
 			<mat-label>Max Level</mat-label>
 			<input type="number" matInput [formControl]="levelControl" />
-		</mat-form-field>
-		<!-- Trait -->
-		<mat-form-field class="trait-form-field" appearance="fill">
-			<mat-label>Trait</mat-label>
-			<input
-				type="text"
-				placeholder="Nuclear Bloodline"
-				aria-label="Trait"
-				matInput
-				[formControl]="traitControl"
-				[matAutocomplete]="auto"
-			/>
-			<mat-autocomplete #auto="matAutocomplete">
-				@for (trait of filteredTraits | async; track $index) {
-					<mat-option [value]="trait">
-						{{ trait }}
-					</mat-option>
-				}
-			</mat-autocomplete>
 		</mat-form-field>
 		<!-- Skills -->
 		<div class="skills-div" layout="column">

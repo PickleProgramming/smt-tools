@@ -6,6 +6,7 @@ import { P5RCompendium } from '@p5r/types/p5r-compendium'
 import { DemonBuilderComponent } from '@shared/components/demon-builder/demon-builder.component'
 
 import { P5R_COMPENDIUM } from '@shared/constants'
+import { Skill } from '@shared/types/smt-tools.types'
 import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 
@@ -17,6 +18,7 @@ import { map, startWith } from 'rxjs/operators'
 export class P5RDemonBuilderComponent extends DemonBuilderComponent {
 	compendium: P5RCompendium
 
+	protected declare traits: string[]
 	/**
 	 * Trait form entry
 	 *
@@ -34,11 +36,10 @@ export class P5RDemonBuilderComponent extends DemonBuilderComponent {
 	}
 	ngOnInit(): void {
 		super.ngOnInit()
+		this.traits = Object.keys(this.compendium.traits)
 		this.filteredTraits = this.traitControl.valueChanges.pipe(
 			startWith(''),
-			map((value) =>
-				this._filter(value || '', Object.keys(this.compendium.traits))
-			)
+			map((value) => this._filter(value || '', this.traits))
 		)
 	}
 }
