@@ -171,7 +171,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * @type {string}
 	 * @protected
 	 */
-	protected declare demonEntryPrexif: string
+	protected declare demonEntryPrefix: string
 
 	//--Variables for demon-builder--
 	/**
@@ -222,7 +222,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	ngOnInit(): void {
 		if (!this.loadingIcon) this.loadingIcon = 'default'
 		let game = this.router.url.split('/')[1]
-		this.demonEntryPrexif = `/${game}/${this.compendium.followerName}/`
+		this.demonEntryPrefix = `/${game}/${this.compendium.followerName}/`
 		//Facilitates type-ahead in the left form
 		this.skills = Object.keys(this.compendium.skills)
 		this.demons = Object.keys(this.compendium.demons)
