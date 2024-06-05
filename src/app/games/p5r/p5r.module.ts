@@ -9,6 +9,9 @@ import { P5RPersonaListComponent } from './components/p5r-demon-list.component'
 import { P5RSettingsComponent } from './components/p5r-settings.component'
 import { P5RSkillListComponent } from './components/p5r-skill-list.component'
 import { P5RTablesComponent } from './components/p5r-tables.component'
+import { MatTable, MatTableModule } from '@angular/material/table'
+import { P5RDemonEntryComponent } from './components/p5r-demon-entry.component/p5r-demon-entry.component'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
 	declarations: [
@@ -18,7 +21,15 @@ import { P5RTablesComponent } from './components/p5r-tables.component'
 		P5RSettingsComponent,
 		P5RSkillListComponent,
 		P5RTablesComponent,
+		P5RDemonEntryComponent,
 	],
-	imports: [CommonModule, SharedModule, MatCard, P5RRoutingModule],
+	imports: [
+		CommonModule,
+		SharedModule,
+		RouterModule,
+		MatCard,
+		MatTableModule,
+		P5RRoutingModule,
+	],
 })
 export class P5RModule {}

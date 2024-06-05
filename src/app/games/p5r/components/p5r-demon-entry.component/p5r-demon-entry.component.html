@@ -1,0 +1,187 @@
+<div class="demon-entry-div">
+	<div class="race-name-level-wrapper">
+		<!-- Race -->
+		<div class="race-div">
+			<p>{{ demon.race }}</p>
+		</div>
+		<div class="name-level-wrapper">
+			<!-- Name   -->
+			<div class="name-div">
+				<p>
+					{{ demonName }}
+				</p>
+			</div>
+			<!-- Level  -->
+			<div class="level-div">
+				<p>
+					<span class="level-header"> LV </span>
+					{{ demon.level }}
+				</p>
+			</div>
+		</div>
+	</div>
+	<!-- Resistances -->
+	<div class="resist-div">
+		<table>
+			<tr>
+				@for (resistance of tableConfig.resistanceCols; track $index) {
+					<th>
+						<img
+							class="icon"
+							src="assets/img/icons/persona/{{
+								resistance.toLowerCase()
+							}}.png"
+							title="{{ resistance }}"
+						/>
+					</th>
+				}
+			</tr>
+			<tr>
+				@for (resistance of demon.resistances; track $index) {
+					<td>
+						@switch (demon.resistances.split("")[$index]) {
+							@case ("d") {
+								<p>Dr</p>
+							}
+							@case ("w") {
+								<p>Wk</p>
+							}
+							@case ("n") {
+								<p>Nul</p>
+							}
+							@case ("s") {
+								<p>Str</p>
+							}
+							@case ("r") {
+								<p>Rpl</p>
+							}
+							@default {
+								<p>-</p>
+							}
+						}
+					</td>
+				}
+			</tr>
+		</table>
+	</div>
+	<!-- Skills -->
+	<div class="skills-div">
+		<table mat-table [dataSource]="skillSource" class="mat-elevation-z12">
+			<!-- Element Column -->
+			<ng-container matColumnDef="Element">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Element
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<img
+						src="assets/img/icons/persona/{{ skill.element }}.png"
+						title="{{ skill.element }}"
+					/>
+				</td>
+			</ng-container>
+			<!-- Name Column -->
+			<ng-container matColumnDef="Name">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Name
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.name }}</p>
+				</td>
+			</ng-container>
+			<!-- Cost Column -->
+			<ng-container matColumnDef="Cost">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Cost
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.cost }}</p>
+				</td>
+			</ng-container>
+			<!-- Effect Column -->
+			<ng-container matColumnDef="Effect">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Effect
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.effect }}</p>
+				</td>
+			</ng-container>
+			<!-- Level Column -->
+			<ng-container matColumnDef="level">
+				<th mat-header-cell class="header-cell" *matHeaderCellDef>
+					Level
+				</th>
+				<td mat-cell *matCellDef="let skill">
+					<p>{{ skill.level }}</p>
+				</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="skillCols; sticky: true"></tr>
+			<tr mat-row *matRowDef="let row; columns: skillCols"></tr>
+		</table>
+	</div>
+	<!-- Stats -->
+	<div class="stats-div">
+		<div class="stat-label">
+			<p id="st-label">St</p>
+			<p id="ma-label">Ma</p>
+			<p id="en-label">En</p>
+			<p id="ag-label">Ag</p>
+			<p id="lu-label">Lu</p>
+		</div>
+		<div class="stat">
+			@for (stat of tableConfig.statCols; track $index) {
+				@if (demon.stats[$index] < 10) {
+					<p>
+						<span class="leading-zero">0</span
+						>{{ demon.stats[$index] }}
+					</p>
+				} @else {
+					<p>{{ demon.stats[$index] }}</p>
+				}
+			}
+		</div>
+	</div>
+	<!-- Affinities -->
+	<div class="affinities-div">
+		Affinities <br />These are the types the skills the demon can inherit.
+		<table>
+			<tr>
+				@for (inherit of tableConfig.inheritCols; track $index) {
+					<th>
+						<img
+							class="icon"
+							src="assets/img/icons/persona/{{
+								inherit.toLowerCase()
+							}}.png"
+							title="{{ inherit }}"
+						/>
+					</th>
+				}
+			</tr>
+			<tr>
+				@if (demon.inherits) {
+					@for (
+						inherit of compendium.getInherits(demon.inherits);
+						track $index
+					) {
+						<td>
+							@if (inherit) {
+								O
+							} @else {
+								X
+							}
+						</td>
+					}
+				}
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- Fission/Fusion Tables -->
+<app-entry-fusion-tables
+	[compendium]="compendium"
+	[calculator]="calculator"
+	[tableConfig]="tableConfig"
+	[demonName]="demonName"
+>
+</app-entry-fusion-tables>
