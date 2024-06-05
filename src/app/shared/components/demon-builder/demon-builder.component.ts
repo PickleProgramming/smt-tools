@@ -166,7 +166,7 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 	 * The beginning of the path leading a demon entry
 	 *
 	 * @example
-	 * 	for persona 5, the path to the entry for mara is /p5/personas/mara, the demonEntryPrefix is /p5/personas/
+	 * 	for persona 5, the path to the entry for mara is /p5/personas/mara, the demonEntryPrefix is /p5/personas/, for a game where you recruit demons instead of persona, it would be /{game}/demons/
 	 *
 	 * @type {string}
 	 * @protected
@@ -228,14 +228,14 @@ export class DemonBuilderComponent implements OnInit, AfterViewInit {
 		this.demons = Object.keys(this.compendium.demons)
 		this.filteredDemons = this.demonControl.valueChanges.pipe(
 			startWith(''),
-			map((value) => this._filter(value || '', this.demons!))
+			map((value) => this._filter(value || '', this.demons))
 		)
 		for (let i = 0; i < 8; i++) {
 			this.skillControls.push(new FormControl(''))
 			this.filteredSkills.push(
 				this.skillControls[i].valueChanges.pipe(
 					startWith(''),
-					map((value) => this._filter(value || '', this.skills!))
+					map((value) => this._filter(value || '', this.skills))
 				)
 			)
 		}
