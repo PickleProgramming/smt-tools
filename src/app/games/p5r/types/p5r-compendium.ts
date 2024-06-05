@@ -30,6 +30,7 @@ export class P5RCompendium extends P5Compendium {
 			elementTable,
 			inheritData
 		)
+		this.traits = {}
 		// populate traits
 		for (let skillName of Object.keys(this.skills)) {
 			let skill = this.skills[skillName]
