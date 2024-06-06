@@ -21,7 +21,7 @@ import { Demon, TableConfig } from '@shared/types/smt-tools.types'
  * @implements {AfterViewInit}
  */
 @Component({
-	selector: 'app-demon-list',
+	selector: 'shared-demon-list',
 	templateUrl: './demon-list.component.html',
 	styleUrls: ['./demon-list.component.scss'],
 })

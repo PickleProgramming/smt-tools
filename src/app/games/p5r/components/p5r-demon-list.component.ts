@@ -12,10 +12,10 @@ import { P5R_COMPENDIUM, P5_TABLE_CONFIG } from '@shared/constants'
  * @export
  */
 @Component({
-	selector: 'app-p5r-persona-list',
-	template: `<app-demon-list [tableConfig]="tableConfig" [demons]="demons"
+	selector: 'p5r-persona-list',
+	template: `<shared-demon-list [tableConfig]="tableConfig" [demons]="demons"
 		>,
-	</app-demon-list>`,
+	</shared-demon-list>`,
 	styleUrl: '../p5r.scss',
 })
 export class P5RPersonaListComponent {

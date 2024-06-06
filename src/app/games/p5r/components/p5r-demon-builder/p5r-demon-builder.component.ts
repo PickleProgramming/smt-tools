@@ -12,7 +12,7 @@ import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 
 @Component({
-	selector: 'app-p5r-demon-builder',
+	selector: 'p5r-demon-builder',
 	templateUrl: './p5r-demon-builder.component.html',
 	styleUrls: ['./p5r-demon-builder.component.scss', '../../p5r.scss'],
 })

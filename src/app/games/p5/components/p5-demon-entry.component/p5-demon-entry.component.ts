@@ -14,7 +14,7 @@ import {
 import { Demon, Skill, TableConfig } from '@shared/types/smt-tools.types'
 
 @Component({
-	selector: 'app-p5-demon-entry',
+	selector: 'p5-demon-entry',
 	templateUrl: './p5-demon-entry.component.html',
 	styleUrl: '../../p5.scss',
 })

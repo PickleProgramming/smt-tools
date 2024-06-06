@@ -18,7 +18,7 @@ import { Demon, Fusion, TableConfig } from '@shared/types/smt-tools.types'
  * @implements {OnInit}
  */
 @Component({
-	selector: 'app-entry-fusion-tables',
+	selector: 'shared-entry-fusion-tables',
 	templateUrl: './entry-fusion-tables.component.html',
 	styleUrls: ['./entry-fusion-tables.component.scss'],
 })

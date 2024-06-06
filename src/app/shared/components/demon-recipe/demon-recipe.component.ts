@@ -3,7 +3,7 @@ import { BuildRecipe } from '@shared/types/build-recipe'
 import { Compendium } from '@shared/types/compendium'
 
 @Component({
-	selector: 'app-demon-recipe',
+	selector: 'shared-demon-recipe',
 	templateUrl: './demon-recipe.component.html',
 })
 export class DemonRecipeComponent {

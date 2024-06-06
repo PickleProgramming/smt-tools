@@ -13,7 +13,7 @@ import { TableConfig } from '@shared/types/smt-tools.types'
  * @implements {OnInit}
  */
 @Component({
-	selector: 'app-element-fusion-table',
+	selector: 'shared-element-fusion-table',
 	templateUrl: './element-fusion-table.component.html',
 	styleUrls: ['./element-fusion-table.component.scss'],
 })
@@ -30,7 +30,7 @@ export class ElementFusionTableComponent implements OnInit {
 	ngOnInit(): void {
 		if (!this.tableConfig.elementTable) {
 			throw Error(
-				'called app-element-fusion-table with undefinded elementTable in arguments.'
+				'called shared-element-fusion-table with undefinded elementTable in arguments.'
 			)
 		}
 		this.races = this.tableConfig.elementTable.races

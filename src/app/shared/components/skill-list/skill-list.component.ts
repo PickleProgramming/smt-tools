@@ -14,7 +14,7 @@ import { Skill, TableConfig } from '@shared/types/smt-tools.types'
  * @implements {OnInit}
  */
 @Component({
-	selector: 'app-skill-list',
+	selector: 'shared-skill-list',
 	templateUrl: './skill-list.component.html',
 	styleUrls: ['./skill-list.component.scss'],
 })

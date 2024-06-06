@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 
 @Component({
-	selector: 'app-p5r-header',
+	selector: 'p5r-header',
 	template: `<mat-card
 		class="card"
 		style="background-image: url(assets/img/games/p5/p5-header-background.png)"

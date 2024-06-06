@@ -2,7 +2,7 @@ import { Input, Component } from '@angular/core'
 import { Compendium } from '@shared/types/compendium'
 
 @Component({
-	selector: 'app-settings',
+	selector: 'shared-settings',
 	template: ` <div class="dlcSettings">
 		@for (pack of compendium.dlcPacks | keyvalue; track $index) {
 			<input

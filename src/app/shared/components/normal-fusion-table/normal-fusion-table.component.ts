@@ -13,7 +13,7 @@ import { TableConfig } from '@shared/types/smt-tools.types'
  * @implements {OnInit}
  */
 @Component({
-	selector: 'app-normal-fusion-table',
+	selector: 'shared-normal-fusion-table',
 	templateUrl: './normal-fusion-table.component.html',
 	styleUrls: ['./normal-fusion-table.component.scss'],
 })

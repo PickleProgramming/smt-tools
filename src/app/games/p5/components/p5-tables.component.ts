@@ -12,11 +12,11 @@ import { P5_TABLE_CONFIG } from '@shared/constants'
  * @export
  */
 @Component({
-	selector: 'app-p5-fusion-table',
-	template: ` <app-normal-fusion-table [tableConfig]="tableConfig">
-		</app-normal-fusion-table>
-		<app-element-fusion-table [tableConfig]="tableConfig">
-		</app-element-fusion-table>`,
+	selector: 'p5-fusion-table',
+	template: ` <shared-normal-fusion-table [tableConfig]="tableConfig">
+		</shared-normal-fusion-table>
+		<shared-element-fusion-table [tableConfig]="tableConfig">
+		</shared-element-fusion-table>`,
 	styleUrl: '../p5.scss',
 })
 export class P5TablesComponent {

@@ -5,13 +5,13 @@ import { P5Compendium } from '@p5/types/p5-compendium'
 import { P5_COMPENDIUM } from '@shared/constants'
 
 @Component({
-	selector: 'app-p5-demon-builder',
-	template: `<app-demon-builder
+	selector: 'p5-demon-builder',
+	template: `<shared-demon-builder
 		[compendium]="compendium"
 		[worker]="worker"
 		[loadingIcon]="loadingIcon"
 	>
-	</app-demon-builder>`,
+	</shared-demon-builder>`,
 	styleUrl: '../../p5.scss',
 })
 export class P5DemonBuilderComponent {

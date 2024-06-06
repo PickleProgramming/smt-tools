@@ -5,9 +5,12 @@ import { Skill, TableConfig } from '@shared/types/smt-tools.types'
 import { P5R_COMPENDIUM, P5R_TABLE_CONFIG } from '@shared/constants'
 
 @Component({
-	selector: 'app-p5r-skill-list',
-	template: ` <app-skill-list [skills]="skills" [tableConfig]="tableConfig">
-	</app-skill-list>`,
+	selector: 'p5r-skill-list',
+	template: ` <shared-skill-list
+		[skills]="skills"
+		[tableConfig]="tableConfig"
+	>
+	</shared-skill-list>`,
 	styleUrl: '../p5r.scss',
 })
 export class P5RSkillListComponent {

@@ -33,7 +33,7 @@ import { Router } from '@angular/router'
  * @implements {AfterViewInit}
  */
 @Component({
-	selector: 'app-demon-builder',
+	selector: 'shared-demon-builder',
 	templateUrl: './demon-builder.component.html',
 	styleUrls: ['./demon-builder.component.scss'],
 	animations: [
