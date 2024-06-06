@@ -74,7 +74,6 @@ export class P5RDemonBuilderComponent extends DemonBuilderComponent {
 		this.traitControl.setValue('Striking Weight')
 		this.skillControls[0].setValue('Apt Pupil')
 		this.skillControls[1].setValue('Sharp Student')
-		this.skillControls[2].setValue('Invigorate 3')
-		this.skillControls[4].setValue('Miracle Punch')
+		this.skillControls[2].setValue('Miracle Punch')
 	}
 }

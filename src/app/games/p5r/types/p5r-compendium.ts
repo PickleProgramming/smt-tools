@@ -78,4 +78,26 @@ export class P5RCompendium extends P5Compendium {
 			}
 		}
 	}
+	/**
+	 * @inheritdoc {P5Compendium.isInheritable}
+	 * @see {P5Compendium.isInheritable}
+	 */
+	isInheritable(demonName: string, skillName: string): boolean {
+		let skillElem = this.skills[skillName].element
+		if (
+			skillElem === 'support' ||
+			skillElem === 'almighty' ||
+			skillElem === 'passive' ||
+			skillElem === 'trait'
+		)
+			return true
+		let demonElem = this.demons[demonName].inherits
+		let ratios =
+			this.inheritance.ratios[
+				this.inheritance.inherits.indexOf(demonElem!)
+			]
+		if (ratios.charAt(this.inheritance.elems.indexOf(skillElem)) == 'O')
+			return true
+		return false
+	}
 }

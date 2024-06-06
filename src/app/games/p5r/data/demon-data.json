@@ -3,7 +3,7 @@
 		"inherits": "curse",
 		"item": "Megaton Raid Belt",
 		"itemr": "God's Hand Belt",
-		"lvl": 75,
+		"level": 75,
 		"race": "Judgement",
 		"resists": "dd------sd",
 		"skills": {
@@ -22,7 +22,7 @@
 		"inherits": "elec",
 		"item": "Zio",
 		"itemr": "Mazio",
-		"lvl": 3,
+		"level": 3,
 		"race": "Chariot",
 		"resists": "-s--sw----",
 		"skills": {
@@ -40,7 +40,7 @@
 		"inherits": "curse",
 		"item": "Spiral Hell Ring",
 		"itemr": "Cursed Ribbon",
-		"lvl": 83,
+		"level": 83,
 		"race": "Death",
 		"resists": "------sswr",
 		"skills": {
@@ -59,7 +59,7 @@
 		"inherits": "ice",
 		"item": "Mabufudyne",
 		"itemr": "Diamond Dust",
-		"lvl": 81,
+		"level": 81,
 		"race": "Empress",
 		"resists": "rrwd--n--w",
 		"skills": {
@@ -79,7 +79,7 @@
 		"inherits": "almighty",
 		"item": "Senryou Yakusha",
 		"itemr": "Senryou Yakusha R",
-		"lvl": 13,
+		"level": 13,
 		"race": "Lovers",
 		"resists": "--d---w---",
 		"skills": {
@@ -97,7 +97,7 @@
 		"inherits": "nuke",
 		"item": "Spiral Nuclear Ring",
 		"itemr": "Reactor Ring",
-		"lvl": 44,
+		"level": 44,
 		"race": "Councillor",
 		"resists": "---dw-----",
 		"skills": {
@@ -117,7 +117,7 @@
 		"inherits": "ice",
 		"item": "Evil Touch",
 		"itemr": "Evil Smile",
-		"lvl": 27,
+		"level": 27,
 		"race": "Devil",
 		"resists": "--ws--s-wn",
 		"skills": {
@@ -135,7 +135,7 @@
 		"inherits": "bless",
 		"item": "Kouha",
 		"itemr": "Makouha",
-		"lvl": 9,
+		"level": 9,
 		"race": "Justice",
 		"resists": "-w--s---nw",
 		"skills": {
@@ -153,7 +153,7 @@
 		"inherits": "almighty",
 		"item": "Makouga",
 		"itemr": "Kougaon",
-		"lvl": 34,
+		"level": 34,
 		"race": "Judgement",
 		"resists": "-s----s-nn",
 		"skills": {
@@ -171,7 +171,7 @@
 		"inherits": "wind",
 		"item": "Garula",
 		"itemr": "Magarula",
-		"lvl": 25,
+		"level": 25,
 		"race": "Hierophant",
 		"resists": "-w--sr-w--",
 		"skills": {
@@ -189,7 +189,7 @@
 		"inherits": "ice",
 		"item": "Media",
 		"itemr": "Diarama",
-		"lvl": 11,
+		"level": 11,
 		"race": "Priestess",
 		"resists": "--wsw-----",
 		"skills": {
@@ -207,7 +207,7 @@
 		"inherits": "nuke",
 		"item": "Nuclear Ring",
 		"itemr": "Spiral Nuclear Ring",
-		"lvl": 30,
+		"level": 30,
 		"race": "Chariot",
 		"resists": "s--w------",
 		"skills": {
@@ -226,7 +226,7 @@
 		"inherits": "ailment",
 		"item": "Tapsuan",
 		"itemr": "Fine Tapsuan",
-		"lvl": 35,
+		"level": 35,
 		"race": "Hermit",
 		"resists": "rr----wwss",
 		"skills": {
@@ -244,7 +244,7 @@
 		"inherits": "bless",
 		"item": "Hama",
 		"itemr": "Mahama",
-		"lvl": 14,
+		"level": 14,
 		"race": "Justice",
 		"resists": "----w---nw",
 		"skills": {
@@ -262,7 +262,7 @@
 		"inherits": "almighty",
 		"item": "Sahasrara",
 		"itemr": "Sahasrara EX",
-		"lvl": 84,
+		"level": 84,
 		"race": "Temperance",
 		"resists": "s--nn-----",
 		"skills": {
@@ -281,7 +281,7 @@
 		"inherits": "curse",
 		"item": "Arsene's Cane",
 		"itemr": "Great Thief Stick",
-		"lvl": 1,
+		"level": 1,
 		"race": "Fool",
 		"resists": "---w----ws",
 		"skills": {
@@ -298,7 +298,7 @@
 		"inherits": "nuke",
 		"item": "Vajra",
 		"itemr": "Unparalleled Vajra",
-		"lvl": 76,
+		"level": 76,
 		"race": "Sun",
 		"resists": "--n---wr--",
 		"skills": {
@@ -317,7 +317,7 @@
 		"inherits": "phys",
 		"item": "Brave Blade",
 		"itemr": "Sword Dance",
-		"lvl": 65,
+		"level": 65,
 		"race": "Faith",
 		"resists": "snr------s",
 		"skills": {
@@ -336,7 +336,7 @@
 		"inherits": "elec",
 		"item": "Mazionga",
 		"itemr": "Ziodyne",
-		"lvl": 39,
+		"level": 39,
 		"race": "Fortune",
 		"resists": "--w--n----",
 		"skills": {
@@ -355,7 +355,7 @@
 		"inherits": "fire",
 		"item": "Null Curse",
 		"itemr": "Absorb Curse",
-		"lvl": 82,
+		"level": 82,
 		"race": "Hanged",
 		"resists": "--n--r---w",
 		"skills": {
@@ -374,7 +374,7 @@
 		"inherits": "wind",
 		"item": "Yagrush",
 		"itemr": "Yagrush EX",
-		"lvl": 82,
+		"level": 82,
 		"race": "Emperor",
 		"resists": "--s--d--s-",
 		"skills": {
@@ -393,7 +393,7 @@
 		"inherits": "almighty",
 		"item": "Bufudyne",
 		"itemr": "Mabufudyne",
-		"lvl": 58,
+		"level": 58,
 		"race": "Devil",
 		"resists": "--s-----wn",
 		"skills": {
@@ -412,7 +412,7 @@
 		"inherits": "elec",
 		"item": "Ziodyne",
 		"itemr": "Maziodyne",
-		"lvl": 52,
+		"level": 52,
 		"race": "Emperor",
 		"resists": "-s--sw--nw",
 		"skills": {
@@ -430,7 +430,7 @@
 		"inherits": "curse",
 		"item": "Fleurs du Mal",
 		"itemr": "Fleurs du Mal R",
-		"lvl": 87,
+		"level": 87,
 		"race": "Devil",
 		"resists": "--d-----wr",
 		"skills": {
@@ -450,7 +450,7 @@
 		"inherits": "curse",
 		"item": "Mamudoon",
 		"itemr": "Demonic Decree",
-		"lvl": 82,
+		"level": 82,
 		"race": "Devil",
 		"resists": "n--s-----n",
 		"skills": {
@@ -469,7 +469,7 @@
 		"inherits": "ice",
 		"item": "Mabufula",
 		"itemr": "Bufudyne",
-		"lvl": 37,
+		"level": 37,
 		"race": "Tower",
 		"resists": "--wss--s-r",
 		"skills": {
@@ -487,7 +487,7 @@
 		"inherits": "phys",
 		"item": "Cleave",
 		"itemr": "Power Slash",
-		"lvl": 9,
+		"level": 9,
 		"race": "Hierophant",
 		"resists": "-nsw------",
 		"skills": {
@@ -504,7 +504,7 @@
 		"inherits": "wind",
 		"item": "Lunge",
 		"itemr": "Assault Dive",
-		"lvl": 4,
+		"level": 4,
 		"race": "Hermit",
 		"resists": "----w----s",
 		"skills": {
@@ -521,7 +521,7 @@
 		"inherits": "nuke",
 		"item": "Mafreidyne",
 		"itemr": "Atomic Flare",
-		"lvl": 67,
+		"level": 67,
 		"race": "Hierophant",
 		"resists": "--dw----ss",
 		"skills": {
@@ -540,7 +540,7 @@
 		"inherits": "almighty",
 		"item": "Naraka Whip",
 		"itemr": "Dainaraka Whip",
-		"lvl": 67,
+		"level": 67,
 		"race": "Fool",
 		"resists": "--rd---n-r",
 		"skills": {
@@ -559,7 +559,7 @@
 		"inherits": "curse",
 		"item": "Headbutt",
 		"itemr": "Memory Blow",
-		"lvl": 18,
+		"level": 18,
 		"race": "Moon",
 		"resists": "ss-sw-w-wn",
 		"skills": {
@@ -578,7 +578,7 @@
 		"inherits": "curse",
 		"item": "Megidola",
 		"itemr": "Megidolaon",
-		"lvl": 59,
+		"level": 59,
 		"race": "Tower",
 		"resists": "--wd----ss",
 		"skills": {
@@ -597,7 +597,7 @@
 		"inherits": "almighty",
 		"item": "Bear Gloves",
 		"itemr": "Big Bear Gloves",
-		"lvl": 49,
+		"level": 49,
 		"race": "Fool",
 		"resists": "------sw-n",
 		"skills": {
@@ -616,7 +616,7 @@
 		"inherits": "fire",
 		"item": "Null Wind",
 		"itemr": "Repel Wind",
-		"lvl": 70,
+		"level": 70,
 		"race": "Moon",
 		"resists": "--nw-n-w-n",
 		"skills": {
@@ -635,7 +635,7 @@
 		"inherits": "ice",
 		"item": "Spiral Snow Ring",
 		"itemr": "Blizzard Ring",
-		"lvl": 45,
+		"level": 45,
 		"race": "Temperance",
 		"resists": "--wd---w-s",
 		"skills": {
@@ -655,7 +655,7 @@
 		"inherits": "ailment",
 		"item": "Agi",
 		"itemr": "Maragi",
-		"lvl": 5,
+		"level": 5,
 		"race": "Magician",
 		"resists": "----sw----",
 		"skills": {
@@ -673,7 +673,7 @@
 		"inherits": "fire",
 		"item": "Megaton Raid",
 		"itemr": "God's Hand",
-		"lvl": 55,
+		"level": 55,
 		"race": "Chariot",
 		"resists": "--dw---s--",
 		"skills": {
@@ -691,7 +691,7 @@
 		"inherits": "ailment",
 		"item": "Mudoon",
 		"itemr": "Mamudoon",
-		"lvl": 62,
+		"level": 62,
 		"race": "Death",
 		"resists": "-swdn---wd",
 		"skills": {
@@ -710,7 +710,7 @@
 		"inherits": "psy",
 		"item": "Repel Phys",
 		"itemr": "Absorb Phys",
-		"lvl": 88,
+		"level": 88,
 		"race": "Chariot",
 		"resists": "ss----nw--",
 		"skills": {
@@ -729,7 +729,7 @@
 		"inherits": "phys",
 		"item": "Null Fire",
 		"itemr": "Absorb Fire",
-		"lvl": 74,
+		"level": 74,
 		"race": "Strength",
 		"resists": "--dn-w---w",
 		"skills": {
@@ -748,7 +748,7 @@
 		"inherits": "curse",
 		"item": "Curse Ring",
 		"itemr": "Spiral Curse Ring",
-		"lvl": 28,
+		"level": 28,
 		"race": "Magician",
 		"resists": "s-d-----w-",
 		"skills": {
@@ -768,7 +768,7 @@
 		"inherits": "healing",
 		"item": "Tetraja",
 		"itemr": "Makarakarn",
-		"lvl": 27,
+		"level": 27,
 		"race": "Fortune",
 		"resists": "---w-n-w--",
 		"skills": {
@@ -787,7 +787,7 @@
 		"inherits": "almighty",
 		"item": "Crystal Skull",
 		"itemr": "Crystal Skull R",
-		"lvl": 50,
+		"level": 50,
 		"race": "Fool",
 		"resists": "ss---w----",
 		"skills": {
@@ -810,7 +810,7 @@
 		"inherits": "almighty",
 		"item": "One-shot Kill",
 		"itemr": "Riot Gun",
-		"lvl": 76,
+		"level": 76,
 		"race": "Faith",
 		"resists": "ss--wr--n-",
 		"skills": {
@@ -829,7 +829,7 @@
 		"inherits": "healing",
 		"item": "Sabazios",
 		"itemr": "Gordios",
-		"lvl": 83,
+		"level": 83,
 		"race": "Priestess",
 		"resists": "--s-w---n-",
 		"skills": {
@@ -848,7 +848,7 @@
 		"inherits": "bless",
 		"item": "Spiral Blessing Ring",
 		"itemr": "Divine Ring",
-		"lvl": 40,
+		"level": 40,
 		"race": "Hierophant",
 		"resists": "s-------nw",
 		"skills": {
@@ -867,7 +867,7 @@
 		"inherits": "phys",
 		"item": "Tempest Slash",
 		"itemr": "Myriad Slashes",
-		"lvl": 50,
+		"level": 50,
 		"race": "Empress",
 		"resists": "-ns-------",
 		"skills": {
@@ -886,7 +886,7 @@
 		"inherits": "fire",
 		"item": "Maragion",
 		"itemr": "Agidyne",
-		"lvl": 32,
+		"level": 32,
 		"race": "Councillor",
 		"resists": "w-r----s-s",
 		"skills": {
@@ -905,7 +905,7 @@
 		"inherits": "ailment",
 		"item": "Maziodyne",
 		"itemr": "Thunder Reign",
-		"lvl": 71,
+		"level": 71,
 		"race": "Councillor",
 		"resists": "----r---nn",
 		"skills": {
@@ -924,7 +924,7 @@
 		"inherits": "bless",
 		"item": "Makougaon",
 		"itemr": "Divine Judgement",
-		"lvl": 68,
+		"level": 68,
 		"race": "Justice",
 		"resists": "----w--rns",
 		"skills": {
@@ -943,7 +943,7 @@
 		"inherits": "fire",
 		"item": "Tarukaja",
 		"itemr": "Matarukaja",
-		"lvl": 16,
+		"level": 16,
 		"race": "Emperor",
 		"resists": "--s-w----s",
 		"skills": {
@@ -961,7 +961,7 @@
 		"inherits": "almighty",
 		"item": "Emperor's Amulet",
 		"itemr": "Emperor's Amulet R",
-		"lvl": 35,
+		"level": 35,
 		"race": "Hanged",
 		"resists": "ss--w-----",
 		"skills": {
@@ -984,7 +984,7 @@
 		"inherits": "nuke",
 		"item": "Spiral Reactor Ring",
 		"itemr": "Fire Dragon Horn",
-		"lvl": 86,
+		"level": 86,
 		"race": "Hermit",
 		"resists": "rrd-s--d--",
 		"skills": {
@@ -1003,7 +1003,7 @@
 		"inherits": "ailment",
 		"item": "Giant Slice Belt",
 		"itemr": "Rising Slash Belt",
-		"lvl": 19,
+		"level": 19,
 		"race": "Devil",
 		"resists": "--nw-s-s--",
 		"skills": {
@@ -1022,7 +1022,7 @@
 		"inherits": "psy",
 		"item": "Psiodyne",
 		"itemr": "Mapsiodyne",
-		"lvl": 63,
+		"level": 63,
 		"race": "Magician",
 		"resists": "---dw-n---",
 		"skills": {
@@ -1041,7 +1041,7 @@
 		"inherits": "wind",
 		"item": "Lucky Robe",
 		"itemr": "Super Lucky Robe",
-		"lvl": 46,
+		"level": 46,
 		"race": "Fortune",
 		"resists": "--n-wn----",
 		"skills": {
@@ -1060,7 +1060,7 @@
 		"inherits": "phys",
 		"item": "Hinokagutsuchi",
 		"itemr": "Hinokagutsuchi II",
-		"lvl": 86,
+		"level": 86,
 		"race": "Magician",
 		"resists": "s------w--",
 		"skills": {
@@ -1080,7 +1080,7 @@
 		"inherits": "wind",
 		"item": "Wind Boost",
 		"itemr": "Wind Amp",
-		"lvl": 23,
+		"level": 23,
 		"race": "Star",
 		"resists": "-s--wd----",
 		"skills": {
@@ -1098,7 +1098,7 @@
 		"inherits": "almighty",
 		"item": "Spiral Blizzard Ring",
 		"itemr": "Diamond Dust Lily",
-		"lvl": 77,
+		"level": 77,
 		"race": "Temperance",
 		"resists": "------n-d-",
 		"skills": {
@@ -1118,7 +1118,7 @@
 		"inherits": "ailment",
 		"item": "Rebellion",
 		"itemr": "Revolution",
-		"lvl": 53,
+		"level": 53,
 		"race": "Sun",
 		"resists": "ss---dw---",
 		"skills": {
@@ -1137,7 +1137,7 @@
 		"inherits": "wind",
 		"item": "Garudyne",
 		"itemr": "Magarudyne",
-		"lvl": 52,
+		"level": 52,
 		"race": "Star",
 		"resists": "-----s--r-",
 		"skills": {
@@ -1156,7 +1156,7 @@
 		"inherits": "ice",
 		"item": "Frost Ring",
 		"itemr": "Spiral Frost Ring",
-		"lvl": 7,
+		"level": 7,
 		"race": "Temperance",
 		"resists": "---nw-s---",
 		"skills": {
@@ -1174,7 +1174,7 @@
 		"inherits": "ailment",
 		"item": "Swift Strike",
 		"itemr": "Deathbound",
-		"lvl": 43,
+		"level": 43,
 		"race": "Moon",
 		"resists": "rrs-----wn",
 		"skills": {
@@ -1192,7 +1192,7 @@
 		"inherits": "phys",
 		"item": "Ruyi Jingu Bang",
 		"itemr": "Fine Ruyi Jingu Bang",
-		"lvl": 64,
+		"level": 64,
 		"race": "Strength",
 		"resists": "-s-w--s-s-",
 		"skills": {
@@ -1210,7 +1210,7 @@
 		"inherits": "elec",
 		"item": "Revival Charm",
 		"itemr": "Rejuvenate Charm",
-		"lvl": 40,
+		"level": 40,
 		"race": "Empress",
 		"resists": "-----ws-s-",
 		"skills": {
@@ -1230,7 +1230,7 @@
 		"inherits": "wind",
 		"item": "Spiral Gale Ring",
 		"itemr": "Storm Sculpture",
-		"lvl": 84,
+		"level": 84,
 		"race": "Star",
 		"resists": "--s--dn--n",
 		"skills": {
@@ -1249,7 +1249,7 @@
 		"inherits": "psy",
 		"item": "Swift Strike Belt",
 		"itemr": "Gattling Blows Belt",
-		"lvl": 42,
+		"level": 42,
 		"race": "Hanged",
 		"resists": "-s------wn",
 		"skills": {
@@ -1268,7 +1268,7 @@
 		"inherits": "fire",
 		"item": "Black Jacket",
 		"itemr": "Dark Jacket",
-		"lvl": 37,
+		"level": 37,
 		"race": "Death",
 		"resists": "--r--s--w-",
 		"skills": {
@@ -1287,7 +1287,7 @@
 		"inherits": "healing",
 		"item": "Magaru",
 		"itemr": "Garula",
-		"lvl": 16,
+		"level": 16,
 		"race": "Fool",
 		"resists": "-w--ss-w--",
 		"skills": {
@@ -1305,7 +1305,7 @@
 		"inherits": "almighty",
 		"item": "Hope Diamond",
 		"itemr": "Hope Diamond R",
-		"lvl": 40,
+		"level": 40,
 		"race": "Death",
 		"resists": "ss-w------",
 		"skills": {
@@ -1328,7 +1328,7 @@
 		"inherits": "almighty",
 		"item": "Hallowed Ring",
 		"itemr": "Spiral Hallowed Ring",
-		"lvl": 47,
+		"level": 47,
 		"race": "Sun",
 		"resists": "--w-n---r-",
 		"skills": {
@@ -1347,7 +1347,7 @@
 		"inherits": "fire",
 		"item": "Ember Ring",
 		"itemr": "Spiral Ember Ring",
-		"lvl": 9,
+		"level": 9,
 		"race": "Hanged",
 		"resists": "-wrw------",
 		"skills": {
@@ -1365,7 +1365,7 @@
 		"inherits": "ailment",
 		"item": "Dream Needle",
 		"itemr": "Dormin Rush",
-		"lvl": 5,
+		"level": 5,
 		"race": "Devil",
 		"resists": "--w-s---w-",
 		"skills": {
@@ -1382,7 +1382,7 @@
 		"inherits": "fire",
 		"item": "Giant Slice",
 		"itemr": "Rising Slash",
-		"lvl": 14,
+		"level": 14,
 		"race": "Hanged",
 		"resists": "-nn--w---n",
 		"skills": {
@@ -1401,7 +1401,7 @@
 		"inherits": "phys",
 		"item": "Sledgehammer",
 		"itemr": "Flash Bomb",
-		"lvl": 13,
+		"level": 13,
 		"race": "Hermit",
 		"resists": "-ssw-r--ss",
 		"skills": {
@@ -1419,7 +1419,7 @@
 		"inherits": "healing",
 		"item": "Spiral Thunder Ring",
 		"itemr": "Goddess Horn",
-		"lvl": 85,
+		"level": 85,
 		"race": "Lovers",
 		"resists": "----nw----",
 		"skills": {
@@ -1438,7 +1438,7 @@
 		"inherits": "healing",
 		"item": "Kouga",
 		"itemr": "Makouga",
-		"lvl": 26,
+		"level": 26,
 		"race": "Priestess",
 		"resists": "------w-n-",
 		"skills": {
@@ -1457,7 +1457,7 @@
 		"inherits": "ice",
 		"item": "Frost Hood",
 		"itemr": "Frost Ace Hood",
-		"lvl": 11,
+		"level": 11,
 		"race": "Magician",
 		"resists": "--wn------",
 		"skills": {
@@ -1475,7 +1475,7 @@
 		"inherits": "fire",
 		"item": "Pumpkin Bomb",
 		"itemr": "Pumpkin Buster",
-		"lvl": 2,
+		"level": 2,
 		"race": "Magician",
 		"resists": "--dw-w----",
 		"skills": {
@@ -1492,7 +1492,7 @@
 		"inherits": "wind",
 		"item": "Speed Master",
 		"itemr": "Auto-Masuku",
-		"lvl": 51,
+		"level": 51,
 		"race": "Hanged",
 		"resists": "---s-r-ws-",
 		"skills": {
@@ -1511,7 +1511,7 @@
 		"inherits": "phys",
 		"item": "Assault Dive Belt",
 		"itemr": "Kill Rush Belt",
-		"lvl": 22,
+		"level": 22,
 		"race": "Temperance",
 		"resists": "s-------sw",
 		"skills": {
@@ -1530,7 +1530,7 @@
 		"inherits": "almighty",
 		"item": "Makajam",
 		"itemr": "Makajamaon",
-		"lvl": 36,
+		"level": 36,
 		"race": "Star",
 		"resists": "-n----nw--",
 		"skills": {
@@ -1549,7 +1549,7 @@
 		"inherits": "fire",
 		"item": "Null Psy",
 		"itemr": "Repel Psy",
-		"lvl": 63,
+		"level": 63,
 		"race": "Empress",
 		"resists": "-rn---r--s",
 		"skills": {
@@ -1568,7 +1568,7 @@
 		"inherits": "wind",
 		"item": "Garu",
 		"itemr": "Magaru",
-		"lvl": 6,
+		"level": 6,
 		"race": "Strength",
 		"resists": "---sw-----",
 		"skills": {
@@ -1585,7 +1585,7 @@
 		"inherits": "healing",
 		"item": "Energy Drop",
 		"itemr": "Energy Shower",
-		"lvl": 40,
+		"level": 40,
 		"race": "Priestess",
 		"resists": "--w--n--s-",
 		"skills": {
@@ -1603,7 +1603,7 @@
 		"inherits": "phys",
 		"item": "Vajra Blast",
 		"itemr": "Vicious Strike",
-		"lvl": 25,
+		"level": 25,
 		"race": "Chariot",
 		"resists": "sr--------",
 		"skills": {
@@ -1622,7 +1622,7 @@
 		"inherits": "ice",
 		"item": "King Frost Cape",
 		"itemr": "King Frost Cape EX",
-		"lvl": 61,
+		"level": 61,
 		"race": "Emperor",
 		"resists": "---d----n-",
 		"skills": {
@@ -1641,7 +1641,7 @@
 		"inherits": "ailment",
 		"item": "Psy Ring",
 		"itemr": "Spiral Psy Ring",
-		"lvl": 11,
+		"level": 11,
 		"race": "Star",
 		"resists": "--ws------",
 		"skills": {
@@ -1660,7 +1660,7 @@
 		"inherits": "almighty",
 		"item": "Koh-i-Noor",
 		"itemr": "Koh-i-Noor R",
-		"lvl": 25,
+		"level": 25,
 		"race": "Priestess",
 		"resists": "sw--------",
 		"skills": {
@@ -1683,7 +1683,7 @@
 		"inherits": "psy",
 		"item": "Spiral Mystic Ring",
 		"itemr": "Dragon's Heart",
-		"lvl": 76,
+		"level": 76,
 		"race": "Hierophant",
 		"resists": "----r-nwn-",
 		"skills": {
@@ -1702,7 +1702,7 @@
 		"inherits": "wind",
 		"item": "Breeze Ring",
 		"itemr": "Spiral Breeze Ring",
-		"lvl": 11,
+		"level": 11,
 		"race": "Temperance",
 		"resists": "---w-s--w-",
 		"skills": {
@@ -1720,7 +1720,7 @@
 		"inherits": "ice",
 		"item": "Bufu",
 		"itemr": "Mabufu",
-		"lvl": 9,
+		"level": 9,
 		"race": "Hermit",
 		"resists": "--ws-s----",
 		"skills": {
@@ -1739,7 +1739,7 @@
 		"inherits": "phys",
 		"item": "Regenerate 2",
 		"itemr": "Regenerate 3",
-		"lvl": 49,
+		"level": 49,
 		"race": "Hermit",
 		"resists": "s--w----s-",
 		"skills": {
@@ -1758,7 +1758,7 @@
 		"inherits": "ailment",
 		"item": "Terror Claw",
 		"itemr": "Bloodbath",
-		"lvl": 42,
+		"level": 42,
 		"race": "Hermit",
 		"resists": "--n---w--s",
 		"skills": {
@@ -1777,7 +1777,7 @@
 		"inherits": "wind",
 		"item": "Wind Ring",
 		"itemr": "Spiral Wind Ring",
-		"lvl": 31,
+		"level": 31,
 		"race": "Hermit",
 		"resists": "---n-r--ss",
 		"skills": {
@@ -1795,7 +1795,7 @@
 		"inherits": "healing",
 		"item": "Cure Charm",
 		"itemr": "Spiral Cure Charm",
-		"lvl": 42,
+		"level": 42,
 		"race": "Lovers",
 		"resists": "---w---wr-",
 		"skills": {
@@ -1815,7 +1815,7 @@
 		"inherits": "healing",
 		"item": "Aid Charm",
 		"itemr": "Spiral Aid Charm",
-		"lvl": 12,
+		"level": 12,
 		"race": "Councillor",
 		"resists": "--w--s----",
 		"skills": {
@@ -1833,7 +1833,7 @@
 		"inherits": "ice",
 		"item": "Snow Ring",
 		"itemr": "Spiral Snow Ring",
-		"lvl": 35,
+		"level": 35,
 		"race": "Fortune",
 		"resists": "---nws----",
 		"skills": {
@@ -1852,7 +1852,7 @@
 		"inherits": "healing",
 		"item": "Amrita Charm",
 		"itemr": "Spiral Amrita Charm",
-		"lvl": 69,
+		"level": 69,
 		"race": "Fortune",
 		"resists": "--ws----s-",
 		"skills": {
@@ -1871,7 +1871,7 @@
 		"inherits": "fire",
 		"item": "Rakukaja",
 		"itemr": "Marakukaja",
-		"lvl": 26,
+		"level": 26,
 		"race": "Empress",
 		"resists": "---ws--w-n",
 		"skills": {
@@ -1890,7 +1890,7 @@
 		"inherits": "almighty",
 		"item": "Mudo",
 		"itemr": "Mamudo",
-		"lvl": 19,
+		"level": 19,
 		"race": "Lovers",
 		"resists": "--w--ss---",
 		"skills": {
@@ -1908,7 +1908,7 @@
 		"inherits": "psy",
 		"item": "Foul Breath",
 		"itemr": "Stagnant Air",
-		"lvl": 38,
+		"level": 38,
 		"race": "Fool",
 		"resists": "s-s---s-wn",
 		"skills": {
@@ -1927,7 +1927,7 @@
 		"inherits": "ice",
 		"item": "Ice Boost",
 		"itemr": "Ice Amp",
-		"lvl": 32,
+		"level": 32,
 		"race": "Devil",
 		"resists": "---s-w--wn",
 		"skills": {
@@ -1946,7 +1946,7 @@
 		"inherits": "almighty",
 		"item": "Null Nuke",
 		"itemr": "Repel Nuke",
-		"lvl": 60,
+		"level": 60,
 		"race": "Moon",
 		"resists": "--wr---r-n",
 		"skills": {
@@ -1965,7 +1965,7 @@
 		"inherits": "curse",
 		"item": "Ominous Words",
 		"itemr": "Abysmal Surge",
-		"lvl": 70,
+		"level": 70,
 		"race": "Hermit",
 		"resists": "--s-n-wsw-",
 		"skills": {
@@ -1984,7 +1984,7 @@
 		"inherits": "almighty",
 		"item": "Tyrant Pistol",
 		"itemr": "Tyrant Pistol EX",
-		"lvl": 93,
+		"level": 93,
 		"race": "Star",
 		"resists": "nnssss--wd",
 		"skills": {
@@ -2004,7 +2004,7 @@
 		"inherits": "curse",
 		"item": "Bloodbath",
 		"itemr": "Death Scythe",
-		"lvl": 73,
+		"level": 73,
 		"race": "Hanged",
 		"resists": "----s---wn",
 		"skills": {
@@ -2023,7 +2023,7 @@
 		"inherits": "fire",
 		"item": "Spiral Inferno Ring",
 		"itemr": "Dark Flame Band",
-		"lvl": 90,
+		"level": 90,
 		"race": "Tower",
 		"resists": "--dw--sn--",
 		"skills": {
@@ -2043,7 +2043,7 @@
 		"inherits": "nuke",
 		"item": "Frei",
 		"itemr": "Mafrei",
-		"lvl": 15,
+		"level": 15,
 		"race": "Temperance",
 		"resists": "-n--ws-sn-",
 		"skills": {
@@ -2062,7 +2062,7 @@
 		"inherits": "elec",
 		"item": "Sukunda",
 		"itemr": "Masukunda",
-		"lvl": 3,
+		"level": 3,
 		"race": "Death",
 		"resists": "--w-s-----",
 		"skills": {
@@ -2078,7 +2078,7 @@
 		"inherits": "psy",
 		"item": "Mapsiodyne",
 		"itemr": "Psycho Force",
-		"lvl": 73,
+		"level": 73,
 		"race": "Tower",
 		"resists": "-nd---r-sn",
 		"skills": {
@@ -2097,7 +2097,7 @@
 		"inherits": "healing",
 		"item": "Spiral Heal Charm",
 		"itemr": "Rosary of Purity",
-		"lvl": 93,
+		"level": 93,
 		"race": "Faith",
 		"resists": "--w-sn--d-",
 		"skills": {
@@ -2116,7 +2116,7 @@
 		"inherits": "psy",
 		"item": "Blood Red Capote",
 		"itemr": "Bloodied Capote",
-		"lvl": 17,
+		"level": 17,
 		"race": "Death",
 		"resists": "----wn----",
 		"skills": {
@@ -2134,7 +2134,7 @@
 		"inherits": "bless",
 		"item": "Hamaon",
 		"itemr": "Mahamaon",
-		"lvl": 58,
+		"level": 58,
 		"race": "Justice",
 		"resists": "-----ws-dn",
 		"skills": {
@@ -2153,7 +2153,7 @@
 		"inherits": "bless",
 		"item": "Nataraja",
 		"itemr": "Nataraja EX",
-		"lvl": 89,
+		"level": 89,
 		"race": "Justice",
 		"resists": "----wrdd-w",
 		"skills": {
@@ -2173,7 +2173,7 @@
 		"inherits": "almighty",
 		"item": "Judge of Hell",
 		"itemr": "Judge End",
-		"lvl": 87,
+		"level": 87,
 		"race": "Judgement",
 		"resists": "-s------rn",
 		"skills": {
@@ -2192,7 +2192,7 @@
 		"inherits": "ailment",
 		"item": "Spiral Karma Ring",
 		"itemr": "Mystic Ring",
-		"lvl": 52,
+		"level": 52,
 		"race": "Hierophant",
 		"resists": "s--wn----d",
 		"skills": {
@@ -2211,7 +2211,7 @@
 		"inherits": "bless",
 		"item": "Death Contract",
 		"itemr": "Death Promise",
-		"lvl": 33,
+		"level": 33,
 		"race": "Temperance",
 		"resists": "---nw---n-",
 		"skills": {
@@ -2230,7 +2230,7 @@
 		"inherits": "nuke",
 		"item": "Nuke Boost",
 		"itemr": "Nuke Amp",
-		"lvl": 39,
+		"level": 39,
 		"race": "Sun",
 		"resists": "ssd---wn--",
 		"skills": {
@@ -2249,7 +2249,7 @@
 		"inherits": "ailment",
 		"item": "Dekunda",
 		"itemr": "Dekaja",
-		"lvl": 9,
+		"level": 9,
 		"race": "Death",
 		"resists": "----sw----",
 		"skills": {
@@ -2267,7 +2267,7 @@
 		"inherits": "fire",
 		"item": "Inferno Ring",
 		"itemr": "Spiral Inferno Ring",
-		"lvl": 60,
+		"level": 60,
 		"race": "Hanged",
 		"resists": "--dwssd--n",
 		"skills": {
@@ -2286,7 +2286,7 @@
 		"inherits": "ailment",
 		"item": "Null Elec",
 		"itemr": "Repel Elec",
-		"lvl": 72,
+		"level": 72,
 		"race": "Death",
 		"resists": "-s--dw---r",
 		"skills": {
@@ -2304,7 +2304,7 @@
 		"inherits": "ice",
 		"item": "Claiomh Solais",
 		"itemr": "Claiomh Solais R",
-		"lvl": 85,
+		"level": 85,
 		"race": "Empress",
 		"resists": "----r---wn",
 		"skills": {
@@ -2323,7 +2323,7 @@
 		"inherits": "elec",
 		"item": "Skull Cracker",
 		"itemr": "Mind Slice",
-		"lvl": 33,
+		"level": 33,
 		"race": "Moon",
 		"resists": "-w--n-s---",
 		"skills": {
@@ -2342,7 +2342,7 @@
 		"inherits": "elec",
 		"item": "Counter",
 		"itemr": "Counterstrike",
-		"lvl": 24,
+		"level": 24,
 		"race": "Hermit",
 		"resists": "-s--nw----",
 		"skills": {
@@ -2361,7 +2361,7 @@
 		"inherits": "ailment",
 		"item": "Dazzler",
 		"itemr": "Nocturnal Flash",
-		"lvl": 48,
+		"level": 48,
 		"race": "Lovers",
 		"resists": "--w-ns--s-",
 		"skills": {
@@ -2380,7 +2380,7 @@
 		"inherits": "curse",
 		"item": "Marin Karin",
 		"itemr": "Brain Jack",
-		"lvl": 74,
+		"level": 74,
 		"race": "Devil",
 		"resists": "------n-ws",
 		"skills": {
@@ -2399,7 +2399,7 @@
 		"inherits": "almighty",
 		"item": "Catnap",
 		"itemr": "Cat Buster",
-		"lvl": 30,
+		"level": 30,
 		"race": "Star",
 		"resists": "s---sw--ns",
 		"skills": {
@@ -2418,7 +2418,7 @@
 		"inherits": "ailment",
 		"item": "Pawzooka",
 		"itemr": "Paw-omber",
-		"lvl": 17,
+		"level": 17,
 		"race": "Magician",
 		"resists": "----w-s---",
 		"skills": {
@@ -2437,7 +2437,7 @@
 		"inherits": "healing",
 		"item": "Prayer Ring",
 		"itemr": "Spiral Prayer Ring",
-		"lvl": 22,
+		"level": 22,
 		"race": "Councillor",
 		"resists": "----w---ss",
 		"skills": {
@@ -2455,7 +2455,7 @@
 		"inherits": "almighty",
 		"item": "Recarm",
 		"itemr": "Samarecarm",
-		"lvl": 52,
+		"level": 52,
 		"race": "Fortune",
 		"resists": "----rd--s-",
 		"skills": {
@@ -2474,7 +2474,7 @@
 		"inherits": "curse",
 		"item": "Maeiha",
 		"itemr": "Eiga",
-		"lvl": 20,
+		"level": 20,
 		"race": "Death",
 		"resists": "--ws-----n",
 		"skills": {
@@ -2493,7 +2493,7 @@
 		"inherits": "phys",
 		"item": "Lucky Punch",
 		"itemr": "Miracle Punch",
-		"lvl": 8,
+		"level": 8,
 		"race": "Fool",
 		"resists": "s---w-----",
 		"skills": {
@@ -2510,7 +2510,7 @@
 		"inherits": "elec",
 		"item": "Heat Wave",
 		"itemr": "Vorpal Blade",
-		"lvl": 66,
+		"level": 66,
 		"race": "Emperor",
 		"resists": "----s-nw--",
 		"skills": {
@@ -2530,7 +2530,7 @@
 		"inherits": "elec",
 		"item": "Wild Hunt",
 		"itemr": "Gungnir",
-		"lvl": 84,
+		"level": 84,
 		"race": "Emperor",
 		"resists": "----nd--rr",
 		"skills": {
@@ -2549,7 +2549,7 @@
 		"inherits": "psy",
 		"item": "Official's Robe",
 		"itemr": "Official's Robe R",
-		"lvl": 54,
+		"level": 54,
 		"race": "Faith",
 		"resists": "----rwnw--",
 		"skills": {
@@ -2568,7 +2568,7 @@
 		"inherits": "phys",
 		"item": "Myriad Slashes Belt",
 		"itemr": "Sword Dance Belt",
-		"lvl": 89,
+		"level": 89,
 		"race": "Hermit",
 		"resists": "s-------rr",
 		"skills": {
@@ -2587,7 +2587,7 @@
 		"inherits": "phys",
 		"item": "Rampage",
 		"itemr": "Kill Rush",
-		"lvl": 20,
+		"level": 20,
 		"race": "Strength",
 		"resists": "ss--------",
 		"skills": {
@@ -2605,7 +2605,7 @@
 		"inherits": "curse",
 		"item": "Grudge Ring",
 		"itemr": "Spiral Grudge Ring",
-		"lvl": 12,
+		"level": 12,
 		"race": "Moon",
 		"resists": "--sw----wn",
 		"skills": {
@@ -2623,7 +2623,7 @@
 		"inherits": "almighty",
 		"item": "Orichalcum",
 		"itemr": "Orichalcum R",
-		"lvl": 60,
+		"level": 60,
 		"race": "Faith",
 		"resists": "ss------w-",
 		"skills": {
@@ -2646,7 +2646,7 @@
 		"inherits": "almighty",
 		"item": "Orlov",
 		"itemr": "Orlov R",
-		"lvl": 30,
+		"level": 30,
 		"race": "Strength",
 		"resists": "ss-------w",
 		"skills": {
@@ -2669,7 +2669,7 @@
 		"inherits": "fire",
 		"item": "Rakunda",
 		"itemr": "Marakunda",
-		"lvl": 17,
+		"level": 17,
 		"race": "Hierophant",
 		"resists": "---w-s---s",
 		"skills": {
@@ -2687,7 +2687,7 @@
 		"inherits": "fire",
 		"item": "Agilao",
 		"itemr": "Maragion",
-		"lvl": 21,
+		"level": 21,
 		"race": "Hanged",
 		"resists": "--dw---s--",
 		"skills": {
@@ -2705,7 +2705,7 @@
 		"inherits": "ailment",
 		"item": "Counterstrike",
 		"itemr": "High Counter",
-		"lvl": 42,
+		"level": 42,
 		"race": "Fool",
 		"resists": "-ns-----wn",
 		"skills": {
@@ -2723,7 +2723,7 @@
 		"inherits": "curse",
 		"item": "Hex Ring",
 		"itemr": "Spiral Hex Ring",
-		"lvl": 54,
+		"level": 54,
 		"race": "Death",
 		"resists": "-----s--wr",
 		"skills": {
@@ -2742,7 +2742,7 @@
 		"inherits": "psy",
 		"item": "Null Ice",
 		"itemr": "Repel Ice",
-		"lvl": 56,
+		"level": 56,
 		"race": "Lovers",
 		"resists": "---r--s-sw",
 		"skills": {
@@ -2761,7 +2761,7 @@
 		"inherits": "curse",
 		"item": "Spiral Curse Ring",
 		"itemr": "Hex Ring",
-		"lvl": 45,
+		"level": 45,
 		"race": "Devil",
 		"resists": "-----s--wn",
 		"skills": {
@@ -2780,7 +2780,7 @@
 		"inherits": "nuke",
 		"item": "Heavensent Dress",
 		"itemr": "Godsent Dress",
-		"lvl": 21,
+		"level": 21,
 		"race": "Faith",
 		"resists": "---swn----",
 		"skills": {
@@ -2798,7 +2798,7 @@
 		"inherits": "curse",
 		"item": "Headhunter Ladle",
 		"itemr": "Headhunter Ladle EX",
-		"lvl": 28,
+		"level": 28,
 		"race": "Death",
 		"resists": "--w-s---wn",
 		"skills": {
@@ -2817,7 +2817,7 @@
 		"inherits": "elec",
 		"item": "Static Ring",
 		"itemr": "Spiral Static Ring",
-		"lvl": 2,
+		"level": 2,
 		"race": "Lovers",
 		"resists": "-w-ws---sw",
 		"skills": {
@@ -2834,7 +2834,7 @@
 		"inherits": "bless",
 		"item": "Bless Boost",
 		"itemr": "Bless Amp",
-		"lvl": 41,
+		"level": 41,
 		"race": "Justice",
 		"resists": "-w---s--nw",
 		"skills": {
@@ -2853,7 +2853,7 @@
 		"inherits": "bless",
 		"item": "Blessing Ring",
 		"itemr": "Spiral Blessing Ring",
-		"lvl": 29,
+		"level": 29,
 		"race": "Justice",
 		"resists": "--s-----nw",
 		"skills": {
@@ -2872,7 +2872,7 @@
 		"inherits": "almighty",
 		"item": "Masquerade Ribbon",
 		"itemr": "Masquerade Ribbon R",
-		"lvl": 43,
+		"level": 43,
 		"race": "Magician",
 		"resists": "--n-sw----",
 		"skills": {
@@ -2891,7 +2891,7 @@
 		"inherits": "almighty",
 		"item": "Queen's Necklace",
 		"itemr": "Queen's Necklace R",
-		"lvl": 15,
+		"level": 15,
 		"race": "Empress",
 		"resists": "ss----w---",
 		"skills": {
@@ -2914,7 +2914,7 @@
 		"inherits": "wind",
 		"item": "Magarudyne",
 		"itemr": "Panta Rhei",
-		"lvl": 66,
+		"level": 66,
 		"race": "Sun",
 		"resists": "--n--sw---",
 		"skills": {
@@ -2933,7 +2933,7 @@
 		"inherits": "elec",
 		"item": "Thunder Ring",
 		"itemr": "Spiral Thunder Ring",
-		"lvl": 55,
+		"level": 55,
 		"race": "Temperance",
 		"resists": "----n-----",
 		"skills": {
@@ -2952,7 +2952,7 @@
 		"inherits": "phys",
 		"item": "Regenerate 1",
 		"itemr": "Regenerate 2",
-		"lvl": 24,
+		"level": 24,
 		"race": "Strength",
 		"resists": "sns--w--ws",
 		"skills": {
@@ -2971,7 +2971,7 @@
 		"inherits": "curse",
 		"item": "Maeiga",
 		"itemr": "Eigaon",
-		"lvl": 48,
+		"level": 48,
 		"race": "Magician",
 		"resists": "rrn-w---wn",
 		"skills": {
@@ -2989,7 +2989,7 @@
 		"inherits": "almighty",
 		"item": "Null Bless",
 		"itemr": "Repel Bless",
-		"lvl": 78,
+		"level": 78,
 		"race": "Lovers",
 		"resists": "---d--n-n-",
 		"skills": {
@@ -3008,7 +3008,7 @@
 		"inherits": "psy",
 		"item": "Karma Ring",
 		"itemr": "Spiral Karma Ring",
-		"lvl": 41,
+		"level": 41,
 		"race": "Tower",
 		"resists": "--------wn",
 		"skills": {
@@ -3027,7 +3027,7 @@
 		"inherits": "almighty",
 		"item": "Regent",
 		"itemr": "Regent R",
-		"lvl": 10,
+		"level": 10,
 		"race": "Emperor",
 		"resists": "ss-----w--",
 		"skills": {
@@ -3050,7 +3050,7 @@
 		"inherits": "healing",
 		"item": "Energy Charm",
 		"itemr": "Spiral Energy Charm",
-		"lvl": 6,
+		"level": 6,
 		"race": "Lovers",
 		"resists": "---s-w----",
 		"skills": {
@@ -3068,7 +3068,7 @@
 		"inherits": "bless",
 		"item": "Sword of Sinai",
 		"itemr": "Sword of Sinai II",
-		"lvl": 75,
+		"level": 75,
 		"race": "Moon",
 		"resists": "ss------rn",
 		"skills": {
@@ -3087,7 +3087,7 @@
 		"inherits": "wind",
 		"item": "Dormina",
 		"itemr": "Lullaby",
-		"lvl": 23,
+		"level": 23,
 		"race": "Magician",
 		"resists": "--w-ws----",
 		"skills": {
@@ -3106,7 +3106,7 @@
 		"inherits": "healing",
 		"item": "Mediarama",
 		"itemr": "Diarahan",
-		"lvl": 50,
+		"level": 50,
 		"race": "Priestess",
 		"resists": "---ns--w--",
 		"skills": {
@@ -3125,7 +3125,7 @@
 		"inherits": "ice",
 		"item": "Tantric Oath",
 		"itemr": "Tantric Oath R",
-		"lvl": 92,
+		"level": 92,
 		"race": "Judgement",
 		"resists": "-s-r-----r",
 		"skills": {
@@ -3145,7 +3145,7 @@
 		"inherits": "almighty",
 		"item": "Paradise Lost",
 		"itemr": "Paradise Lost R",
-		"lvl": 95,
+		"level": 95,
 		"race": "Fool",
 		"resists": "ssssssssnd",
 		"skills": {
@@ -3165,7 +3165,7 @@
 		"inherits": "wind",
 		"item": "Makarakarn",
 		"itemr": "Tetrakarn",
-		"lvl": 77,
+		"level": 77,
 		"race": "Priestess",
 		"resists": "---nr----n",
 		"skills": {
@@ -3184,7 +3184,7 @@
 		"inherits": "ice",
 		"item": "Blizzard Ring",
 		"itemr": "Spiral Blizzard Ring",
-		"lvl": 62,
+		"level": 62,
 		"race": "Councillor",
 		"resists": "---s---w--",
 		"skills": {
@@ -3203,7 +3203,7 @@
 		"inherits": "phys",
 		"item": "Rebellion Anklet",
 		"itemr": "Revolution Anklet",
-		"lvl": 25,
+		"level": 25,
 		"race": "Emperor",
 		"resists": "-s----ws--",
 		"skills": {
@@ -3221,7 +3221,7 @@
 		"inherits": "fire",
 		"item": "Triple Shot Belt",
 		"itemr": "Special Shot Belt",
-		"lvl": 51,
+		"level": 51,
 		"race": "Tower",
 		"resists": "--r--n--ws",
 		"skills": {
@@ -3239,7 +3239,7 @@
 		"inherits": "elec",
 		"item": "Double Fangs",
 		"itemr": "Cornered Fang",
-		"lvl": 15,
+		"level": 15,
 		"race": "Strength",
 		"resists": "s-----w-nw",
 		"skills": {
@@ -3257,7 +3257,7 @@
 		"inherits": "psy",
 		"item": "Double Shot",
 		"itemr": "Triple Down",
-		"lvl": 18,
+		"level": 18,
 		"race": "Chariot",
 		"resists": "nn-----wnn",
 		"skills": {
@@ -3276,7 +3276,7 @@
 		"inherits": "psy",
 		"item": "Megido Fire",
 		"itemr": "Megido Blaster",
-		"lvl": 82,
+		"level": 82,
 		"race": "Judgement",
 		"resists": "---nr-dwnn",
 		"skills": {
@@ -3295,7 +3295,7 @@
 		"inherits": "phys",
 		"item": "Vorpal Blade Belt",
 		"itemr": "Brave Blade Belt",
-		"lvl": 84,
+		"level": 84,
 		"race": "Faith",
 		"resists": "ns-sn--w--",
 		"skills": {
@@ -3314,7 +3314,7 @@
 		"inherits": "healing",
 		"item": "Silk Dress",
 		"itemr": "Fine Silk Dress",
-		"lvl": 6,
+		"level": 6,
 		"race": "Priestess",
 		"resists": "--wsw-----",
 		"skills": {
@@ -3331,7 +3331,7 @@
 		"inherits": "ice",
 		"item": "Snow Queen's Whip",
 		"itemr": "Snow Queen's Whip II",
-		"lvl": 53,
+		"level": 53,
 		"race": "Priestess",
 		"resists": "---r-----n",
 		"skills": {
@@ -3350,7 +3350,7 @@
 		"inherits": "curse",
 		"item": "Tarunda",
 		"itemr": "Matarunda",
-		"lvl": 10,
+		"level": 10,
 		"race": "Chariot",
 		"resists": "ssw--w----",
 		"skills": {
@@ -3367,7 +3367,7 @@
 		"inherits": "bless",
 		"item": "Archangel Bra",
 		"itemr": "High Archangel Bra",
-		"lvl": 80,
+		"level": 80,
 		"race": "Star",
 		"resists": "----d---rw",
 		"skills": {
@@ -3386,7 +3386,7 @@
 		"inherits": "almighty",
 		"item": "Stone of Scone",
 		"itemr": "Stone of Scone R",
-		"lvl": 20,
+		"level": 20,
 		"race": "Fortune",
 		"resists": "ssw-------",
 		"skills": {
@@ -3409,7 +3409,7 @@
 		"inherits": "curse",
 		"item": "Brain Shot",
 		"itemr": "Pink Buster",
-		"lvl": 7,
+		"level": 7,
 		"race": "Moon",
 		"resists": "--s--w--wn",
 		"skills": {
@@ -3427,7 +3427,7 @@
 		"inherits": "psy",
 		"item": "Mapsi",
 		"itemr": "Psio",
-		"lvl": 17,
+		"level": 17,
 		"race": "Hermit",
 		"resists": "---w-r-w--",
 		"skills": {
@@ -3446,7 +3446,7 @@
 		"inherits": "ice",
 		"item": "Bufula",
 		"itemr": "Mabufula",
-		"lvl": 24,
+		"level": 24,
 		"race": "Moon",
 		"resists": "-s-ds--w--",
 		"skills": {
@@ -3465,7 +3465,7 @@
 		"inherits": "fire",
 		"item": "Maragidyne",
 		"itemr": "Inferno",
-		"lvl": 83,
+		"level": 83,
 		"race": "Magician",
 		"resists": "-sdwn--s--",
 		"skills": {
@@ -3484,7 +3484,7 @@
 		"inherits": "nuke",
 		"item": "Atom Ring",
 		"itemr": "Spiral Atom Ring",
-		"lvl": 16,
+		"level": 16,
 		"race": "Sun",
 		"resists": "--dw---s--",
 		"skills": {
@@ -3503,7 +3503,7 @@
 		"inherits": "elec",
 		"item": "Zionga",
 		"itemr": "Mazionga",
-		"lvl": 26,
+		"level": 26,
 		"race": "Hanged",
 		"resists": "----s-w--s",
 		"skills": {
@@ -3522,7 +3522,7 @@
 		"inherits": "almighty",
 		"item": "Fairy Knight Armor",
 		"itemr": "Fairy Hero Armor",
-		"lvl": 27,
+		"level": 27,
 		"race": "Faith",
 		"resists": "s-n--s--dw",
 		"skills": {
@@ -3541,7 +3541,7 @@
 		"inherits": "elec",
 		"item": "Mjolnir",
 		"itemr": "Imprisoned Mjolnir",
-		"lvl": 64,
+		"level": 64,
 		"race": "Chariot",
 		"resists": "s---n---ss",
 		"skills": {
@@ -3560,7 +3560,7 @@
 		"inherits": "nuke",
 		"item": "Mafreila",
 		"itemr": "Freidyne",
-		"lvl": 36,
+		"level": 36,
 		"race": "Emperor",
 		"resists": "------wnns",
 		"skills": {
@@ -3579,7 +3579,7 @@
 		"inherits": "bless",
 		"item": "Spiral Divine Ring",
 		"itemr": "Judgement Cross",
-		"lvl": 72,
+		"level": 72,
 		"race": "Justice",
 		"resists": "--n--n-wr-",
 		"skills": {
@@ -3598,7 +3598,7 @@
 		"inherits": "elec",
 		"item": "Elec Boost",
 		"itemr": "Elec Amp",
-		"lvl": 34,
+		"level": 34,
 		"race": "Sun",
 		"resists": "----d-w--w",
 		"skills": {
@@ -3617,7 +3617,7 @@
 		"inherits": "nuke",
 		"item": "Freidyne",
 		"itemr": "Mafreidyne",
-		"lvl": 56,
+		"level": 56,
 		"race": "Empress",
 		"resists": "------wsss",
 		"skills": {
@@ -3635,7 +3635,7 @@
 		"inherits": "almighty",
 		"item": "Reactor Ring",
 		"itemr": "Spiral Reactor Ring",
-		"lvl": 59,
+		"level": 59,
 		"race": "Judgement",
 		"resists": "---dr---rn",
 		"skills": {
@@ -3654,7 +3654,7 @@
 		"inherits": "bless",
 		"item": "Mahama",
 		"itemr": "Hamaon",
-		"lvl": 39,
+		"level": 39,
 		"race": "Faith",
 		"resists": "---n--s-nw",
 		"skills": {
@@ -3673,7 +3673,7 @@
 		"inherits": "almighty",
 		"item": "Heaven's Gate",
 		"itemr": "Providence",
-		"lvl": 81,
+		"level": 81,
 		"race": "Justice",
 		"resists": "--n----dr-",
 		"skills": {
@@ -3692,7 +3692,7 @@
 		"inherits": "phys",
 		"item": "Rising Slash",
 		"itemr": "Deadly Fury",
-		"lvl": 44,
+		"level": 44,
 		"race": "Strength",
 		"resists": "-swr----n-",
 		"skills": {
@@ -3710,7 +3710,7 @@
 		"inherits": "ailment",
 		"item": "Kuzuryu Gouhou",
 		"itemr": "Kuzuryu Gouhou EX",
-		"lvl": 68,
+		"level": 68,
 		"race": "Star",
 		"resists": "---nn----w",
 		"skills": {
@@ -3729,7 +3729,7 @@
 		"inherits": "almighty",
 		"item": "Sudarshana",
 		"itemr": "Sudarshana EX",
-		"lvl": 83,
+		"level": 83,
 		"race": "Fool",
 		"resists": "--wd----nn",
 		"skills": {
@@ -3749,7 +3749,7 @@
 		"inherits": "almighty",
 		"item": "Doomsday",
 		"itemr": "Ancient Day",
-		"lvl": 80,
+		"level": 80,
 		"race": "Councillor",
 		"resists": "----sw--dn",
 		"skills": {
@@ -3768,7 +3768,7 @@
 		"inherits": "curse",
 		"item": "Gun Boost",
 		"itemr": "Gun Amp",
-		"lvl": 38,
+		"level": 38,
 		"race": "Chariot",
 		"resists": "--nw----nr",
 		"skills": {
@@ -3788,7 +3788,7 @@
 		"inherits": "ice",
 		"item": "Hysterical Slap",
 		"itemr": "Oni Kagura",
-		"lvl": 20,
+		"level": 20,
 		"race": "Empress",
 		"resists": "-n-s---w--",
 		"skills": {
@@ -3806,7 +3806,7 @@
 		"inherits": "ice",
 		"item": "Triple Down",
 		"itemr": "One-shot Kill",
-		"lvl": 64,
+		"level": 64,
 		"race": "Judgement",
 		"resists": "s--d-s---s",
 		"skills": {
@@ -3824,7 +3824,7 @@
 		"inherits": "fire",
 		"item": "Black Wing Robe",
 		"itemr": "Black Wing Robe R",
-		"lvl": 57,
+		"level": 57,
 		"race": "Councillor",
 		"resists": "-----s--nw",
 		"skills": {
@@ -3843,7 +3843,7 @@
 		"inherits": "phys",
 		"item": "Usumidori",
 		"itemr": "Usumidori R",
-		"lvl": 87,
+		"level": 87,
 		"race": "Tower",
 		"resists": "n-s-r---r-",
 		"skills": {
@@ -3862,7 +3862,7 @@
 		"inherits": "elec",
 		"item": "Mirrirmina",
 		"itemr": "Mirrirmina EX",
-		"lvl": 43,
+		"level": 43,
 		"race": "Sun",
 		"resists": "----n-w-s-",
 		"skills": {
@@ -3881,7 +3881,7 @@
 		"inherits": "fire",
 		"item": "God's Hand Belt",
 		"itemr": "Gigantomachia Belt",
-		"lvl": 80,
+		"level": 80,
 		"race": "Strength",
 		"resists": "--r-w---nn",
 		"skills": {
@@ -3900,7 +3900,7 @@
 		"inherits": "elec",
 		"item": "Spark Ring",
 		"itemr": "Spiral Spark Ring",
-		"lvl": 31,
+		"level": 31,
 		"race": "Strength",
 		"resists": "s----w----",
 		"skills": {
